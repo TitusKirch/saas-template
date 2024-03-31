@@ -19,7 +19,7 @@
     "editor.tabSize": 2
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.sortJSON": true
+    "source.fixAll.sortJSON": "explicit"
   },
   "editor.formatOnSave": true,
   "editor.tabSize": 2,

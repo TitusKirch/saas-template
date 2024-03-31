@@ -1,4 +1,4 @@
-import { defineConfig } from 'taze';
+import { defineConfig } from 'taze'
 
 export default defineConfig({
   force: true,
@@ -9,4 +9,4 @@ export default defineConfig({
     // https://github.com/sidebase/nuxt-auth/issues/518
     'next-auth',
   ],
-});
+})
