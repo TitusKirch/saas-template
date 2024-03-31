@@ -1,14 +1,16 @@
 {
   "name": "@repo/blog",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev --port 3001",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --fix --max-warnings=0 .",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
   },
+  "type": "module",
   "dependencies": {
     "@repo/app-base": "workspace:*",
     "nuxt": "^3.11.1"

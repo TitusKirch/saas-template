@@ -1,13 +1,15 @@
 {
   "name": "@repo/app-base",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --fix --max-warnings=0 .",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
   },
+  "type": "module",
   "dependencies": {
     "nuxt": "^3.11.1",
     "vue": "^3.4.21",
