@@ -7,7 +7,11 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "lint:fix": "turbo lint:fix",
+    "format:fix": "prettier --write \"./**/*.{ts,tsx,vue,css}\"",
+    "format": "prettier --check \"./**/*.{ts,tsx,vue,css}\"",
+    "taze:w": "taze -w",
+    "taze": "taze"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
