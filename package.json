@@ -8,8 +8,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
-    "format:fix": "prettier --write \"./**/*.{ts,tsx,vue,css}\"",
-    "format": "prettier --check \"./**/*.{ts,tsx,vue,css}\"",
+    "format:fix": "prettier --write \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
+    "format": "prettier --check \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
     "taze:w": "taze -w",
     "taze": "taze"
   },

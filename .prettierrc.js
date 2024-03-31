@@ -2,12 +2,12 @@
 const config = {
   // plugins: [require('prettier-plugin-tailwindcss')],
   // tailwindConfig: './packages/ui/tailwind.config.ts',
-  endOfLine: "lf",
+  endOfLine: 'lf',
   printWidth: 100,
   semi: true,
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: "es5",
+  trailingComma: 'es5',
   useTabs: false,
   vueIndentScriptAndStyle: true,
 };
