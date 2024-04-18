@@ -5,7 +5,10 @@ services:
     container_name: blog
     build:
       context: .
-      dockerfile: ./apps/blog/Dockerfile
+      dockerfile: ./apps/Dockerfile
+      args:
+        - PACKAGE_NAME=@repo/blog
+        - PACKAGE_PATH=apps/blog
     restart: always
     ports:
       - 3001:3000
@@ -15,7 +18,10 @@ services:
     container_name: web
     build:
       context: .
-      dockerfile: ./apps/web/Dockerfile
+      dockerfile: ./apps/Dockerfile
+      args:
+        - PACKAGE_NAME=@repo/web
+        - PACKAGE_PATH=apps/web
     restart: always
     ports:
       - 3000:3000

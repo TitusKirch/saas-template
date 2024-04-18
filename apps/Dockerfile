@@ -8,10 +8,14 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
+# arguments
+ARG PACKAGE_NAME
+
+# install turbo and prune the package
 WORKDIR /app
 RUN npm install turbo --global
 COPY . .
-RUN turbo prune @repo/web --docker
+RUN turbo prune ${PACKAGE_NAME} --docker
 
 
 ##############################################################
@@ -22,6 +26,9 @@ FROM base AS installer
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
+
+# arguments
+ARG PACKAGE_NAME
 
 # first install dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -42,7 +49,8 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN pnpm dlx turbo run build --filter=@repo/web
+# build the package
+RUN pnpm dlx turbo run build --filter=${PACKAGE_NAME}
 
 ##############################################################
 # runner                                                     #
@@ -50,10 +58,16 @@ RUN pnpm dlx turbo run build --filter=@repo/web
 FROM base AS runner
 WORKDIR /app
 
-# Don't run production as root
+# arguments
+ARG PACKAGE_PATH
+
+# add nodejs user and group (because we don't want to run as root)
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
 USER nodejs
-COPY --from=installer /app/apps/web/.output .
 
+# copy the built package
+COPY --from=installer /app/${PACKAGE_PATH}/.output .
+
+# run the package
 CMD node server/index.mjs
