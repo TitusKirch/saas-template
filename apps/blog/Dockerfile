@@ -42,7 +42,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN pnpm dlx turbo run build --filter=--filter=@repo/blog
+RUN pnpm dlx turbo run build --filter=@repo/blog
 
 ##############################################################
 # installer                                                  #
@@ -54,6 +54,6 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
 USER nodejs
-COPY --from=installer /app .
+COPY --from=installer /app/apps/blog/.output .
 
-CMD node apps/blog/.output/server/index.mjs
+CMD node server/index.mjs
