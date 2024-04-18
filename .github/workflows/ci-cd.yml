@@ -1,0 +1,144 @@
+name: CI/CD
+
+on:
+  push:
+    branches: ["main", "stage", "dev"]
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+  pull_request:
+    branches: ["*"]
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+
+# remove default permissions of GITHUB_TOKEN for security
+# https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
+env:
+  DOCKER_CONTAINER_REGISTRY: ghcr.io
+
+
+jobs:
+  install-dependencies:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+  lint-and-format:
+    # autofix workflow will be triggered instead for PRs
+    if: github.event_name == 'push'
+    needs:
+      - install-dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format
+        run: pnpm format
+
+  build:
+    needs:
+      - lint-and-format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: Cache build
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build
+          path: |
+            apps/*/.nuxt
+            packages/*/.nuxt
+
+  test:
+    needs:
+      - lint-and-format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build
+          path: |
+            apps
+            packages
+          
+      # - name: Test
+      #   run: pnpm test
