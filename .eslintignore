@@ -1,5 +1,4 @@
-node_modules/*
-package.json
-turbo.json
-taze.config.js
+node_modules/
 dist/
+.output/
+vendor/
