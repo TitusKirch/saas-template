@@ -134,7 +134,6 @@ jobs:
       - name: Restore build cache
         uses: actions/download-artifact@v4
         with:
-          retention-days: 3
           name: build
           path: |
             apps
@@ -168,7 +167,6 @@ jobs:
       - name: Restore build cache
         uses: actions/download-artifact@v4
         with:
-          retention-days: 3
           name: build
           path: |
             apps
@@ -176,3 +174,7 @@ jobs:
           
       # - name: Test E2E
       #   run: pnpm test:e2e
+
+  # todo:
+  # - push in dev => update dev container (only needed)
+  # - extra ci for (pre) release => on (pre) release in main/stage => update stage/prod container
