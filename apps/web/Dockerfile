@@ -45,7 +45,7 @@ COPY turbo.json turbo.json
 RUN pnpm dlx turbo run build --filter=@repo/web
 
 ##############################################################
-# installer                                                  #
+# runner                                                     #
 ##############################################################
 FROM base AS runner
 WORKDIR /app
