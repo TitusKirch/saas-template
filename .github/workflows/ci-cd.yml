@@ -111,7 +111,7 @@ jobs:
 
   test:
     needs:
-      - lint-and-format
+      - build
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -132,7 +132,7 @@ jobs:
         run: pnpm install
 
       - name: Restore build cache
-        uses: actions/upload-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           retention-days: 3
           name: build
@@ -142,3 +142,37 @@ jobs:
           
       # - name: Test
       #   run: pnpm test
+
+  test-e2e:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          retention-days: 3
+          name: build
+          path: |
+            apps
+            packages
+          
+      # - name: Test E2E
+      #   run: pnpm test:e2e
