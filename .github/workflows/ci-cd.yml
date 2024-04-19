@@ -197,6 +197,7 @@ jobs:
           filters: |
             apps:
               - 'apps/**'
+              - 'packages/**'
   
       - name: Enable corepack
         if: steps.changes.outputs.apps == 'true'
