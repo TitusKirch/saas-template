@@ -176,9 +176,9 @@ jobs:
       #   run: pnpm test:e2e
   
   docker-apps-build:
-    needs:
-      - test
-      - test-e2e
+    # needs:
+    #   - test
+    #   - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -196,6 +196,30 @@ jobs:
           filters: |
             apps:
               - 'apps/**'
+  
+      - name: Enable corepack
+        if: steps.changes.outputs.apps == 'true'
+        run: corepack enable
+
+      - name: Setup node
+        if: steps.changes.outputs.apps == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        if: steps.changes.outputs.apps == 'true'
+        run: pnpm install
+
+      - name: Restore build cache
+        if: steps.changes.outputs.apps == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: |
+            apps
+            packages
 
       - name: Setup Docker Buildx
         if: steps.changes.outputs.apps == 'true'
@@ -212,7 +236,7 @@ jobs:
           build-args: |
             PACKAGE_NAME=@TitusKirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
-          cache-form: type=gha
+          cache-from: type=gha
           cache-to: type=gha,mode=max
 
 
