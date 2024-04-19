@@ -46,8 +46,6 @@ jobs:
         run: pnpm install
 
   lint-and-format:
-    # autofix workflow will be triggered instead for PRs
-    if: github.event_name == 'push'
     needs:
       - install-dependencies
     runs-on: ubuntu-latest
