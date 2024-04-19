@@ -1,5 +1,5 @@
 {
-  "name": "@repo/blog",
+  "name": "@TitusKirch/blog",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -12,7 +12,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@repo/app-base": "workspace:*",
+    "@TitusKirch/app-base": "workspace:*",
     "nuxt": "^3.11.1"
   }
 }

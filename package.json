@@ -1,5 +1,5 @@
 {
-  "name": "@repo/turbo-laravel-nuxt-template",
+  "name": "@TitusKirch/turbo-laravel-nuxt-template",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
@@ -14,8 +14,8 @@
     "taze": "taze"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@TitusKirch/eslint-config": "workspace:*",
+    "@TitusKirch/typescript-config": "workspace:*",
     "prettier": "^3.2.5",
     "turbo": "latest"
   },

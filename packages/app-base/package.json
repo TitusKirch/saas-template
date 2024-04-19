@@ -1,5 +1,5 @@
 {
-  "name": "@repo/app-base",
+  "name": "@TitusKirch/app-base",
   "private": true,
   "scripts": {
     "build": "nuxt build",

@@ -1,5 +1,5 @@
 {
-  "name": "@repo/eslint-config",
+  "name": "@TitusKirch/eslint-config",
   "files": [
     "library.js"
   ],
