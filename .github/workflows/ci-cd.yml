@@ -243,7 +243,7 @@ jobs:
           file: ./apps/Dockerfile
           # push: true
           load: true
-          tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:test
+          tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:test
           build-args: |
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
@@ -252,7 +252,7 @@ jobs:
         
       - name: Test Docker image
         if: steps.changes.outputs.apps == 'true'
-        run: docker run --rm ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:test
+        run: docker run --rm ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:test
 
       - name: Push Docker image
         if: steps.changes.outputs.apps == 'true'
@@ -261,7 +261,7 @@ jobs:
           context: .
           file: ./apps/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:latest
+          tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:latest
           build-args: |
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
