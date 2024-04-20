@@ -180,6 +180,9 @@ jobs:
       # - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         apps: [blog, web]
@@ -220,6 +223,13 @@ jobs:
           path: |
             apps
             packages
+      
+      - name: Login to GitHub container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Docker Buildx
         if: steps.changes.outputs.apps == 'true'
@@ -232,7 +242,26 @@ jobs:
           context: .
           file: ./apps/Dockerfile
           # push: true
-          # tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:latest
+          load: true
+          tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:test
+          build-args: |
+            PACKAGE_NAME=@TitusKirch/${{ matrix.apps }}
+            PACKAGE_PATH=apps/${{ matrix.apps }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+        
+      - name: Test Docker image
+        if: steps.changes.outputs.apps == 'true'
+        run: docker run --rm ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:test
+
+      - name: Push Docker image
+        if: steps.changes.outputs.apps == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./apps/Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:latest
           build-args: |
             PACKAGE_NAME=@TitusKirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
