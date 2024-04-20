@@ -269,7 +269,6 @@ jobs:
                   exit 1
               fi
           done
-        continue-on-error: true
 
       - name: Stop Docker container
         if: steps.changes.outputs.apps == 'true' && success()
