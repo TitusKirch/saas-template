@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./apps/Dockerfile
       args:
-        - PACKAGE_NAME=@TitusKirch/blog
+        - PACKAGE_NAME=@tituskirch/blog
         - PACKAGE_PATH=apps/blog
     restart: always
     ports:
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: ./apps/Dockerfile
       args:
-        - PACKAGE_NAME=@TitusKirch/web
+        - PACKAGE_NAME=@tituskirch/web
         - PACKAGE_PATH=apps/web
     restart: always
     ports:

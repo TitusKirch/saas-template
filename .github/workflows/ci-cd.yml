@@ -245,7 +245,7 @@ jobs:
           load: true
           tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:test
           build-args: |
-            PACKAGE_NAME=@TitusKirch/${{ matrix.apps }}
+            PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -263,7 +263,7 @@ jobs:
           push: true
           tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:latest
           build-args: |
-            PACKAGE_NAME=@TitusKirch/${{ matrix.apps }}
+            PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
