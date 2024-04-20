@@ -253,7 +253,7 @@ jobs:
       - name: Start Docker container
         if: steps.changes.outputs.apps == 'true'
         run: |
-          docker run -d --rm ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:test
+          docker run -d --rm -p 3000:3000 ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:test
         id: start_container
         continue-on-error: true
 
