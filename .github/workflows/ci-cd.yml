@@ -251,7 +251,7 @@ jobs:
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
           cache-from: type=gha
-          cache-to: type=local,mode=max
+          cache-to: type=local,mode=max,dest=/tmp/${{ matrix.apps }}-cache
         
       - name: Start Docker container
         if: steps.changes.outputs.apps == 'true'
@@ -288,7 +288,7 @@ jobs:
           build-args: |
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
-          cache-from: type=local
+          cache-from: type=local,dest=/tmp/${{ matrix.apps }}-cache
           cache-to: type=gha,mode=max
 
   # todo: 2
