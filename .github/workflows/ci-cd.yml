@@ -245,20 +245,19 @@ jobs:
           context: .
           file: ./apps/Dockerfile
           # push: true
-          # load: true
+          load: true
           tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:test
           build-args: |
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=local,mode=max
         
       - name: Start Docker container
         if: steps.changes.outputs.apps == 'true'
         run: |
           docker run -d --rm -p 3000:3000 ${{ env.DOCKER_CONTAINER_REGISTRY }}/tituskirch/${{ matrix.apps }}:test
         id: start_container
-        continue-on-error: true
 
       - name: Wait for docker container to start
         if: steps.changes.outputs.apps == 'true'
@@ -289,7 +288,7 @@ jobs:
           build-args: |
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
-          cache-from: type=gha
+          cache-from: type=local
           cache-to: type=gha,mode=max
 
   # todo: 2
