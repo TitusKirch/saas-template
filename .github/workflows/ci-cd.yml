@@ -288,7 +288,7 @@ jobs:
           build-args: |
             PACKAGE_NAME=@tituskirch/${{ matrix.apps }}
             PACKAGE_PATH=apps/${{ matrix.apps }}
-          cache-from: type=local,dest=/tmp/${{ matrix.apps }}-cache
+          cache-from: type=local,src=/tmp/${{ matrix.apps }}-cache
           cache-to: type=gha,mode=max
 
   # todo: 2
