@@ -27,7 +27,7 @@ jobs:
       app_blog: ${{ steps.changes.outputs.app_blog }}
       app_web: ${{ steps.changes.outputs.app_web }}
       service_api: ${{ steps.changes.outputs.service_api }}
-      turbo_filters: ${{ steps.turbo_filters.outputs.args }}
+      turbo_filter_args: ${{ steps.turbo_filter.outputs.args }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
           filters: .github/file-filters.yml
       
       - name: Generate filter arguments for turbo commands
-        id: turbo_filters
+        id: turbo_filter
         run: |
           args=""
           if [ "${{ steps.changes.outputs.app_blog }}" == "true" ]; then
@@ -98,7 +98,7 @@ jobs:
         run: pnpm install
 
       - name: Lint
-        run: pnpm lint ${{ steps.turbo_filters.outputs.args }}
+        run: pnpm lint ${{ needs.files-changed.outputs.turbo_filter_args }}
 
       - name: Format
         run: pnpm format
@@ -127,7 +127,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm build ${{ steps.turbo_filters.outputs.args }}
+        run: pnpm build ${{ needs.files-changed.outputs.turbo_filter_args }}
 
       - name: Cache build
         uses: actions/upload-artifact@v4
@@ -170,7 +170,7 @@ jobs:
             packages
           
       # - name: Test
-      #   run: pnpm test ${{ steps.turbo_filters.outputs.args }}
+      #   run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
 
   test-e2e:
     name: Test E2E
@@ -204,7 +204,7 @@ jobs:
             packages
           
       # - name: Test E2E
-      #   run: pnpm test:e2e ${{ steps.turbo_filters.outputs.args }}
+      #   run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
 
   docker-app-blog:
     name: Docker image for app "blog"
