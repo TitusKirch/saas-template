@@ -91,7 +91,7 @@ runs:
           tags+=(${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:${{ inputs.docker_image_tag }})
         fi
         if [[ ${{ inputs.docker_image_tag_latest }} == 'true' ]]; then
-          if [[ tags != "" ]]; then
+           if [ "$tags" != "" ]; then
             tags+=(",")
           fi
           tags+=(${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:latest)
