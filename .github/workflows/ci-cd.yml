@@ -38,7 +38,7 @@ jobs:
         with:
           token: ${{ github.token }}
           filters: .github/file-filters.yml
-      
+
       - name: Generate filter arguments for turbo commands
         id: turbo_filter
         run: |
@@ -52,7 +52,7 @@ jobs:
           if [ "${{ steps.changes.outputs.service_api }}" == "true" ]; then
             args="$args --filter=@tituskirch/api"
           fi
-          echo "::set-output name=args::$args"
+          echo "args=$args" >> $GITHUB_ENV
 
   install-dependencies:
     name: Install Dependencies
@@ -211,9 +211,8 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_blog == 'true' }}
     needs:
       - files-changed
-      - build
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -259,9 +258,8 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_web == 'true' }}
     needs:
       - files-changed
-      - build
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -295,7 +293,7 @@ jobs:
         uses: ./.github/actions/docker-app
         with:
           app_name: web
-          push_image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' }}
+          push_image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'true' || 'false' }}
           docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
           docker_registry_username: ${{ github.actor }}
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
