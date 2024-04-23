@@ -87,14 +87,14 @@ runs:
       shell: bash
       run: |
         tags=""
-        if [[ ${{ inputs.docker_image_tag }} != 'unknown' ]]; then
-          tags+=(${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:${{ inputs.docker_image_tag }})
+        if [ "${{ inputs.docker_image_tag }}" != "unknown" ]; then
+          tags+=("${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:${{ inputs.docker_image_tag }}")
         fi
-        if [[ ${{ inputs.docker_image_tag_latest }} == 'true' ]]; then
-           if [ "$tags" != "" ]; then
+        if [ "${{ inputs.docker_image_tag_latest }}" == "true" ]; then
+          if [ "$tags" != "" ]; then
             tags+=(",")
           fi
-          tags+=(${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:latest)
+          tags+=("${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:latest")
         fi
         echo "tags=$tags" >> $GITHUB_ENV
 
