@@ -1,5 +1,5 @@
 {
-  "name": "@TitusKirch/web",
+  "name": "@tituskirch/web",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -12,7 +12,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@TitusKirch/app-base": "workspace:*",
+    "@tituskirch/app-base": "workspace:*",
     "nuxt": "^3.11.1"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@TitusKirch/app-base",
+  "name": "@tituskirch/app-base",
   "private": true,
   "scripts": {
     "build": "nuxt build",

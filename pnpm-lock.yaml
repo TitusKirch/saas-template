@@ -8,10 +8,10 @@ importers:
 
   .:
     devDependencies:
-      '@TitusKirch/eslint-config':
+      '@tituskirch/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@TitusKirch/typescript-config':
+      '@tituskirch/typescript-config':
         specifier: workspace:*
         version: link:packages/typescript-config
       prettier:
@@ -23,7 +23,7 @@ importers:
 
   apps/blog:
     dependencies:
-      '@TitusKirch/app-base':
+      '@tituskirch/app-base':
         specifier: workspace:*
         version: link:../../packages/app-base
       nuxt:
@@ -32,7 +32,7 @@ importers:
 
   apps/web:
     dependencies:
-      '@TitusKirch/app-base':
+      '@tituskirch/app-base':
         specifier: workspace:*
         version: link:../../packages/app-base
       nuxt:
