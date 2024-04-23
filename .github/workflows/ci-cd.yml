@@ -106,7 +106,7 @@ jobs:
   build:
     name: Build
     needs:
-      - turbo_filters
+      - files-changed
       - lint-and-format
     runs-on: ubuntu-latest
     timeout-minutes: 10
