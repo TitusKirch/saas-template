@@ -22,7 +22,7 @@ inputs:
   docker_image_tag:
     description: "Docker image tag"
     required: false
-    default: "unknown"
+    default: ""
   docker_image_tag_latest:
     description: "Docker image tag latest"
     required: false
@@ -96,10 +96,10 @@ runs:
           fi
           tags+=("${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:latest")
         fi
-        echo "tags=$tags" >> $GITHUB_ENV
+        echo "tags=$tags" >> $GITHUB_OUTPUT
 
     - name: Push Docker image
-      if: ${{ inputs.push_image }} == 'true' && ${{ inputs.docker_image_tag }} != '' && ${{ inputs.docker_image_tag }} != 'unknown'
+      if: inputs.push_image == 'true' && inputs.docker_image_tag != ''
       uses: docker/build-push-action@v5
       with:
         context: .
