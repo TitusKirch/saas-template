@@ -81,23 +81,7 @@ runs:
       if: success()
       run: |
         docker stop $(docker ps -q --filter ancestor="${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:test")
-    
-    - name: Generate Docker image tag
-      id: generate_docker_image_tag
-      shell: bash
-      run: |
-        tags=""
-        if [ "${{ inputs.docker_image_tag }}" != "unknown" ]; then
-          tags+=("${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:${{ inputs.docker_image_tag }}")
-        fi
-        if [ "${{ inputs.docker_image_tag_latest }}" == "true" ]; then
-          if [ "$tags" != "" ]; then
-            tags+=(",")
-          fi
-          tags+=("${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:latest")
-        fi
-        echo "tags=$tags" >> $GITHUB_OUTPUT
-
+  
     - name: Push Docker image
       if: inputs.push_image == 'true' && inputs.docker_image_tag != ''
       uses: docker/build-push-action@v5
@@ -105,7 +89,9 @@ runs:
         context: .
         file: ./apps/Dockerfile
         push: true
-        tags: ${{ steps.generate_docker_image_tag.outputs.tags }}
+        tags: |
+          ${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}::${{ inputs.docker_image_tag }}
+          ${{ inputs.docker_image_tag_latest }} == "true" ? ${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:latest : ""
         # platforms: linux/amd64,linux/arm64 (wait for arm workers and then ignore amd64)
         build-args: |
           PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
