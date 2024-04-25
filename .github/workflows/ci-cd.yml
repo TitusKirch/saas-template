@@ -45,10 +45,34 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Get latest release
+        uses: cardinalby/git-get-release-action@v1
+        id: get-latest-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          latest: true
+
+      - name: Get base for changed files
+        id: get-base
+        run: |
+          base=""
+
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" == "release" ]; then
+            base="${{ steps.get-latest-release.outputs.tag }}"
+          else
+            base="${{ github.event.before }}"
+          fi
+
+          echo "base=$base" >> $GITHUB_OUTPUT
+
       - name: Check for changed files
         uses: dorny/paths-filter@v3
         id: changes
         with:
+          base: ${{ steps.get-base.outputs.base }}
           token: ${{ github.token }}
           filters: .github/file-filters.yml
 
