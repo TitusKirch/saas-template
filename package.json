@@ -17,6 +17,7 @@
     "@tituskirch/eslint-config": "workspace:*",
     "@tituskirch/typescript-config": "workspace:*",
     "prettier": "^3.2.5",
+    "taze": "^0.13.7",
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.9.0",
