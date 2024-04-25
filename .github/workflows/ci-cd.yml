@@ -316,7 +316,7 @@ jobs:
           docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
           docker_registry_username: ${{ github.actor }}
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && github.event.release.tag_name || '' }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.prerelease }}
 
 
