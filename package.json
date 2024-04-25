@@ -11,7 +11,9 @@
     "format:fix": "prettier --write \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
     "format": "prettier --check \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
     "taze:w": "taze -w",
-    "taze": "taze"
+    "taze": "taze",
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e"
   },
   "devDependencies": {
     "@tituskirch/eslint-config": "workspace:*",
