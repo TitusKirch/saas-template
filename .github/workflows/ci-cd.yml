@@ -21,8 +21,19 @@ env:
   DOCKER_CONTAINER_REGISTRY: ghcr.io
 
 jobs:
+  prepare:
+    name: Prepare
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
   files-changed:
     name: Detect which files have changed
+    needs:
+      - prepare
     runs-on: ubuntu-latest
     timeout-minutes: 3
     outputs:
@@ -62,6 +73,8 @@ jobs:
 
   install-dependencies:
     name: Install Dependencies
+    needs:
+      - prepare
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
