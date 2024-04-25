@@ -107,4 +107,4 @@ runs:
           PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
           PACKAGE_PATH=apps/${{ inputs.app_name }}
         cache-from: type=local,src=/tmp/${{ inputs.app_name }}-docker-cache
-        cache-to: type=gha,mode=max
+        # cache-to: type=gha,mode=max
