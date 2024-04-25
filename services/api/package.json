@@ -2,7 +2,8 @@
   "name": "@tituskirch/api",
   "private": true,
   "scripts": {
-    "dev": "php artisan serve"
+    "dev": "php artisan serve",
+    "test": "php artisan test"
   },
   "type": "module",
   "devDependencies": {
