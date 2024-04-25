@@ -83,6 +83,7 @@ runs:
         docker stop $(docker ps -q --filter ancestor="${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:test")
     
     - name: Generate Docker image tags
+      shell: bash
       id: generate_docker_image_tags
       run: |
         tags="${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:${{ inputs.docker_image_tag }}"
