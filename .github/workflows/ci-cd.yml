@@ -3,14 +3,11 @@ name: CI/CD
 on:
   push:
     branches: ["main", "stage", "dev"]
-    paths-ignore:
-      - "docs/**"
-      - "*.md"
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches: ["*"]
-    paths-ignore:
-      - "docs/**"
-      - "*.md"
+  release:
+    types: [prereleased, released]
 
 # remove default permissions of GITHUB_TOKEN for security
 # https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
@@ -23,10 +20,61 @@ concurrency:
 env:
   DOCKER_CONTAINER_REGISTRY: ghcr.io
 
-
 jobs:
+  prepare:
+    name: Prepare
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+  files-changed:
+    name: Detect which files have changed
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      app_blog: ${{ steps.changes.outputs.app_blog }}
+      app_web: ${{ steps.changes.outputs.app_web }}
+      service_api: ${{ steps.changes.outputs.service_api }}
+      turbo_filter_args: ${{ steps.turbo_filter.outputs.args }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check for changed files
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          token: ${{ github.token }}
+          filters: .github/file-filters.yml
+
+      - name: Generate filter arguments for turbo commands
+        id: turbo_filter
+        run: |
+          args=""
+          if [ "${{ steps.changes.outputs.app_blog }}" == "true" ]; then
+            args="$args --filter=@tituskirch/blog"
+          fi
+          if [ "${{ steps.changes.outputs.app_web }}" == "true" ]; then
+            args="$args --filter=@tituskirch/web"
+          fi
+          if [ "${{ steps.changes.outputs.service_api }}" == "true" ]; then
+            args="$args --filter=@tituskirch/api"
+          fi
+
+          # trim leading space
+          args="${args# }"
+
+          echo "args=$args" >> $GITHUB_OUTPUT
+
   install-dependencies:
     name: Install Dependencies
+    needs:
+      - prepare
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -46,13 +94,12 @@ jobs:
         run: pnpm install
 
   lint-and-format:
-    # autofix workflow will be triggered instead for PRs
-    if: github.event_name == 'push'
+    name: Lint and format
     needs:
+      - files-changed
       - install-dependencies
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -70,17 +117,18 @@ jobs:
         run: pnpm install
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm lint ${{ needs.files-changed.outputs.turbo_filter_args }}
 
       - name: Format
         run: pnpm format
 
   build:
+    name: Build
     needs:
+      - files-changed
       - lint-and-format
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -98,7 +146,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm build
+        run: pnpm build ${{ needs.files-changed.outputs.turbo_filter_args }}
 
       - name: Cache build
         uses: actions/upload-artifact@v4
@@ -110,11 +158,12 @@ jobs:
             packages/*/.nuxt
 
   test:
+    name: Test
     needs:
+      - files-changed
       - build
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -140,14 +189,15 @@ jobs:
             packages
           
       # - name: Test
-      #   run: pnpm test
+      #   run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
 
   test-e2e:
+    name: Test E2E
     needs:
+      - files-changed
       - build
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -173,80 +223,104 @@ jobs:
             packages
           
       # - name: Test E2E
-      #   run: pnpm test:e2e
-  
-  docker-apps-build:
-    # needs:
-    #   - test
-    #   - test-e2e
+      #   run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
+
+  docker-app-blog:
+    name: Docker image for app "blog"
+    if: ${{ needs.files-changed.outputs.app_blog == 'true' }}
+    needs:
+      - files-changed
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        apps: [blog, web]
-    
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
-      - name: Check for changes
-        uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          base: ${{ github.ref }}
-          filters: |
-            apps:
-              - 'apps/**'
   
       - name: Enable corepack
-        if: steps.changes.outputs.apps == 'true'
         run: corepack enable
 
       - name: Setup node
-        if: steps.changes.outputs.apps == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
 
       - name: Install dependencies
-        if: steps.changes.outputs.apps == 'true'
         run: pnpm install
 
       - name: Restore build cache
-        if: steps.changes.outputs.apps == 'true'
         uses: actions/download-artifact@v4
         with:
           name: build
           path: |
             apps
             packages
-
-      - name: Setup Docker Buildx
-        if: steps.changes.outputs.apps == 'true'
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push Docker image
-        if: steps.changes.outputs.apps == 'true'
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./apps/Dockerfile
-          # push: true
-          # tags: ${{ env.DOCKER_CONTAINER_REGISTRY }}/TitusKirch/${{ matrix.apps }}:latest
-          build-args: |
-            PACKAGE_NAME=@TitusKirch/${{ matrix.apps }}
-            PACKAGE_PATH=apps/${{ matrix.apps }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-
-        
       
+      - name: Create docker image
+        uses: ./.github/actions/docker-app
+        with:
+          app_name: blog
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && github.event.release.tag_name || '' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.prerelease }}
+
+  docker-app-web:
+    name: Docker image for app "web"
+    if: ${{ needs.files-changed.outputs.app_web == 'true' }}
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: |
+            apps
+            packages
+      
+      - name: Create docker image
+        uses: ./.github/actions/docker-app
+        with:
+          app_name: web
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && github.event.release.tag_name || '' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.prerelease }}
 
 
-
-
-  # todo:
+  # todo: 2
   # - push in dev => update dev container (only needed)
+  # push: ${{ github.event_name != 'pull_request' }}
   # - extra ci for (pre) release => on (pre) release in main/stage => update stage/prod container

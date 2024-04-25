@@ -1,5 +1,5 @@
 {
-  "name": "@TitusKirch/api",
+  "name": "@tituskirch/api",
   "private": true,
   "scripts": {
     "dev": "php artisan serve"

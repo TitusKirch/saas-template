@@ -1,3 +1,3 @@
 <template>
-  <div>Blog</div>
+  <div>Blog with a cool new change</div>
 </template>
