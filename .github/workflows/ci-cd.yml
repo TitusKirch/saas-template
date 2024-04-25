@@ -349,7 +349,6 @@ jobs:
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
 
-
   # todo: 2
   # - push in dev => update dev container (only needed)
   # push: ${{ github.event_name != 'pull_request' }}
