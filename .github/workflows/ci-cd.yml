@@ -53,7 +53,7 @@ jobs:
           if [ "${{ steps.changes.outputs.service_api }}" == "true" ]; then
             args="$args --filter=@tituskirch/api"
           fi
-          echo "args=$args" >> $GITHUB_ENV
+          echo "args=$args" >> $GITHUB_OUTPUT
 
   install-dependencies:
     name: Install Dependencies
