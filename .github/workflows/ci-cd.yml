@@ -5,6 +5,8 @@ on:
     branches: ["main", "stage", "dev"]
   pull_request:
     branches: ["*"]
+  release:
+    types: [prereleased, released]
 
 # remove default permissions of GITHUB_TOKEN for security
 # https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
@@ -16,7 +18,6 @@ concurrency:
 
 env:
   DOCKER_CONTAINER_REGISTRY: ghcr.io
-
 
 jobs:
   files-changed:
@@ -246,12 +247,12 @@ jobs:
         uses: ./.github/actions/docker-app
         with:
           app_name: blog
-          push_image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' }}
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
           docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
           docker_registry_username: ${{ github.actor }}
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || '' }}
-          docker_image_tag_latest: false
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && github.event.release.tag_name || '' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.prerelease }}
 
   docker-app-web:
     name: Docker image for app "web"
@@ -293,12 +294,12 @@ jobs:
         uses: ./.github/actions/docker-app
         with:
           app_name: web
-          push_image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'true' || 'false' }}
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
           docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
           docker_registry_username: ${{ github.actor }}
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
-          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || '' }}
-          docker_image_tag_latest: false
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && github.event.release.tag_name || '' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.prerelease }}
 
 
   # todo: 2
