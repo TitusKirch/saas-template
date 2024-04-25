@@ -13,7 +13,8 @@
     "taze:w": "taze -w",
     "taze": "taze",
     "test": "turbo test",
-    "test:e2e": "turbo test:e2e"
+    "test:e2e": "turbo test:e2e",
+    "story:dev": "turbo story:dev"
   },
   "devDependencies": {
     "@tituskirch/eslint-config": "workspace:*",

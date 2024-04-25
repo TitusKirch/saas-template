@@ -16,6 +16,9 @@
     "lint:fix": {
       "dependsOn": ["^lint:fix"]
     },
+    "story:dev": {
+      "dependsOn": []
+    },
     "test": {
       "dependsOn": ["^test"]
     },
