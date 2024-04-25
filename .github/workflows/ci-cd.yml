@@ -52,6 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           latest: true
+          doNotFailIfNotFound: true
 
       - name: Get base for changed files
         id: get-base
@@ -61,7 +62,12 @@ jobs:
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             base="${{ github.event.pull_request.base.sha }}"
           elif [ "${{ github.event_name }}" == "release" ]; then
-            base="${{ steps.get-latest-release.outputs.tag }}"
+            if [ "${{ steps.get-latest-release.outputs.tag }}" != "" ]; then
+              base="${{ steps.get-latest-release.outputs.tag }}"
+            else
+              # first commit of the repository
+              base="f3473d07144ca1a310f403ee770edb3b59663de1"
+            fi
           else
             base="${{ github.event.before }}"
           fi
