@@ -54,7 +54,7 @@ runs:
         build-args: |
           PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
           PACKAGE_PATH=apps/${{ inputs.app_name }}
-        # cache-from: type=gha
+        cache-from: type=gha
         cache-to: type=local,mode=max,dest=/tmp/${{ inputs.app_name }}-docker-cache
       
     - name: Start Docker container
@@ -107,4 +107,4 @@ runs:
           PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
           PACKAGE_PATH=apps/${{ inputs.app_name }}
         cache-from: type=local,src=/tmp/${{ inputs.app_name }}-docker-cache
-        # cache-to: type=gha,mode=max
+        cache-to: type=gha,mode=max
