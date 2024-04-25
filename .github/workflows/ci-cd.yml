@@ -4,6 +4,7 @@ on:
   push:
     branches: ["main", "stage", "dev"]
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches: ["*"]
   release:
     types: [prereleased, released]
