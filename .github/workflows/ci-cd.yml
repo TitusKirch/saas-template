@@ -245,7 +245,7 @@ jobs:
         run: pnpm install
       
       - name: Install Playwright
-        run: pnpm playwright install chromium
+        run: pnpx playwright install chromium --with-deps
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
