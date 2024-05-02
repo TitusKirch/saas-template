@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     '@formkit/nuxt',
     '@nuxtjs/i18n',
     'nuxt-security',
+    '@pinia/nuxt',
   ],
   extends: ['@nuxt/ui-pro'],
   // NOTE: FA PRO
