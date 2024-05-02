@@ -23,3 +23,4 @@ pnpm dev
 FA PRO:
 @fortawesome/pro-light-svg-icons
 @tituskirch/font-awesome-pro-iconify
+@tituskirch/script-font-awesome-pro-to-iconify
