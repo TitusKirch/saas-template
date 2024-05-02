@@ -1,13 +1,13 @@
 import { createResolver } from '@nuxt/kit'
 
 // NOTE: FA PRO
-// import { faProBrands, faProLight } from '@TitusKirch/font-awesome-pro-iconify';
+// import { faProBrands, faProLight } from '@tituskirch/font-awesome-pro-iconify';
 
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   alias: {
-    '@TitusKirch/app-base': resolve('./'),
+    '@tituskirch/app-base': resolve('./'),
   },
   modules: [
     '@nuxt/eslint',
