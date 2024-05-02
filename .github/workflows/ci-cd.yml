@@ -19,6 +19,7 @@ concurrency:
 
 env:
   DOCKER_CONTAINER_REGISTRY: ghcr.io
+  NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
 jobs:
   prepare:
@@ -119,6 +120,8 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+      
+      -
 
       - name: Install dependencies
         run: pnpm install
