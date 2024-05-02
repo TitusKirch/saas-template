@@ -56,6 +56,15 @@ importers:
       '@formkit/pro':
         specifier: ^0.123.6
         version: 0.123.6(@formkit/core@1.6.2)(@formkit/inputs@1.6.2)
+      '@fortawesome/fontawesome-common-types':
+        specifier: ^6.5.2
+        version: 6.5.2
+      '@fortawesome/free-brands-svg-icons':
+        specifier: ^6.5.2
+        version: 6.5.2
+      '@fortawesome/vue-fontawesome':
+        specifier: ^3.0.6
+        version: 3.0.6(@fortawesome/fontawesome-svg-core@6.5.2)(vue@3.4.25(typescript@5.4.5))
       '@nuxt/ui-pro':
         specifier: ^1.1.0
         version: 1.1.0(axios@1.6.8)(change-case@4.1.2)(focus-trap@7.5.4)(nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.2)(@unocss/reset@0.58.8)(axios@1.6.8)(change-case@4.1.2)(encoding@0.1.13)(eslint@8.57.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.13.2))(vue@3.4.25(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.3.2)(optionator@0.9.3)(rollup@4.13.2)(terser@5.30.0)(typescript@5.4.5)(unocss@0.58.8(postcss@8.4.38)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0)))(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0)))(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vue@3.4.25(typescript@5.4.5))
@@ -691,6 +700,24 @@ packages:
     resolution: {integrity: sha512-IRcYv4iHn872bezx9jy7ipYKA1Ctiq8y7owxsjaC+5+FKHubduetrnvVjEaqcRpwm9dVc8vLG5RgDOAlHdU0Fw==}
     peerDependencies:
       vue: ^3.4.0
+
+  '@fortawesome/fontawesome-common-types@6.5.2':
+    resolution: {integrity: sha512-gBxPg3aVO6J0kpfHNILc+NMhXnqHumFxOmjYCFfOiLZfwhnnfhtsdA2hfJlDnj+8PjAs6kKQPenOTKj3Rf7zHw==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/fontawesome-svg-core@6.5.2':
+    resolution: {integrity: sha512-5CdaCBGl8Rh9ohNdxeeTMxIj8oc3KNBgIeLMvJosBMdslK/UnEB8rzyDRrbKdL1kDweqBPo4GT9wvnakHWucZw==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/free-brands-svg-icons@6.5.2':
+    resolution: {integrity: sha512-zi5FNYdmKLnEc0jc0uuHH17kz/hfYTg4Uei0wMGzcoCL/4d3WM3u1VMc0iGGa31HuhV5i7ZK8ZlTCQrHqRHSGQ==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/vue-fontawesome@3.0.6':
+    resolution: {integrity: sha512-akrL7lTroyNpPkoHtvK2UpsMzJr6jXdHaQ0YdcwqDsB8jdwlpNHZYijpOUd9KJsARr+VB3WXY4EyObepqJ4ytQ==}
+    peerDependencies:
+      '@fortawesome/fontawesome-svg-core': ~1 || ~6
+      vue: '>= 3.0.0 < 4'
 
   '@headlessui/tailwindcss@0.2.0':
     resolution: {integrity: sha512-fpL830Fln1SykOCboExsWr3JIVeQKieLJ3XytLe/tt1A0XzqUthOftDmjcCYLW62w7mQI7wXcoPXr3tZ9QfGxw==}
@@ -6954,6 +6981,21 @@ snapshots:
       - tailwindcss
       - unocss
       - windicss
+
+  '@fortawesome/fontawesome-common-types@6.5.2': {}
+
+  '@fortawesome/fontawesome-svg-core@6.5.2':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.5.2
+
+  '@fortawesome/free-brands-svg-icons@6.5.2':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.5.2
+
+  '@fortawesome/vue-fontawesome@3.0.6(@fortawesome/fontawesome-svg-core@6.5.2)(vue@3.4.25(typescript@5.4.5))':
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.5.2
+      vue: 3.4.25(typescript@5.4.5)
 
   '@headlessui/tailwindcss@0.2.0(tailwindcss@3.4.3)':
     dependencies:

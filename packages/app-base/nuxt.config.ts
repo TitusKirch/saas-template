@@ -19,16 +19,16 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
   extends: ['@nuxt/ui-pro'],
-  // NOTE: FA PRO
-  // build: {
-  //   transpile: [
-  //     // fix https://github.com/FortAwesome/vue-fontawesome/issues/394 (https://github.com/nuxt/nuxt/discussions/16014#discussioncomment-2477885)
-  //     '@fortawesome/fontawesome-common-types',
-  //     '@fortawesome/free-brands-svg-icons',
-  //     '@fortawesome/pro-light-svg-icons',
-  //     '@fortawesome/vue-fontawesome',
-  //   ],
-  // },
+  build: {
+    transpile: [
+      // fix https://github.com/FortAwesome/vue-fontawesome/issues/394 (https://github.com/nuxt/nuxt/discussions/16014#discussioncomment-2477885)
+      '@fortawesome/fontawesome-common-types',
+      '@fortawesome/free-brands-svg-icons',
+      // NOTE: FA PRO
+      // '@fortawesome/pro-light-svg-icons',
+      '@fortawesome/vue-fontawesome',
+    ],
+  },
   colorMode: {
     classSuffix: '',
     // TODO: Store color mode in cookie to support subdomains

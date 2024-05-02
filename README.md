@@ -19,3 +19,7 @@ To develop all apps and packages, run the following command:
 cd turbo-laravel-nuxt-template
 pnpm dev
 ```
+
+FA PRO:
+@fortawesome/pro-light-svg-icons
+@TitusKirch/font-awesome-pro-iconify
