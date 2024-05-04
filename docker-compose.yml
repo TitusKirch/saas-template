@@ -9,6 +9,9 @@ services:
       args:
         - PACKAGE_NAME=@tituskirch/blog
         - PACKAGE_PATH=apps/blog
+    environment:
+      - FORMKIT_PRO_KEY=${APP_FORMKIT_PRO_KEY}
+      - NUXT_UI_PRO_LICENSE=${APP_NUXT_UI_PRO_LICENSE}
     restart: always
     ports:
       - 3001:3000
@@ -22,6 +25,9 @@ services:
       args:
         - PACKAGE_NAME=@tituskirch/web
         - PACKAGE_PATH=apps/web
+    environment:
+      - FORMKIT_PRO_KEY=${APP_FORMKIT_PRO_KEY}
+      - NUXT_UI_PRO_LICENSE=${APP_NUXT_UI_PRO_LICENSE}
     restart: always
     ports:
       - 3000:3000

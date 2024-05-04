@@ -19,6 +19,9 @@ concurrency:
 
 env:
   DOCKER_CONTAINER_REGISTRY: ghcr.io
+  NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
+  # NOTE: FORMKIT PRO
+  # FORMKIT_PRO_KEY: ${{ secrets.FORMKIT_PRO_KEY }}
 
 jobs:
   prepare:
@@ -177,6 +180,10 @@ jobs:
 
       - name: Build
         run: pnpm build ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
       - name: Cache build
         uses: actions/upload-artifact@v4
@@ -218,8 +225,12 @@ jobs:
             apps
             packages
           
-      # - name: Test
-      #   run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
+      - name: Test
+        run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   test-e2e:
     name: Test E2E
@@ -243,6 +254,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      
+      - name: Install Playwright
+        run: pnpx playwright install chromium --with-deps
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
@@ -252,8 +266,12 @@ jobs:
             apps
             packages
           
-      # - name: Test E2E
-      #   run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
+      - name: Test E2E
+        run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   docker-app-blog:
     name: Docker image for app "blog"
@@ -301,6 +319,9 @@ jobs:
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   docker-app-web:
     name: Docker image for app "web"
@@ -348,6 +369,9 @@ jobs:
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   # todo: 2
   # - push in dev => update dev container (only needed)
