@@ -1,13 +1,14 @@
-import { createResolver } from '@nuxt/kit'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 
 // NOTE: FA PRO
 // import { faProBrands, faProLight } from '@tituskirch/font-awesome-pro-iconify';
 
-const { resolve } = createResolver(import.meta.url)
+const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
   alias: {
-    '@tituskirch/app-base': resolve('./'),
+    '@tituskirch/app-base': currentDir,
   },
   modules: [
     '@nuxt/eslint',
@@ -37,7 +38,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   formkit: {
     autoImport: false,
-    configFile: resolve('./formkit.config.ts'),
+    configFile: join(currentDir, './formkit.config.ts'),
   },
   i18n: {
     langDir: './locales',
