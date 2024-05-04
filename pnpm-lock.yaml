@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      pinia:
+        specifier: ^2.1.7
+        version: 2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))
     devDependencies:
       '@tituskirch/eslint-config':
         specifier: workspace:*
