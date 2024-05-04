@@ -18,6 +18,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
+  TURBO_TELEMETRY_DISABLED: 1
   DOCKER_CONTAINER_REGISTRY: ghcr.io
   NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
   # NOTE: FORMKIT PRO
