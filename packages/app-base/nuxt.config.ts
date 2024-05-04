@@ -9,7 +9,7 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
   alias: {
     '@tituskirch/app-base': currentDir,
-    pinia: '/node_modules/pinia/dist/pinia.mjs',
+    pinia: join(currentDir, '../../node_modules/pinia/dist/pinia.mjs'),
   },
   modules: [
     '@nuxt/eslint',
