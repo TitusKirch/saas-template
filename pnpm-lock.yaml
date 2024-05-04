@@ -83,6 +83,9 @@ importers:
       nuxt-security:
         specifier: ^1.4.3
         version: 1.4.3(rollup@4.13.2)
+      pinia:
+        specifier: ^2.1.7
+        version: 2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))
       vue:
         specifier: ^3.4.25
         version: 3.4.25(typescript@5.4.5)
