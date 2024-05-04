@@ -70,8 +70,9 @@ USER nodejs
 COPY --from=installer /app/${PACKAGE_PATH}/.output .
 
 # initialize environment variables
-ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
 ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
+# NOTE: FORMKIT PRO 
+# ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
 
 # run the package
 CMD node server/index.mjs

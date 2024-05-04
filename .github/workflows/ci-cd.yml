@@ -319,6 +319,9 @@ jobs:
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   docker-app-web:
     name: Docker image for app "web"
@@ -366,6 +369,9 @@ jobs:
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   # todo: 2
   # - push in dev => update dev container (only needed)
