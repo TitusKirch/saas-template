@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "php artisan serve",
     "lint": "./vendor/bin/pint --test",
-    "lint:fix": "./vendor/bin/pint"
+    "lint:fix": "./vendor/bin/pint",
+    "test": "php artisan test --stop-on-failure"
   },
   "type": "module",
   "devDependencies": {
