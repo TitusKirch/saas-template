@@ -159,7 +159,7 @@ jobs:
     name: Lint and format
     needs:
       - files-changed
-      - install-dependencies
+      - install-node-dependencies
       - install-php-dependencies-service-api
     runs-on: ubuntu-latest
     timeout-minutes: 10
