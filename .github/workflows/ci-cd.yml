@@ -271,6 +271,12 @@ jobs:
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+        
+      - name: Copy .env.example to .env for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          cp .env.example .env
       
       - name: Generate key for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
@@ -337,6 +343,12 @@ jobs:
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+        
+      - name: Copy .env.example to .env for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          cp .env.example .env
       
       - name: Generate key for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
@@ -470,6 +482,39 @@ jobs:
           app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
           # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+    
+  docker-service-api:
+    name: Docker image for service "api"
+    if: ${{ needs.files-changed.outputs.service_api == 'true' }}
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore composer dependencies cache for service "api"
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+      
+      - name: Create docker image
+        uses: ./.github/actions/docker-service
+        with:
+          serivce_name: api
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
 
   # todo: 2
   # - push in dev => update dev container (only needed)
