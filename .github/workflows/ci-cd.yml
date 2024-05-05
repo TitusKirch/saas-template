@@ -180,7 +180,7 @@ jobs:
         run: pnpm install
 
       - name: Restore composer dependencies cache for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         uses: actions/cache@v4
         with:
           path: services/api/vendor
@@ -255,20 +255,20 @@ jobs:
         run: pnpm install
 
       - name: Restore composer dependencies cache for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         uses: actions/cache@v4
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
       
       - name: Generate key for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           php artisan key:generate
         
       - name: Create database for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           mkdir -p database
@@ -315,20 +315,20 @@ jobs:
         run: pnpm install
 
       - name: Restore composer dependencies cache for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         uses: actions/cache@v4
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
       
       - name: Generate key for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           php artisan key:generate
         
       - name: Create database for service "api"
-        if: files-changed.outputs.service_api == 'true'
+        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           mkdir -p database
