@@ -508,7 +508,7 @@ jobs:
       - name: Create docker image
         uses: ./.github/actions/docker-service
         with:
-          serivce_name: api
+          service_name: api
           push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
           docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
           docker_registry_username: ${{ github.actor }}
