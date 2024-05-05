@@ -235,7 +235,7 @@ jobs:
     name: Test
     needs:
       - files-changed
-      - build
+      - build-apps
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -295,7 +295,7 @@ jobs:
     name: Test E2E
     needs:
       - files-changed
-      - build
+      - build-apps
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
