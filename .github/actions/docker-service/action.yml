@@ -60,7 +60,7 @@ runs:
     - name: Start Docker container
       shell: bash
       run: |
-        docker run -d --rm -p 3000:3000 ${{ inputs.docker_registry }}/tituskirch/${{ inputs.service_name }}:test
+        docker run -d --rm -p 8000:8000 ${{ inputs.docker_registry }}/tituskirch/${{ inputs.service_name }}:test
       id: start_container
 
     - name: Wait for docker container to start
