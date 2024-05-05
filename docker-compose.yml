@@ -37,7 +37,10 @@ services:
     container_name: api
     build:
       context: .
-      dockerfile: ./services/api/Dockerfile
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
     entrypoint: php artisan octane:frankenphp --max-requests=1
     ports:
       - '8000:8000'
