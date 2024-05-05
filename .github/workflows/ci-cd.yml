@@ -137,7 +137,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Resttore composer dependencies cache
+      - name: Restore composer dependencies cache
         uses: actions/cache@v4
         with:
           path: services/api/vendor
@@ -176,7 +176,12 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Restore composer dependencies cache for service "api"
@@ -212,7 +217,7 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Build
@@ -251,8 +256,14 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
+
+      - name: Setup php
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
 
       - name: Restore composer dependencies cache for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
@@ -311,8 +322,14 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
+
+      - name: Setup php
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
 
       - name: Restore composer dependencies cache for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
@@ -379,7 +396,7 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Restore build cache
@@ -429,7 +446,7 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Restore build cache
