@@ -9,13 +9,13 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 
 # arguments
-ARG PACKAGE_NAME
+ARG APP_NAME
 
 # install turbo and prune the package
 WORKDIR /app
 RUN npm install turbo --global
 COPY . .
-RUN turbo prune ${PACKAGE_NAME} --docker
+RUN turbo prune ${APP_NAME} --docker
 
 
 ##############################################################
@@ -28,7 +28,7 @@ RUN apk update
 WORKDIR /app
 
 # arguments
-ARG PACKAGE_NAME
+ARG APP_NAME
 
 # first install dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -57,7 +57,7 @@ ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
 # ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
 
 # build the package
-RUN pnpm dlx turbo run build --filter=${PACKAGE_NAME}
+RUN pnpm dlx turbo run build --filter=${APP_NAME}
 
 ##############################################################
 # runner                                                     #
@@ -66,7 +66,7 @@ FROM base AS runner
 WORKDIR /app
 
 # arguments
-ARG PACKAGE_PATH
+ARG APP_PATH
 
 # add nodejs user and group (because we don't want to run as root)
 RUN addgroup --system --gid 1001 nodejs
@@ -74,7 +74,7 @@ RUN adduser --system --uid 1001 nodejs
 USER nodejs
 
 # copy the built package
-COPY --from=installer /app/${PACKAGE_PATH}/.output .
+COPY --from=installer /app/${APP_PATH}/.output .
 
 # initialize environment variables
 # ARG NUXT_UI_PRO_LICENSE

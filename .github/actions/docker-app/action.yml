@@ -61,8 +61,8 @@ runs:
         load: true
         tags: ${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:test
         build-args: |
-          PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
-          PACKAGE_PATH=apps/${{ inputs.app_name }}
+          APP_NAME=@tituskirch/${{ inputs.app_name }}
+          APP_PATH=apps/${{ inputs.app_name }}
           NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
         # NOTE: FORMKIT PRO
         # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
@@ -118,8 +118,8 @@ runs:
         tags: ${{ steps.generate_docker_image_tags.outputs.tags }}
         # platforms: linux/amd64,linux/arm64 (wait for arm workers and then ignore amd64)
         build-args: |
-          PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
-          PACKAGE_PATH=apps/${{ inputs.app_name }}
+          APP_NAME=@tituskirch/${{ inputs.app_name }}
+          APP_PATH=apps/${{ inputs.app_name }}
           NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
         # NOTE: FORMKIT PRO
         # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
