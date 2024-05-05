@@ -2,7 +2,9 @@
   "name": "@tituskirch/api",
   "private": true,
   "scripts": {
-    "dev": "php artisan serve"
+    "dev": "php artisan serve",
+    "lint": "./vendor/bin/pint --test",
+    "lint:fix": "./vendor/bin/pint"
   },
   "type": "module",
   "devDependencies": {
