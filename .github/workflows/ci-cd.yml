@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
   files-changed:
@@ -46,7 +46,7 @@ jobs:
       service_api: ${{ steps.changes.outputs.service_api }}
       turbo_filter_args: ${{ steps.turbo_filter.outputs.args }}
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Get latest release
@@ -105,14 +105,14 @@ jobs:
 
           echo "args=$args" >> $GITHUB_OUTPUT
 
-  install-dependencies:
-    name: Install Dependencies
+  install-node-dependencies:
+    name: Install node dependencies
     needs:
       - prepare
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Enable corepack
@@ -127,15 +127,44 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+  install-php-dependencies-service-api:
+    name: Install php dependencies for service "api"
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resttore composer dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+    
+      - name: Composer install
+        uses: php-actions/composer@v6
+        with:
+          working_dir: "services/api"
+          php_version: '8.3'
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+
   lint-and-format:
     name: Lint and format
     needs:
       - files-changed
       - install-dependencies
+      - install-php-dependencies-service-api
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -150,21 +179,28 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Restore composer dependencies cache for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+
       - name: Lint
         run: pnpm lint ${{ needs.files-changed.outputs.turbo_filter_args }}
 
       - name: Format
         run: pnpm format
 
-  build:
-    name: Build
+  build-apps:
+    name: Build apps
     needs:
       - files-changed
       - lint-and-format
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -203,7 +239,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -217,6 +253,26 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Restore composer dependencies cache for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+      
+      - name: Generate key for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          php artisan key:generate
+        
+      - name: Create database for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          mkdir -p database
+          touch database/database.sqlite
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
@@ -229,6 +285,8 @@ jobs:
       - name: Test
         run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
         env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
           # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
@@ -241,7 +299,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -255,6 +313,26 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Restore composer dependencies cache for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+      
+      - name: Generate key for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          php artisan key:generate
+        
+      - name: Create database for service "api"
+        if: files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          mkdir -p database
+          touch database/database.sqlite
       
       - name: Install Playwright
         run: pnpx playwright install chromium --with-deps
@@ -270,6 +348,8 @@ jobs:
       - name: Test E2E
         run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
         env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
           # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
@@ -287,7 +367,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -337,7 +417,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
