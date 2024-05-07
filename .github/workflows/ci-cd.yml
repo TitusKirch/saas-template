@@ -520,7 +520,9 @@ jobs:
     name: Deploy service "api" to Forge
     if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
-      - docker-service-api
+      - files-changed
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Forge
