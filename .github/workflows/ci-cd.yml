@@ -364,7 +364,7 @@ jobs:
           touch database/database.sqlite
       
       - name: Install Playwright
-        run: pnpx playwright install
+        run: pnpm exec playwright install 
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
