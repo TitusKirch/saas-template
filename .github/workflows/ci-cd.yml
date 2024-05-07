@@ -364,7 +364,7 @@ jobs:
           touch database/database.sqlite
       
       - name: Install Playwright
-        run: pnpx playwright install chromium --with-deps
+        run: pnpx playwright install
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
