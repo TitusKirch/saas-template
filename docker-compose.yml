@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: ./apps/Dockerfile
       args:
-        - PACKAGE_NAME=@tituskirch/blog
-        - PACKAGE_PATH=apps/blog
+        - APP_NAME=@tituskirch/blog
+        - APP_PATH=apps/blog
     environment:
       - FORMKIT_PRO_KEY=${APP_FORMKIT_PRO_KEY}
       - NUXT_UI_PRO_LICENSE=${APP_NUXT_UI_PRO_LICENSE}
@@ -23,8 +23,8 @@ services:
       context: .
       dockerfile: ./apps/Dockerfile
       args:
-        - PACKAGE_NAME=@tituskirch/web
-        - PACKAGE_PATH=apps/web
+        - APP_NAME=@tituskirch/web
+        - APP_PATH=apps/web
     environment:
       - FORMKIT_PRO_KEY=${APP_FORMKIT_PRO_KEY}
       - NUXT_UI_PRO_LICENSE=${APP_NUXT_UI_PRO_LICENSE}
@@ -33,6 +33,17 @@ services:
       - 3000:3000
     networks:
       - app_network
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    entrypoint: php artisan octane:frankenphp --max-requests=1
+    ports:
+      - '8000:8000'
 
 networks:
   app_network:
