@@ -1,5 +1,5 @@
 name = "dev-saas-template-app-blog"
-main = "./.output/server/index.mjs"
+pages_build_output_dir = "./.output/server/index.mjs"
 workers_dev = true
 compatibility_date = "2023-12-01"
 
