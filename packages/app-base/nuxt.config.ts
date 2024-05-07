@@ -20,6 +20,11 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
   extends: ['@nuxt/ui-pro'],
+  nitro: {
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+  },
   build: {
     transpile: [
       // fix https://github.com/FortAwesome/vue-fontawesome/issues/394 (https://github.com/nuxt/nuxt/discussions/16014#discussioncomment-2477885)
