@@ -1,0 +1,11 @@
+name = "dev-saas-template-app-blog"
+main = "./.output/server/index.mjs"
+workers_dev = true
+compatibility_date = "2023-12-01"
+
+rules = [
+  { type = "ESModule", globs = ["**/*.js", "**/*.mjs"]},
+]
+
+[site]
+bucket = ".output/public"
