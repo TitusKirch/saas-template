@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     'nuxt-security',
     '@pinia/nuxt',
   ],
+  experimental: {
+    externalVue: false,
+  },
   extends: ['@nuxt/ui-pro'],
   nitro: {
     prerender: {
