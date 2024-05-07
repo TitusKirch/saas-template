@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "@iconify/tools": "^3.0.7",
-    "citty": "^0.1.5",
+    "citty": "^0.1.6",
     "jiti": "^1.21.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   }
 }
