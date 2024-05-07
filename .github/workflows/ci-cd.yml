@@ -581,6 +581,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/blog/"
           command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
+          packageManager: pnpm
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
@@ -642,6 +643,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/web/"
           command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          packageManager: pnpm
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
