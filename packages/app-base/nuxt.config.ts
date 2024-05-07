@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@formkit/nuxt',
     '@nuxtjs/i18n',
-    'nuxt-security',
+    // 'nuxt-security',
     '@pinia/nuxt',
   ],
   extends: ['@nuxt/ui-pro'],
@@ -55,19 +55,19 @@ export default defineNuxtConfig({
       { code: 'en-GB', iso: 'en-GB', files: ['en.json'] },
     ],
   },
-  security: {
-    headers: {
-      contentSecurityPolicy: {
-        'img-src': ["'self'", 'data:'],
-        'form-action': ["'self'"],
-      },
-      crossOriginEmbedderPolicy:
-        process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
-    },
-    corsHandler: {
-      origin: [process.env.BASE_URL || 'http://localhost:3000'],
-    },
-  },
+  // security: {
+  //   headers: {
+  //     contentSecurityPolicy: {
+  //       'img-src': ["'self'", 'data:'],
+  //       'form-action': ["'self'"],
+  //     },
+  //     crossOriginEmbedderPolicy:
+  //       process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
+  //   },
+  //   corsHandler: {
+  //     origin: [process.env.BASE_URL || 'http://localhost:3000'],
+  //   },
+  // },
   ui: {
     global: true,
     safelistColors: ['error', 'info', 'success', 'warning'],
