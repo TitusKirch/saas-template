@@ -15,15 +15,6 @@
     },
     "lint:fix": {
       "dependsOn": ["^lint:fix"]
-    },
-    "story:dev": {
-      "dependsOn": []
-    },
-    "test": {
-      "dependsOn": ["^test"]
-    },
-    "test:e2e": {
-      "dependsOn": ["^test:e2e"]
     }
   }
 }

@@ -11,10 +11,7 @@
     "format:fix": "prettier --write \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
     "format": "prettier --check \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
     "taze:w": "taze -w",
-    "taze": "taze",
-    "test": "turbo test",
-    "test:e2e": "turbo test:e2e",
-    "story:dev": "turbo story:dev"
+    "taze": "taze"
   },
   "devDependencies": {
     "@tituskirch/eslint-config": "workspace:*",
@@ -26,8 +23,5 @@
   "packageManager": "pnpm@9.0.6",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "pinia": "^2.1.7"
   }
 }

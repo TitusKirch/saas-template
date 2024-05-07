@@ -2,10 +2,7 @@
   "name": "@tituskirch/api",
   "private": true,
   "scripts": {
-    "dev": "php artisan serve",
-    "lint": "./vendor/bin/pint --test",
-    "lint:fix": "./vendor/bin/pint",
-    "test": "php artisan test --stop-on-failure"
+    "dev": "php artisan serve"
   },
   "type": "module",
   "devDependencies": {
