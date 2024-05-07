@@ -516,7 +516,7 @@ jobs:
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
 
-  forge-deploy-service-api:
+  laravel-forge-deploy-service-api:
     name: Deploy service "api" to Forge
     if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
@@ -528,7 +528,132 @@ jobs:
       - name: Deploy to Forge
         uses: jbrooksuk/laravel-forge-action@v1.0.4
         with:
-          trigger_url: ${{ github.event_name == 'release' && !github.event.release.prerelease && secrets.PROD_SERVICE_API_FORGE_TRIGGER_URL || github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_FORGE_TRIGGER_URL || secrets.DEV_SERVICE_API_FORGE_TRIGGER_URL }}
+          trigger_url: ${{ github.event_name == 'release' && !github.event.release.prerelease && secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+
+  cloudflare-pages-deploy-app-blog:
+    name: Deploy app "blog" to Cloudflare Pages
+    if: needs.files-changed.outputs.app_blog == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: |
+            apps
+            packages
+      
+      - name: Build Cloudflare
+        run: pnpm build:cloudflare --filter=@tituskirch/blog
+
+      - name: Comment deployed URL (PR)
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: cloudflare-pages-deploy-app-blog
+          message: |
+            :hourglass_flowing_sand: _**App "blog" will be deployed to Cloudflare Pages. Please wait...**_
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        id: deploy
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: "apps/blog/"
+          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
+
+      - name: Comment deployed URL (PR)
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: cloudflare-pages-deploy-app-blog
+          message: |
+            :white_check_mark: _**App "blog" has been deployed to Cloudflare Pages.**_
+            [View deployment](${{ steps.deploy.outputs.deployment-url }})
+
+  cloudflare-pages-deploy-app-web:
+    name: Deploy app "web" to Cloudflare Pages
+    if: needs.files-changed.outputs.app_web == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: |
+            apps
+            packages
+      
+      - name: Build Cloudflare
+        run: pnpm build:cloudflare --filter=@tituskirch/web
+
+      - name: Comment deployed URL (PR)
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: cloudflare-pages-deploy-app-web
+          message: |
+            :hourglass_flowing_sand: _**App "web" will be deployed to Cloudflare Pages. Please wait...**_
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        id: deploy
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: "apps/web/"
+          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+
+      - name: Comment deployed URL (PR)
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: cloudflare-pages-deploy-app-web
+          message: |
+            :white_check_mark: _**App "web" has been deployed to Cloudflare Pages.**_
+            [View deployment](${{ steps.deploy.outputs.deployment-url }})
+
+
+
 
   # todo: 2
   # - push in dev => update dev container (only needed)
