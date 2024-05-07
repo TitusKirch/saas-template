@@ -108,10 +108,10 @@ importers:
         version: 0.3.0-beta.7(eslint@8.57.0)(nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.2)(@unocss/reset@0.58.8)(axios@1.6.8)(change-case@4.1.2)(encoding@0.1.13)(eslint@8.57.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.13.2))(vue@3.4.25(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.3.2)(optionator@0.9.3)(rollup@4.13.2)(terser@5.30.0)(typescript@5.4.5)(unocss@0.58.8(postcss@8.4.38)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0)))(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0)))(rollup@4.13.2)(typescript@5.4.5)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))
       '@nuxt/test-utils':
         specifier: ^3.12.1
-        version: 3.12.1(@playwright/test@1.43.1)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.43.1)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))
+        version: 3.12.1(@playwright/test@1.44.0)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.44.0)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))
       '@playwright/test':
-        specifier: ^1.43.1
-        version: 1.43.1
+        specifier: ^1.44.0
+        version: 1.44.0
       '@vue/test-utils':
         specifier: ^2.4.5
         version: 2.4.5
@@ -122,8 +122,8 @@ importers:
         specifier: ^14.7.1
         version: 14.7.1
       playwright-core:
-        specifier: ^1.43.1
-        version: 1.43.1
+        specifier: ^1.44.0
+        version: 1.44.0
       vitest:
         specifier: ^1.5.2
         version: 1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0)
@@ -1250,8 +1250,8 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.43.1':
-    resolution: {integrity: sha512-HgtQzFgNEEo4TE22K/X7sYTYNqEMMTZmFS8kTq6m8hXj+m1D8TgwgIbumHddJa9h4yl4GkKb8/bgAl2+g7eDgA==}
+  '@playwright/test@1.44.0':
+    resolution: {integrity: sha512-rNX5lbNidamSUorBhB4XZ9SQTjAqfe5M+p37Z8ic0jPFBMo5iCtQz1kRWkEMg+rYOKSlVycpQmpqjSFq7LXOfg==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -4857,13 +4857,13 @@ packages:
   pkg-types@1.1.0:
     resolution: {integrity: sha512-/RpmvKdxKf8uILTtoOhAgf30wYbP2Qw+L9p3Rvshx1JZVX+XQNZQFjlbmGHEGIm4CkVPlSn+NXmIM8+9oWQaSA==}
 
-  playwright-core@1.43.1:
-    resolution: {integrity: sha512-EI36Mto2Vrx6VF7rm708qSnesVQKbxEWvPrfA1IPY6HgczBplDx7ENtx+K2n4kJ41sLLkuGfmb0ZLSSXlDhqPg==}
+  playwright-core@1.44.0:
+    resolution: {integrity: sha512-ZTbkNpFfYcGWohvTTl+xewITm7EOuqIqex0c7dNZ+aXsbrLj0qI8XlGKfPpipjm0Wny/4Lt4CJsWJk1stVS5qQ==}
     engines: {node: '>=16'}
     hasBin: true
 
-  playwright@1.43.1:
-    resolution: {integrity: sha512-V7SoH0ai2kNt1Md9E3Gwas5B9m8KR2GVvwZnAI6Pg0m3sh7UvgiYhRrhsziCmqMJNouPckiOhk8T+9bSAK0VIA==}
+  playwright@1.44.0:
+    resolution: {integrity: sha512-F9b3GUCLQ3Nffrfb6dunPOkE5Mh68tR7zN32L4jCk4FjQamgesGay7/dAAe1WaMEGV04DkdJfcJzjoCKygUaRQ==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -7789,7 +7789,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxt/test-utils@3.12.1(@playwright/test@1.43.1)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.43.1)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))':
+  '@nuxt/test-utils@3.12.1(@playwright/test@1.44.0)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.44.0)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))':
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.13.2)
       '@nuxt/schema': 3.11.2(rollup@4.13.2)
@@ -7815,15 +7815,15 @@ snapshots:
       unenv: 1.9.0
       unplugin: 1.10.1
       vite: 5.2.10(@types/node@20.12.2)(terser@5.30.0)
-      vitest-environment-nuxt: 1.0.0(@playwright/test@1.43.1)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.43.1)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))
+      vitest-environment-nuxt: 1.0.0(@playwright/test@1.44.0)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.44.0)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))
       vue: 3.4.25(typescript@5.4.5)
       vue-router: 4.3.2(vue@3.4.25(typescript@5.4.5))
     optionalDependencies:
-      '@playwright/test': 1.43.1
+      '@playwright/test': 1.44.0
       '@vue/test-utils': 2.4.5
       happy-dom: 14.7.1
       jsdom: 20.0.3
-      playwright-core: 1.43.1
+      playwright-core: 1.44.0
       vitest: 1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0)
     transitivePeerDependencies:
       - rollup
@@ -8109,9 +8109,9 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@playwright/test@1.43.1':
+  '@playwright/test@1.44.0':
     dependencies:
-      playwright: 1.43.1
+      playwright: 1.44.0
 
   '@polka/url@1.0.0-next.25': {}
 
@@ -12605,11 +12605,11 @@ snapshots:
       mlly: 1.6.1
       pathe: 1.1.2
 
-  playwright-core@1.43.1: {}
+  playwright-core@1.44.0: {}
 
-  playwright@1.43.1:
+  playwright@1.44.0:
     dependencies:
-      playwright-core: 1.43.1
+      playwright-core: 1.44.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -14121,9 +14121,9 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.30.0
 
-  vitest-environment-nuxt@1.0.0(@playwright/test@1.43.1)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.43.1)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5)):
+  vitest-environment-nuxt@1.0.0(@playwright/test@1.44.0)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.44.0)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5)):
     dependencies:
-      '@nuxt/test-utils': 3.12.1(@playwright/test@1.43.1)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.43.1)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))
+      '@nuxt/test-utils': 3.12.1(@playwright/test@1.44.0)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(jsdom@20.0.3)(playwright-core@1.44.0)(rollup@4.13.2)(vite@5.2.10(@types/node@20.12.2)(terser@5.30.0))(vitest@1.5.2(@types/node@20.12.2)(happy-dom@14.7.1)(jsdom@20.0.3)(terser@5.30.0))(vue-router@4.3.2(vue@3.4.25(typescript@5.4.5)))(vue@3.4.25(typescript@5.4.5))
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'

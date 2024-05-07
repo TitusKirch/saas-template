@@ -6,6 +6,10 @@
       "dependsOn": ["^build"],
       "outputs": [".nuxt/**", ".output/**", "dist/**"]
     },
+    "build:cloudflare": {
+      "dependsOn": ["^build:cloudflare"],
+      "outputs": [".nuxt/**", ".output/**", "dist/**"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
