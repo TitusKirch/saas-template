@@ -18,7 +18,11 @@ concurrency:
   cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
+  TURBO_TELEMETRY_DISABLED: 1
   DOCKER_CONTAINER_REGISTRY: ghcr.io
+  NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
+  # NOTE: FORMKIT PRO
+  # FORMKIT_PRO_KEY: ${{ secrets.FORMKIT_PRO_KEY }}
 
 jobs:
   prepare:
@@ -27,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
   files-changed:
@@ -42,7 +46,7 @@ jobs:
       service_api: ${{ steps.changes.outputs.service_api }}
       turbo_filter_args: ${{ steps.turbo_filter.outputs.args }}
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Get latest release
@@ -101,14 +105,14 @@ jobs:
 
           echo "args=$args" >> $GITHUB_OUTPUT
 
-  install-dependencies:
-    name: Install Dependencies
+  install-node-dependencies:
+    name: Install node dependencies
     needs:
       - prepare
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Enable corepack
@@ -123,15 +127,44 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+  install-php-dependencies-service-api:
+    name: Install php dependencies for service "api"
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore composer dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+    
+      - name: Composer install
+        uses: php-actions/composer@v6
+        with:
+          working_dir: "services/api"
+          php_version: '8.3'
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+
   lint-and-format:
     name: Lint and format
     needs:
       - files-changed
-      - install-dependencies
+      - install-node-dependencies
+      - install-php-dependencies-service-api
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -143,8 +176,20 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install node dependencies
         run: pnpm install
+
+      - name: Restore composer dependencies cache for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
 
       - name: Lint
         run: pnpm lint ${{ needs.files-changed.outputs.turbo_filter_args }}
@@ -152,15 +197,15 @@ jobs:
       - name: Format
         run: pnpm format
 
-  build:
-    name: Build
+  build-apps:
+    name: Build apps
     needs:
       - files-changed
       - lint-and-format
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -172,11 +217,15 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Build
         run: pnpm build ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
       - name: Cache build
         uses: actions/upload-artifact@v4
@@ -191,11 +240,11 @@ jobs:
     name: Test
     needs:
       - files-changed
-      - build
+      - build-apps
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -207,8 +256,40 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
+
+      - name: Setup php
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Restore composer dependencies cache for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+        
+      - name: Copy .env.example to .env for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          cp .env.example .env
+      
+      - name: Generate key for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          php artisan key:generate
+        
+      - name: Create database for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          mkdir -p database
+          touch database/database.sqlite
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
@@ -218,18 +299,24 @@ jobs:
             apps
             packages
           
-      # - name: Test
-      #   run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
+      - name: Test
+        run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   test-e2e:
     name: Test E2E
     needs:
       - files-changed
-      - build
+      - build-apps
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -241,8 +328,43 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
+
+      - name: Setup php
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Restore composer dependencies cache for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+        
+      - name: Copy .env.example to .env for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          cp .env.example .env
+      
+      - name: Generate key for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          php artisan key:generate
+        
+      - name: Create database for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          mkdir -p database
+          touch database/database.sqlite
+      
+      - name: Install Playwright
+        run: pnpx playwright install chromium --with-deps
 
       - name: Restore build cache
         uses: actions/download-artifact@v4
@@ -252,8 +374,14 @@ jobs:
             apps
             packages
           
-      # - name: Test E2E
-      #   run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
+      - name: Test E2E
+        run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   docker-app-blog:
     name: Docker image for app "blog"
@@ -268,7 +396,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -280,7 +408,7 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Restore build cache
@@ -301,6 +429,9 @@ jobs:
           docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
           docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
   docker-app-web:
     name: Docker image for app "web"
@@ -315,7 +446,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
   
       - name: Enable corepack
@@ -327,7 +458,7 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install dependencies
+      - name: Install node dependencies
         run: pnpm install
 
       - name: Restore build cache
@@ -342,6 +473,42 @@ jobs:
         uses: ./.github/actions/docker-app
         with:
           app_name: web
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+    
+  docker-service-api:
+    name: Docker image for service "api"
+    if: ${{ needs.files-changed.outputs.service_api == 'true' }}
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore composer dependencies cache for service "api"
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+      
+      - name: Create docker image
+        uses: ./.github/actions/docker-service
+        with:
+          service_name: api
           push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
           docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
           docker_registry_username: ${{ github.actor }}

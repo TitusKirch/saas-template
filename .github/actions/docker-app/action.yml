@@ -27,6 +27,15 @@ inputs:
     description: "Docker image tag latest"
     required: false
     default: "false"
+  app_env_NUXT_UI_PRO_LICENSE:
+    description: "App environment variable NUXT_UI_PRO_LICENSE"
+    required: false
+    default: ""
+  # NOTE: FORMKIT PRO
+  # app_env_FORMKIT_PRO_KEY:
+  #   description: "App environment variable FORMKIT_PRO_KEY"
+  #   required: false
+  #   default: ""
   
 runs:
   using: "composite"
@@ -52,15 +61,20 @@ runs:
         load: true
         tags: ${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:test
         build-args: |
-          PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
-          PACKAGE_PATH=apps/${{ inputs.app_name }}
+          APP_NAME=@tituskirch/${{ inputs.app_name }}
+          APP_PATH=apps/${{ inputs.app_name }}
+          NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
+        # NOTE: FORMKIT PRO
+        # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
         cache-from: type=gha
         cache-to: type=local,mode=max,dest=/tmp/${{ inputs.app_name }}-docker-cache
       
     - name: Start Docker container
       shell: bash
       run: |
-        docker run -d --rm -p 3000:3000 ${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:test
+        docker run -d --rm -p 3000:3000 ${{ inputs.docker_registry }}/tituskirch/${{ inputs.app_name }}:test --env NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
+      # NOTE: FORMKIT PRO
+      # --env FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
       id: start_container
 
     - name: Wait for docker container to start
@@ -104,7 +118,10 @@ runs:
         tags: ${{ steps.generate_docker_image_tags.outputs.tags }}
         # platforms: linux/amd64,linux/arm64 (wait for arm workers and then ignore amd64)
         build-args: |
-          PACKAGE_NAME=@tituskirch/${{ inputs.app_name }}
-          PACKAGE_PATH=apps/${{ inputs.app_name }}
+          APP_NAME=@tituskirch/${{ inputs.app_name }}
+          APP_PATH=apps/${{ inputs.app_name }}
+          NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
+        # NOTE: FORMKIT PRO
+        # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
         cache-from: type=local,src=/tmp/${{ inputs.app_name }}-docker-cache
         cache-to: type=gha,mode=max
