@@ -9,13 +9,13 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 
 # arguments
-ARG APP_NAME
+ARG PACKAGE_NAME
 
 # install turbo and prune the package
 WORKDIR /app
 RUN npm install turbo --global
 COPY . .
-RUN turbo prune ${APP_NAME} --docker
+RUN turbo prune ${PACKAGE_NAME} --docker
 
 
 ##############################################################
@@ -28,7 +28,7 @@ RUN apk update
 WORKDIR /app
 
 # arguments
-ARG APP_NAME
+ARG PACKAGE_NAME
 
 # first install dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -49,15 +49,8 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-# initialize environment variables
-ARG NUXT_UI_PRO_LICENSE
-ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
-# NOTE: FORMKIT PRO 
-# ARG FORMKIT_PRO_KEY
-# ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
-
 # build the package
-RUN pnpm dlx turbo run build --filter=${APP_NAME}
+RUN pnpm dlx turbo run build --filter=${PACKAGE_NAME}
 
 ##############################################################
 # runner                                                     #
@@ -66,7 +59,7 @@ FROM base AS runner
 WORKDIR /app
 
 # arguments
-ARG APP_PATH
+ARG PACKAGE_PATH
 
 # add nodejs user and group (because we don't want to run as root)
 RUN addgroup --system --gid 1001 nodejs
@@ -74,14 +67,7 @@ RUN adduser --system --uid 1001 nodejs
 USER nodejs
 
 # copy the built package
-COPY --from=installer /app/${APP_PATH}/.output .
-
-# initialize environment variables
-# ARG NUXT_UI_PRO_LICENSE
-ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
-# NOTE: FORMKIT PRO 
-# ARG FORMKIT_PRO_KEY
-# ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
+COPY --from=installer /app/${PACKAGE_PATH}/.output .
 
 # run the package
 CMD node server/index.mjs

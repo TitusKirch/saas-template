@@ -8,10 +8,7 @@
     "lint": "eslint --max-warnings=0 .",
     "lint:fix": "eslint --fix --max-warnings=0 .",
     "postinstall": "nuxt prepare",
-    "preview": "nuxt preview",
-    "story:build": "histoire build",
-    "story:dev": "histoire dev --port 3901",
-    "story:preview": "histoire preview"
+    "preview": "nuxt preview"
   },
   "type": "module",
   "dependencies": {
