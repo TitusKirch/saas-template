@@ -78,12 +78,12 @@ importers:
       '@nuxtjs/i18n':
         specifier: ^8.3.1
         version: 8.3.1(rollup@4.13.2)(vue@3.4.27(typescript@5.4.5))
+      '@nuxtjs/tailwindcss':
+        specifier: ^6.12.0
+        version: 6.12.0(rollup@4.13.2)(ts-node@10.9.2(@types/node@20.12.2)(typescript@5.4.5))
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.13.2)(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
-      '@tailwindcss/forms':
-        specifier: ^0.5.7
-        version: 0.5.7(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.12.2)(typescript@5.4.5)))
       laravel-precognition-vue:
         specifier: ^0.5.4
         version: 0.5.4(vue@3.4.27(typescript@5.4.5))
