@@ -90,15 +90,15 @@ jobs:
         id: turbo_filter
         run: |
           args=""
-          if [ "${{ steps.changes.outputs.app_blog }}" == "true" ]; then
+          # if [ "${{ steps.changes.outputs.app_blog }}" == "true" ]; then
             args="$args --filter=@tituskirch/blog"
-          fi
-          if [ "${{ steps.changes.outputs.app_web }}" == "true" ]; then
+          # fi
+          # if [ "${{ steps.changes.outputs.app_web }}" == "true" ]; then
             args="$args --filter=@tituskirch/web"
-          fi
-          if [ "${{ steps.changes.outputs.service_api }}" == "true" ]; then
+          # fi
+          # if [ "${{ steps.changes.outputs.service_api }}" == "true" ]; then
             args="$args --filter=@tituskirch/api"
-          fi
+          # fi
 
           # trim leading space
           args="${args# }"
