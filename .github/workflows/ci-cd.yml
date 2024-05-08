@@ -410,13 +410,13 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: |
-            apps
-            packages
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
+      #     path: |
+      #       apps
+      #       packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -460,13 +460,13 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: |
-            apps
-            packages
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
+      #     path: |
+      #       apps
+      #       packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -553,13 +553,13 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: |
-            apps
-            packages
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
+      #     path: |
+      #       apps
+      #       packages
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/blog
@@ -615,13 +615,13 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: |
-            apps
-            packages
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
+      #     path: |
+      #       apps
+      #       packages
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/web
