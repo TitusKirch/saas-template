@@ -387,6 +387,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_blog == 'true' }}
     needs:
       - files-changed
+      - build
       # - test
       # - test-e2e
     runs-on: ubuntu-latest
@@ -410,13 +411,13 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      # - name: Restore build cache
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: build
-      #     path: |
-      #       apps
-      #       packages
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: |
+            apps
+            packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -437,6 +438,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_web == 'true' }}
     needs:
       - files-changed
+      - build
       # - test
       # - test-e2e
     runs-on: ubuntu-latest
@@ -460,13 +462,13 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      # - name: Restore build cache
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: build
-      #     path: |
-      #       apps
-      #       packages
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: |
+            apps
+            packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
