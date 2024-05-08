@@ -233,7 +233,9 @@ jobs:
           name: build
           path: |
             apps/*/.nuxt
+            apps/*/.output
             packages/*/.nuxt
+            packages/*/.output
 
   test:
     name: Test
