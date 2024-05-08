@@ -2,14 +2,17 @@ packages_apps: &packages_apps
   - 'packages/app-base/**'
   - 'packages/eslint-config/**'
   - 'packages/typescript-config/**'
+  - './**'
 
 app_blog: &app_blog
   - *packages_apps
   - 'apps/blog/**'
+  - './**'
 
 app_web: &app_web
   - *packages_apps
   - 'apps/web/**'
+  - './**'
 
 app_all: &app_all
   - *app_blog
@@ -17,6 +20,7 @@ app_all: &app_all
 
 service_api: &service_api
   - 'services/api/**'
+  - './**'
 
 service_all: &service_all
   - *service_api
