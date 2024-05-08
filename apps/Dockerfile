@@ -38,7 +38,7 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/node_modules/ ./node_modules
 RUN corepack enable
-RUN pnpm install --frozen-lockfile --offline
+RUN pnpm install --frozen-lockfile --offline --force
 
 # build the project and its dependencies
 COPY --from=builder /app/out/full/ .
