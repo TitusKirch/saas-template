@@ -384,8 +384,8 @@ jobs:
     needs:
       - files-changed
       - build-apps
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -432,8 +432,8 @@ jobs:
     needs:
       - files-changed
       - build-apps
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -479,8 +479,8 @@ jobs:
     if: ${{ needs.files-changed.outputs.service_api == 'true' }}
     needs:
       - files-changed
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -509,11 +509,11 @@ jobs:
 
   laravel-forge-deploy-service-api:
     name: Deploy service "api" to Laravel Forge
-    if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' && secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'push' && github.ref == 'refs/heads/dev' && secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL)
     needs:
       - files-changed
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Forge
@@ -526,8 +526,8 @@ jobs:
     if: needs.files-changed.outputs.app_blog == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -568,7 +568,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/blog/"
-          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
+          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }} dist/
           packageManager: pnpm
 
       - name: Comment deployed URL (PR)
@@ -585,8 +585,8 @@ jobs:
     if: needs.files-changed.outputs.app_web == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -627,7 +627,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/web/"
-          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }} dist/
           packageManager: pnpm
 
       - name: Comment deployed URL (PR)
@@ -638,11 +638,3 @@ jobs:
           message: |
             :white_check_mark: _**App "web" has been deployed to Cloudflare Pages.**_
             [View deployment](${{ steps.deploy.outputs.deployment-url }})
-
-
-
-
-  # todo: 2
-  # - push in dev => update dev container (only needed)
-  # push: ${{ github.event_name != 'pull_request' }}
-  # - extra ci for (pre) release => on (pre) release in main/stage => update stage/prod container
