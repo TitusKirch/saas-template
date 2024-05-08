@@ -96,6 +96,9 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nodejs -u 1001
 USER nodejs
 
+# arguments
+ARG APP_PATH
+
 # copy output from builder
 COPY ./${APP_PATH}/.output/ /app/
 
