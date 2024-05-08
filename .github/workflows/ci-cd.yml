@@ -509,7 +509,7 @@ jobs:
 
   laravel-forge-deploy-service-api:
     name: Deploy service "api" to Laravel Forge
-    if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' && secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'push' && github.ref == 'refs/heads/dev' && secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL)
+    if: needs.files-changed.outputs.service_api == 'true' && ((github.event_name == 'release' && secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL) || (github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL) || (github.event_name == 'push' && github.ref == 'refs/heads/dev' && secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL))
     needs:
       - files-changed
       - test
