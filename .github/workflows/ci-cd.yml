@@ -296,9 +296,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
           
       - name: Test
         run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
@@ -371,9 +368,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
           
       - name: Test E2E
         run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
@@ -417,9 +411,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -468,9 +459,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -561,9 +549,6 @@ jobs:
       #   uses: actions/download-artifact@v4
       #   with:
       #     name: build
-      #     path: |
-      #       apps
-      #       packages
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/blog
@@ -623,9 +608,6 @@ jobs:
       #   uses: actions/download-artifact@v4
       #   with:
       #     name: build
-      #     path: |
-      #       apps
-      #       packages
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/web
