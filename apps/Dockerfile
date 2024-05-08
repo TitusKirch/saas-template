@@ -11,6 +11,9 @@ RUN apk update
 # arguments
 ARG APP_NAME
 
+# disable turborepo telemetry
+ENV TURBO_TELEMETRY_DISABLED=1
+
 # install turbo and prune the package
 WORKDIR /app
 RUN npm install turbo --global
@@ -49,12 +52,8 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-# initialize environment variables
-ARG NUXT_UI_PRO_LICENSE
-ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
-# NOTE: FORMKIT PRO 
-# ARG FORMKIT_PRO_KEY
-# ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
+# disable turborepo telemetry
+ENV TURBO_TELEMETRY_DISABLED=1
 
 # build the package
 RUN pnpm dlx turbo run build --filter=${APP_NAME}
@@ -75,13 +74,6 @@ USER nodejs
 
 # copy the built package
 COPY --from=installer /app/${APP_PATH}/.output .
-
-# initialize environment variables
-# ARG NUXT_UI_PRO_LICENSE
-ENV NUXT_UI_PRO_LICENSE=$NUXT_UI_PRO_LICENSE
-# NOTE: FORMKIT PRO 
-# ARG FORMKIT_PRO_KEY
-# ENV FORMKIT_PRO_KEY=$FORMKIT_PRO_KEY
 
 # run the package
 CMD node server/index.mjs
