@@ -387,7 +387,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_blog == 'true' }}
     needs:
       - files-changed
-      - build
+      - build-apps
       # - test
       # - test-e2e
     runs-on: ubuntu-latest
@@ -438,7 +438,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_web == 'true' }}
     needs:
       - files-changed
-      - build
+      - build-apps
       # - test
       # - test-e2e
     runs-on: ubuntu-latest
