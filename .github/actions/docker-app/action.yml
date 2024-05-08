@@ -63,7 +63,7 @@ runs:
         build-args: |
           APP_NAME=@tituskirch/${{ inputs.app_name }}
           APP_PATH=apps/${{ inputs.app_name }}
-        secrets-env: |
+        secrets: |
           NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
         # NOTE: FORMKIT PRO
         # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
@@ -121,7 +121,7 @@ runs:
         build-args: |
           APP_NAME=@tituskirch/${{ inputs.app_name }}
           APP_PATH=apps/${{ inputs.app_name }}
-        secrets-env: |
+        secrets: |
           NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
         # NOTE: FORMKIT PRO
         # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}

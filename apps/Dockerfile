@@ -55,6 +55,10 @@ COPY turbo.json turbo.json
 # disable turborepo telemetry
 ENV TURBO_TELEMETRY_DISABLED=1
 
+# mount secrets to env
+RUN --mount=type=secret,id=NUXT_UI_PRO_LICENSE \
+  NUXT_UI_PRO_LICENSE=$(cat /run/secrets/NUXT_UI_PRO_LICENSE)
+
 # build the package
 RUN pnpm dlx turbo run build --filter=${APP_NAME}
 
