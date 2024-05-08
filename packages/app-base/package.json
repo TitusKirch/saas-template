@@ -32,10 +32,12 @@
     "nuxt": "^3.11.2",
     "nuxt-security": "^1.4.3",
     "pinia": "^2.1.7",
+    "tailwindcss": "^3.4.3",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@egoist/tailwindcss-icons": "^1.8.0",
     "@histoire/plugin-nuxt": "^0.17.17",
     "@nuxt/eslint": "0.3.0-beta.7",
     "@nuxt/test-utils": "^3.12.1",
