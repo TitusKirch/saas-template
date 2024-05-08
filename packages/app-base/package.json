@@ -2,7 +2,6 @@
   "name": "@tituskirch/app-base",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev --port 3899",
     "generate": "nuxt generate",
     "lint": "eslint --max-warnings=0 .",

@@ -84,20 +84,15 @@ FROM node:20-alpine AS base
 # runner                                                       #
 ##############################################################
 FROM base AS runner
-
-# set working directory
 WORKDIR /app
-
-# RUN apk add --no-cache libc6-compat
-# RUN apk update
-
-# don't run production as root
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
-USER nodejs
 
 # arguments
 ARG APP_PATH
+
+# add nodejs user and group (because we don't want to run as root)
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
 
 # copy output from builder
 COPY ./${APP_PATH}/.output/ /app/
