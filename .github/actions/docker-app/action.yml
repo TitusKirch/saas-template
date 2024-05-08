@@ -63,10 +63,10 @@ runs:
         build-args: |
           APP_NAME=@tituskirch/${{ inputs.app_name }}
           APP_PATH=apps/${{ inputs.app_name }}
-        secrets: |
-          "NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}"
+        secrets-env: |
+          NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
         # NOTE: FORMKIT PRO
-        # "FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}""
+        # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
         cache-from: type=gha
         cache-to: type=local,mode=max,dest=/tmp/${{ inputs.app_name }}-docker-cache
       
@@ -121,8 +121,8 @@ runs:
         build-args: |
           APP_NAME=@tituskirch/${{ inputs.app_name }}
           APP_PATH=apps/${{ inputs.app_name }}
-        secrets: |
-          "NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}"
+        secrets-env: |
+          NUXT_UI_PRO_LICENSE=${{ inputs.app_env_NUXT_UI_PRO_LICENSE }}
         # NOTE: FORMKIT PRO
         # FORMKIT_PRO_KEY=${{ inputs.app_env_FORMKIT_PRO_KEY }}
         cache-from: type=local,src=/tmp/${{ inputs.app_name }}-docker-cache

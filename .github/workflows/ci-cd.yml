@@ -516,7 +516,7 @@ jobs:
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
 
   laravel-forge-deploy-service-api:
-    name: Deploy service "api" to Forge
+    name: Deploy service "api" to Laravel Forge
     if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
