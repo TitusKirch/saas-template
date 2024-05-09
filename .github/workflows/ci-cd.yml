@@ -558,6 +558,10 @@ jobs:
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/blog
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
@@ -617,6 +621,10 @@ jobs:
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/web
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
