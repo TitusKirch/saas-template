@@ -19,7 +19,7 @@
     "@formkit/addons": "^1.6.2",
     "@formkit/icons": "^1.6.2",
     "@formkit/nuxt": "^1.6.2",
-    "@formkit/pro": "^0.123.6",
+    "@formkit/pro": "^0.125.1",
     "@fortawesome/fontawesome-common-types": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.6",
