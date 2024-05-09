@@ -560,7 +560,7 @@ jobs:
         run: cd apps/blog
       
       - name: Build Cloudflare
-        run: pnpm dlx nuxi build --preset=cloudflare_pages
+        run: pnpm dlx nuxt build --preset=cloudflare_pages
         env:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
@@ -626,7 +626,7 @@ jobs:
         run: cd apps/blog
       
       - name: Build Cloudflare
-        run: pnpm dlx nuxi build --preset=cloudflare_pages
+        run: pnpm dlx nuxt build --preset=cloudflare_pages
         env:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
