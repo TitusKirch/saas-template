@@ -1,4 +1,10 @@
-version: '3'
+version: '3.9'
+
+secrets:
+  NUXT_UI_PRO_LICENSE:
+    environment: APP_NUXT_UI_PRO_LICENSE
+  FORMKIT_PRO_KEY:
+    environment: APP_FORMKIT_PRO_KEY
 
 services:
   blog:
@@ -9,6 +15,9 @@ services:
       args:
         - APP_NAME=@tituskirch/blog
         - APP_PATH=apps/blog
+      secrets:
+        - NUXT_UI_PRO_LICENSE
+        - FORMKIT_PRO_KEY
     environment:
       - FORMKIT_PRO_KEY=${APP_FORMKIT_PRO_KEY}
       - NUXT_UI_PRO_LICENSE=${APP_NUXT_UI_PRO_LICENSE}
@@ -25,6 +34,9 @@ services:
       args:
         - APP_NAME=@tituskirch/web
         - APP_PATH=apps/web
+      secrets:
+        - NUXT_UI_PRO_LICENSE
+        - FORMKIT_PRO_KEY
     environment:
       - FORMKIT_PRO_KEY=${APP_FORMKIT_PRO_KEY}
       - NUXT_UI_PRO_LICENSE=${APP_NUXT_UI_PRO_LICENSE}

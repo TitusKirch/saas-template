@@ -233,7 +233,9 @@ jobs:
           name: build
           path: |
             apps/*/.nuxt
+            apps/*/.output
             packages/*/.nuxt
+            packages/*/.output
 
   test:
     name: Test
@@ -294,9 +296,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
           
       - name: Test
         run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
@@ -369,9 +368,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
           
       - name: Test E2E
         run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
@@ -387,6 +383,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_blog == 'true' }}
     needs:
       - files-changed
+      - build-apps
       - test
       - test-e2e
     runs-on: ubuntu-latest
@@ -414,9 +411,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -437,6 +431,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.app_web == 'true' }}
     needs:
       - files-changed
+      - build-apps
       - test
       - test-e2e
     runs-on: ubuntu-latest
@@ -464,9 +459,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: |
-            apps
-            packages
       
       - name: Create docker image
         uses: ./.github/actions/docker-app
@@ -487,6 +479,7 @@ jobs:
     if: ${{ needs.files-changed.outputs.service_api == 'true' }}
     needs:
       - files-changed
+      - build-apps
       - test
       - test-e2e
     runs-on: ubuntu-latest
@@ -516,8 +509,12 @@ jobs:
           docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
 
   laravel-forge-deploy-service-api:
-    name: Deploy service "api" to Forge
+    name: Deploy service "api" to Laravel Forge
     if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    env:
+      PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL: ${{ secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+      STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL: ${{ secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+      DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL: ${{ secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
     needs:
       - files-changed
       - test
@@ -525,6 +522,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Forge
+        if: (github.event_name == 'release' && !github.event.release.prerelease && env.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL) || (github.event_name == 'release' && github.event.release.prerelease && env.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL) || (github.event_name == 'push' && github.ref == 'refs/heads/dev' && env.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL)
         uses: jbrooksuk/laravel-forge-action@v1.0.4
         with:
           trigger_url: ${{ github.event_name == 'release' && !github.event.release.prerelease && secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
@@ -553,13 +551,10 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: |
-            apps
-            packages
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/blog
@@ -579,7 +574,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/blog/"
-          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
+          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }} dist/
           packageManager: pnpm
 
       - name: Comment deployed URL (PR)
@@ -615,13 +610,10 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: |
-            apps
-            packages
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
       
       - name: Build Cloudflare
         run: pnpm build:cloudflare --filter=@tituskirch/web
@@ -641,7 +633,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/web/"
-          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }} dist/
           packageManager: pnpm
 
       - name: Comment deployed URL (PR)
@@ -652,11 +644,3 @@ jobs:
           message: |
             :white_check_mark: _**App "web" has been deployed to Cloudflare Pages.**_
             [View deployment](${{ steps.deploy.outputs.deployment-url }})
-
-
-
-
-  # todo: 2
-  # - push in dev => update dev container (only needed)
-  # push: ${{ github.event_name != 'pull_request' }}
-  # - extra ci for (pre) release => on (pre) release in main/stage => update stage/prod container

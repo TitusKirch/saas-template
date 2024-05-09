@@ -71,6 +71,9 @@ export default defineNuxtConfig({
       origin: [process.env.BASE_URL || 'http://localhost:3000'],
     },
   },
+  tailwindcss: {
+    configPath: join(currentDir, 'tailwind.config.ts'),
+  },
   ui: {
     global: true,
     safelistColors: ['error', 'info', 'success', 'warning'],
