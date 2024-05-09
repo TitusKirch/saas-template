@@ -649,6 +649,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           cd apps/web
+          npx nuxi build --preset=cloudflare_pages
           npx wrangler pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
 
       - name: Comment deployed URL (PR)
