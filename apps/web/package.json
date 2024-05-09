@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "build:cloudflare": "nuxt build --preset=cloudflare_pages",
+    "build:cloudflare": "nuxi build --preset=cloudflare_pages",
     "dev": "nuxt dev --port 3000",
     "generate": "nuxt generate",
     "lint": "eslint --max-warnings=0 .",
