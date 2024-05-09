@@ -631,6 +631,14 @@ jobs:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
           # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+      
+      - name: Create a temp artifact for testing
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build-cloudflare
+          path: |
+            apps/web/dist/
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
