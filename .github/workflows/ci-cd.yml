@@ -626,19 +626,30 @@ jobs:
           message: |
             :hourglass_flowing_sand: _**App "web" will be deployed to Cloudflare Pages. Please wait...**_
 
-      # workarround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
+      # workaround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
       - name: Set ignore-workspace-root-check for pnpm (workaround for ERR_PNPM_ADDING_TO_ROOT in following step)
         run: echo "ignore-workspace-root-check=true" >> .npmrc
 
+      # - name: Deploy to Cloudflare Pages
+      #   uses: cloudflare/wrangler-action@v3
+      #   id: deploy
+      #   with:
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     workingDirectory: "apps/web/"
+      #     command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+      #     packageManager: pnpm
+
+      - name: Install wrangler
+        run: pnpm install wrangler 
+
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        id: deploy
-        with:
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          preCommands: cd "apps/web/"
-          command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
-          packageManager: pnpm
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          cd apps/web
+          npx wrangler pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
