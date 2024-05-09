@@ -632,8 +632,8 @@ jobs:
         with:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: "apps/web/"
-          command: pages deploy --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }} dist/
+          preCommands: cd "apps/web/"
+          command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
           packageManager: pnpm
 
       - name: Comment deployed URL (PR)
