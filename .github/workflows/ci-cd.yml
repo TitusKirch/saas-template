@@ -600,7 +600,7 @@ jobs:
       - files-changed
       # - test
       # - test-e2e
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -659,8 +659,8 @@ jobs:
       #     command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
       #     packageManager: pnpm
 
-      - name: Install wrangler
-        run: pnpm install wrangler 
+      - name: Install wrangler globally
+        run: pnpm install -g wrangler
 
       - name: Deploy to Cloudflare Pages
         env:
@@ -668,7 +668,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           cd apps/web
-          npx wrangler pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          wrangler pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'
