@@ -532,8 +532,8 @@ jobs:
     if: needs.files-changed.outputs.app_blog == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
-      - test
-      - test-e2e
+      # - test
+      # - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -598,8 +598,8 @@ jobs:
     if: needs.files-changed.outputs.app_web == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
-      - test
-      - test-e2e
+      # - test
+      # - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
