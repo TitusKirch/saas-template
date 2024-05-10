@@ -660,7 +660,7 @@ jobs:
       #     packageManager: pnpm
 
       - name: Install wrangler globally
-        run: pnpm install -g wrangler
+        run: npm install -g wrangler
 
       - name: Deploy to Cloudflare Pages
         env:
