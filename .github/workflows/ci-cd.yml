@@ -608,6 +608,11 @@ jobs:
       - name: Enable corepack
         run: corepack enable
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -615,7 +620,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install node dependencies
-        run: pnpm install
+        run: pnpm install --freeze-lockfile
 
       # - name: Restore build cache
       #   uses: actions/download-artifact@v4
