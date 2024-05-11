@@ -298,6 +298,7 @@ jobs:
           name: build
           
       - name: Test
+        if: needs.files-changed.outputs.turbo_filter_args
         run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
         env:
           DB_CONNECTION: sqlite
