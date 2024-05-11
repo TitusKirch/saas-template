@@ -30,12 +30,13 @@ importers:
 
   apps/blog:
     dependencies:
-      '@tituskirch/app-base':
-        specifier: workspace:*
-        version: link:../../packages/app-base
       nuxt:
         specifier: ^3.11.2
         version: 3.11.2(@opentelemetry/api@1.8.0)(@parcel/watcher@2.4.1)(@types/node@20.12.11)(@unocss/reset@0.59.4)(axios@1.6.8)(change-case@4.1.2)(encoding@0.1.13)(eslint@8.57.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.17.2))(vue@3.4.27(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.17.2)(terser@5.31.0)(typescript@5.4.5)(unocss@0.59.4(postcss@8.4.38)(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0)))(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))
+    devDependencies:
+      '@tituskirch/app-base':
+        specifier: workspace:*
+        version: link:../../packages/app-base
 
   apps/web:
     dependencies:

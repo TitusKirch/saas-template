@@ -16,7 +16,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@tituskirch/app-base": "workspace:*",
     "nuxt": "^3.11.2"
+  },
+  "devDependencies": {
+    "@tituskirch/app-base": "workspace:*"
   }
 }
