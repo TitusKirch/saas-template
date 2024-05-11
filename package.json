@@ -30,5 +30,10 @@
   },
   "dependencies": {
     "pinia": "^2.1.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/linkify-it": "<5.0.0"
+    }
   }
 }
