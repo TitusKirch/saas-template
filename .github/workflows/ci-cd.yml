@@ -661,15 +661,31 @@ jobs:
       #     command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
       #     packageManager: pnpm
       
-      - name: Create a temp artifact for testing
+      - name: Create a temp artifact for testing apps
         uses: actions/upload-artifact@v4
         with:
           retention-days: 3
-          name: build-cloudflare
+          name: build-cloudflare-apps
           compression-level: 6
           path: |
             apps/
+      
+      - name: Create a temp artifact for testing packages
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build-cloudflare-packages
+          compression-level: 6
+          path: |
             packages/
+      
+      - name: Create a temp artifact for testing node_modules
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build-cloudflare-node_modules
+          compression-level: 6
+          path: |
             node_modules/
 
       # - name: Comment deployed URL (PR)
