@@ -666,8 +666,11 @@ jobs:
         with:
           retention-days: 3
           name: build-cloudflare
+          compression-level: 6
           path: |
-            ./
+            apps/
+            packages/
+            node_modules/
 
       # - name: Comment deployed URL (PR)
       #   if: github.event_name == 'pull_request'
