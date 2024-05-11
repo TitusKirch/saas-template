@@ -647,27 +647,27 @@ jobs:
       #     command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
       #     packageManager: pnpm
 
-      # workaround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
-      - name: Set ignore-workspace-root-check for pnpm (workaround for ERR_PNPM_ADDING_TO_ROOT in following step)
-        run: echo "ignore-workspace-root-check=true" >> .npmrc
+      # # workaround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
+      # - name: Set ignore-workspace-root-check for pnpm (workaround for ERR_PNPM_ADDING_TO_ROOT in following step)
+      #   run: echo "ignore-workspace-root-check=true" >> .npmrc
 
-      - name: Publish to Cloudflare
-        uses: cloudflare/wrangler-action@v3
-        id: deploy
-        with:
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: "apps/web/"
-          command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
-          packageManager: pnpm
-      
-      # - name: Create a temp artifact for testing
-      #   uses: actions/upload-artifact@v4
+      # - name: Publish to Cloudflare
+      #   uses: cloudflare/wrangler-action@v3
+      #   id: deploy
       #   with:
-      #     retention-days: 3
-      #     name: build-cloudflare
-      #     path: |
-      #       apps/web/dist/
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     workingDirectory: "apps/web/"
+      #     command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+      #     packageManager: pnpm
+      
+      - name: Create a temp artifact for testing
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build-cloudflare
+          path: |
+            ./
 
       # - name: Comment deployed URL (PR)
       #   if: github.event_name == 'pull_request'
