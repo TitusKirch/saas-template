@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "vue.volar",
+    "richie5um2.vscode-sort-json",
+    "open-southeners.laravel-pint"
+  ]
+}

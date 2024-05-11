@@ -1,0 +1,5 @@
+@fortawesome:registry=https://npm.fontawesome.com/
+//npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}
+shamefully-hoist=true
+strict-peer-dependencies=false
+auto-install-peers=true

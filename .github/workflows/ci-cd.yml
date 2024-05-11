@@ -1,0 +1,610 @@
+name: CI/CD
+
+on:
+  push:
+    branches: ["dev"]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: ["*"]
+  release:
+    types: [prereleased, released]
+
+# remove default permissions of GITHUB_TOKEN for security
+# https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+  DOCKER_CONTAINER_REGISTRY: ghcr.io
+  NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
+  # NOTE: FORMKIT PRO
+  # FORMKIT_PRO_KEY: ${{ secrets.FORMKIT_PRO_KEY }}
+
+jobs:
+  prepare:
+    name: Prepare
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+  files-changed:
+    name: Detect which files have changed
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      app_blog: ${{ steps.changes.outputs.app_blog }}
+      app_web: ${{ steps.changes.outputs.app_web }}
+      service_api: ${{ steps.changes.outputs.service_api }}
+      turbo_filter_args: ${{ steps.turbo_filter.outputs.args }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release
+        uses: cardinalby/git-get-release-action@v1
+        id: get-latest-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          latest: true
+          doNotFailIfNotFound: true
+
+      - name: Get base for changed files
+        id: get-base
+        run: |
+          base=""
+
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" == "release" ]; then
+            if [ "${{ steps.get-latest-release.outputs.tag_name }}" != "" ]; then
+              base="${{ steps.get-latest-release.outputs.tag_name }}"
+            else
+              # first commit of the repository
+              base="f3473d07144ca1a310f403ee770edb3b59663de1"
+            fi
+          else
+            base="${{ github.event.before }}"
+          fi
+
+          echo "base=$base" >> $GITHUB_OUTPUT
+
+      - name: Check for changed files
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          base: ${{ steps.get-base.outputs.base }}
+          token: ${{ github.token }}
+          filters: .github/file-filters.yml
+
+      - name: Generate filter arguments for turbo commands
+        id: turbo_filter
+        run: |
+          args=""
+          if [ "${{ steps.changes.outputs.app_blog }}" == "true" ]; then
+            args="$args --filter=@tituskirch/blog"
+          fi
+          if [ "${{ steps.changes.outputs.app_web }}" == "true" ]; then
+            args="$args --filter=@tituskirch/web"
+          fi
+          if [ "${{ steps.changes.outputs.service_api }}" == "true" ]; then
+            args="$args --filter=@tituskirch/api"
+          fi
+
+          # trim leading space
+          args="${args# }"
+
+          echo "args=$args" >> $GITHUB_OUTPUT
+
+  install-node-dependencies:
+    name: Install node dependencies
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+  install-php-dependencies-service-api:
+    name: Install php dependencies for service "api"
+    needs:
+      - prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore composer dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+    
+      - name: Composer install
+        uses: php-actions/composer@v6
+        with:
+          working_dir: "services/api"
+          php_version: '8.3'
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+
+  lint-and-format:
+    name: Lint and format
+    needs:
+      - files-changed
+      - install-node-dependencies
+      - install-php-dependencies-service-api
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Restore composer dependencies cache for service "api"
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+
+      - name: Lint
+        run: pnpm lint ${{ needs.files-changed.outputs.turbo_filter_args }}
+
+      - name: Format
+        run: pnpm format
+
+  build-apps:
+    name: Build apps
+    needs:
+      - files-changed
+      - lint-and-format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+
+      - name: Cache build
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 3
+          name: build
+          path: |
+            apps/*/.nuxt
+            apps/*/.output
+            packages/*/.nuxt
+            packages/*/.output
+
+  test:
+    name: Test
+    needs:
+      - files-changed
+      - build-apps
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Setup php
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Restore composer dependencies cache for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+        
+      - name: Copy .env.example to .env for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          cp .env.example .env
+      
+      - name: Generate key for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          php artisan key:generate
+        
+      - name: Create database for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          
+      - name: Test
+        run: pnpm test ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+
+  test-e2e:
+    name: Test E2E
+    needs:
+      - files-changed
+      - build-apps
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Setup php
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Restore composer dependencies cache for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+        
+      - name: Copy .env.example to .env for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          cp .env.example .env
+      
+      - name: Generate key for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          php artisan key:generate
+        
+      - name: Create database for service "api"
+        if: needs.files-changed.outputs.service_api == 'true'
+        run: |
+          cd services/api
+          mkdir -p database
+          touch database/database.sqlite
+      
+      - name: Install Playwright
+        run: pnpx playwright install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          
+      - name: Test E2E
+        run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+
+  docker-app-blog:
+    name: Docker image for app "blog"
+    if: ${{ needs.files-changed.outputs.app_blog == 'true' }}
+    needs:
+      - files-changed
+      - build-apps
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+      
+      - name: Create docker image
+        uses: ./.github/actions/docker-app
+        with:
+          app_name: blog
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+
+  docker-app-web:
+    name: Docker image for app "web"
+    if: ${{ needs.files-changed.outputs.app_web == 'true' }}
+    needs:
+      - files-changed
+      - build-apps
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+      
+      - name: Create docker image
+        uses: ./.github/actions/docker-app
+        with:
+          app_name: web
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+          app_env_NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # app_env_FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+    
+  docker-service-api:
+    name: Docker image for service "api"
+    if: ${{ needs.files-changed.outputs.service_api == 'true' }}
+    needs:
+      - files-changed
+      - build-apps
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Restore composer dependencies cache for service "api"
+        uses: actions/cache@v4
+        with:
+          path: services/api/vendor
+          key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
+      
+      - name: Create docker image
+        uses: ./.github/actions/docker-service
+        with:
+          service_name: api
+          push_image: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/dev') || github.event_name == 'release' }}
+          docker_registry: ${{ env.DOCKER_CONTAINER_REGISTRY }}
+          docker_registry_username: ${{ github.actor }}
+          docker_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          docker_image_tag: ${{ github.event_name == 'push' && github.ref == 'refs/heads/dev' && 'dev' || github.event_name == 'release' && !github.event.release.prerelease && github.event.release.tag_name || 'stage' }}
+          docker_image_tag_latest: ${{ github.event_name == 'release' && !github.event.release.prerelease && 'true' || 'false' }}
+
+  laravel-forge-deploy-service-api:
+    name: Deploy service "api" to Laravel Forge
+    if: needs.files-changed.outputs.service_api == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    env:
+      PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL: ${{ secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+      STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL: ${{ secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+      DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL: ${{ secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Forge
+        if: (github.event_name == 'release' && !github.event.release.prerelease && env.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL) || (github.event_name == 'release' && github.event.release.prerelease && env.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL) || (github.event_name == 'push' && github.ref == 'refs/heads/dev' && env.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL)
+        uses: jbrooksuk/laravel-forge-action@v1.0.4
+        with:
+          trigger_url: ${{ github.event_name == 'release' && !github.event.release.prerelease && secrets.PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || github.event_name == 'release' && github.event.release.prerelease && secrets.STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL || secrets.DEV_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL }}
+
+  cloudflare-pages-deploy-app-blog:
+    name: Deploy app "blog" to Cloudflare Pages
+    if: needs.files-changed.outputs.app_blog == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+      
+      - name: Build Cloudflare
+        run: pnpm build:cloudflare --filter=@tituskirch/blog
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+      
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        id: deploy
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: "apps/blog/"
+          command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
+          packageManager: pnpm
+
+  cloudflare-pages-deploy-app-web:
+    name: Deploy app "web" to Cloudflare Pages
+    if: needs.files-changed.outputs.app_web == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
+    needs:
+      - files-changed
+      - test
+      - test-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install node dependencies
+        run: pnpm install
+      
+      - name: Build Cloudflare
+        run: pnpm build:cloudflare --filter=@tituskirch/web
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+          # NOTE: FORMKIT PRO
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+      
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        id: deploy
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: "apps/web/"
+          command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          packageManager: pnpm

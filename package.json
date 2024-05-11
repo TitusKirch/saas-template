@@ -1,0 +1,39 @@
+{
+  "name": "@tituskirch/turbo-laravel-nuxt-template",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "turbo build",
+    "build:cloudflare": "turbo build:cloudflare",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "format:fix": "prettier --write \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
+    "format": "prettier --check \"./**/*.{mjs,js,ts,tsx,vue,css}\"",
+    "taze:w": "taze -w",
+    "taze": "taze",
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e",
+    "story:dev": "turbo story:dev"
+  },
+  "devDependencies": {
+    "@tituskirch/eslint-config": "workspace:*",
+    "@tituskirch/typescript-config": "workspace:*",
+    "prettier": "^3.2.5",
+    "taze": "^0.13.8",
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@9.1.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pinia": "^2.1.7"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/linkify-it": "<5.0.0"
+    }
+  }
+}

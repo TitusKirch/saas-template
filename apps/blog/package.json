@@ -1,0 +1,24 @@
+{
+  "name": "@tituskirch/blog",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "build:cloudflare": "nuxt build --preset=cloudflare_pages",
+    "dev": "nuxt dev --port 3001",
+    "generate": "nuxt generate",
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --fix --max-warnings=0 .",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview",
+    "story:build": "histoire build",
+    "story:dev": "histoire dev --port 3901",
+    "story:preview": "histoire preview"
+  },
+  "type": "module",
+  "dependencies": {
+    "@tituskirch/app-base": "workspace:*",
+    "nuxt": "^3.11.2",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2"
+  }
+}

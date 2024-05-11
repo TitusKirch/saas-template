@@ -1,0 +1,48 @@
+{
+  "name": "@tituskirch/app-base",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev --port 3899",
+    "generate": "nuxt generate",
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --fix --max-warnings=0 .",
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview",
+    "story:build": "histoire build",
+    "story:dev": "histoire dev --port 3999",
+    "story:preview": "histoire preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "type": "module",
+  "dependencies": {
+    "@formkit/addons": "^1.6.2",
+    "@formkit/icons": "^1.6.2",
+    "@formkit/nuxt": "^1.6.2",
+    "@formkit/pro": "^0.125.4",
+    "@fortawesome/fontawesome-common-types": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/vue-fontawesome": "^3.0.6",
+    "@nuxt/kit": "^3.11.2",
+    "@nuxt/ui-pro": "^1.2.0",
+    "@nuxtjs/i18n": "^8.3.1",
+    "@pinia/nuxt": "^0.5.1",
+    "laravel-precognition-vue": "^0.5.4",
+    "nuxt": "^3.11.2",
+    "nuxt-security": "^1.4.3",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@histoire/plugin-nuxt": "^0.17.17",
+    "@nuxt/eslint": "0.3.0-beta.7",
+    "@nuxt/test-utils": "^3.12.1",
+    "@playwright/test": "^1.44.0",
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^9.2.0",
+    "happy-dom": "^14.10.1",
+    "playwright-core": "^1.44.0",
+    "vitest": "^1.6.0"
+  }
+}
