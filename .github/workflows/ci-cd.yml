@@ -612,42 +612,74 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # cache: "pnpm"
+          cache: "pnpm"
 
       - name: Install node dependencies
         run: pnpm install
 
-      # - name: Restore build cache
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: build
+      - name: Restore build cache
+        uses: actions/download-artifact@v4
+        with:
+          name: build
       
-      - name: Build Cloudflare
-        run: pnpm build:cloudflare --filter=@tituskirch/web
+      # - name: Build Cloudflare
+      #   run: pnpm build:cloudflare --filter=@tituskirch/web
+      #   env:
+      #     NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+      #     # NOTE: FORMKIT PRO
+      #     # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}    
+
+      - name: Build
+        run: pnpm build --filter=@tituskirch/web
         env:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
           # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
       
-      - name: Create a temp artifact for testing
-        uses: actions/upload-artifact@v4
-        with:
-          retention-days: 3
-          name: build-cloudflare
-          path: |
-            apps/web/dist/
-
-      - name: Comment deployed URL (PR)
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: cloudflare-pages-deploy-app-web
-          message: |
-            :hourglass_flowing_sand: _**App "web" will be deployed to Cloudflare Pages. Please wait...**_
+      
+      # - name: Deploy to Cloudflare Pages
+      #   uses: cloudflare/wrangler-action@v3
+      #   id: deploy
+      #   with:
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     workingDirectory: "apps/web/"
+      #     command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+      #     packageManager: pnpm
 
       # workaround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
       - name: Set ignore-workspace-root-check for pnpm (workaround for ERR_PNPM_ADDING_TO_ROOT in following step)
         run: echo "ignore-workspace-root-check=true" >> .npmrc
+
+      - name: Publish to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        id: deploy
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          workingDirectory: "apps/web/"
+          command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          packageManager: pnpm
+      
+      # - name: Create a temp artifact for testing
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     retention-days: 3
+      #     name: build-cloudflare
+      #     path: |
+      #       apps/web/dist/
+
+      # - name: Comment deployed URL (PR)
+      #   if: github.event_name == 'pull_request'
+      #   uses: marocchino/sticky-pull-request-comment@v2
+      #   with:
+      #     header: cloudflare-pages-deploy-app-web
+      #     message: |
+      #       :hourglass_flowing_sand: _**App "web" will be deployed to Cloudflare Pages. Please wait...**_
+
+      # # workaround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
+      # - name: Set ignore-workspace-root-check for pnpm (workaround for ERR_PNPM_ADDING_TO_ROOT in following step)
+      #   run: echo "ignore-workspace-root-check=true" >> .npmrc
 
       # - name: Deploy to Cloudflare Pages
       #   uses: cloudflare/wrangler-action@v3
@@ -659,16 +691,16 @@ jobs:
       #     command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
       #     packageManager: pnpm
 
-      - name: Install wrangler globally
-        run: npm install -g wrangler
+      # - name: Install wrangler globally
+      #   run: npm install -g wrangler
 
-      - name: Deploy to Cloudflare Pages
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          cd apps/web
-          wrangler pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+      # - name: Deploy to Cloudflare Pages
+      #   env:
+      #     CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #   run: |
+      #     cd apps/web
+      #     wrangler pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
 
       - name: Comment deployed URL (PR)
         if: github.event_name == 'pull_request'

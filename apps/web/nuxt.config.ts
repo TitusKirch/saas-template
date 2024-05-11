@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: ['../../packages/app-base'],
+  nitro: {
+    preset: 'cloudflare-pages',
+  },
   i18n: {
     langDir: './locales',
     lazy: true,
