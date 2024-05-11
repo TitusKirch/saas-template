@@ -655,8 +655,8 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         id: deploy
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          accountId: ${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/web/"
           command: pages deploy ./dist --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
           packageManager: pnpm
