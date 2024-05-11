@@ -600,7 +600,7 @@ jobs:
       - files-changed
       # - test
       # - test-e2e
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -608,16 +608,11 @@ jobs:
       - name: Enable corepack
         run: corepack enable
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          # cache: "pnpm"
 
       - name: Install node dependencies
         run: pnpm install
