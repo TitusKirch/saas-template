@@ -532,8 +532,8 @@ jobs:
     if: needs.files-changed.outputs.app_blog == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -556,15 +556,7 @@ jobs:
         env:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
-          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}   
-
-      - name: Pre-Comment deployed URL (PR)
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: cloudflare-pages-deploy-app-blog
-          message: |
-            :hourglass_flowing_sand: _**App "blog" will be deployed to Cloudflare Pages. Please wait...**_
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
       
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
@@ -576,22 +568,13 @@ jobs:
           command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
           packageManager: pnpm
 
-      - name: Comment deployed URL (PR)
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: cloudflare-pages-deploy-app-blog
-          message: |
-            :white_check_mark: _**App "blog" has been deployed to Cloudflare Pages.**_
-            [View deployment](${{ steps.deploy.outputs.deployment-url }})
-
   cloudflare-pages-deploy-app-web:
     name: Deploy app "web" to Cloudflare Pages
     if: needs.files-changed.outputs.app_web == 'true' && (github.event_name == 'release' || github.event_name == 'push' && github.ref == 'refs/heads/dev')
     needs:
       - files-changed
-      # - test
-      # - test-e2e
+      - test
+      - test-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -614,15 +597,7 @@ jobs:
         env:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
-          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}   
-
-      - name: Pre-Comment deployed URL (PR)
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: cloudflare-pages-deploy-app-web
-          message: |
-            :hourglass_flowing_sand: _**App "web" will be deployed to Cloudflare Pages. Please wait...**_
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
       
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
@@ -633,12 +608,3 @@ jobs:
           workingDirectory: "apps/web/"
           command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
           packageManager: pnpm
-
-      - name: Comment deployed URL (PR)
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: cloudflare-pages-deploy-app-web
-          message: |
-            :white_check_mark: _**App "web" has been deployed to Cloudflare Pages.**_
-            [View deployment](${{ steps.deploy.outputs.deployment-url }})
