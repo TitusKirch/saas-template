@@ -617,24 +617,24 @@ jobs:
       - name: Install node dependencies
         run: pnpm install
 
-      - name: Restore build cache
-        uses: actions/download-artifact@v4
-        with:
-          name: build
+      # - name: Restore build cache
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build
       
-      # - name: Build Cloudflare
-      #   run: pnpm build:cloudflare --filter=@tituskirch/web
-      #   env:
-      #     NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
-      #     # NOTE: FORMKIT PRO
-      #     # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}    
-
-      - name: Build
-        run: pnpm build --filter=@tituskirch/web
+      - name: Build Cloudflare
+        run: pnpm build:cloudflare --filter=@tituskirch/web
         env:
           NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
           # NOTE: FORMKIT PRO
-          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
+          # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}    
+
+      # - name: Build
+      #   run: pnpm build --filter=@tituskirch/web
+      #   env:
+      #     NUXT_UI_PRO_LICENSE: ${{ env.NUXT_UI_PRO_LICENSE }}
+      #     # NOTE: FORMKIT PRO
+      #     # FORMKIT_PRO_KEY: ${{ env.FORMKIT_PRO_KEY }}
       
       
       # - name: Deploy to Cloudflare Pages
