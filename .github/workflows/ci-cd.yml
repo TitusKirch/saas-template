@@ -644,7 +644,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/web/"
-          command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          command: pages deploy --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }} dist/
           packageManager: pnpm
 
       # # workaround for ERR_PNPM_ADDING_TO_ROOT  (see https://github.com/cloudflare/wrangler-action/issues/181#issuecomment-2072919922)
