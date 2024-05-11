@@ -565,7 +565,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/blog/"
-          command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}
+          command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_BLOG }}{{ github.event_name == 'release' && !github.event.release.prerelease && ' --branch=production' || '' }}
           packageManager: pnpm
 
   cloudflare-pages-deploy-app-web:
@@ -606,5 +606,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "apps/web/"
-          command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}
+          command: pages deploy dist/ --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME_APP_WEB }}{{ github.event_name == 'release' && !github.event.release.prerelease && ' --branch=production' || '' }}
           packageManager: pnpm
