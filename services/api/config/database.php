@@ -109,6 +109,35 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'pulse' => [
+            'driver' => 'pgsql',
+            'url' => env('PULSE_DB_URL'),
+            'host' => env('PULSE_DB_HOST', '127.0.0.1'),
+            'port' => env('PULSE_DB_PORT', '5432'),
+            'database' => env('PULSE_DB_DATABASE', 'pulse'),
+            'username' => env('PULSE_DB_USERNAME', 'pulse'),
+            'password' => env('PULSE_DB_PASSWORD', ''),
+            'charset' => env('PULSE_DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
+        'telescope' => [
+            'driver' => 'pgsql',
+            'url' => env('TELESCOPE_DB_URL'),
+            'host' => env('TELESCOPE_DB_HOST', '127.0.0.1'),
+            'port' => env('TELESCOPE_DB_PORT', '5432'),
+            'database' => env('TELESCOPE_DB_DATABASE', 'pulse'),
+            'username' => env('TELESCOPE_DB_USERNAME', 'pulse'),
+            'password' => env('TELESCOPE_DB_PASSWORD', ''),
+            'charset' => env('TELESCOPE_DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
     ],
 
     /*
@@ -165,6 +194,14 @@ return [
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
+        'pulse' => [
+            'url' => env('PULSE_REDIS_URL'),
+            'host' => env('PULSE_REDIS_HOST', '127.0.0.1'),
+            'username' => env('PULSE_REDIS_USERNAME'),
+            'password' => env('PULSE_REDIS_PASSWORD'),
+            'port' => env('PULSE_REDIS_PORT', '6379'),
+            'database' => env('PULSE_REDIS_CACHE_DB', '0'),
+        ],
     ],
 
 ];

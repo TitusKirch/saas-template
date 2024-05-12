@@ -6,6 +6,10 @@ secrets:
   FORMKIT_PRO_KEY:
     environment: APP_FORMKIT_PRO_KEY
 
+networks:
+  app_network:
+    driver: bridge
+
 services:
   blog:
     container_name: blog
@@ -56,7 +60,3 @@ services:
     entrypoint: php artisan octane:frankenphp --max-requests=1
     ports:
       - '8000:8000'
-
-networks:
-  app_network:
-    driver: bridge

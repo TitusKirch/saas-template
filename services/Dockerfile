@@ -25,4 +25,4 @@ COPY /${SERVICE_PATH}/ .
 RUN composer install --prefer-dist --no-scripts --no-progress --no-interaction
 
 # run the SERVICE
-ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
+ENTRYPOINT ["php", "artisan", "pulse:check", "&&", "php", "artisan", "octane:frankenphp"]

@@ -15,7 +15,8 @@
     "taze": "taze",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
-    "story:dev": "turbo story:dev"
+    "story:dev": "turbo story:dev",
+    "artillery": "artillery run artillery.yml"
   },
   "devDependencies": {
     "@tituskirch/eslint-config": "workspace:*",
@@ -29,6 +30,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "artillery": "^2.0.11",
     "pinia": "^2.1.7"
   },
   "pnpm": {
