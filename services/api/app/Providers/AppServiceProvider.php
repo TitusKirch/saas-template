@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Guard Laravel Pulse routes
         Gate::define('viewPulse', static function ($user) {
-            return $user->hasPermissionTo('view pulse');
+            return $user->is_admin;
         });
     }
 }

@@ -28,11 +28,14 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     private function createPermissions(): void
     {
-        // Laravel Telescope permissions
-        Permission::findOrCreate('view telescope');
+        // Foo permissions
+        Permission::findOrCreate('create foo');
+        Permission::findOrCreate('read foo');
+        Permission::findOrCreate('update foo'); // or edit?
+        Permission::findOrCreate('delete foo');
+        Permission::findOrCreate('publish foo'); // an action
+        Permission::findOrCreate('unpublish foo'); // another action
 
-        // Laravel Pulse permissions
-        Permission::findOrCreate('view pulse');
     }
 
     /**
@@ -41,7 +44,7 @@ class RolesAndPermissionsSeeder extends Seeder
     private function createRoles(): void
     {
         // Create super admin role
-        $role = Role::findOrCreate('super admin');
+        $role = Role::findOrCreate('super-admin');
         $role->syncPermissions(Permission::all());
     }
 }

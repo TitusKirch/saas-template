@@ -18,11 +18,11 @@ class UserSeeder extends Seeder
             'email' => 'test.user@example.com',
         ]);
 
-        // Create a super admin user
-        User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'super.admin@example.com',
-        ])->assignRole('super admin');
+        // Create a admin user
+        User::factory([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+        ])->admin()->create();
 
         // Create 50 random users
         User::factory()
