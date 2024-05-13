@@ -2,7 +2,7 @@
   "name": "@tituskirch/api",
   "private": true,
   "scripts": {
-    "dev": "php artisan serve",
+    "dev": "php artisan pulse:check & php artisan pulse:work & php artisan schedule:work & php artisan queue:work & php artisan serve",
     "lint": "./vendor/bin/pint --test",
     "lint:fix": "./vendor/bin/pint",
     "test": "php artisan test --stop-on-failure"
