@@ -93,7 +93,7 @@ return [
          * foreign key is other than `team_id`.
          */
 
-        'team_foreign_key' => 'team_id',
+        'team_foreign_key' => 'organization_id',
     ],
 
     /*
@@ -108,7 +108,7 @@ return [
      * this will refresh permissions on every TickTerminated, TaskTerminated and RequestTerminated
      * NOTE: This should not be needed in most cases, but an Octane/Vapor combination benefited from it.
      */
-    'register_octane_reset_listener' => false,
+    'register_octane_reset_listener' => true,
 
     /*
      * Teams Feature.
@@ -120,7 +120,7 @@ return [
      * (view the latest version of this package's migration file)
      */
 
-    'teams' => false,
+    'teams' => true,
 
     /*
      * Passport Client Credentials Grant
