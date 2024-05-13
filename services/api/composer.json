@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "kra8/laravel-snowflake": "^2.3",
         "laravel/fortify": "^1.21",
         "laravel/framework": "^11.0",
         "laravel/octane": "^2.3",
@@ -13,7 +14,8 @@
         "laravel/pulse": "^1.0",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
