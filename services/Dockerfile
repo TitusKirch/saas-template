@@ -8,7 +8,8 @@ WORKDIR /app
 
 # install php extensions
 RUN install-php-extensions \
-  pcntl
+  pcntl \
+  redis
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
