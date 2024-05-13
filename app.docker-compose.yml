@@ -47,8 +47,8 @@ services:
       - 3000:3000
     networks:
       - app_network
-  api:
-    container_name: api
+  api-app:
+    container_name: api-app
     build:
       context: .
       dockerfile: ./services/Dockerfile
@@ -57,6 +57,50 @@ services:
         - SERVICE_PATH=services/api
     env_file:
       - ./services/api/.env
-    entrypoint: php artisan octane:frankenphp --max-requests=1
+    environment:
+      CONTAINER_ROLE: app
+      PULSE_SERVER_NAME: api-app
     ports:
       - '8000:8000'
+
+  api-scheduler:
+    container_name: api-scheduler
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: scheduler
+      PULSE_SERVER_NAME: api-scheduler
+
+  api-queue:
+    container_name: api-queue
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: queue
+      PULSE_SERVER_NAME: api-queue
+
+  api-pulse-worker:
+    container_name: api-pulse-worker
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: pulse-worker
+      PULSE_SERVER_NAME: api-pulse-worker
