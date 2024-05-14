@@ -121,6 +121,22 @@ To develop all apps and packages, run the following command:
 pnpm dev
 ```
 
+### dev.docker-compose.yml
+
+To run all needed services locally, you can use the `dev.docker-compose.yml` file. You can run the following command to start the services:
+
+```Shell
+docker-compose -f dev.docker-compose.yml up
+```
+
+Below is a list of services you can access via browser.
+
+| Service | URL | Description |
+| --- | --- | --- |
+| adminer | [http://localhost:8080](http://localhost:8080) | Database management tool. |
+| redis-commander | [http://localhost:8081](http://localhost:8081) | Redis management tool. |
+| mailpit | [http://localhost:8085](http://localhost:8085) | A simple SMTP server for development. |
+
 ## Linting and formatting
 
 To lint and format all apps and packages, run the following command:
@@ -194,21 +210,3 @@ After that you can copy the generated icons to the `@tituskirch/font-awesome-pro
 ```Shell
 pnpm copy
 ```
-
-## Local development
-
-### dev.docker-compose.yml
-
-To run all needed services locally, you can use the `dev.docker-compose.yml` file. You can run the following command to start the services:
-
-```Shell
-docker-compose -f dev.docker-compose.yml up
-```
-
-Below is a list of services you can access via browser.
-
-| Service | URL | Description |
-| --- | --- | --- |
-| adminer | http://localhost:8080 | Database management tool. |
-| redis-commander | http://localhost:8081 | Redis management tool. |
-| mailpit | http://localhost:8085 | A simple SMTP server for development. |
