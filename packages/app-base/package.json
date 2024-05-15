@@ -16,7 +16,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@formkit/addons": "^1.6.2",
+    "@formkit/addons": "^1.6.3",
     "@formkit/icons": "^1.6.2",
     "@formkit/nuxt": "^1.6.2",
     "@formkit/pro": "^0.125.4",
