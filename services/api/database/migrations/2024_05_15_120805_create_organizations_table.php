@@ -51,6 +51,12 @@ return new class extends Migration
                     ->onDelete('cascade');
             
         });
+        Schema::table($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $teams) {
+            $table->foreign($columnNames['team_foreign_key'])
+                    ->references('id')
+                    ->on('organizations')
+                    ->onDelete('cascade');
+        });
         Schema::table($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $teams) {
             $table->foreign($columnNames['team_foreign_key'])
                     ->references('id')
@@ -79,6 +85,9 @@ return new class extends Migration
         }
 
         Schema::table($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
+            $table->dropForeign([$columnNames['team_foreign_key']]);
+        });
+        Schema::table($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $teams) {
             $table->dropForeign([$columnNames['team_foreign_key']]);
         });
         Schema::table($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $teams) {
