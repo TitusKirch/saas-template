@@ -68,7 +68,10 @@ export default defineNuxtConfig({
         process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
     },
     corsHandler: {
-      origin: [process.env.BASE_URL || 'http://localhost:3000'],
+      origin: [
+        process.env.BASE_URL || 'http://localhost:3000',
+        process.env.API_URL || 'http://localhost:8000',
+      ],
     },
   },
   tailwindcss: {
@@ -91,6 +94,7 @@ export default defineNuxtConfig({
       appName: process.env.APP_NAME || 'unkown app',
       appVersion: process.env.APP_VERSION || 'latest',
       formkitProKey: (process.env.FORMKIT_PRO_KEY as string) || '',
+      apiUrl: process.env.API_URL || 'http://localhost:8000',
     },
   },
 })
