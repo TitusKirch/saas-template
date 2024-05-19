@@ -52,13 +52,19 @@ export default defineNuxtConfig({
     langDir: './locales',
     lazy: true,
     strategy: 'prefix_and_default',
-    defaultLocale: 'de-DE',
+    defaultLocale: 'en-GB',
     locales: [
       { code: 'de-DE', iso: 'de-DE', files: ['de.json'] },
       { code: 'en-GB', iso: 'en-GB', files: ['en.json'] },
     ],
   },
   security: {
+    corsHandler: {
+      origin: [
+        process.env.BASE_URL || 'http://localhost:3000',
+        process.env.API_URL || 'http://localhost:8000',
+      ],
+    },
     headers: {
       contentSecurityPolicy: {
         'img-src': ["'self'", 'data:', 'blob:'],
@@ -66,12 +72,6 @@ export default defineNuxtConfig({
       },
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
-    },
-    corsHandler: {
-      origin: [
-        process.env.BASE_URL || 'http://localhost:3000',
-        process.env.API_URL || 'http://localhost:8000',
-      ],
     },
   },
   tailwindcss: {

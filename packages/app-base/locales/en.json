@@ -1,5 +1,10 @@
 {
   "base": {
+    "app": {
+      "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
+      "fallbackTitle": "saas-template",
+      "title": "{title} - saas-template"
+    },
     "foo": "EN-bar"
   }
 }

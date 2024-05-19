@@ -2,16 +2,14 @@
   import { useAuthStore } from '@tituskirch/app-base/stores/auth'
 
   const authStore = useAuthStore()
-  const { register, getCsrfToken } = useAuth()
-  const { data, pending, execute } = register({
+  const { register } = useAuth()
+  const { data, error, pending, execute } = await register({
     input: {
       email: 'test@example.com',
       password: 'password',
       password_confirm: 'password',
     },
   })
-
-  await getCsrfToken()
 
   const clickHandler = async () => {
     console.info('clickHandler')
@@ -29,6 +27,10 @@
       <pre class="w-1/2 p-8 bg-gray-700">{{ pending }}</pre>
 
       <pre class="w-1/2 p-8 bg-gray-700">{{ data }}</pre>
+
+      <pre class="w-1/2 p-8 bg-gray-700">{{ error }}</pre>
+
+      <pre class="w-1/2 p-8 bg-gray-700">{{ error?.data?.errors }}</pre>
     </div>
   </div>
 </template>

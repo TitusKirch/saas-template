@@ -1,22 +1,14 @@
 import type { UseFetchOptions } from '#app'
+import type { FetchError } from 'ofetch'
 
 export default function () {
   // request
   const getRequest = ({ path }: { path: string }) => {
-    const runtimeConfig = useRuntimeConfig()
+    const { getRequest: getApiRequest } = useApi()
 
-    return `${runtimeConfig.public.apiUrl}/auth/${path}`
-  }
-
-  const getCsrfToken = async () => {
-    const runtimeConfig = useRuntimeConfig()
-
-    const response = await fetch(`${runtimeConfig.public.apiUrl}/sanctum/csrf-cookie`, {
-      method: 'GET',
-      credentials: 'include',
+    return getApiRequest({
+      path: `auth/${path}`,
     })
-
-    return response
   }
 
   // registration
@@ -37,24 +29,14 @@ export default function () {
       password_confirmation: input.password_confirm,
     }
 
-    const csrfToken = useCookie('XSRF-TOKEN')
+    const { postData } = useApi()
 
-    return useFetch<AuthRegisterResponse>(getRequest({ path: 'register' }), {
-      method: 'POST',
-      body: JSON.stringify(registerRequest),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'X-XSRF-TOKEN': csrfToken,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any,
-      credentials: 'include',
-      ...options,
+    return postData<AuthRegisterResponse>(getRequest({ path: 'register' }), {
+      body: registerRequest,
     })
   }
 
   return {
-    getCsrfToken,
     getRequest,
     register,
   }
