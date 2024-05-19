@@ -1,12 +1,11 @@
-type AuthRegisterInput = {
-  email: string
-  password: string
-  password_confirm: string
-}
+type AuthRegisterForm = {
+  email: string;
+  password: string;
+  password_confirm: string;
+};
 
-type AuthRegisterRequest = Omit<AuthRegisterInput, 'password_confirm'> & {
-  name: string
-  password_confirmation: string
-}
-
-type AuthRegisterResponse = {}
+type AuthRegisterData = Omit<AuthRegisterForm, 'password_confirm'> & {
+  name: string;
+  password_confirmation: string;
+};
+type AuthRegisterResponse = ApiResponse;

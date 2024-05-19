@@ -1,20 +1,22 @@
 <script setup lang="ts">
-  import { useAuthStore } from '@tituskirch/app-base/stores/auth'
+  import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
-  const authStore = useAuthStore()
-  const { register } = useAuth()
+  const authStore = useAuthStore();
+  const { transformRegisterFormToData, register } = useAuth();
   const { data, error, pending, execute } = await register({
-    input: {
-      email: 'test@example.com',
-      password: 'password',
-      password_confirm: 'password',
-    },
-  })
+    data: transformRegisterFormToData({
+      form: {
+        email: 'test@example.com',
+        password: 'password',
+        password_confirm: 'password',
+      },
+    }),
+  });
 
   const clickHandler = async () => {
-    console.info('clickHandler')
-    await execute()
-  }
+    console.info('clickHandler');
+    await execute();
+  };
 </script>
 
 <template>

@@ -1,26 +1,26 @@
-import { FetchError } from 'ofetch'
-import type { FetchResult, UseFetchOptions } from '#app'
-import type { NitroFetchRequest, AvailableRouterMethod } from 'nitropack'
+import type { FetchError } from 'ofetch';
+import type { FetchResult, UseFetchOptions } from '#app';
+import type { NitroFetchRequest, AvailableRouterMethod } from 'nitropack';
 
-// @ts-ignore
-import { KeysOf } from 'nuxt/dist/app/composables/asyncData'
+// @ts-expect-error
+import type { KeysOf } from 'nuxt/dist/app/composables/asyncData';
 
 export default function () {
   // request
   const getRequest = ({ path }: { path: string }) => {
-    const runtimeConfig = useRuntimeConfig()
+    const runtimeConfig = useRuntimeConfig();
 
-    return `${runtimeConfig.public.apiUrl}/${path}`
-  }
+    return `${runtimeConfig.public.apiUrl}/${path}`;
+  };
 
   // csrf token
   const getCsrfToken = () => {
-    return useCookie('XSRF-TOKEN').value
-  }
+    return useCookie('XSRF-TOKEN').value || undefined;
+  };
   const fetchCsrfToken = async () => {
     // check if csrf token exists
     if (getCsrfToken()) {
-      return
+      return;
     }
 
     // fetch csrf token
@@ -32,10 +32,11 @@ export default function () {
         method: 'GET',
         credentials: 'include',
       }
-    )
-  }
+    );
+  };
 
-  // fetch
+  // csrf fetch
+  // TODO: see https://github.com/TitusKirch/saas-template/issues/100
   const csrfFetch = <
     ResT = void,
     ErrorT = FetchError,
@@ -53,7 +54,7 @@ export default function () {
     request: Ref<ReqT> | ReqT | (() => ReqT),
     opts?: UseFetchOptions<_ResT, DataT, PickKeys, DefaultT, ReqT, Method>
   ) => {
-    const options = opts || {}
+    const options = opts || {};
     return useFetch<DataT, ErrorT>(request, {
       ...(options as any),
       headers: {
@@ -61,80 +62,106 @@ export default function () {
         'X-XSRF-TOKEN': getCsrfToken() || '',
       },
       credentials: 'include',
-    })
-  }
+    });
+  };
 
   // fetch
-  const fetchData = <ResT = void, ErrorT = ApiErrorResponse<ResT>>(
+  const fetchWrapper = <
+    RequestDataT = ApiRequestData,
+    ResponseT = ApiResponse | ApiResourceResponse,
+    ErrorT = ApiErrorResponse<RequestDataT>,
+  >(
     request: string,
-    opts?: UseFetchOptions<ResT>
+    opts?: UseFetchOptions<ResponseT>
   ) => {
     // try to auto apply getRequest
-    let req = request
+    let req = request;
     if (typeof req === 'string' && !req.startsWith('http')) {
-      req = getRequest({ path: req })
+      req = getRequest({ path: req });
     }
 
-    return csrfFetch<ResT, FetchError<ErrorT>>(req, {
+    return csrfFetch<ResponseT, FetchError<ErrorT>>(req, {
       ...opts,
-    } as any)
-  }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+  };
 
   // methods
-  const getData = <ResT = void, ErrorT = ApiErrorResponse<ResT>>(
+  const get = <
+    RequestDataT = ApiRequestData,
+    ResponseT = ApiResponse | ApiResourceResponse,
+    ErrorT = ApiErrorResponse<RequestDataT>,
+  >(
     request: string,
-    opts?: UseFetchOptions<ResT>
+    opts?: UseFetchOptions<ResponseT>
   ) => {
-    return fetchData<ResT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
       ...opts,
       method: 'GET',
-    })
-  }
-  const postData = <ResT = void, ErrorT = ApiErrorResponse<ResT>>(
+    });
+  };
+  const post = <
+    RequestDataT = ApiRequestData,
+    ResponseT = ApiResponse | ApiResourceResponse,
+    ErrorT = ApiErrorResponse<RequestDataT>,
+  >(
     request: string,
-    opts?: UseFetchOptions<ResT>
+    opts?: UseFetchOptions<ResponseT>
   ) => {
-    return fetchData<ResT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
       ...opts,
       method: 'POST',
-    })
-  }
-  const putData = <ResT = void, ErrorT = ApiErrorResponse<ResT>>(
+    });
+  };
+  const put = <
+    RequestDataT = ApiRequestData,
+    ResponseT = ApiResponse | ApiResourceResponse,
+    ErrorT = ApiErrorResponse<RequestDataT>,
+  >(
     request: string,
-    opts?: UseFetchOptions<ResT>
+    opts?: UseFetchOptions<ResponseT>
   ) => {
-    return fetchData<ResT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
       ...opts,
       method: 'PUT',
-    })
-  }
-  const patchData = <ResT = void, ErrorT = ApiErrorResponse<ResT>>(
+    });
+  };
+  const patch = <
+    RequestDataT = ApiRequestData,
+    ResponseT = ApiResponse | ApiResourceResponse,
+    ErrorT = ApiErrorResponse<RequestDataT>,
+  >(
     request: string,
-    opts?: UseFetchOptions<ResT>
+    opts?: UseFetchOptions<ResponseT>
   ) => {
-    return fetchData<ResT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
       ...opts,
       method: 'PATCH',
-    })
-  }
-  const deleteData = <ResT = void, ErrorT = ApiErrorResponse<ResT>>(
+    });
+  };
+  const _delete = <
+    RequestDataT = ApiRequestData,
+    ResponseT = ApiResponse | ApiResourceResponse,
+    ErrorT = ApiErrorResponse<RequestDataT>,
+  >(
     request: string,
-    opts?: UseFetchOptions<ResT>
+    opts?: UseFetchOptions<ResponseT>
   ) => {
-    return fetchData<ResT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
       ...opts,
       method: 'DELETE',
-    })
-  }
+    });
+  };
 
   return {
     getRequest,
     fetchCsrfToken,
-    fetch,
-    getData,
-    postData,
-    putData,
-    patchData,
-    deleteData,
-  }
+    csrfFetch,
+    fetchWrapper,
+    get,
+    post,
+    put,
+    patch,
+    delete: _delete,
+  };
 }

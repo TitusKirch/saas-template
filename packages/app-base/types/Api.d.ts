@@ -1,8 +1,13 @@
-type ApiRequest = {}
+type ApiRequestData<DataT = void> = DataT;
 
-type ApiResponse = {}
+type ApiResourceResponse<DataT = void> = {
+  data: DataT;
+};
+type ApiResponse<DataT = void> = DataT;
 
-type ApiErrorResponse<ReqT = ApiRequest> = {
-  message: string
-  errors: Record<keyof ReqT, string[]>
-}
+type ApiErrorResponse<RequestDataT = ApiRequestData<void>> = {
+  message: string;
+  errors: RequestDataT extends void
+    ? Record<string, string[]>
+    : Record<keyof RequestDataT, string[]>;
+};
