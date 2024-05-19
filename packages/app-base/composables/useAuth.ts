@@ -32,6 +32,7 @@ export default function () {
     const { postData } = useApi()
 
     return postData<AuthRegisterResponse>(getRequest({ path: 'register' }), {
+      ...options,
       body: registerRequest,
     })
   }
