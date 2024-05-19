@@ -4,7 +4,7 @@ const config = {
   // tailwindConfig: './packages/ui/tailwind.config.ts',
   endOfLine: 'lf',
   printWidth: 100,
-  semi: false,
+  semi: true,
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'es5',
