@@ -1,13 +1,13 @@
-type ApiRequestData<DataT = void> = DataT;
+type ApiRequestData<DataT = unknown> = DataT;
 
-type ApiResourceResponse<DataT = void> = {
+type ApiResourceResponse<DataT = unknown> = {
   data: DataT;
 };
-type ApiResponse<DataT = void> = DataT;
+type ApiResponse<DataT = unknown> = DataT;
 
-type ApiErrorResponse<RequestDataT = ApiRequestData<void>> = {
+type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = {
   message: string;
-  errors: RequestDataT extends void
+  errors: RequestDataT extends unknown
     ? Record<string, string[]>
     : Record<keyof RequestDataT, string[]>;
 };

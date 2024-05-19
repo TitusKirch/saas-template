@@ -1,5 +1,4 @@
 import type { UseFetchOptions } from '#app';
-import type { FetchError } from 'ofetch';
 
 export default function () {
   // request

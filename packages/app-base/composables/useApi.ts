@@ -2,7 +2,7 @@ import type { FetchError } from 'ofetch';
 import type { FetchResult, UseFetchOptions } from '#app';
 import type { NitroFetchRequest, AvailableRouterMethod } from 'nitropack';
 
-// @ts-expect-error
+// @ts-expect-error - types are not available
 import type { KeysOf } from 'nuxt/dist/app/composables/asyncData';
 
 export default function () {
@@ -41,12 +41,12 @@ export default function () {
     ResT = void,
     ErrorT = FetchError,
     ReqT extends NitroFetchRequest = NitroFetchRequest,
-    Method extends AvailableRouterMethod<ReqT> = ResT extends void
+    Method extends AvailableRouterMethod<ReqT> = ResT extends unknown
       ? 'get' extends AvailableRouterMethod<ReqT>
         ? 'get'
         : AvailableRouterMethod<ReqT>
       : AvailableRouterMethod<ReqT>,
-    _ResT = ResT extends void ? FetchResult<ReqT, Method> : ResT,
+    _ResT = ResT extends unknown ? FetchResult<ReqT, Method> : ResT,
     DataT = _ResT,
     PickKeys extends KeysOf<DataT> = KeysOf<DataT>,
     DefaultT = null,
@@ -56,6 +56,7 @@ export default function () {
   ) => {
     const options = opts || {};
     return useFetch<DataT, ErrorT>(request, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...(options as any),
       headers: {
         ...options.headers,

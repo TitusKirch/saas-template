@@ -1,4 +1,4 @@
-import type { I18nOptions } from 'vue-i18n'
+import type { I18nOptions } from 'vue-i18n';
 
 export const baseConfig: I18nOptions = {
   legacy: false,
@@ -45,6 +45,6 @@ export const baseConfig: I18nOptions = {
       },
     },
   },
-}
+};
 
-export default defineI18nConfig(() => baseConfig)
+export default defineI18nConfig(() => baseConfig);

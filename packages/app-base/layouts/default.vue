@@ -1,9 +1,9 @@
 <script setup lang="ts">
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const randomColor = (e: any) => {
-    const hex = Math.floor(Math.random() * 16777215).toString(16)
-    e.target.setAttribute('style', 'background-color: #' + hex + '88;')
-  }
+    const hex = Math.floor(Math.random() * 16777215).toString(16);
+    e.target.setAttribute('style', 'background-color: #' + hex + '88;');
+  };
 </script>
 
 <template>

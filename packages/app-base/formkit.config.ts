@@ -1,23 +1,23 @@
-import { createAutoAnimatePlugin, createAutoHeightTextareaPlugin } from '@formkit/addons'
-import { genesisIcons } from '@formkit/icons'
-import { createProPlugin, inputs } from '@formkit/pro'
-import { generateClasses } from '@formkit/themes'
-import { defineFormKitConfig } from '@formkit/vue'
+import { createAutoAnimatePlugin, createAutoHeightTextareaPlugin } from '@formkit/addons';
+import { genesisIcons } from '@formkit/icons';
+import { createProPlugin, inputs } from '@formkit/pro';
+import { generateClasses } from '@formkit/themes';
+import { defineFormKitConfig } from '@formkit/vue';
 // NOTE: FA PRO
 // import { fal } from '@fortawesome/pro-light-svg-icons';
 
-import { rootClasses } from './formkitBaseTheme'
-import { classes } from './formkitTheme'
+import { rootClasses } from './formkitBaseTheme';
+import { classes } from './formkitTheme';
 
 // NOTE: FA PRO
 // import type { IconDefinition } from '@fortawesome/fontawesome-common-types';
 
 export default defineFormKitConfig(() => {
   // get runtime config
-  const runtimeConfig = useRuntimeConfig()
+  const runtimeConfig = useRuntimeConfig();
 
   // setup plugins
-  const plugins = [createAutoAnimatePlugin(), createAutoHeightTextareaPlugin()]
+  const plugins = [createAutoAnimatePlugin(), createAutoHeightTextareaPlugin()];
 
   // check if we have a pro key
   if (
@@ -25,7 +25,7 @@ export default defineFormKitConfig(() => {
     typeof runtimeConfig.public?.formkitProKey === 'string'
   ) {
     // add pro plugin
-    plugins.push(createProPlugin(runtimeConfig.public.formkitProKey, inputs))
+    plugins.push(createProPlugin(runtimeConfig.public.formkitProKey, inputs));
   }
 
   // NOTE: FA PRO
@@ -49,5 +49,5 @@ export default defineFormKitConfig(() => {
       // select: fontAwesomeIconToSvg(fal.faChevronDown),
       // close: fontAwesomeIconToSvg(fal.faX),
     },
-  }
-})
+  };
+});

@@ -11,14 +11,14 @@ class Organization extends Model
     use HasFactory, HasSnowflakePrimary;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected $fillable = [
         'name',
     ];
 
-    /** 
-     * @inheritdoc
+    /**
+     * {@inheritdoc}
      */
     protected static function boot()
     {
@@ -61,7 +61,7 @@ class Organization extends Model
 
     /**
      * Get the default role for the organization.
-     * 
+     *
      * @return \App\Models\Role
      */
     public function defaultRole()

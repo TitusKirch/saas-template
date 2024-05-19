@@ -1,7 +1,4 @@
 <script setup lang="ts">
-  import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-
-  const authStore = useAuthStore();
   const { transformRegisterFormToData, register } = useAuth();
   const { data, error, pending, execute } = await register({
     data: transformRegisterFormToData({

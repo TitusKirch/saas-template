@@ -10,6 +10,6 @@ const config = {
   trailingComma: 'es5',
   useTabs: false,
   vueIndentScriptAndStyle: true,
-}
+};
 
-module.exports = config
+module.exports = config;

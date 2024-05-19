@@ -1,8 +1,8 @@
-import { defineConfig } from 'taze'
+import { defineConfig } from 'taze';
 
 export default defineConfig({
   force: true,
   recursive: true,
   exclude: [],
   ignorePaths: ['services/**/vendor'],
-})
+});

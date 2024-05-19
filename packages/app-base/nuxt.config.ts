@@ -1,10 +1,10 @@
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 // NOTE: FA PRO
 // import { faProBrands, faProLight } from '@tituskirch/font-awesome-pro-iconify';
 
-const currentDir = dirname(fileURLToPath(import.meta.url))
+const currentDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineNuxtConfig({
   alias: {
@@ -97,4 +97,4 @@ export default defineNuxtConfig({
       apiUrl: process.env.API_URL || 'http://localhost:8000',
     },
   },
-})
+});

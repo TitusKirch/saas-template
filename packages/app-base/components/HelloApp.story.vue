@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import HelloApp from './HelloApp.vue'
+  import HelloApp from './HelloApp.vue';
 </script>
 
 <template>

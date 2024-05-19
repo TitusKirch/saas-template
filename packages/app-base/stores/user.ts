@@ -1,3 +1,3 @@
 export const useUserStore = defineStore('user', () => {
-  return {}
-})
+  return {};
+});

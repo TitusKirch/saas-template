@@ -3,4 +3,4 @@ export default defineAppConfig({
     primary: 'teal',
     gray: 'zinc',
   },
-})
+});

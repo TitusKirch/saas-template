@@ -1,19 +1,19 @@
 <script setup lang="ts">
   // head
-  const route = useRoute()
-  const { t } = useI18n()
+  const route = useRoute();
+  const { t } = useI18n();
   const head = useLocaleHead({
     addDirAttribute: true,
     identifierAttribute: 'id',
     addSeoAttributes: true,
-  })
+  });
   const title = computed(() => {
     if (route?.meta?.title) {
-      return t('base.app.title', { title: t((route?.meta?.title as string) ?? 'Unknown') })
+      return t('base.app.title', { title: t((route?.meta?.title as string) ?? 'Unknown') });
     }
 
-    return t('base.app.fallbackTitle')
-  })
+    return t('base.app.fallbackTitle');
+  });
   useHead({
     meta: [
       {
@@ -25,13 +25,13 @@
         content: t((route?.meta?.description as string) ?? 'base.app.fallbackDescription'),
       },
     ],
-  })
+  });
 
   // csrf token
   onMounted(async () => {
-    const { fetchCsrfToken } = useApi()
-    await fetchCsrfToken()
-  })
+    const { fetchCsrfToken } = useApi();
+    await fetchCsrfToken();
+  });
 </script>
 
 <template>
