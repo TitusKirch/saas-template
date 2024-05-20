@@ -5,6 +5,26 @@
       "fallbackTitle": "saas-template",
       "title": "{title} - saas-template"
     },
-    "foo": "EN-bar"
+    "dev": {
+      "card": {
+        "header": {
+          "description": "Here you will find tools that help you to develop and debug your application. Use them to improve your development workflow.",
+          "badge": {
+            "title": "Only for developers"
+          },
+          "title": "Developer tools"
+        }
+      },
+      "code": {
+        "action": {
+          "copy": {
+            "copiedToClipboard": {
+              "title": "Copied!"
+            },
+            "title": "Copy"
+          }
+        }
+      }
+    }
   }
 }

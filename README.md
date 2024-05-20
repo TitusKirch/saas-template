@@ -211,6 +211,8 @@ After that you can copy the generated icons to the `@tituskirch/font-awesome-pro
 pnpm copy
 ```
 
+After that you can remove the line `icons: ['fa6-solid'],` from `packages/app-base/nuxt.config.ts` and uncomment the lines below it. You can also uninstall the package `@iconify-json/fa6-solid` from `@tituskirch/app-base`. After that you can mass replace the `fa6-solid` with `fal` in the code.
+
 ## Disable Features
 
 ### Organization

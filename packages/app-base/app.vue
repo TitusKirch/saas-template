@@ -32,25 +32,65 @@
     const { fetchCsrfToken } = useApi();
     await fetchCsrfToken();
   });
+
+  // notifications
+  const translateNotification = ({ text }: { text: string }) => {
+    // check if text is in the pattern string.string... (e.g. "page.dashboard.index.title")
+    if (text.includes('.') && !text.includes(' ')) {
+      return t(text);
+    }
+
+    return text;
+  };
+  const styleNotification = ({
+    text,
+    skipTranslate = false,
+  }: {
+    text: string;
+    skipTranslate?: boolean;
+  }) => {
+    let result = text;
+
+    // translate if not skipped
+    if (!skipTranslate) {
+      result = translateNotification({ text });
+    }
+
+    // match for "..." and replace with "<strong>...</strong>"
+    return result.replace(/"(.*?)"/g, '"<strong>$1</strong>"');
+  };
 </script>
 
 <template>
-  <div>
-    <Html :lang="head?.htmlAttrs?.lang" :dir="head?.htmlAttrs?.dir" class="h-full">
-      <Head>
-        <Title>{{ title }}</Title>
-        <template v-for="link in head.link" :key="link.id">
-          <Link :id="link.id" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
+  <Html :lang="head?.htmlAttrs?.lang" :dir="head?.htmlAttrs?.dir" class="h-full">
+    <Head>
+      <Title>{{ title }}</Title>
+      <template v-for="link in head.link" :key="link.id">
+        <Link :id="link.id" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
+      </template>
+      <template v-for="meta in head.meta" :key="meta.id">
+        <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
+      </template>
+    </Head>
+    <Body>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+
+      <UNotifications>
+        <template #title="{ title }">
+          <span>{{ translateNotification({ text: title }) }}</span>
         </template>
-        <template v-for="meta in head.meta" :key="meta.id">
-          <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
+        <template #description="{ description }">
+          <span
+            v-html="
+              styleNotification({
+                text: description,
+              })
+            "
+          />
         </template>
-      </Head>
-      <Body class="h-full bg-muted-100 dark:bg-gray-950">
-        <NuxtLayout>
-          <NuxtPage />
-        </NuxtLayout>
-      </Body>
-    </Html>
-  </div>
+      </UNotifications>
+    </Body>
+  </Html>
 </template>

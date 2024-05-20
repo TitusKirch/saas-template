@@ -1,4 +1,10 @@
 <script setup lang="ts">
+  definePageMeta({
+    title: 'page.index.title',
+    description: 'page.index.description',
+  });
+
+  // register
   const { transformRegisterFormToData, register } = useAuth();
   const { data, error, pending, execute } = await register({
     data: transformRegisterFormToData({
@@ -9,27 +15,28 @@
       },
     }),
   });
-
   const clickHandler = async () => {
-    console.info('clickHandler');
     await execute();
   };
 </script>
 
 <template>
-  <div>
-    <p>Web! I have here a change too!</p>
-
-    <div class="h-64 flex justify-center items-center flex-col gap-8">
-      <UButton @click="clickHandler">Register</UButton>
-
-      <pre class="w-1/2 p-8 bg-gray-700">{{ pending }}</pre>
-
-      <pre class="w-1/2 p-8 bg-gray-700">{{ data }}</pre>
-
-      <pre class="w-1/2 p-8 bg-gray-700">{{ error }}</pre>
-
-      <pre class="w-1/2 p-8 bg-gray-700">{{ error?.data?.errors }}</pre>
-    </div>
-  </div>
+  <UContainer>
+    <UPage>
+      <UPageHeader :title="$t('page.index.title')" :description="$t('page.index.description')" />
+      <UPageBody>
+        <PageCardGrid>
+          <UCard>
+            <UButton @click="clickHandler">Register</UButton>
+          </UCard>
+          <DevCard>
+            <DevCode title="pending" :code="pending" />
+            <DevCode title="data" :code="data" />
+            <DevCode title="error" :code="error" />
+            <DevCode title="error?.data?.errors" :code="error?.data?.errors" />
+          </DevCard>
+        </PageCardGrid>
+      </UPageBody>
+    </UPage>
+  </UContainer>
 </template>

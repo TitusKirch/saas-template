@@ -80,12 +80,13 @@ export default defineNuxtConfig({
   ui: {
     global: true,
     safelistColors: ['error', 'info', 'success', 'warning'],
-    icons: {
-      collections: {
-        // fab: faProBrands,
-        // fal: faProLight,
-      },
-    },
+    icons: ['fa6-solid'],
+    // icons: {
+    //   collections: {
+    //     // fab: faProBrands,
+    //     // fal: faProLight,
+    //   },
+    // },
   },
   runtimeConfig: {
     public: {

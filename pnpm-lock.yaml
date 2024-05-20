@@ -87,6 +87,9 @@ importers:
       '@fortawesome/vue-fontawesome':
         specifier: ^3.0.6
         version: 3.0.6(@fortawesome/fontawesome-svg-core@6.5.2)(vue@3.4.27(typescript@5.4.5))
+      '@iconify-json/fa6-solid':
+        specifier: ^1.1.21
+        version: 1.1.21
       '@nuxt/kit':
         specifier: ^3.11.2
         version: 3.11.2(rollup@4.17.2)
@@ -959,6 +962,9 @@ packages:
   '@humanwhocodes/retry@0.2.4':
     resolution: {integrity: sha512-Ttl/jHpxfS3st5sxwICYfk4pOH0WrLI1SpW283GgQL7sCWU7EHIOhX4b4fkIxr3tkfzwg8+FNojtzsIEE7Ecgg==}
     engines: {node: '>=18.18'}
+
+  '@iconify-json/fa6-solid@1.1.21':
+    resolution: {integrity: sha512-+C6F3dFjNdqj8S83ggIXZFsX2CwecFErJKk9dVEZNd0XpNx2iNCNS+K/fl1HLFhYRhS4lb2Rgfi8yVV4MQU7yA==}
 
   '@iconify-json/heroicons@1.1.21':
     resolution: {integrity: sha512-A+3L4KN+TjH3V8fQ2N2dkOOnLLxMgMBzO8RDT0P9YL+YzvLMIbe/lkDLSB8NB8x0DKWmkvTimoo1l4DKMwi7Zg==}
@@ -9165,6 +9171,10 @@ snapshots:
   '@humanwhocodes/object-schema@2.0.3': {}
 
   '@humanwhocodes/retry@0.2.4': {}
+
+  '@iconify-json/fa6-solid@1.1.21':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/heroicons@1.1.21':
     dependencies:
