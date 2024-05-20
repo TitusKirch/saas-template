@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Organization extends Model
+class Organization extends Model implements Auditable
 {
-    use HasFactory, HasSnowflakePrimary;
+    use HasFactory, HasSnowflakePrimary, \OwenIt\Auditing\Auditable;
 
     /**
      * {@inheritDoc}
