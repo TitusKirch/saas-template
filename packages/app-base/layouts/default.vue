@@ -6,15 +6,20 @@
       }"
     >
       <template #logo>
-        <UIcon
-          name="i-fa6-solid-fire"
-          class="w-6 text-primary-500 group-hover:text-primary-600 dark:bg-text-400 dark:group-hover:bg-text-500"
-        />
+        <UIcon name="i-fa6-solid-fire" class="w-6 text-primary-500 group-hover:text-primary-600" />
         <span>{{ $t('app.name') }}</span>
       </template>
 
       <template #right>
         <UColorModeButton />
+
+        <NuxtLinkLocale
+          :to="{
+            name: 'signup',
+          }"
+        >
+          <UButton color="gray" variant="ghost" icon="i-fa6-solid-right-to-bracket" />
+        </NuxtLinkLocale>
       </template>
     </UHeader>
 

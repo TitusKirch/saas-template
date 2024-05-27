@@ -1,5 +1,1 @@
-export const classes = {
-  global: {
-    outer: 'max-w-none',
-  },
-};
+export const classes = {};

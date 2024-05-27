@@ -3,6 +3,8 @@ import { genesisIcons } from '@formkit/icons';
 import { createProPlugin, inputs } from '@formkit/pro';
 import { generateClasses } from '@formkit/themes';
 import { defineFormKitConfig } from '@formkit/vue';
+import { de, en } from '@formkit/i18n';
+
 // NOTE: FA PRO
 // import { fal } from '@fortawesome/pro-light-svg-icons';
 
@@ -39,6 +41,11 @@ export default defineFormKitConfig(() => {
       rootClasses,
       classes: generateClasses(classes),
     },
+    locales: {
+      de,
+      en,
+    },
+    locale: 'en',
     plugins,
     icons: {
       // fallback to formkit icons

@@ -1,7 +1,7 @@
 export default defineAppConfig({
   ui: {
-    primary: 'orange',
-    gray: 'slate',
+    primary: 'sky',
+    gray: 'cool',
     alert: {
       default: {
         variant: 'subtle',
@@ -13,6 +13,7 @@ export default defineAppConfig({
       },
     },
     button: {
+      rounded: 'rounded-full',
       default: {
         loadingIcon: 'i-fa6-solid-arrows-rotate',
       },

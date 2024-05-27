@@ -8,7 +8,7 @@ export default function () {
       password_confirmation: form.password_confirm,
     };
   };
-  const register = ({ data }: { data: AuthRegisterData }) => {
+  const register = ({ data }: { data: Ref<AuthRegisterData | undefined> }) => {
     const { post } = useApi();
 
     return post<AuthRegisterData, AuthRegisterResponse>('register', {

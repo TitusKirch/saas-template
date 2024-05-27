@@ -1,21 +1,26 @@
 export default defineNuxtPlugin(() => {
   const runtimeConfig = useRuntimeConfig();
   // const { session } = useUserSession()
-
   const api = $fetch.create({
     baseURL: `${runtimeConfig.public.apiUrl}/`,
     onRequest({ request, options, error }) {
       const headers = (options.headers ||= {});
+      const addHeader = (key: string, value: string) => {
+        if (Array.isArray(headers)) {
+          headers.push([key, value]);
+        } else if (headers instanceof Headers) {
+          headers.set(key, value);
+        } else {
+          headers[key] = value;
+        }
+      };
 
+      // set headers
+      addHeader('Accept', 'application/json');
+      addHeader('Content-Type', 'application/json');
       const csrfToken = useCookie('XSRF-TOKEN').value;
       if (csrfToken) {
-        if (Array.isArray(headers)) {
-          headers.push(['X-XSRF-TOKEN', csrfToken]);
-        } else if (headers instanceof Headers) {
-          headers.set('X-XSRF-TOKEN', csrfToken);
-        } else {
-          headers['X-XSRF-TOKEN'] = csrfToken;
-        }
+        addHeader('X-XSRF-TOKEN', csrfToken);
       }
 
       const opts: typeof options & {

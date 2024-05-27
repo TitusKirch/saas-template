@@ -5,6 +5,32 @@
       "fallbackTitle": "saas-template",
       "title": "{title} - saas-template"
     },
+    "auth": {
+      "registerForm": {
+        "description": "Already have an account? {0}.",
+        "action": {
+          "login": {
+            "title": "Log in"
+          }
+        },
+        "email": {
+          "label": "Email address"
+        },
+        "email_confirm": {
+          "label": "Confirm email address"
+        },
+        "password": {
+          "label": "Password"
+        },
+        "password_confirm": {
+          "label": "Confirm password"
+        },
+        "submit": {
+          "label": "Register"
+        },
+        "title": "Create an account"
+      }
+    },
     "dev": {
       "card": {
         "header": {
@@ -25,6 +51,16 @@
           }
         }
       }
+    },
+    "form": {
+      "errorsAlert": {
+        "title": "Please correct the following errors:"
+      }
+    }
+  },
+  "global": {
+    "or": {
+      "label": "or"
     }
   }
 }

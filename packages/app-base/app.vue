@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { changeLocale } from '@formkit/vue';
+
   // head
   const route = useRoute();
   const { t } = useI18n();
@@ -28,10 +30,10 @@
   });
 
   // csrf token
-  // onMounted(async () => {
-  const { fetchCsrfToken } = useApi();
-  await fetchCsrfToken();
-  // });
+  onMounted(async () => {
+    const { fetchCsrfToken } = useApi();
+    await fetchCsrfToken();
+  });
 
   // notifications
   const translateNotification = ({ text }: { text: string }) => {
@@ -59,6 +61,13 @@
     // match for "..." and replace with "<strong>...</strong>"
     return result.replace(/"(.*?)"/g, '"<strong>$1</strong>"');
   };
+
+  // set formkit locale
+  const { locale } = useI18n();
+  watch(locale, (newLocale) => {
+    changeLocale(newLocale.split('-')[0]);
+  });
+  changeLocale(locale.value.split('-')[0]);
 </script>
 
 <template>
