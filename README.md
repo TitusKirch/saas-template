@@ -2,7 +2,7 @@
 
 The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.
 
-## Features
+## General
 
 To manage the repository, it uses the pnpm package manager and turborepo.
 
@@ -213,7 +213,25 @@ pnpm copy
 
 After that you can remove the line `icons: ['fa6-solid'],` from `packages/app-base/nuxt.config.ts` and uncomment the lines below it. You can also uninstall the package `@iconify-json/fa6-solid` from `@tituskirch/app-base`. After that you can mass replace the `fa6-solid` with `fal` in the code.
 
-## Disable Features
+## Features
+
+### Localization
+
+To add a new language to the backend you can run the following command (all available languages can be found [here](https://laravel-lang.com/available-locales-list.html)):
+
+```Shell
+cd services/api/
+php artisan lang:add {LANGUAGE_CODE}
+cd ../..
+```
+
+To update the translations you can run the following command:
+
+```Shell
+cd services/api/
+php artisan lang:update
+cd ../..
+```
 
 ### Organization
 
