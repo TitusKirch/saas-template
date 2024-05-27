@@ -18,6 +18,7 @@
   const emits = defineEmits<{
     toggle: [isOpen: boolean];
   }>();
+  const { code } = toRefs(props);
 
   // toggle code
   const isOpen = ref(props.defaultIsOpen);
@@ -44,7 +45,6 @@
   // scrollbar padding
   const codeContainer = ref<HTMLElement | null>(null);
   const codeContainerHasScrollbar = ref(false);
-
   const checkScrollbar = () => {
     if (!codeContainer.value || !isOpen.value) {
       codeContainerHasScrollbar.value = false;
@@ -66,7 +66,7 @@
       checkScrollbar();
     }, 1);
   });
-  watch(props, () => {
+  watch(code, () => {
     setTimeout(() => {
       checkScrollbar();
     }, 1);
