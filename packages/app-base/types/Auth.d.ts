@@ -8,4 +8,4 @@ type AuthRegisterData = Omit<AuthRegisterForm, 'password_confirm'> & {
   name: string;
   password_confirmation: string;
 };
-type AuthRegisterResponse = ApiResponse;
+type AuthRegisterResponse = ApiResponse<AuthRegisterData>;

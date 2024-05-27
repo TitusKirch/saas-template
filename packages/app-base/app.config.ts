@@ -9,7 +9,7 @@ export default defineAppConfig({
     },
     badge: {
       default: {
-        variant: 'subtle',
+        // variant: 'subtle',
       },
     },
     button: {

@@ -28,10 +28,10 @@
   });
 
   // csrf token
-  onMounted(async () => {
-    const { fetchCsrfToken } = useApi();
-    await fetchCsrfToken();
-  });
+  // onMounted(async () => {
+  const { fetchCsrfToken } = useApi();
+  await fetchCsrfToken();
+  // });
 
   // notifications
   const translateNotification = ({ text }: { text: string }) => {

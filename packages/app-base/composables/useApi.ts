@@ -1,9 +1,4 @@
-import type { FetchError } from 'ofetch';
-import type { FetchResult, UseFetchOptions } from '#app';
-import type { NitroFetchRequest, AvailableRouterMethod } from 'nitropack';
-
-// @ts-expect-error - types are not available
-import type { KeysOf } from 'nuxt/dist/app/composables/asyncData';
+import type { UseFetchOptions } from '#app';
 
 export default function () {
   // request
@@ -18,12 +13,10 @@ export default function () {
     return useCookie('XSRF-TOKEN').value || undefined;
   };
   const fetchCsrfToken = async () => {
-    // check if csrf token exists
     if (getCsrfToken()) {
       return;
     }
 
-    // fetch csrf token
     await useFetch(
       getRequest({
         path: 'sanctum/csrf-cookie',
@@ -35,54 +28,32 @@ export default function () {
     );
   };
 
-  // csrf fetch
-  // TODO: see https://github.com/TitusKirch/saas-template/issues/100
-  const csrfFetch = <
-    ResT = void,
-    ErrorT = FetchError,
-    ReqT extends NitroFetchRequest = NitroFetchRequest,
-    Method extends AvailableRouterMethod<ReqT> = ResT extends unknown
-      ? 'get' extends AvailableRouterMethod<ReqT>
-        ? 'get'
-        : AvailableRouterMethod<ReqT>
-      : AvailableRouterMethod<ReqT>,
-    _ResT = ResT extends unknown ? FetchResult<ReqT, Method> : ResT,
-    DataT = _ResT,
-    PickKeys extends KeysOf<DataT> = KeysOf<DataT>,
-    DefaultT = null,
-  >(
-    request: Ref<ReqT> | ReqT | (() => ReqT),
-    opts?: UseFetchOptions<_ResT, DataT, PickKeys, DefaultT, ReqT, Method>
-  ) => {
-    const options = opts || {};
-    return useFetch<DataT, ErrorT>(request, {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...(options as any),
-      headers: {
-        ...options.headers,
-        'X-XSRF-TOKEN': getCsrfToken() || '',
-      },
-      credentials: 'include',
-    });
+  type FetchUrl = string | (() => string);
+  type FetchOptions<ResponseT> = Omit<ApiFetchOptions & UseFetchOptions<ResponseT>, 'default'> & {
+    default?: () => ResponseT | Ref<ResponseT>;
   };
 
-  // fetch
   const fetchWrapper = <
     RequestDataT = ApiRequestData,
     ResponseT = ApiResponse | ApiResourceResponse,
     ErrorT = ApiErrorResponse<RequestDataT>,
   >(
-    request: string,
-    opts?: UseFetchOptions<ResponseT>
+    url: FetchUrl,
+    opts: FetchOptions<ResponseT> = {}
   ) => {
-    // try to auto apply getRequest
-    let req = request;
-    if (typeof req === 'string' && !req.startsWith('http')) {
-      req = getRequest({ path: req });
+    const options = opts || {};
+    if (!options.prefix) {
+      options.prefix = 'api';
     }
 
-    return csrfFetch<ResponseT, FetchError<ErrorT>>(req, {
-      ...opts,
+    return useFetch<
+      ResponseT,
+      {
+        data: ErrorT;
+      }
+    >(url, {
+      ...options,
+      $fetch: useNuxtApp().$api,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
   };
@@ -93,10 +64,10 @@ export default function () {
     ResponseT = ApiResponse | ApiResourceResponse,
     ErrorT = ApiErrorResponse<RequestDataT>,
   >(
-    request: string,
-    opts?: UseFetchOptions<ResponseT>
+    url: FetchUrl,
+    opts: FetchOptions<ResponseT> = {}
   ) => {
-    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(url, {
       ...opts,
       method: 'GET',
     });
@@ -106,10 +77,10 @@ export default function () {
     ResponseT = ApiResponse | ApiResourceResponse,
     ErrorT = ApiErrorResponse<RequestDataT>,
   >(
-    request: string,
-    opts?: UseFetchOptions<ResponseT>
+    url: FetchUrl,
+    opts: FetchOptions<ResponseT> = {}
   ) => {
-    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(url, {
       ...opts,
       method: 'POST',
     });
@@ -119,10 +90,10 @@ export default function () {
     ResponseT = ApiResponse | ApiResourceResponse,
     ErrorT = ApiErrorResponse<RequestDataT>,
   >(
-    request: string,
-    opts?: UseFetchOptions<ResponseT>
+    url: FetchUrl,
+    opts: FetchOptions<ResponseT> = {}
   ) => {
-    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(url, {
       ...opts,
       method: 'PUT',
     });
@@ -132,10 +103,10 @@ export default function () {
     ResponseT = ApiResponse | ApiResourceResponse,
     ErrorT = ApiErrorResponse<RequestDataT>,
   >(
-    request: string,
-    opts?: UseFetchOptions<ResponseT>
+    url: FetchUrl,
+    opts: FetchOptions<ResponseT> = {}
   ) => {
-    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(url, {
       ...opts,
       method: 'PATCH',
     });
@@ -145,10 +116,10 @@ export default function () {
     ResponseT = ApiResponse | ApiResourceResponse,
     ErrorT = ApiErrorResponse<RequestDataT>,
   >(
-    request: string,
-    opts?: UseFetchOptions<ResponseT>
+    url: FetchUrl,
+    opts: FetchOptions<ResponseT> = {}
   ) => {
-    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(request, {
+    return fetchWrapper<RequestDataT, ResponseT, ErrorT>(url, {
       ...opts,
       method: 'DELETE',
     });
@@ -157,7 +128,6 @@ export default function () {
   return {
     getRequest,
     fetchCsrfToken,
-    csrfFetch,
     fetchWrapper,
     get,
     post,

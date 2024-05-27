@@ -11,3 +11,8 @@ type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = {
     ? Record<string, string[]>
     : Record<keyof RequestDataT, string[]>;
 };
+
+type ApiFetchOptions = {
+  prefix?: string;
+  version?: string;
+};

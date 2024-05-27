@@ -1,15 +1,4 @@
-import type { UseFetchOptions } from '#app';
-
 export default function () {
-  // request
-  const getRequest = ({ path }: { path: string }) => {
-    const { getRequest: getApiRequest } = useApi();
-
-    return getApiRequest({
-      path: `auth/${path}`,
-    });
-  };
-
   // registration
   const transformRegisterFormToData = ({ form }: { form: AuthRegisterForm }): AuthRegisterData => {
     return {
@@ -19,26 +8,18 @@ export default function () {
       password_confirmation: form.password_confirm,
     };
   };
-  const register = ({
-    data,
-    options = {
-      immediate: false,
-      watch: false,
-    },
-  }: {
-    data: AuthRegisterData;
-    options?: UseFetchOptions<AuthRegisterResponse>;
-  }) => {
+  const register = ({ data }: { data: AuthRegisterData }) => {
     const { post } = useApi();
 
-    return post<AuthRegisterData, AuthRegisterResponse>(getRequest({ path: 'register' }), {
-      ...options,
+    return post<AuthRegisterData, AuthRegisterResponse>('register', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
       body: data,
     });
   };
 
   return {
-    getRequest,
     transformRegisterFormToData,
     register,
   };
