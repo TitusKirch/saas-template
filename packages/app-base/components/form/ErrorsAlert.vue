@@ -1,20 +1,18 @@
 <script setup lang="ts">
   defineProps<{
-    errorMessages: string[];
+    errorMessages: Record<string, string>;
   }>();
 </script>
 
 <template>
   <BaseAlert
-    v-if="errorMessages.length"
+    v-if="Object.keys(errorMessages).length > 0"
     type="error"
     :title="$t('base.form.errorsAlert.title')"
     class="mb-8"
   >
     <template #description>
-      <ul class="list-disc list-inside">
-        <li v-for="errorMessage in errorMessages">{{ errorMessage }}</li>
-      </ul>
+      <BaseAlertList :items="errorMessages" />
     </template>
   </BaseAlert>
 </template>

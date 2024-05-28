@@ -6,6 +6,24 @@
       "title": "{title} - saas-template"
     },
     "auth": {
+      "loginForm": {
+        "description": "Don't have an account? {0}.",
+        "action": {
+          "register": {
+            "title": "Register"
+          }
+        },
+        "email": {
+          "label": "Email address"
+        },
+        "password": {
+          "label": "Password"
+        },
+        "submit": {
+          "label": "Log in"
+        },
+        "title": "Log in"
+      },
       "registerForm": {
         "description": "Already have an account? {0}.",
         "action": {

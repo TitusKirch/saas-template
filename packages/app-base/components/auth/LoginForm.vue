@@ -4,32 +4,27 @@
   import { getValidationMessages } from '@formkit/validation';
 
   // form setup
-  type Form = AuthRegisterForm;
+  type Form = AuthLoginForm;
   const form: Ref<Form> = ref({
     email: 'test@example.com',
-    email_confirm: 'test@example.com',
     password: 'test@example.com',
-    password_confirm: 'test@example.com',
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
+  const errorMessages: Ref<string[]> = ref([]);
 
   // submit handling
-  const { transformRegisterFormToData, register } = useAuth();
-  const registerData: Ref<AuthRegisterData | undefined> = ref();
-  const { data, error, status, execute } = await register({
-    data: registerData,
+  const { login } = useAuth();
+  const { data, error, status, execute } = await login({
+    data: form,
   });
   const submit = async (data: Form, node: FormKitNode) => {
-    registerData.value = transformRegisterFormToData({
-      form: form.value,
-    });
     await execute();
     if (error.value?.data?.errors) {
-      errorMessages.value = {};
+      const fieldSpecificErrors: Record<string, string> = {};
       for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
+        fieldSpecificErrors[key] = error.value.data.errors[key][0];
       }
-      node.setErrors([], errorMessages.value);
+      node.setErrors([], fieldSpecificErrors);
+      errorMessages.value = Object.values(fieldSpecificErrors);
       return false;
     }
   };
@@ -37,20 +32,13 @@
   // error handling
   const showErrors = (node: FormKitNode) => {
     const validations = getValidationMessages(node);
-    errorMessages.value = {};
+    errorMessages.value = [];
     validations.forEach((inputMessages: FormKitMessage[]) => {
       errorMessages.value = errorMessages.value.concat(
         inputMessages.map((message: FormKitMessage) => message.value as string)
       );
     });
   };
-  watch(form, (newValue: Form, oldValue: Form) => {
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] !== oldValue[key]) {
-        delete errorMessages.value[key];
-      }
-    }
-  });
 
   // third party providers
   const { thirdPartyProviders } = useAuth();
@@ -65,20 +53,20 @@
         </div>
 
         <p class="text-2xl text-gray-900 dark:text-white font-bold">
-          {{ $t('base.auth.registerForm.title') }}
+          {{ $t('base.auth.loginForm.title') }}
         </p>
 
         <i18n-t
-          keypath="base.auth.registerForm.description"
+          keypath="base.auth.loginForm.description"
           tag="p"
           class="text-gray-500 dark:text-gray-400 mt-1"
         >
           <NuxtLinkLocale
             :to="{
-              name: 'login',
+              name: 'register',
             }"
             class="text-primary-500 font-medium"
-            >{{ $t('base.auth.registerForm.action.login.title') }}</NuxtLinkLocale
+            >{{ $t('base.auth.loginForm.action.register.title') }}</NuxtLinkLocale
           >
         </i18n-t>
       </div>
@@ -89,45 +77,31 @@
         :actions="false"
         @submit="submit"
         @submit-invalid="showErrors"
-        #default="{ state: { valid } }"
       >
         <FormErrorsAlert :error-messages="errorMessages" />
 
         <FormKit
           type="email"
           name="email"
-          :label="$t('base.auth.registerForm.email.label')"
+          :label="$t('base.auth.loginForm.email.label')"
           validation="required|email"
-        />
-        <FormKit
-          type="email"
-          name="email_confirm"
-          :label="$t('base.auth.registerForm.email_confirm.label')"
-          validation="required|email|confirm"
         />
         <FormKit
           type="password"
           name="password"
-          :label="$t('base.auth.registerForm.password.label')"
+          :label="$t('base.auth.loginForm.password.label')"
           validation="required"
-        />
-        <FormKit
-          type="password"
-          name="password_confirm"
-          :label="$t('base.auth.registerForm.password_confirm.label')"
-          validation="required|confirm"
         />
 
         <UButton
           type="submit"
           block
-          :disabled="!valid"
           :loading="status === 'pending'"
           icon="i-fa6-solid-right-to-bracket"
           :ui="{
             base: 'mt-8',
           }"
-          >{{ $t('base.auth.registerForm.submit.label') }}</UButton
+          >{{ $t('base.auth.loginForm.submit.label') }}</UButton
         >
       </FormKit>
 

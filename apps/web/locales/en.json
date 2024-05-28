@@ -4,8 +4,16 @@
   },
   "page": {
     "index": {
-      "description": "Welcome to the home page",
+      "description": "Welcome to the home page.",
       "title": "Home"
+    },
+    "login": {
+      "description": "Here you can login to your account.",
+      "title": "Login"
+    },
+    "register": {
+      "description": "Here you can register a new account.",
+      "title": "Register"
     }
   }
 }

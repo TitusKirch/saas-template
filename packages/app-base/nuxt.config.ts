@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { withoutTrailingSlash } from 'ufo';
 
 // NOTE: FA PRO
 // import { faProBrands, faProLight } from '@tituskirch/font-awesome-pro-iconify';
@@ -61,8 +62,8 @@ export default defineNuxtConfig({
   security: {
     corsHandler: {
       origin: [
-        process.env.BASE_URL || 'http://localhost:3000',
-        process.env.API_URL || 'http://localhost:8000',
+        withoutTrailingSlash(process.env.BASE_URL) || 'http://localhost:3000',
+        withoutTrailingSlash(process.env.API_URL) || 'http://localhost:8000',
       ],
     },
     headers: {
@@ -90,12 +91,12 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+      baseUrl: withoutTrailingSlash(process.env.BASE_URL) || 'http://localhost:3000',
       nodeEnv: process.env.NODE_ENV || 'production',
       appName: process.env.APP_NAME || 'unkown app',
       appVersion: process.env.APP_VERSION || 'latest',
       formkitProKey: (process.env.FORMKIT_PRO_KEY as string) || '',
-      apiUrl: process.env.API_URL || 'http://localhost:8000',
+      apiUrl: withoutTrailingSlash(process.env.API_URL) || 'http://localhost:8000',
     },
   },
 });

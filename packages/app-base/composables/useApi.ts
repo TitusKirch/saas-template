@@ -1,32 +1,21 @@
 import type { UseFetchOptions } from '#app';
 
 export default function () {
-  // request
-  const getRequest = ({ path }: { path: string }) => {
-    const runtimeConfig = useRuntimeConfig();
-
-    return `${runtimeConfig.public.apiUrl}/${path}`;
-  };
-
   // csrf token
-  const getCsrfToken = () => {
-    return useCookie('XSRF-TOKEN').value || undefined;
-  };
-  const fetchCsrfToken = async () => {
-    if (getCsrfToken()) {
-      return;
-    }
+  // const getCsrfToken = () => {
+  //   return useCookie('XSRF-TOKEN').value || undefined;
+  // };
+  // const fetchCsrfToken = async () => {
+  //   if (getCsrfToken()) {
+  //     return;
+  //   }
 
-    await useFetch(
-      getRequest({
-        path: 'sanctum/csrf-cookie',
-      }),
-      {
-        method: 'GET',
-        credentials: 'include',
-      }
-    );
-  };
+  //   await get('csrf-cookie', {
+  //     prefix: 'sanctum',
+  //     version: false,
+  //     setCsrfToken: false,
+  //   });
+  // };
 
   type FetchUrl = string | (() => string);
   type FetchOptions<ResponseT> = Omit<ApiFetchOptions & UseFetchOptions<ResponseT>, 'default'> & {
@@ -42,8 +31,8 @@ export default function () {
     opts: FetchOptions<ResponseT> = {}
   ) => {
     const options = opts || {};
-    if (!options.prefix) {
-      options.prefix = 'api';
+    if (!options.version && options.version !== false) {
+      options.version = 'v1';
     }
 
     return useFetch<
@@ -126,8 +115,7 @@ export default function () {
   };
 
   return {
-    getRequest,
-    fetchCsrfToken,
+    // fetchCsrfToken,
     fetchWrapper,
     get,
     post,

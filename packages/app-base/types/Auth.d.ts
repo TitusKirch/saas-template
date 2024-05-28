@@ -1,3 +1,11 @@
+type AuthLoginForm = {
+  email: string;
+  password: string;
+};
+
+type AuthLoginData = AuthLoginForm;
+type AuthLoginResponse = ApiResponse<AuthLoginData>;
+
 type AuthRegisterForm = {
   email: string;
   email_confirm: string;
