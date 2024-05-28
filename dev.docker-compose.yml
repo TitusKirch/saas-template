@@ -56,7 +56,7 @@ services:
       POSTGRES_USER: 'laravel'
       POSTGRES_PASSWORD: 'laravel'
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ['CMD-SHELL', 'pg_isready -U laravel']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -88,7 +88,7 @@ services:
       POSTGRES_USER: 'pulse'
       POSTGRES_PASSWORD: 'pulse'
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ['CMD-SHELL', 'pg_isready -U pulse']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -120,7 +120,7 @@ services:
       POSTGRES_USER: 'telescope'
       POSTGRES_PASSWORD: 'telescope'
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ['CMD-SHELL', 'pg_isready -U telescope']
       interval: 5s
       timeout: 5s
       retries: 5
