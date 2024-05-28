@@ -64,8 +64,8 @@ importers:
   packages/app-base:
     dependencies:
       '@formkit/addons':
-        specifier: ^1.6.2
-        version: 1.6.2
+        specifier: ^1.6.4
+        version: 1.6.4
       '@formkit/icons':
         specifier: ^1.6.2
         version: 1.6.2
@@ -74,7 +74,7 @@ importers:
         version: 1.6.2(rollup@4.17.2)(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))(unocss@0.59.4(postcss@8.4.38)(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0)))(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))(vue@3.4.27(typescript@5.4.5))
       '@formkit/pro':
         specifier: ^0.125.4
-        version: 0.125.4(@formkit/core@1.6.2)(@formkit/inputs@1.6.2)
+        version: 0.125.4(@formkit/core@1.6.4)(@formkit/inputs@1.6.4)
       '@fortawesome/fontawesome-common-types':
         specifier: ^6.5.2
         version: 6.5.2
@@ -654,14 +654,17 @@ packages:
   '@floating-ui/utils@0.2.2':
     resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
 
-  '@formkit/addons@1.6.2':
-    resolution: {integrity: sha512-5VtRxdsLtbOtMxmrNPIQS9vKXN//zzF6sJ4Br1r2fU9CllXlGxkCUt/y5lMdSSFtQ5imvs/+DpMzdWkcJQZ/eA==}
+  '@formkit/addons@1.6.4':
+    resolution: {integrity: sha512-IsEWcHm0ab8dV8555ZykTkGrWPAOc/XRq+4S+6J9bgyss7qtoX+BTFNgDjlufD/TQnZ+7pKgYDR6jJeuVm4LtA==}
 
   '@formkit/auto-animate@0.8.2':
     resolution: {integrity: sha512-SwPWfeRa5veb1hOIBMdzI+73te5puUBHmqqaF1Bu7FjvxlYSz/kJcZKSa9Cg60zL0uRNeJL2SbRxV6Jp6Q1nFQ==}
 
   '@formkit/core@1.6.2':
     resolution: {integrity: sha512-48LGugLoQ9QR/GDvsVwviMQ/lk9rWA0iDy8Zg9BXPn0nfuWr5EW2IOTEZW3ZX8mAyvVZ4s+Xt5S40la8Sj5GTA==}
+
+  '@formkit/core@1.6.4':
+    resolution: {integrity: sha512-6Y6tW7kr5jGycQ1cVM4YwF7INDtuAvWYgcFQOVzMWE4iqaZpQVVzK+M0DDtE/xEbSWMaw5hqoPGjQCOo3OkvgQ==}
 
   '@formkit/dev@1.6.2':
     resolution: {integrity: sha512-fSMSSGC+hz0x2EKdsDGWwqfZaam+XP/F4Trgis+IhjPyj/Pbkyh+lHi1QR3mhNaxENcE2Pq1sfaTQeahnaAqNw==}
@@ -677,6 +680,9 @@ packages:
 
   '@formkit/inputs@1.6.2':
     resolution: {integrity: sha512-Fe0xz6npjjoq+A/KupyzRTWUs0/Y5j8Ewh6XB8QMDMdutDeDamumsdZN6Mi9ilnQctZkPn6jKUPUGXRyMCfVDw==}
+
+  '@formkit/inputs@1.6.4':
+    resolution: {integrity: sha512-HRJvjBVim7udwXDkxgGWUKns4nWaUuVK66J8te45UiwpQK4bn1rAgYLsNJH+NrWzSObnu1GH5ZqU5Rx4zsVpGw==}
 
   '@formkit/nuxt@1.6.2':
     resolution: {integrity: sha512-6bqsdX/X6Cj2BtL5s4CMIGBmXge2/yH9P+q9f2eVGpJzdbe+O2SN/HD+j3kBjugCuE/wE2B2cQ6LUHOcRS8DRQ==}
@@ -712,6 +718,9 @@ packages:
 
   '@formkit/utils@1.6.2':
     resolution: {integrity: sha512-H7ai+AbemaF9okM2fUeHQUBEiGmiyXX/4M/P1ANI9C3nAqsPewmZucLH0QxihkjuMYOwO+MnHbG3rLS7FAkxig==}
+
+  '@formkit/utils@1.6.4':
+    resolution: {integrity: sha512-etcShj6RmFXQ+5OZ1qYSn9x+SWKGVGd6nZd3MSmiMWQ6n5FzuyX/y+XrvU9nX7xxF5l3TFCK/AQeMEZo2ujr8w==}
 
   '@formkit/validation@1.6.2':
     resolution: {integrity: sha512-2Xtp6tlPqMOAmyTKUbMpGIs+siYFbnI4dxrJBSkWKXj1qrCSitJGwU1NXpHeP9QuhyC19pUPIG52iNVlI9czNg==}
@@ -2172,6 +2181,7 @@ packages:
   are-we-there-yet@2.0.0:
     resolution: {integrity: sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw==}
     engines: {node: '>=10'}
+    deprecated: This package is no longer supported.
 
   arg@4.1.3:
     resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
@@ -3419,6 +3429,7 @@ packages:
   gauge@3.0.2:
     resolution: {integrity: sha512-+5J6MS/5XksCuXq++uFRsnUd7Ovu1XenbeuIuNRJxYWjgQbPuFhT14lAvsWfqfAmnwluf1OwMjz39HjfLPci0Q==}
     engines: {node: '>=10'}
+    deprecated: This package is no longer supported.
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -3493,10 +3504,12 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -3714,6 +3727,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
@@ -4549,6 +4563,7 @@ packages:
 
   npmlog@5.0.1:
     resolution: {integrity: sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw==}
+    deprecated: This package is no longer supported.
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -5276,6 +5291,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rollup-plugin-visualizer@5.12.0:
@@ -5639,6 +5655,7 @@ packages:
   svgo@3.3.0:
     resolution: {integrity: sha512-y350OL6eAmhDbWcASdukXoG0MbpdfJQPHwEUAaTW1HBNSO2VErJ35fs7uNLSWjzFDhfua517RcouBzjZoO1JFg==}
     engines: {node: '>=14.0.0'}
+    deprecated: introduced breaking changes, reverted in v3.3.2
     hasBin: true
 
   symbol-tree@3.2.4:
@@ -6910,18 +6927,22 @@ snapshots:
 
   '@floating-ui/utils@0.2.2': {}
 
-  '@formkit/addons@1.6.2':
+  '@formkit/addons@1.6.4':
     dependencies:
       '@formkit/auto-animate': 0.8.2
-      '@formkit/core': 1.6.2
-      '@formkit/inputs': 1.6.2
-      '@formkit/utils': 1.6.2
+      '@formkit/core': 1.6.4
+      '@formkit/inputs': 1.6.4
+      '@formkit/utils': 1.6.4
 
   '@formkit/auto-animate@0.8.2': {}
 
   '@formkit/core@1.6.2':
     dependencies:
       '@formkit/utils': 1.6.2
+
+  '@formkit/core@1.6.4':
+    dependencies:
+      '@formkit/utils': 1.6.4
 
   '@formkit/dev@1.6.2':
     dependencies:
@@ -6944,6 +6965,11 @@ snapshots:
     dependencies:
       '@formkit/core': 1.6.2
       '@formkit/utils': 1.6.2
+
+  '@formkit/inputs@1.6.4':
+    dependencies:
+      '@formkit/core': 1.6.4
+      '@formkit/utils': 1.6.4
 
   '@formkit/nuxt@1.6.2(rollup@4.17.2)(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))(unocss@0.59.4(postcss@8.4.38)(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0)))(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))(vue@3.4.27(typescript@5.4.5))':
     dependencies:
@@ -6971,11 +6997,11 @@ snapshots:
       '@formkit/core': 1.6.2
       '@formkit/utils': 1.6.2
 
-  '@formkit/pro@0.125.4(@formkit/core@1.6.2)(@formkit/inputs@1.6.2)':
+  '@formkit/pro@0.125.4(@formkit/core@1.6.4)(@formkit/inputs@1.6.4)':
     dependencies:
-      '@formkit/core': 1.6.2
+      '@formkit/core': 1.6.4
       '@formkit/drag-and-drop': 0.0.30
-      '@formkit/inputs': 1.6.2
+      '@formkit/inputs': 1.6.4
       '@formkit/tempo': 0.0.8
 
   '@formkit/rules@1.6.2':
@@ -6994,6 +7020,8 @@ snapshots:
       unocss: 0.59.4(postcss@8.4.38)(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))
 
   '@formkit/utils@1.6.2': {}
+
+  '@formkit/utils@1.6.4': {}
 
   '@formkit/validation@1.6.2':
     dependencies:
