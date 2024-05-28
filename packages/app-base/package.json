@@ -18,7 +18,7 @@
   "dependencies": {
     "@formkit/addons": "^1.6.2",
     "@formkit/icons": "^1.6.2",
-    "@formkit/nuxt": "^1.6.2",
+    "@formkit/nuxt": "^1.6.4",
     "@formkit/pro": "^0.125.4",
     "@fortawesome/fontawesome-common-types": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
