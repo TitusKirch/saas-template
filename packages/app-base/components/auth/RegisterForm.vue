@@ -6,10 +6,10 @@
   // form setup
   type Form = AuthRegisterForm;
   const form: Ref<Form> = ref({
-    email: 'test@example.com',
-    email_confirm: 'test@example.com',
-    password: 'test@example.com',
-    password_confirm: 'test@example.com',
+    email: '',
+    email_confirm: '',
+    password: '',
+    password_confirm: '',
   });
   const errorMessages: Ref<Record<string, string>> = ref({});
 
@@ -62,91 +62,69 @@
   const providers = thirdPartyProviders();
 </script>
 <template>
-  <div>
-    <div class="space-y-6">
-      <div class="text-center">
-        <div class="mb-2 pointer-events-none">
-          <UIcon name="i-fa6-solid-fire" class="w-8 h-8 flex-shrink-0 text-primary-500" />
-        </div>
-
-        <p class="text-2xl text-gray-900 dark:text-white font-bold">
-          {{ $t('base.auth.registerForm.title') }}
-        </p>
-
-        <i18n-t
-          keypath="base.auth.registerForm.description"
-          tag="p"
-          class="text-gray-500 dark:text-gray-400 mt-1"
-        >
-          <NuxtLinkLocale
-            :to="{
-              name: 'login',
-            }"
-            class="text-primary-500 font-medium"
-            >{{ $t('base.auth.registerForm.action.login.title') }}</NuxtLinkLocale
-          >
-        </i18n-t>
-      </div>
+  <div class="space-y-6">
+    <FormKit
+      type="form"
+      v-model="form"
+      :actions="false"
+      @submit="submit"
+      #default="{ state: { valid } }"
+    >
+      <FormErrorsAlert :error-messages="errorMessages" />
 
       <FormKit
-        type="form"
-        v-model="form"
-        :actions="false"
-        @submit="submit"
-        #default="{ state: { valid } }"
+        type="email"
+        name="email"
+        :label="$t('global.email.label')"
+        validation="required|email"
+        :placeholder="usePlaceholder({ type: 'email' })"
+      />
+      <FormKit
+        type="email"
+        name="email_confirm"
+        :label="$t('global.email_confirm.label')"
+        validation="required|email|confirm"
+        :placeholder="usePlaceholder({ type: 'email' })"
+      />
+      <FormKit
+        type="password"
+        name="password"
+        :label="$t('global.password.label')"
+        validation="required"
+        :placeholder="usePlaceholder({ type: 'password' })"
+      />
+      <FormKit
+        type="password"
+        name="password_confirm"
+        :label="$t('global.password_confirm.label')"
+        validation="required|confirm"
+        :placeholder="usePlaceholder({ type: 'password' })"
+      />
+
+      <UButton
+        type="submit"
+        block
+        :disabled="!valid || Object.keys(errorMessages).length"
+        :loading="status === 'pending' || (status !== 'idle' && !error)"
+        icon="i-fa6-solid-right-to-bracket"
+        :ui="{
+          base: 'mt-8',
+        }"
+        >{{ $t('global.action.register.label') }}</UButton
       >
-        <FormErrorsAlert :error-messages="errorMessages" />
+    </FormKit>
 
-        <FormKit
-          type="email"
-          name="email"
-          :label="$t('base.auth.registerForm.email.label')"
-          validation="required|email"
-        />
-        <FormKit
-          type="email"
-          name="email_confirm"
-          :label="$t('base.auth.registerForm.email_confirm.label')"
-          validation="required|email|confirm"
-        />
-        <FormKit
-          type="password"
-          name="password"
-          :label="$t('base.auth.registerForm.password.label')"
-          validation="required"
-        />
-        <FormKit
-          type="password"
-          name="password_confirm"
-          :label="$t('base.auth.registerForm.password_confirm.label')"
-          validation="required|confirm"
-        />
+    <UDivider :label="$t('global.or.label')" />
 
-        <UButton
-          type="submit"
-          block
-          :disabled="!valid || Object.keys(errorMessages).length"
-          :loading="status === 'pending' || (status !== 'idle' && !error)"
-          icon="i-fa6-solid-right-to-bracket"
-          :ui="{
-            base: 'mt-8',
-          }"
-          >{{ $t('base.auth.registerForm.submit.label') }}</UButton
-        >
-      </FormKit>
-
-      <UDivider :label="$t('global.or.label')" />
-
-      <div v-if="providers?.length" class="space-y-3">
-        <UButton
-          v-for="(provider, index) in providers"
-          :key="index"
-          v-bind="provider"
-          color="gray"
-          block
-          @click="provider.click"
-        />
-      </div>
+    <div v-if="providers?.length" class="space-y-3">
+      <UButton
+        v-for="(provider, index) in providers"
+        :key="index"
+        v-bind="provider"
+        color="gray"
+        block
+        @click="provider.click"
+      />
     </div>
   </div>
 </template>

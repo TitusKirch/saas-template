@@ -9,10 +9,26 @@
     },
     "login": {
       "description": "Here you can login to your account.",
-      "title": "Login"
+      "authCard": {
+        "description": "Don't have an account? {0}.",
+        "title": "Log in"
+      },
+      "title": "Log in"
+    },
+    "logout": {
+      "description": "You have been logged out.",
+      "authCard": {
+        "description": "You have been successfully logged out and will be redirected to the login page in a few seconds. {0}.",
+        "title": "Successfully logged out"
+      },
+      "title": "Log out"
     },
     "register": {
       "description": "Here you can register a new account.",
+      "authCard": {
+        "description": "Already have an account? {0}.",
+        "title": "Create an account"
+      },
       "title": "Register"
     }
   }

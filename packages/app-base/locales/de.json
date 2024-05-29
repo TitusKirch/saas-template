@@ -1,5 +1,13 @@
 {
   "base": {
     "foo": "DE-bar"
+  },
+  "global": {
+    "email": {
+      "placeholder": {
+        "female": "erika.mustermann{'@'}beispiel.de",
+        "male": "max.mustermann{'@'}beispiel.de"
+      }
+    }
   }
 }

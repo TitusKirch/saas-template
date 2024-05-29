@@ -15,7 +15,7 @@
 
         <NuxtLinkLocale
           :to="{
-            name: 'login',
+            name: 'logout',
           }"
         >
           <UButton color="gray" variant="ghost" icon="i-fa6-solid-right-to-bracket" />

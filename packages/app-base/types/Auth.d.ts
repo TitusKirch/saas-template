@@ -6,6 +6,9 @@ type AuthLoginForm = {
 type AuthLoginData = AuthLoginForm;
 type AuthLoginResponse = ApiResponse<AuthLoginData>;
 
+type AuthLogoutData = undefined;
+type AuthLogoutResponse = ApiResponse<AuthLogoutData>;
+
 type AuthRegisterForm = {
   email: string;
   email_confirm: string;

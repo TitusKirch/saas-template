@@ -5,50 +5,6 @@
       "fallbackTitle": "saas-template",
       "title": "{title} - saas-template"
     },
-    "auth": {
-      "loginForm": {
-        "description": "Don't have an account? {0}.",
-        "action": {
-          "register": {
-            "title": "Register"
-          }
-        },
-        "email": {
-          "label": "Email address"
-        },
-        "password": {
-          "label": "Password"
-        },
-        "submit": {
-          "label": "Log in"
-        },
-        "title": "Log in"
-      },
-      "registerForm": {
-        "description": "Already have an account? {0}.",
-        "action": {
-          "login": {
-            "title": "Log in"
-          }
-        },
-        "email": {
-          "label": "Email address"
-        },
-        "email_confirm": {
-          "label": "Confirm email address"
-        },
-        "password": {
-          "label": "Password"
-        },
-        "password_confirm": {
-          "label": "Confirm password"
-        },
-        "submit": {
-          "label": "Register"
-        },
-        "title": "Create an account"
-      }
-    },
     "dev": {
       "card": {
         "header": {
@@ -77,8 +33,32 @@
     }
   },
   "global": {
+    "action": {
+      "login": {
+        "label": "Log in"
+      },
+      "register": {
+        "label": "Register"
+      }
+    },
+    "email": {
+      "label": "Email address",
+      "placeholder": {
+        "female": "jane.doe{'@'}example.com",
+        "male": "john.doe{'@'}example.com"
+      }
+    },
+    "email_confirm": {
+      "label": "Confirm email address"
+    },
     "or": {
       "label": "or"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "password_confirm": {
+      "label": "Confirm password"
     }
   }
 }

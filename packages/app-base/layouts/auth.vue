@@ -7,15 +7,17 @@
 </script>
 
 <template>
-  <div class="h-screen flex justify-center overlay">
+  <div class="h-screen overlay">
     <div class="gradient" />
 
     <UMain
       :ui="{
-        wrapper: 'max-w-sm w-full flex flex-col justify-center',
+        wrapper: 'flex items-center justify-center',
       }"
     >
-      <slot />
+      <div class="max-w-sm w-full">
+        <slot />
+      </div>
     </UMain>
   </div>
 </template>

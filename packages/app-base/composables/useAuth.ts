@@ -12,6 +12,18 @@ export default function () {
     });
   };
 
+  // logout
+  const logout = () => {
+    const { post } = useApi();
+
+    return post<AuthLogoutData, AuthLogoutResponse>('logout', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+    });
+  };
+
   // registration
   const transformRegisterFormToData = ({ form }: { form: AuthRegisterForm }): AuthRegisterData => {
     return {
@@ -53,6 +65,7 @@ export default function () {
 
   return {
     login,
+    logout,
     transformRegisterFormToData,
     register,
     thirdPartyProviders,
