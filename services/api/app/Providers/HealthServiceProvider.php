@@ -31,6 +31,7 @@ class HealthServiceProvider extends ServiceProvider
             CacheCheck::new(),
             // DatabaseCheck::new()->name('database:horizon')->connectionName('horizon'),
             DatabaseCheck::new()->name('database:default'),
+            DatabaseCheck::new()->name('database:health')->connectionName('health'),
             DatabaseCheck::new()->name('database:pulse')->connectionName('pulse'),
             DatabaseCheck::new()->name('database:telescope')->connectionName('telescope'),
             DebugModeCheck::new(),

@@ -124,6 +124,21 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'health' => [
+            'driver' => 'pgsql',
+            'url' => env('HEALTH_DB_URL'),
+            'host' => env('HEALTH_DB_HOST', '127.0.0.1'),
+            'port' => env('HEALTH_DB_PORT', '5432'),
+            'database' => env('HEALTH_DB_DATABASE', 'pulse'),
+            'username' => env('HEALTH_DB_USERNAME', 'pulse'),
+            'password' => env('HEALTH_DB_PASSWORD', ''),
+            'charset' => env('HEALTH_DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'telescope' => [
             'driver' => 'pgsql',
             'url' => env('TELESCOPE_DB_URL'),

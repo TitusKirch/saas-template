@@ -9,6 +9,8 @@ volumes:
     driver: local
   service-api-pulse-valkey-volume:
     driver: local
+  service-api-health-postgres-volume:
+    driver: local
   service-api-telescope-postgres-volume:
     driver: local
 
@@ -109,6 +111,23 @@ services:
       timeout: 5s
     volumes:
       - 'service-api-pulse-valkey-volume:/data'
+
+  service-api-health-postgres:
+    image: 'postgres:16.3'
+    restart: unless-stopped
+    ports:
+      - '5435:5432'
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: 'health'
+      POSTGRES_PASSWORD: 'health'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U health']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - 'service-api-health-postgres-volume:/var/lib/postgresql/data'
 
   service-api-telescope-postgres:
     image: 'postgres:16.3'
