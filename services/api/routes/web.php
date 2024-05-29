@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'index']);
 Route::get('/debug', [AppController::class, 'debug']);
+Route::get('/health', \Spatie\Health\Http\Controllers\HealthCheckResultsController::class);
+Route::get('/health/json', \Spatie\Health\Http\Controllers\HealthCheckJsonResultsController::class);
 
 Route::group([
     'prefix' => 'v1',
