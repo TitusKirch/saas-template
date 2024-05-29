@@ -16,7 +16,7 @@
   // submit handling
   const { transformRegisterFormToData, register } = useAuth();
   const registerData: Ref<AuthRegisterData | undefined> = ref();
-  const { data, error, status, execute } = await register({
+  const { error, status, execute } = await register({
     data: registerData,
   });
   const submit = async (data: Form, node: FormKitNode) => {
@@ -32,18 +32,18 @@
       node.setErrors([], errorMessages.value);
       return false;
     }
+
+    if (status.value === 'success') {
+      const { me } = useUser();
+      await me();
+
+      navigateToLocale({
+        name: 'index',
+      });
+    }
   };
 
   // error handling
-  const showErrors = (node: FormKitNode) => {
-    const validations = getValidationMessages(node);
-    errorMessages.value = {};
-    validations.forEach((inputMessages: FormKitMessage[]) => {
-      errorMessages.value = errorMessages.value.concat(
-        inputMessages.map((message: FormKitMessage) => message.value as string)
-      );
-    });
-  };
   watch(form, (newValue: Form, oldValue: Form) => {
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
       if (newValue[key] !== oldValue[key]) {
@@ -88,7 +88,6 @@
         v-model="form"
         :actions="false"
         @submit="submit"
-        @submit-invalid="showErrors"
         #default="{ state: { valid } }"
       >
         <FormErrorsAlert :error-messages="errorMessages" />
@@ -122,7 +121,7 @@
           type="submit"
           block
           :disabled="!valid"
-          :loading="status === 'pending'"
+          :loading="status === 'pending' || (status !== 'idle' && !error)"
           icon="i-fa6-solid-right-to-bracket"
           :ui="{
             base: 'mt-8',

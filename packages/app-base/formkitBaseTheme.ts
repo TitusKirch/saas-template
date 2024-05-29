@@ -1,3 +1,4 @@
+import { classes } from './formkitTheme';
 import type { FormKitNode } from '@formkit/core';
 
 /**

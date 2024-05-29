@@ -1,22 +1,6 @@
 import type { UseFetchOptions } from '#app';
 
 export default function () {
-  // csrf token
-  // const getCsrfToken = () => {
-  //   return useCookie('XSRF-TOKEN').value || undefined;
-  // };
-  // const fetchCsrfToken = async () => {
-  //   if (getCsrfToken()) {
-  //     return;
-  //   }
-
-  //   await get('csrf-cookie', {
-  //     prefix: 'sanctum',
-  //     version: false,
-  //     setCsrfToken: false,
-  //   });
-  // };
-
   type FetchUrl = string | (() => string);
   type FetchOptions<ResponseT> = Omit<ApiFetchOptions & UseFetchOptions<ResponseT>, 'default'> & {
     default?: () => ResponseT | Ref<ResponseT>;
@@ -42,7 +26,7 @@ export default function () {
       }
     >(url, {
       ...options,
-      $fetch: useNuxtApp().$api,
+      $fetch: useNuxtApp().$apiClient,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
   };
@@ -115,7 +99,6 @@ export default function () {
   };
 
   return {
-    // fetchCsrfToken,
     fetchWrapper,
     get,
     post,

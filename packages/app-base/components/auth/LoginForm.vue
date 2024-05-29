@@ -9,36 +9,42 @@
     email: 'test@example.com',
     password: 'test@example.com',
   });
-  const errorMessages: Ref<string[]> = ref([]);
+  const errorMessages: Ref<Record<string, string>> = ref({});
 
   // submit handling
   const { login } = useAuth();
-  const { data, error, status, execute } = await login({
+  const { error, status, execute } = await login({
     data: form,
   });
   const submit = async (data: Form, node: FormKitNode) => {
     await execute();
     if (error.value?.data?.errors) {
-      const fieldSpecificErrors: Record<string, string> = {};
+      errorMessages.value = {};
       for (const key in error.value.data.errors) {
-        fieldSpecificErrors[key] = error.value.data.errors[key][0];
+        errorMessages.value[key] = error.value.data.errors[key][0];
       }
-      node.setErrors([], fieldSpecificErrors);
-      errorMessages.value = Object.values(fieldSpecificErrors);
+      node.setErrors([], errorMessages.value);
       return false;
+    }
+
+    if (status.value === 'success') {
+      const { me } = useUser();
+      await me();
+
+      navigateToLocale({
+        name: 'index',
+      });
     }
   };
 
   // error handling
-  const showErrors = (node: FormKitNode) => {
-    const validations = getValidationMessages(node);
-    errorMessages.value = [];
-    validations.forEach((inputMessages: FormKitMessage[]) => {
-      errorMessages.value = errorMessages.value.concat(
-        inputMessages.map((message: FormKitMessage) => message.value as string)
-      );
-    });
-  };
+  watch(form, (newValue: Form, oldValue: Form) => {
+    for (const key of Object.keys(newValue) as Array<keyof Form>) {
+      if (newValue[key] !== oldValue[key]) {
+        delete errorMessages.value[key];
+      }
+    }
+  });
 
   // third party providers
   const { thirdPartyProviders } = useAuth();
@@ -77,6 +83,7 @@
         :actions="false"
         @submit="submit"
         @submit-invalid="showErrors"
+        #default="{ state: { valid } }"
       >
         <FormErrorsAlert :error-messages="errorMessages" />
 
@@ -96,7 +103,8 @@
         <UButton
           type="submit"
           block
-          :loading="status === 'pending'"
+          :disabled="!valid"
+          :loading="status === 'pending' || (status !== 'idle' && !error)"
           icon="i-fa6-solid-right-to-bracket"
           :ui="{
             base: 'mt-8',

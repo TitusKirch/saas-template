@@ -3,11 +3,18 @@
     title: 'page.login.title',
     description: 'page.login.description',
     layout: 'auth',
+    middleware: ['guest'],
   });
 </script>
 
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
-    <AuthLoginForm />
-  </UCard>
+  <UPage>
+    <UPageBody>
+      <PageCardGrid>
+        <AuthCard>
+          <AuthLoginForm />
+        </AuthCard>
+      </PageCardGrid>
+    </UPageBody>
+  </UPage>
 </template>

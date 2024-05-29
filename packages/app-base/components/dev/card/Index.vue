@@ -1,6 +1,18 @@
+<script setup lang="ts">
+  withDefaults(
+    defineProps<{
+      classes?: string;
+    }>(),
+    {
+      classes: '',
+    }
+  );
+</script>
+
 <template>
   <DevOnly>
     <UCard
+      :class="classes"
       :ui="{
         base: 'overflow-hidden',
         body: {

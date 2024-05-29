@@ -2,7 +2,17 @@
   definePageMeta({
     title: 'page.index.title',
     description: 'page.index.description',
+    middleware: ['auth'],
   });
+
+  const { me, reset, isAuthenticated } = useUser();
+
+  const resetHandler = () => {
+    reset();
+  };
+  const refetchHandler = async () => {
+    await me();
+  };
 </script>
 
 <template>
@@ -12,7 +22,9 @@
       <UPageBody>
         <PageCardGrid>
           <UCard>
-            <!-- <UButton @click="clickHandler">Register</UButton> -->
+            isAuthenticated {{ isAuthenticated() }}
+            <UButton @click="resetHandler" color="red"> Reset </UButton>
+            <UButton @click="refetchHandler" color="blue"> Refetch </UButton>
           </UCard>
         </PageCardGrid>
       </UPageBody>

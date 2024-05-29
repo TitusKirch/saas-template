@@ -4,16 +4,16 @@ export default function () {
   // me
   const me = async () => {
     const userStore = useUserStore();
-
-    if (!userStore.user) {
-      await userStore.fetchUser();
-    }
-
+    await userStore.fetchUser();
     return userStore.user;
   };
   const reset = () => {
     const userStore = useUserStore();
     userStore.resetUser();
+  };
+  const isAuthenticated = () => {
+    const userStore = useUserStore();
+    return !!userStore.user;
   };
 
   // transformers
@@ -27,6 +27,7 @@ export default function () {
 
   return {
     me,
+    isAuthenticated,
     reset,
     transformUserData,
   };
