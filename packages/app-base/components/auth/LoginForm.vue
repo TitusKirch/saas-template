@@ -18,12 +18,17 @@
   });
   const submit = async (data: Form, node: FormKitNode) => {
     await execute();
+    errorMessages.value = {};
     if (error.value?.data?.errors) {
-      errorMessages.value = {};
       for (const key in error.value.data.errors) {
         errorMessages.value[key] = error.value.data.errors[key][0];
       }
       node.setErrors([], errorMessages.value);
+      return false;
+    } else if (error.value?.data?.message) {
+      errorMessages.value = {
+        form: error.value.data.message,
+      };
       return false;
     }
 
@@ -82,7 +87,6 @@
         v-model="form"
         :actions="false"
         @submit="submit"
-        @submit-invalid="showErrors"
         #default="{ state: { valid } }"
       >
         <FormErrorsAlert :error-messages="errorMessages" />
@@ -103,7 +107,7 @@
         <UButton
           type="submit"
           block
-          :disabled="!valid"
+          :disabled="!valid || Object.keys(errorMessages).length"
           :loading="status === 'pending' || (status !== 'idle' && !error)"
           icon="i-fa6-solid-right-to-bracket"
           :ui="{

@@ -72,7 +72,7 @@
     },
     "form": {
       "errorsAlert": {
-        "title": "Please correct the following errors:"
+        "title": "Following errors occurred:"
       }
     }
   },
