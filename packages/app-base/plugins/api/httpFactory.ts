@@ -176,8 +176,6 @@ export function createHttpClient(): $Fetch {
      * @see https://github.com/manchenkoff/nuxt-auth-sanctum/blob/141017985113ee70e51f5949f08bcbcfc83c39f9/src/runtime/httpFactory.ts#L150-L169
      */
     async onResponseError({ request, response }) {
-      // const { me, reset } = useUser();
-      // const user = await me();
       const userStore = useUserStore();
 
       if (response.status === 419) {

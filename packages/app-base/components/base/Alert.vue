@@ -25,7 +25,7 @@
       case 'success':
         return 'green';
       case 'warning':
-        return 'yellow';
+        return 'orange';
       case 'error':
         return 'red';
     }

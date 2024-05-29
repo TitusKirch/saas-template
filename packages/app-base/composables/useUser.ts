@@ -15,11 +15,30 @@ export default function () {
     const userStore = useUserStore();
     return !!userStore.user;
   };
+  const logout = async () => {
+    const { logout } = useAuth();
+    const { execute } = logout();
+    await execute();
+    reset();
+  };
+  const emailIsVerified = () => {
+    const userStore = useUserStore();
+    return userStore.user?.email_verified_at !== null;
+  };
+  const resendVerificationEmail = async () => {
+    const { t } = useNuxtApp().$i18n;
+    useNotification({
+      title: t('user.resendVerificationEmail.notification.success.title'),
+      description: t('user.resendVerificationEmail.notification.success.description'),
+      type: 'success',
+    });
+  };
 
   // transformers
   const transformUserData = ({ data }: { data: UserData }): User => {
     return {
       ...data,
+      email_verified_at: data.email_verified_at ? new Date(data.email_verified_at) : null,
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
     };
@@ -27,8 +46,11 @@ export default function () {
 
   return {
     me,
-    isAuthenticated,
     reset,
+    isAuthenticated,
+    emailIsVerified,
+    logout,
+    resendVerificationEmail,
     transformUserData,
   };
 }

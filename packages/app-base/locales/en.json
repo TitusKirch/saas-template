@@ -60,5 +60,23 @@
     "password_confirm": {
       "label": "Confirm password"
     }
+  },
+  "user": {
+    "emailIsNotVerifiedAlert": {
+      "action": {
+        "resendVerificationEmail": {
+          "label": "Resend verification email"
+        }
+      },
+      "title": "Please verify your email address. If you can't find the verification email, take a look at your spam folder or request a new one."
+    },
+    "resendVerificationEmail": {
+      "notification": {
+        "success": {
+          "description": "A new verification email has been sent to your email address. Please check your inbox and follow the instructions.",
+          "title": "Verification email sent"
+        }
+      }
+    }
   }
 }

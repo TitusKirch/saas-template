@@ -5,6 +5,9 @@ export default defineAppConfig({
     alert: {
       default: {
         variant: 'subtle',
+        actionButton: {
+          variant: 'link',
+        },
       },
     },
     badge: {

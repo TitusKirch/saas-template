@@ -7,12 +7,9 @@
   });
 
   const redirectTimeout = ref<NodeJS.Timeout | null>(null);
-  const { logout } = useAuth();
-  const { execute } = logout();
-  const { reset } = useUser();
+  const { logout } = useUser();
   onMounted(async () => {
-    await execute();
-    reset();
+    await logout();
 
     redirectTimeout.value = setTimeout(() => {
       navigateToLocale({

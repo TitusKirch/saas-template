@@ -80,7 +80,7 @@ export default defineNuxtConfig({
   },
   ui: {
     global: true,
-    safelistColors: ['error', 'info', 'success', 'warning'],
+    safelistColors: ['blue', 'green', 'orange', 'red'],
     icons: ['fa6-brands', 'fa6-solid'],
     // icons: {
     //   collections: {

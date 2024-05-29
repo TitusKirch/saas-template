@@ -23,6 +23,10 @@
       </template>
     </UHeader>
 
+    <BaseAlertContainer>
+      <UserEmailIsNotVerifiedAlert />
+    </BaseAlertContainer>
+
     <UMain
       :ui="{
         wrapper: 'mt-8',
