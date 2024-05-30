@@ -45,6 +45,21 @@ export default function () {
     });
   };
 
+  // email verification
+  const emailVerificationNotification = () => {
+    const { post } = useApi();
+
+    return post<AuthEmailVerificationNotificationData, AuthEmailVerificationNotificationResponse>(
+      'email/verification-notification',
+      {
+        immediate: false,
+        watch: false,
+        prefix: 'auth',
+        version: false,
+      }
+    );
+  };
+
   // third party providers
   const thirdPartyProviders = () => [
     {
@@ -68,6 +83,7 @@ export default function () {
     logout,
     transformRegisterFormToData,
     register,
+    emailVerificationNotification,
     thirdPartyProviders,
   };
 }

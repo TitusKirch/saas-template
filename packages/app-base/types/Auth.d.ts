@@ -21,3 +21,6 @@ type AuthRegisterData = Omit<AuthRegisterForm, 'email_confirm' | 'password_confi
   password_confirmation: string;
 };
 type AuthRegisterResponse = ApiResponse<AuthRegisterData>;
+
+type AuthEmailVerificationNotificationData = undefined;
+type AuthEmailVerificationNotificationResponse = ApiResponse<AuthEmailVerificationNotificationData>;

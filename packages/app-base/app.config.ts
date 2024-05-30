@@ -3,6 +3,8 @@ export default defineAppConfig({
     primary: 'sky',
     gray: 'cool',
     alert: {
+      title: 'py-1.5',
+      padding: 'py-2.5',
       default: {
         variant: 'subtle',
         actionButton: {

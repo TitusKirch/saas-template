@@ -26,6 +26,10 @@ export default function () {
     return userStore.user?.email_verified_at !== null;
   };
   const resendVerificationEmail = async () => {
+    const { emailVerificationNotification } = useAuth();
+    const { execute } = emailVerificationNotification();
+    await execute();
+
     const { t } = useNuxtApp().$i18n;
     useNotification({
       title: t('user.resendVerificationEmail.notification.success.title'),

@@ -59,7 +59,8 @@
     },
     "password_confirm": {
       "label": "Confirm password"
-    }
+    },
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds."
   },
   "user": {
     "emailIsNotVerifiedAlert": {
