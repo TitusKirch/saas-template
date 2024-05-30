@@ -24,3 +24,9 @@ type AuthRegisterResponse = ApiResponse<AuthRegisterData>;
 
 type AuthEmailVerificationNotificationData = undefined;
 type AuthEmailVerificationNotificationResponse = ApiResponse<AuthEmailVerificationNotificationData>;
+
+type AuthEmailVerifyData = {
+  expires: string;
+  signature: string;
+};
+type AuthEmailVerifyResponse = ApiResponse<AuthEmailVerifyData>;

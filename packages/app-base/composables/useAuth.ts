@@ -59,6 +59,28 @@ export default function () {
       }
     );
   };
+  const emailVerify = ({
+    id,
+    hash,
+    expires,
+    signature,
+  }: {
+    id: string;
+    hash: string;
+  } & AuthEmailVerifyData) => {
+    const { get } = useApi();
+
+    return get<AuthEmailVerifyData, AuthEmailVerifyResponse>(`email/verify/${id}/${hash}`, {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+      params: {
+        expires,
+        signature,
+      },
+    });
+  };
 
   // third party providers
   const thirdPartyProviders = () => [
@@ -84,6 +106,7 @@ export default function () {
     transformRegisterFormToData,
     register,
     emailVerificationNotification,
+    emailVerify,
     thirdPartyProviders,
   };
 }

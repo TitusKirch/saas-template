@@ -36,6 +36,13 @@
       const { me } = useUser();
       await me();
 
+      const { redirect } = useRoute()?.query;
+
+      if (redirect) {
+        navigateToLocale(redirect as string);
+        return;
+      }
+
       navigateToLocale({
         name: 'index',
       });

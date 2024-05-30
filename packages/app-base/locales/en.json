@@ -39,6 +39,9 @@
       },
       "register": {
         "label": "Register"
+      },
+      "home": {
+        "label": "Home"
       }
     },
     "email": {

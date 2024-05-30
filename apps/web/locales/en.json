@@ -3,6 +3,24 @@
     "name": "web saas-template"
   },
   "page": {
+    "auth": {
+      "email": {
+        "verify": {
+          "description": "Please verify your email address.",
+          "authCard": {
+            "error": {
+              "description": "An error occurred while verifying your email address. Please try again.",
+              "title": "Error verifying email"
+            },
+            "success": {
+              "description": "Your email address has been successfully verified. You will be redirected in a few seconds. {0}.",
+              "title": "Email verified"
+            }
+          },
+          "title": "Verify your email"
+        }
+      }
+    },
     "index": {
       "description": "Welcome to the home page.",
       "title": "Home"

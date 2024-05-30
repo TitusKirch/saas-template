@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserMeResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,7 +44,7 @@ class UserController extends Controller
      */
     public function showMe()
     {
-        return new UserResource(auth()->user());
+        return new UserMeResource(auth()->user());
     }
 
     /**

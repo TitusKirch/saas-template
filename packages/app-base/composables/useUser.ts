@@ -7,6 +7,12 @@ export default function () {
     await userStore.fetchUser();
     return userStore.user;
   };
+  const refetchMe = async () => {
+    const userStore = useUserStore();
+    await userStore.fetchUser({
+      force: true,
+    });
+  };
   const reset = () => {
     const userStore = useUserStore();
     userStore.resetUser();
@@ -42,7 +48,14 @@ export default function () {
   const transformUserData = ({ data }: { data: UserData }): User => {
     return {
       ...data,
-      email_verified_at: data.email_verified_at ? new Date(data.email_verified_at) : null,
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at),
+    };
+  };
+  const transformUserMeData = ({ data }: { data: UserMeData }): UserMe => {
+    return {
+      ...data,
+      emailVerifiedAt: data.email_verified_at ? new Date(data.email_verified_at) : null,
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
     };
@@ -50,11 +63,13 @@ export default function () {
 
   return {
     me,
+    refetchMe,
     reset,
     isAuthenticated,
     emailIsVerified,
     logout,
     resendVerificationEmail,
     transformUserData,
+    transformUserMeData,
   };
 }
