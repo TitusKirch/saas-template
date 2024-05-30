@@ -1,8 +1,11 @@
+<script setup lang="ts">
+  defineSlots<{
+    default: HTMLElement[];
+  }>();
+</script>
+
 <template>
   <UContainer
-    :class="{
-      'mt-8': $slots.default,
-    }"
     :ui="{
       base: 'grid grid-cols-1 gap-4',
     }"
@@ -10,3 +13,9 @@
     <slot />
   </UContainer>
 </template>
+
+<style scoped>
+  div > :deep(:first-child) {
+    @apply mt-8;
+  }
+</style>
