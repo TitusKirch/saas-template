@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Guard Laravel Pulse routes
+        // prohibit some commands in production (especially destructive ones)
+        DB::prohibitDestructiveCommands(app()->isProduction());
+
+        // guard Laravel Pulse routes
         Gate::define('viewPulse', static function ($user) {
             return $user->is_admin;
         });
