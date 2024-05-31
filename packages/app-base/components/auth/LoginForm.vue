@@ -39,11 +39,10 @@
       const { redirect } = useRoute()?.query;
 
       if (redirect) {
-        navigateToLocale(redirect as string);
-        return;
+        return navigateToLocale(redirect as string);
       }
 
-      navigateToLocale({
+      return navigateToLocale({
         name: 'index',
       });
     }

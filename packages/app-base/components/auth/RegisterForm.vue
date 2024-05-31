@@ -42,7 +42,7 @@
       const { me } = useUser();
       await me();
 
-      navigateToLocale({
+      return navigateToLocale({
         name: 'index',
       });
     }
