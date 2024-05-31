@@ -10,6 +10,7 @@
     password: '',
   });
   const errorMessages: Ref<Record<string, string>> = ref({});
+  const { passwordToggle } = useFormKit();
 
   // submit handling
   const { login } = useAuth();
@@ -78,6 +79,7 @@
         :label="$t('global.email.label')"
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
+        prefix-icon="email"
       />
       <FormKit
         type="password"
@@ -85,6 +87,9 @@
         :label="$t('global.password.label')"
         validation="required"
         :placeholder="usePlaceholder({ type: 'password' })"
+        prefix-icon="password"
+        suffix-icon="eyeClosed"
+        @suffix-icon-click="passwordToggle"
       />
 
       <UButton
