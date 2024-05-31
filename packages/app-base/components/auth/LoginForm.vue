@@ -68,6 +68,7 @@
       type="form"
       v-model="form"
       :actions="false"
+      :disabled="status === 'success'"
       @submit="submit"
       #default="{ state: { valid } }"
     >
@@ -89,8 +90,22 @@
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"
+        help="TEST"
         @suffix-icon-click="passwordToggle"
-      />
+      >
+        <template #help="context">
+          <div :for="context.id" :class="context.classes.help">
+            <BaseLink
+              variant="underline"
+              :to="{
+                name: 'index',
+              }"
+            >
+              Forgot your password?
+            </BaseLink>
+          </div>
+        </template>
+      </FormKit>
 
       <UButton
         type="submit"

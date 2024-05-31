@@ -6,7 +6,10 @@
       }"
     >
       <template #logo>
-        <UIcon name="i-fa6-solid-fire" class="w-6 text-primary-500 group-hover:text-primary-600" />
+        <UIcon
+          name="i-fa6-solid-fire"
+          class="w-6 text-primary-500 group-hover:text-primary-600 dark:text-primary-400 dark:group-hover:text-primary-500"
+        />
         <span>{{ $t('app.name') }}</span>
       </template>
 

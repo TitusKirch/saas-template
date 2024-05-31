@@ -18,9 +18,11 @@
     <div class="space-y-6">
       <div v-if="title || $slots.description" class="text-center">
         <div class="mb-2 pointer-events-none">
-          <UIcon name="i-fa6-solid-fire" class="w-8 h-8 flex-shrink-0 text-primary-500" />
+          <UIcon
+            name="i-fa6-solid-fire"
+            class="w-8 h-8 flex-shrink-0 text-primary-500 dark:text-primary-400"
+          />
         </div>
-
         <p v-if="title" class="text-2xl text-gray-900 dark:text-white font-bold">
           {{ title }}
         </p>

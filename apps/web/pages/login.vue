@@ -18,13 +18,13 @@
               tag="p"
               class="text-gray-500 dark:text-gray-400 mt-1"
             >
-              <NuxtLinkLocale
+              <BaseLink
                 :to="{
                   name: 'register',
                 }"
-                class="text-primary-500 font-medium"
-                >{{ $t('global.action.register.label') }}</NuxtLinkLocale
               >
+                {{ $t('global.action.register.label') }}
+              </BaseLink>
             </i18n-t>
           </template>
 

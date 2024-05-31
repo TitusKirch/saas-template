@@ -68,6 +68,7 @@
       type="form"
       v-model="form"
       :actions="false"
+      :disabled="status === 'success'"
       @submit="submit"
       #default="{ state: { valid } }"
     >
