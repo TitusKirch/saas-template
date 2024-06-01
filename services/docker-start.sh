@@ -21,7 +21,7 @@ elif [ "$role" = "scheduler" ]; then
     done
 elif [ "$role" = "queue" ]; then
     echo "Running the queue..."
-    php artisan pulse:check & php artisan queue:work --verbose --tries=3 --timeout=90
+    php artisan pulse:check & php artisan horizon
 elif [ "$role" = "pulse-worker" ]; then
     echo "Running the pulse worker..."
     php artisan pulse:check & php artisan pulse:work

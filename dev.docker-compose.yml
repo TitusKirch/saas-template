@@ -9,6 +9,8 @@ volumes:
     driver: local
   service-api-pulse-valkey-volume:
     driver: local
+  service-api-horizon-valkey-volume:
+    driver: local
   service-api-health-postgres-volume:
     driver: local
   service-api-telescope-postgres-volume:
@@ -112,6 +114,21 @@ services:
     volumes:
       - 'service-api-pulse-valkey-volume:/data'
 
+  service-api-horizon-valkey:
+    image: 'valkey/valkey:7.2-alpine'
+    restart: unless-stopped
+    command: --port 6381
+    ports:
+      - '6381:6381'
+    expose:
+      - '6381'
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      retries: 3
+      timeout: 5s
+    volumes:
+      - 'service-api-horizon-valkey-volume:/data'
+
   service-api-health-postgres:
     image: 'postgres:16.3'
     restart: unless-stopped
@@ -158,7 +175,7 @@ services:
     ports:
       - '8081:8081'
     environment:
-      REDIS_HOSTS: local:service-api-valkey:6379,local:service-api-pulse-valkey:6380
+      REDIS_HOSTS: local:service-api-valkey:6379,local:service-api-pulse-valkey:6380,local:service-api-horizon-valkey:6381
 
   mailpit:
     image: 'axllent/mailpit:latest'

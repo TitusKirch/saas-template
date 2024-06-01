@@ -217,6 +217,15 @@ return [
             'port' => env('PULSE_REDIS_PORT', '6379'),
             'database' => env('PULSE_REDIS_CACHE_DB', '0'),
         ],
+
+        'horizon' => [
+            'url' => env('HORIZON_REDIS_URL'),
+            'host' => env('HORIZON_REDIS_HOST', '127.0.0.1'),
+            'username' => env('HORIZON_REDIS_USERNAME'),
+            'password' => env('HORIZON_REDIS_PASSWORD'),
+            'port' => env('HORIZON_REDIS_PORT', '6379'),
+            'database' => env('HORIZON_REDIS_CACHE_DB', '0'),
+        ],
     ],
 
 ];
