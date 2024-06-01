@@ -1,11 +1,21 @@
 <script setup lang="ts">
   import type { FormKitNode } from '@formkit/core';
 
+  // get data from route
+  const route = useRoute();
+  const email = route.query.email as string;
+  const token = route.query.token as string;
+  if (!email || !token) {
+    throw createError({
+      statusCode: 404,
+    });
+  }
+
   // form setup
-  type Form = AuthRegisterForm;
+  type Form = AuthResetPasswordForm;
   const form: Ref<Form> = ref({
-    email: '',
-    email_confirm: '',
+    email: email,
+    token: token,
     password: '',
     password_confirm: '',
   });
@@ -13,13 +23,13 @@
   const { passwordToggle } = useFormKit();
 
   // submit handling
-  const { transformRegisterFormToData, register } = useAuth();
-  const registerData: Ref<AuthRegisterData | undefined> = ref();
-  const { error, status, execute } = await register({
-    data: registerData,
+  const { transformResetPasswordFormToData, resetPassword } = useAuth();
+  const resetData: Ref<AuthResetPasswordData | undefined> = ref();
+  const { error, status, execute } = await resetPassword({
+    data: resetData,
   });
   const submit = async (data: Form, node: FormKitNode) => {
-    registerData.value = transformRegisterFormToData({
+    resetData.value = transformResetPasswordFormToData({
       form: form.value,
     });
     await execute();
@@ -37,14 +47,9 @@
       return false;
     }
 
-    if (status.value === 'success') {
-      const { me } = useUser();
-      await me();
-
-      return navigateToLocale({
-        name: 'index',
-      });
-    }
+    return navigateToLocale({
+      name: 'auth-password-reset-success',
+    });
   };
 
   // error handling
@@ -55,10 +60,6 @@
       }
     }
   });
-
-  // third party providers
-  const { thirdPartyProviders } = useAuth();
-  const providers = thirdPartyProviders();
 </script>
 <template>
   <div class="space-y-6">
@@ -72,22 +73,8 @@
     >
       <FormErrorsAlert :error-messages="errorMessages" />
 
-      <FormKit
-        type="email"
-        name="email"
-        :label="$t('global.email.label')"
-        validation="required|email"
-        :placeholder="usePlaceholder({ type: 'email' })"
-        prefix-icon="email"
-      />
-      <FormKit
-        type="email"
-        name="email_confirm"
-        :label="$t('global.email_confirm.label')"
-        validation="required|email|confirm"
-        :placeholder="usePlaceholder({ type: 'email' })"
-        prefix-icon="email"
-      />
+      <FormKit type="hidden" name="email" validation="required|email" />
+      <FormKit type="hidden" name="token" />
       <FormKit
         type="password"
         name="password"
@@ -112,27 +99,14 @@
       <UButton
         type="submit"
         block
-        :disabled="!valid || Object.keys(errorMessages).length"
-        :loading="status === 'pending' || (status !== 'idle' && !error)"
-        icon="i-fa6-solid-right-to-bracket"
+        :disabled="!valid || Object.keys(errorMessages).length || status === 'success'"
+        :loading="status === 'pending'"
+        icon="i-fa6-solid-paper-plane"
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.register.label') }}</UButton
+        >{{ $t('global.action.auth.resetPassword.label') }}</UButton
       >
     </FormKit>
-
-    <UDivider :label="$t('global.or.label')" />
-
-    <div v-if="providers?.length" class="space-y-3">
-      <UButton
-        v-for="(provider, index) in providers"
-        :key="index"
-        v-bind="provider"
-        color="gray"
-        block
-        @click="provider.click"
-      />
-    </div>
   </div>
 </template>

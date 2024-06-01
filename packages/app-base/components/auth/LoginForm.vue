@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  import type { FormKitMessage } from '@formkit/core';
   import type { FormKitNode } from '@formkit/core';
-  import { getValidationMessages } from '@formkit/validation';
 
   // form setup
   type Form = AuthLoginForm;

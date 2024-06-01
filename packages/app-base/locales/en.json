@@ -46,6 +46,9 @@
         },
         "register": {
           "label": "Register"
+        },
+        "resetPassword": {
+          "label": "Reset password"
         }
       },
       "page": {
@@ -126,6 +129,24 @@
               "title": "Password reset email sent"
             },
             "title": "Password reset email sent"
+          }
+        },
+        "reset": {
+          "index": {
+            "description": "Enter your new password.",
+            "authCard": {
+              "description": "Enter your new password. Remembered your password? {0}.",
+              "title": "Reset password"
+            },
+            "title": "Reset password"
+          },
+          "success": {
+            "description": "Your password has been successfully reset. You will be redirected in a few seconds.",
+            "authCard": {
+              "description": "Your password has been successfully reset. You will be redirected in a few seconds. {0}.",
+              "title": "Password reset"
+            },
+            "title": "Password reset"
           }
         }
       },

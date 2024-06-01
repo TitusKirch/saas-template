@@ -95,6 +95,31 @@ export default function () {
     });
   };
 
+  // reset password
+  const transformResetPasswordFormToData = ({
+    form,
+  }: {
+    form: AuthResetPasswordForm;
+  }): AuthResetPasswordData => {
+    return {
+      email: form.email,
+      token: form.token,
+      password: form.password,
+      password_confirmation: form.password_confirm,
+    };
+  };
+  const resetPassword = ({ data }: { data: Ref<AuthResetPasswordData | undefined> }) => {
+    const { post } = useApi();
+
+    return post<AuthResetPasswordData, AuthResetPasswordResponse>('reset-password', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+      body: data,
+    });
+  };
+
   // third party providers
   const thirdPartyProviders = () => [
     {
@@ -121,6 +146,8 @@ export default function () {
     emailVerificationNotification,
     emailVerify,
     forgotPassword,
+    transformResetPasswordFormToData,
+    resetPassword,
     thirdPartyProviders,
   };
 }
