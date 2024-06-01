@@ -2,7 +2,6 @@
   definePageMeta({
     title: 'page.auth.email.verify.title',
     description: 'page.auth.email.verify.description',
-    layout: 'auth',
     middleware: ['auth'],
   });
 

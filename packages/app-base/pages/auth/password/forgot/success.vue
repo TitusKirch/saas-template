@@ -2,7 +2,6 @@
   definePageMeta({
     title: 'page.auth.password.forgot.success.title',
     description: 'page.auth.password.forgot.success.description',
-    layout: 'auth',
     middleware: ['guest'],
   });
 </script>

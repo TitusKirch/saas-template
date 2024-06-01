@@ -2,7 +2,6 @@
   definePageMeta({
     title: 'page.auth.login.title',
     description: 'page.auth.login.description',
-    layout: 'auth',
     middleware: ['guest'],
   });
 </script>

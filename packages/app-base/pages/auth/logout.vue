@@ -2,7 +2,6 @@
   definePageMeta({
     title: 'page.auth.logout.title',
     description: 'page.auth.logout.description',
-    layout: 'auth',
     middleware: ['auth'],
   });
 
