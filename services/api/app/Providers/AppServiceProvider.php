@@ -25,8 +25,10 @@ class AppServiceProvider extends ServiceProvider
         DB::prohibitDestructiveCommands(app()->isProduction());
 
         // guard Laravel Pulse routes
-        Gate::define('viewPulse', static function ($user) {
-            return $user->is_admin;
-        });
+        if (! app()->isLocal()) {
+            Gate::define('viewPulse', static function ($user) {
+                return $user->is_admin;
+            });
+        }
     }
 }
