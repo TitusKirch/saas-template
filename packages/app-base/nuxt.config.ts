@@ -91,12 +91,13 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseUrl: withoutTrailingSlash(process.env.BASE_URL) || 'http://localhost:3000',
-      nodeEnv: process.env.NODE_ENV || 'production',
+      apiUrl: withoutTrailingSlash(process.env.API_URL) || 'http://localhost:8000',
       appName: process.env.APP_NAME || 'unkown app',
       appVersion: process.env.APP_VERSION || 'latest',
+      authPagesActive: false,
+      baseUrl: withoutTrailingSlash(process.env.BASE_URL) || 'http://localhost:3000',
       formkitProKey: (process.env.FORMKIT_PRO_KEY as string) || '',
-      apiUrl: withoutTrailingSlash(process.env.API_URL) || 'http://localhost:8000',
+      nodeEnv: process.env.NODE_ENV || 'production',
     },
   },
 });

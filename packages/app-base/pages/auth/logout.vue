@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.logout.title',
-    description: 'page.logout.description',
+    title: 'page.auth.logout.title',
+    description: 'page.auth.logout.description',
     layout: 'auth',
     middleware: ['auth'],
   });
@@ -13,7 +13,7 @@
 
     redirectTimeout.value = setTimeout(() => {
       navigateToLocale({
-        name: 'login',
+        name: 'auth-login',
       });
     }, 3000);
   });
@@ -28,16 +28,16 @@
   <UPage>
     <UPageBody>
       <PageCardGrid>
-        <AuthCard :title="$t('page.logout.authCard.title')">
+        <AuthCard :title="$t('page.auth.logout.authCard.title')">
           <template #description>
             <i18n-t
-              keypath="page.logout.authCard.description"
+              keypath="page.auth.logout.authCard.description"
               tag="p"
               class="text-gray-500 dark:text-gray-400 mt-1"
             >
               <BaseLink
                 :to="{
-                  name: 'login',
+                  name: 'auth-login',
                 }"
               >
                 {{ $t('global.action.auth.login.label') }}

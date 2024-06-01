@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.password.forgot.success.title',
-    description: 'page.auth.password.forgot.success.description',
+    title: 'page.auth.register.title',
+    description: 'page.auth.register.description',
     layout: 'auth',
     middleware: ['guest'],
   });
@@ -11,16 +11,16 @@
   <UPage>
     <UPageBody>
       <PageCardGrid>
-        <AuthCard :title="$t('page.auth.password.forgot.success.authCard.title')">
+        <AuthCard :title="$t('page.auth.register.authCard.title')">
           <template #description>
             <i18n-t
-              keypath="page.auth.password.forgot.success.authCard.description"
+              keypath="page.auth.register.authCard.description"
               tag="p"
               class="text-gray-500 dark:text-gray-400 mt-1"
             >
               <BaseLink
                 :to="{
-                  name: 'login',
+                  name: 'auth-login',
                 }"
               >
                 {{ $t('global.action.auth.login.label') }}
@@ -28,7 +28,7 @@
             </i18n-t>
           </template>
 
-          <template #header> </template>
+          <AuthRegisterForm />
         </AuthCard>
       </PageCardGrid>
     </UPageBody>
