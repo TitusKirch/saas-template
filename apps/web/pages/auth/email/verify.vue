@@ -55,7 +55,7 @@
                   name: 'index',
                 }"
                 class="text-primary-500 font-medium"
-                >{{ $t('global.action.home.label') }}</NuxtLinkLocale
+                >{{ $t('global.action.page.home.label') }}</NuxtLinkLocale
               >
             </i18n-t>
           </template>

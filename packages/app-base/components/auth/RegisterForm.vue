@@ -120,7 +120,7 @@
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.register.label') }}</UButton
+        >{{ $t('global.action.auth.register.label') }}</UButton
       >
     </FormKit>
 

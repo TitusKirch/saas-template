@@ -5,8 +5,11 @@ type ApiResourceResponse<DataT = unknown> = {
 };
 type ApiResponse<DataT = unknown> = DataT;
 
-type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = {
+type ApiMessageResponse = {
   message: string;
+};
+
+type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = ApiMessageResponse & {
   errors: RequestDataT extends unknown
     ? Record<string, string[]>
     : Record<keyof RequestDataT, string[]>;

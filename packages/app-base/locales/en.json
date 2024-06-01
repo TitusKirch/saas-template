@@ -34,14 +34,24 @@
   },
   "global": {
     "action": {
-      "login": {
-        "label": "Log in"
+      "auth": {
+        "forgotPassword": {
+          "label": "Forgot password?"
+        },
+        "login": {
+          "label": "Log in"
+        },
+        "passwordResetLinkRequest": {
+          "label": "Send password reset link"
+        },
+        "register": {
+          "label": "Register"
+        }
       },
-      "register": {
-        "label": "Register"
-      },
-      "home": {
-        "label": "Home"
+      "page": {
+        "home": {
+          "label": "Home"
+        }
       }
     },
     "email": {

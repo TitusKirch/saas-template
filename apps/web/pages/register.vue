@@ -23,7 +23,7 @@
                   name: 'login',
                 }"
               >
-                {{ $t('global.action.login.label') }}
+                {{ $t('global.action.auth.login.label') }}
               </BaseLink>
             </i18n-t>
           </template>

@@ -37,10 +37,10 @@ class AuthServiceProvider extends ServiceProvider
         // override the reset password email
         ResetPassword::toMailUsing(function ($notifiable, $token) {
             // TODO: Get url from config
-            $emailResetUrl = url('http://localhost:3000', [
+            $emailResetUrl = 'http://localhost:3000/auth/password/reset?'.http_build_query([
                 'token' => $token,
                 'email' => $notifiable->getEmailForPasswordReset(),
-            ], false);
+            ]);
 
             return (new MailMessage)
                 ->subject(Lang::get('Reset Password Notification'))

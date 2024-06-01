@@ -30,3 +30,9 @@ type AuthEmailVerifyData = {
   signature: string;
 };
 type AuthEmailVerifyResponse = ApiResponse<AuthEmailVerifyData>;
+
+type AuthForgotPasswordForm = {
+  email: string;
+};
+type AuthForgotPasswordData = AuthForgotPasswordForm;
+type AuthForgotPasswordResponse = ApiMessageResponse;

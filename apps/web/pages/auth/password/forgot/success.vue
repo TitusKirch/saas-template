@@ -1,26 +1,9 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.logout.title',
-    description: 'page.logout.description',
+    title: 'page.auth.password.forgot.success.title',
+    description: 'page.auth.password.forgot.success.description',
     layout: 'auth',
-    middleware: ['auth'],
-  });
-
-  const redirectTimeout = ref<NodeJS.Timeout | null>(null);
-  const { logout } = useUser();
-  onMounted(async () => {
-    await logout();
-
-    redirectTimeout.value = setTimeout(() => {
-      navigateToLocale({
-        name: 'login',
-      });
-    }, 3000);
-  });
-  onBeforeUnmount(() => {
-    if (redirectTimeout.value) {
-      clearTimeout(redirectTimeout.value);
-    }
+    middleware: ['guest'],
   });
 </script>
 
@@ -28,10 +11,10 @@
   <UPage>
     <UPageBody>
       <PageCardGrid>
-        <AuthCard :title="$t('page.logout.authCard.title')">
+        <AuthCard :title="$t('page.auth.password.forgot.success.authCard.title')">
           <template #description>
             <i18n-t
-              keypath="page.logout.authCard.description"
+              keypath="page.auth.password.forgot.success.authCard.description"
               tag="p"
               class="text-gray-500 dark:text-gray-400 mt-1"
             >
@@ -44,6 +27,8 @@
               </BaseLink>
             </i18n-t>
           </template>
+
+          <template #header> </template>
         </AuthCard>
       </PageCardGrid>
     </UPageBody>

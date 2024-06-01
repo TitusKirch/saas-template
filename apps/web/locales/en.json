@@ -19,6 +19,26 @@
           },
           "title": "Verify your email"
         }
+      },
+      "password": {
+        "forgot": {
+          "index": {
+            "description": "Enter your email address and we will send you a link to reset your password.",
+            "authCard": {
+              "description": "Enter your email address and we will send you a link to reset your password. Remembered your password? {0}.",
+              "title": "Forgot password"
+            },
+            "title": "Forgot password"
+          },
+          "success": {
+            "description": "An email has been sent to you with a link to reset your password.",
+            "authCard": {
+              "description": "An email has been sent to you with a link to reset your password. Remembered your password? {0}.",
+              "title": "Password reset email sent"
+            },
+            "title": "Password reset email sent"
+          }
+        }
       }
     },
     "index": {

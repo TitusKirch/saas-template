@@ -82,6 +82,19 @@ export default function () {
     });
   };
 
+  // forgot password
+  const forgotPassword = ({ data }: { data: Ref<AuthForgotPasswordForm | undefined> }) => {
+    const { post } = useApi();
+
+    return post<AuthForgotPasswordForm, AuthForgotPasswordResponse>('forgot-password', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+      body: data,
+    });
+  };
+
   // third party providers
   const thirdPartyProviders = () => [
     {
@@ -107,6 +120,7 @@ export default function () {
     register,
     emailVerificationNotification,
     emailVerify,
+    forgotPassword,
     thirdPartyProviders,
   };
 }

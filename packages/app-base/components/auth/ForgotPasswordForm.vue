@@ -4,17 +4,20 @@
   import { getValidationMessages } from '@formkit/validation';
 
   // form setup
-  type Form = AuthLoginForm;
+  type Form = AuthForgotPasswordForm;
   const form: Ref<Form> = ref({
     email: '',
-    password: '',
   });
   const errorMessages: Ref<Record<string, string>> = ref({});
-  const { passwordToggle } = useFormKit();
 
   // submit handling
-  const { login } = useAuth();
-  const { error, status, execute } = await login({
+  const { forgotPassword } = useAuth();
+  const {
+    data: forgotPasswordData,
+    error,
+    status,
+    execute,
+  } = await forgotPassword({
     data: form,
   });
   const submit = async (data: Form, node: FormKitNode) => {
@@ -34,17 +37,8 @@
     }
 
     if (status.value === 'success') {
-      const { me } = useUser();
-      await me();
-
-      const { redirect } = useRoute()?.query;
-
-      if (redirect) {
-        return navigateToLocale(redirect as string);
-      }
-
       return navigateToLocale({
-        name: 'index',
+        name: 'auth-password-forgot-success',
       });
     }
   };
@@ -57,10 +51,6 @@
       }
     }
   });
-
-  // third party providers
-  const { thirdPartyProviders } = useAuth();
-  const providers = thirdPartyProviders();
 </script>
 <template>
   <div class="space-y-6">
@@ -72,6 +62,7 @@
       @submit="submit"
       #default="{ state: { valid } }"
     >
+      <FormSuccessAlert v-if="successMessage" :title="successMessage" />
       <FormErrorsAlert :error-messages="errorMessages" />
 
       <FormKit
@@ -82,55 +73,18 @@
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
       />
-      <FormKit
-        type="password"
-        name="password"
-        :label="$t('global.password.label')"
-        validation="required"
-        :placeholder="usePlaceholder({ type: 'password' })"
-        prefix-icon="password"
-        suffix-icon="eyeClosed"
-        help="TEST"
-        @suffix-icon-click="passwordToggle"
-      >
-        <template #help="context">
-          <div :for="context.id" :class="context.classes.help">
-            <BaseLink
-              variant="underline"
-              :to="{
-                name: 'auth-password-forgot',
-              }"
-            >
-              {{ $t('global.action.auth.forgotPassword.label') }}
-            </BaseLink>
-          </div>
-        </template>
-      </FormKit>
 
       <UButton
         type="submit"
         block
-        :disabled="!valid || Object.keys(errorMessages).length"
-        :loading="status === 'pending' || (status !== 'idle' && !error)"
-        icon="i-fa6-solid-right-to-bracket"
+        :disabled="!valid || Object.keys(errorMessages).length || status === 'success'"
+        :loading="status === 'pending'"
+        icon="i-fa6-solid-paper-plane"
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.login.label') }}</UButton
+        >{{ $t('global.action.auth.passwordResetLinkRequest.label') }}</UButton
       >
     </FormKit>
-
-    <UDivider :label="$t('global.or.label')" />
-
-    <div v-if="providers?.length" class="space-y-3">
-      <UButton
-        v-for="(provider, index) in providers"
-        :key="index"
-        v-bind="provider"
-        color="gray"
-        block
-        @click="provider.click"
-      />
-    </div>
   </div>
 </template>
