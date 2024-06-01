@@ -68,7 +68,7 @@ export default defineNuxtConfig({
     },
     headers: {
       contentSecurityPolicy: {
-        'img-src': ["'self'", 'data:', 'blob:'],
+        'img-src': ["'self'", 'data:', 'blob:', 'https://avatars.githubusercontent.com'],
         'form-action': ["'self'"],
       },
       crossOriginEmbedderPolicy:
