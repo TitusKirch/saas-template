@@ -20,11 +20,11 @@
   const { refetchMe } = useUser();
   await refetchMe();
   if (status.value === 'success') {
-    // redirectTimeout.value = setTimeout(() => {
-    //   navigateToLocale({
-    //     name: 'index',
-    //   });
-    // }, 3000);
+    redirectTimeout.value = setTimeout(() => {
+      navigateToLocale({
+        name: 'index',
+      });
+    }, 3000);
   }
 
   onBeforeUnmount(() => {
