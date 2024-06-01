@@ -58,8 +58,6 @@
               >
             </i18n-t>
           </template>
-
-          <template #header> </template>
         </AuthCard>
       </PageCardGrid>
     </UPageBody>
