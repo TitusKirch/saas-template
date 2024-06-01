@@ -56,6 +56,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | App URLs
+    |--------------------------------------------------------------------------
+    |
+    | These URLs are used by the apps and will be used to generate frontend
+    | URLs by the application.
+    |
+    */
+    'app_url' => [
+        'web' => env('APP_WEB_URL', 'http://localhost:3000'),
+        'auth' => env('APP_AUTH_URL', env('APP_WEB_URL', 'http://localhost:3000')),
+        'blog' => env('APP_BLOG_URL', 'http://localhost:3001'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

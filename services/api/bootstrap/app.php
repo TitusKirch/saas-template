@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append([
             AcceptLanguage::class,
         ]);
+        $middleware->statefulApi();
         $middleware->priority([
             \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
             \Illuminate\Cookie\Middleware\EncryptCookies::class,

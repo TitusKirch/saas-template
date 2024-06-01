@@ -22,7 +22,7 @@ class AuthServiceProvider extends ServiceProvider
             $verificationUrlPathIdAndQuery = explode('/', $verificationUrlPathAndQuery[0]);
 
             // TODO: Get url from config
-            $emailVerifyUrl = 'http://localhost:3000/auth/email/verify?'.http_build_query([
+            $emailVerifyUrl = config('app.app_url.auth').'/auth/email/verify?'.http_build_query([
                 'id' => $verificationUrlPathIdAndQuery[0],
                 'hash' => $verificationUrlPathIdAndQuery[1],
             ]).'&'.$verificationUrlPathAndQuery[1];
@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         // override the reset password email
         ResetPassword::toMailUsing(function ($notifiable, $token) {
             // TODO: Get url from config
-            $emailResetUrl = 'http://localhost:3000/auth/password/reset?'.http_build_query([
+            $emailResetUrl = config('app.app_url.auth').'/auth/password/reset?'.http_build_query([
                 'token' => $token,
                 'email' => $notifiable->getEmailForPasswordReset(),
             ]);
