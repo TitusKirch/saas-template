@@ -8,11 +8,14 @@ use Spatie\Health\ResultStores\EloquentHealthResultStore;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up()
     {
         $connection = (new HealthCheckResultHistoryItem())->getConnectionName();
         $tableName = EloquentHealthResultStore::getHistoryItemInstance()->getTable();
-    
+
         Schema::connection($connection)->create($tableName, function (Blueprint $table) {
             $table->id();
 
@@ -27,10 +30,23 @@ return new class extends Migration
 
             $table->timestamps();
         });
-        
-        Schema::connection($connection)->table($tableName, function(Blueprint $table) {
+
+        Schema::connection($connection)->table($tableName, function (Blueprint $table) {
             $table->index('created_at');
             $table->index('batch');
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $connection = (new HealthCheckResultHistoryItem())->getConnectionName();
+        $tableName = EloquentHealthResultStore::getHistoryItemInstance()->getTable();
+
+        Schema::connection($connection)->drop($tableName);
     }
 };
