@@ -32,7 +32,7 @@ const baseInfo: IconifyInfo = {
 };
 
 // set base prefix (without theme)
-const basePrefix = 'fa-pro-';
+const basePrefix = 'fa6-';
 
 // main function
 const main = async () => {
