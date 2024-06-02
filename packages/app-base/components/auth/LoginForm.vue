@@ -105,6 +105,13 @@
         </template>
       </FormKit>
 
+      <FormKit
+        type="toggle"
+        name="remember"
+        :label="$t('global.auth.rememberMe.label')"
+        :default="true"
+      />
+
       <UButton
         type="submit"
         block

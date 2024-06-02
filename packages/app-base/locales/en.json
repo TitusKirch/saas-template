@@ -57,6 +57,11 @@
         }
       }
     },
+    "auth": {
+      "rememberMe": {
+        "label": "Remember me"
+      }
+    },
     "email": {
       "label": "Email address",
       "placeholder": {

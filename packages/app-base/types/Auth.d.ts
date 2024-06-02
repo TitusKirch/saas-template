@@ -1,6 +1,7 @@
 type AuthLoginForm = {
   email: string;
   password: string;
+  remember?: boolean;
 };
 type AuthLoginData = AuthLoginForm;
 type AuthLoginResponse = ApiResponse<AuthLoginData>;
