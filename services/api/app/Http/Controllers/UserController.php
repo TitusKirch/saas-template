@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\UserMeResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -45,6 +46,16 @@ class UserController extends Controller
     public function showMe()
     {
         return new UserMeResource(auth()->user());
+    }
+
+    /**
+     * Display the organizations of the current user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showMyOrganizations()
+    {
+        return OrganizationResource::collection(auth()->user()->organizations());
     }
 
     /**

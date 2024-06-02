@@ -14,5 +14,6 @@ Route::group([
     'middleware' => ['auth:sanctum'],
 ], function () {
     Route::get('/users/me', [UserController::class, 'showMe']);
+    Route::get('/users/me/organizations', [UserController::class, 'showMyOrganizations']);
     Route::apiResource('/users', UserController::class);
 });

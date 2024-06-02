@@ -37,6 +37,8 @@ class Organization extends Model implements Auditable
                 'name' => 'Member',
                 'is_default' => true,
             ]);
+
+            setPermissionsTeamId($organization->id);
         });
     }
 
