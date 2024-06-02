@@ -20,6 +20,7 @@ class UserMeResource extends UserResource
             'email_verified_at' => $this->email_verified_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'organizations' => $this->organizations()->pluck('id'),
         ];
     }
 }

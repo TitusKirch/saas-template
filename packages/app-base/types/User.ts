@@ -15,6 +15,7 @@ type User = Omit<UserData, 'created_at' | 'updated_at'> & {
 
 type UserMeExtraData = {
   email_verified_at: string | null;
+  organizations: string[];
 };
 type UserMeData = UserData & UserMeExtraData;
 type UserMeResponse = ApiResourceResponse<UserMeData>;
