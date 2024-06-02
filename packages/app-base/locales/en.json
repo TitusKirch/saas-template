@@ -41,6 +41,9 @@
         "login": {
           "label": "Log in"
         },
+        "logout": {
+          "label": "Log out"
+        },
         "passwordResetLinkRequest": {
           "label": "Send password reset link"
         },

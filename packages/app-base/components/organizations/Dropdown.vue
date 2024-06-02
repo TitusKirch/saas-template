@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  const teams = [
+  const organizations = [
     {
       label: 'Nuxt',
       avatar: {
         src: 'https://avatars.githubusercontent.com/u/23360933?s=200&v=4',
       },
       click: () => {
-        team.value = teams[0];
+        organization.value = organizations[0];
       },
     },
     {
@@ -15,7 +15,7 @@
         src: 'https://avatars.githubusercontent.com/u/62017400?s=200&v=4',
       },
       click: () => {
-        team.value = teams[1];
+        organization.value = organizations[1];
       },
     },
   ];
@@ -23,22 +23,22 @@
   const actions = [
     {
       label: 'Create team',
-      icon: 'i-heroicons-plus-circle',
+      icon: 'i-fa6-solid-circle-plus',
     },
     {
       label: 'Manage teams',
-      icon: 'i-heroicons-cog-8-tooth',
+      icon: 'i-fa6-solid-gear',
     },
   ];
 
-  const team = ref(teams[0]);
+  const organization = ref(organizations[0]);
 </script>
 
 <template>
   <UDropdown
     v-slot="{ open }"
     mode="hover"
-    :items="[teams, actions]"
+    :items="[organizations, actions]"
     class="w-full"
     :ui="{ width: 'w-full' }"
     :popper="{ strategy: 'absolute' }"
@@ -49,10 +49,10 @@
       :class="[open && 'bg-gray-50 dark:bg-gray-800']"
       class="w-full"
     >
-      <UAvatar :src="team.avatar.src" size="2xs" />
+      <UAvatar :src="organization.avatar.src" size="2xs" />
 
       <span class="truncate text-gray-900 dark:text-white font-semibold flex-grow text-left">{{
-        team.label
+        organization.label
       }}</span>
     </UButton>
   </UDropdown>

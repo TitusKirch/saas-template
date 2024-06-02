@@ -1,3 +1,9 @@
+<script setup lang="ts">
+  const route = useRoute();
+  const appConfig = useAppConfig();
+  // const { isHelpSlideoverOpen } = useDashboard();
+</script>
+
 <template>
   <!-- <div class="h-screen">
     <BaseAlertContainer>
@@ -21,9 +27,36 @@
         </template>
       </UDashboardNavbar>
 
-      <UDashboardSidebar />
+      <UDashboardSidebar>
+        <template #header>
+          <UDashboardSearchButton />
+        </template>
+
+        <!-- <UDashboardSidebarLinks :links="links" /> -->
+
+        <UDivider />
+
+        <!-- <UDashboardSidebarLinks
+          :links="[{ label: 'Colors', draggable: true, children: colors }]"
+          @update:links="colors => defaultColors = colors"
+        /> -->
+
+        <div class="flex-1" />
+
+        <!-- <UDashboardSidebarLinks :links="footerLinks" /> -->
+
+        <UDivider class="sticky bottom-0" />
+
+        <template #footer>
+          <UserDropdown />
+        </template>
+      </UDashboardSidebar>
     </UDashboardPanel>
 
     <slot />
+
+    <ClientOnly>
+      <!-- <LazyUDashboardSearch :groups="groups" /> -->
+    </ClientOnly>
   </UDashboardLayout>
 </template>
