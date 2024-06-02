@@ -8,6 +8,18 @@
         "female": "erika.mustermann{'@'}beispiel.de",
         "male": "max.mustermann{'@'}beispiel.de"
       }
+    },
+    "first_name": {
+      "placeholder": {
+        "female": "Erika",
+        "male": "Max"
+      }
+    },
+    "last_name": {
+      "placeholder": {
+        "female": "Mustermann",
+        "male": "Mustermann"
+      }
     }
   }
 }

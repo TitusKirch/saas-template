@@ -75,6 +75,20 @@
     "email_confirm": {
       "label": "Confirm email address"
     },
+    "first_name": {
+      "label": "First name",
+      "placeholder": {
+        "female": "Jane",
+        "male": "John"
+      }
+    },
+    "last_name": {
+      "label": "Last name",
+      "placeholder": {
+        "female": "Doe",
+        "male": "Doe"
+      }
+    },
     "or": {
       "label": "or"
     },

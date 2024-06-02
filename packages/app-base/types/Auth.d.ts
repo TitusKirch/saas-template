@@ -10,6 +10,8 @@ type AuthLogoutData = undefined;
 type AuthLogoutResponse = ApiResponse<AuthLogoutData>;
 
 type AuthRegisterForm = {
+  first_name: string;
+  last_name: string;
   email: string;
   email_confirm: string;
   password: string;

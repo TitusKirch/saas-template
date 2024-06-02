@@ -27,6 +27,8 @@ export default function () {
   // registration
   const transformRegisterFormToData = ({ form }: { form: AuthRegisterForm }): AuthRegisterData => {
     return {
+      first_name: form.first_name,
+      last_name: form.last_name,
       email: form.email,
       name: form.email,
       password: form.password,
