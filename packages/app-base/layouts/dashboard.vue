@@ -2,6 +2,43 @@
   const route = useRoute();
   const appConfig = useAppConfig();
   // const { isHelpSlideoverOpen } = useDashboard();
+
+  const router = useRouter();
+  defineShortcuts({
+    'g-d': () => router.push('/dashboard'),
+    'g-p': () => router.push('/placeholder'),
+  });
+
+  const links = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: 'i-heroicons-home',
+      to: '/dashboard',
+      tooltip: {
+        text: 'Dashboard',
+        shortcuts: ['G', 'D'],
+      },
+    },
+    {
+      id: 'placeholder',
+      label: 'Placeholder',
+      icon: 'i-heroicons-clipboard',
+      to: '/placeholder',
+      tooltip: {
+        text: 'Placeholder',
+        shortcuts: ['G', 'P'],
+      },
+    },
+  ];
+
+  const groups = [
+    {
+      key: 'links',
+      label: 'Go to',
+      commands: links.map((link) => ({ ...link, shortcuts: link.tooltip?.shortcuts })),
+    },
+  ];
 </script>
 
 <template>
@@ -32,9 +69,9 @@
           <UDashboardSearchButton />
         </template>
 
-        <!-- <UDashboardSidebarLinks :links="links" /> -->
+        <UDashboardSidebarLinks :links="links" />
 
-        <UDivider />
+        <!-- <UDivider /> -->
 
         <!-- <UDashboardSidebarLinks
           :links="[{ label: 'Colors', draggable: true, children: colors }]"
@@ -56,7 +93,7 @@
     <slot />
 
     <ClientOnly>
-      <!-- <LazyUDashboardSearch :groups="groups" /> -->
+      <LazyUDashboardSearch :groups="groups" />
     </ClientOnly>
   </UDashboardLayout>
 </template>

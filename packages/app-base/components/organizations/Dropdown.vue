@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const organizations = [
     {
-      label: 'Nuxt',
+      label: 'Zuhause',
       avatar: {
         src: 'https://avatars.githubusercontent.com/u/23360933?s=200&v=4',
       },
@@ -10,7 +10,7 @@
       },
     },
     {
-      label: 'NuxtLabs',
+      label: 'Ferienhaus',
       avatar: {
         src: 'https://avatars.githubusercontent.com/u/62017400?s=200&v=4',
       },

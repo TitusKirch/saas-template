@@ -19,7 +19,7 @@
       {
         label: 'Settings',
         icon: 'i-heroicons-cog-8-tooth',
-        to: '/settings',
+        to: '/placeholder',
       },
       {
         label: 'Command menu',
@@ -38,28 +38,13 @@
     ],
     [
       {
-        label: 'Documentation',
-        icon: 'i-heroicons-book-open',
-        to: 'https://ui.nuxt.com/pro/getting-started',
-        target: '_blank',
-      },
-      {
-        label: 'GitHub repository',
-        icon: 'i-simple-icons-github',
-        to: 'https://github.com/nuxt-ui-pro/dashboard',
-        target: '_blank',
-      },
-      {
-        label: 'Buy Nuxt UI Pro',
-        icon: 'i-heroicons-credit-card',
-        to: 'https://ui.nuxt.com/pro/purchase',
-        target: '_blank',
-      },
-    ],
-    [
-      {
         label: t('global.action.auth.logout.label'),
         icon: 'i-heroicons-arrow-left-on-rectangle',
+        click: () => {
+          navigateToLocale({
+            name: 'auth-logout',
+          });
+        },
       },
     ],
   ]);
@@ -78,11 +63,11 @@
         color="gray"
         variant="ghost"
         class="w-full"
-        :label="user?.name"
+        :label="`${user?.first_name} ${user?.last_name}`"
         :class="[open && 'bg-gray-50 dark:bg-gray-800']"
       >
         <template #leading>
-          <UAvatar size="2xs" :alt="user?.name" />
+          <UAvatar size="2xs" :alt="`${user?.first_name} ${user?.last_name}`" />
         </template>
 
         <template #trailing>

@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@formkit/nuxt',
     '@nuxtjs/i18n',
     'nuxt-security',
+    '@vueuse/nuxt',
     '@pinia/nuxt',
   ],
   experimental: {
