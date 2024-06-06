@@ -7,6 +7,7 @@
   const user = await me();
 
   const { t } = useI18n();
+  const localePath = useLocalePath();
   const items = computed(() => [
     [
       {
@@ -19,7 +20,8 @@
       {
         label: 'Settings',
         icon: 'i-heroicons-cog-8-tooth',
-        to: '/placeholder',
+        shortcuts: ['G', 'S'],
+        to: localePath({ name: 'settings' }),
       },
       {
         label: 'Command menu',

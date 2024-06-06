@@ -1,61 +1,82 @@
 <script setup lang="ts">
-  const route = useRoute();
-  const appConfig = useAppConfig();
-  // const { isHelpSlideoverOpen } = useDashboard();
+  const {
+    addSidebarLinks,
+    getSidebarLinks,
+    resetSearchGroups,
+    addSearchGroup,
+    getSearchGroupsWithLinks,
+    resetShortcuts,
+    addShortcut,
+  } = useDashboard();
+  const { t } = useI18n();
+  const localePath = useLocalePath();
 
-  const router = useRouter();
-  defineShortcuts({
-    'g-d': () => router.push('/dashboard'),
-    'g-p': () => router.push('/placeholder'),
-  });
-
-  const links = [
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: 'i-heroicons-home',
-      to: '/dashboard',
-      tooltip: {
-        text: 'Dashboard',
-        shortcuts: ['G', 'D'],
+  if (import.meta.server) {
+    // sidebar links
+    addSidebarLinks([
+      {
+        id: 'dashboard',
+        label: 'Dashboard',
+        icon: 'i-fa6-solid-house',
+        to: localePath({
+          name: 'index',
+        }),
+        tooltip: {
+          text: 'Dashboard',
+          shortcuts: ['G', 'D'],
+        },
       },
-    },
-    {
-      id: 'placeholder',
-      label: 'Placeholder',
-      icon: 'i-heroicons-clipboard',
-      to: '/placeholder',
-      tooltip: {
-        text: 'Placeholder',
-        shortcuts: ['G', 'P'],
+      {
+        id: 'placeholder',
+        label: 'Placeholder',
+        icon: 'i-fa6-solid-flask',
+        to: localePath({
+          name: 'placeholder',
+        }),
+        tooltip: {
+          text: 'Placeholder',
+          shortcuts: ['G', 'P'],
+        },
       },
-    },
-  ];
+    ]);
 
-  const groups = [
-    {
-      key: 'links',
-      label: 'Go to',
-      commands: links.map((link) => ({ ...link, shortcuts: link.tooltip?.shortcuts })),
-    },
-  ];
+    // search groups
+    resetSearchGroups();
+    addSearchGroup({
+      key: 'settings',
+      label: t('page.settings.title'),
+      commands: [
+        {
+          id: 'settings-index',
+          label: t('page.settings.index.title'),
+          icon: 'i-fa6-solid-circle-user',
+          to: localePath({ name: 'settings' }),
+          shortcuts: ['G', 'S'],
+          exact: true,
+        },
+        {
+          id: 'settings-notifications',
+          label: t('page.settings.notifications.title'),
+          icon: 'i-fa6-solid-bell',
+          to: localePath({ name: 'settings-notifications' }),
+        },
+      ],
+    });
+
+    // shortcuts
+    resetShortcuts();
+    addShortcut({
+      key: 'g-s',
+      callback: () => {
+        navigateToLocale({
+          name: 'settings',
+        });
+      },
+    });
+  }
 </script>
 
 <template>
-  <!-- <div class="h-screen">
-    <BaseAlertContainer>
-      <UserEmailIsNotVerifiedAlert />
-    </BaseAlertContainer>
-
-    <UMain
-      :ui="{
-        wrapper: 'mt-8',
-      }"
-    >
-      <slot />
-    </UMain>
-  </div> -->
-
   <UDashboardLayout>
     <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
@@ -69,7 +90,7 @@
           <UDashboardSearchButton />
         </template>
 
-        <UDashboardSidebarLinks :links="links" />
+        <UDashboardSidebarLinks :links="getSidebarLinks()" />
 
         <!-- <UDivider /> -->
 
@@ -89,11 +110,13 @@
         </template>
       </UDashboardSidebar>
     </UDashboardPanel>
-
     <slot />
 
     <ClientOnly>
-      <LazyUDashboardSearch :groups="groups" />
+      <LazyUDashboardSearch
+        v-if="getSearchGroupsWithLinks()"
+        :groups="getSearchGroupsWithLinks()"
+      />
     </ClientOnly>
   </UDashboardLayout>
 </template>

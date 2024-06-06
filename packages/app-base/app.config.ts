@@ -3,6 +3,7 @@ export default defineAppConfig({
     primary: 'sky',
     gray: 'cool',
     alert: {
+      wrapper: 'flex-shrink-0',
       title: 'py-1.5',
       padding: 'py-2.5',
       default: {
@@ -25,6 +26,13 @@ export default defineAppConfig({
     },
     card: {
       divide: 'divide-y-0',
+    },
+    dashboard: {
+      panel: {
+        content: {
+          wrapper: 'gap-8',
+        },
+      },
     },
     header: {
       button: {

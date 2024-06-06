@@ -6,6 +6,16 @@
     "index": {
       "description": "Welcome to the home page.",
       "title": "Home"
+    },
+    "settings": {
+      "description": "Here you can change your settings.",
+      "index": {
+        "title": "General"
+      },
+      "notifications": {
+        "title": "Notifications"
+      },
+      "title": "Settings"
     }
   }
 }

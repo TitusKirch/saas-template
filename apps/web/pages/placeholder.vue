@@ -1,16 +1,12 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.index.title',
-    description: 'page.index.description',
+    title: 'Placeholder',
+    description: 'Placeholder',
     layout: 'dashboard',
     middleware: ['auth'],
   });
 </script>
 
 <template>
-  <UDashboardPage>
-    <UDashboardPanel grow>
-      <UDashboardNavbar title="Placeholder"> </UDashboardNavbar>
-    </UDashboardPanel>
-  </UDashboardPage>
+  <DashboardPage title="Placeholder"> </DashboardPage>
 </template>

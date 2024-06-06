@@ -32,6 +32,15 @@
       }
     }
   },
+  "dashboard": {
+    "search": {
+      "group": {
+        "links": {
+          "label": "Go to"
+        }
+      }
+    }
+  },
   "global": {
     "action": {
       "auth": {
