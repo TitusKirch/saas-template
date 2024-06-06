@@ -34,7 +34,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
           ...link,
           shortcuts: link.tooltip?.shortcuts,
         })),
-      },
+      } as Group,
     ];
   });
   const resetSearchGroups = () => {
