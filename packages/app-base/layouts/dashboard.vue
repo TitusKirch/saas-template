@@ -11,8 +11,8 @@
   const { t } = useI18n();
   const localePath = useLocalePath();
 
+  // sidebar links
   if (import.meta.server) {
-    // sidebar links
     addSidebarLinks([
       {
         id: 'dashboard',
@@ -39,8 +39,10 @@
         },
       },
     ]);
+  }
 
-    // search groups
+  // search groups
+  if (import.meta.server) {
     resetSearchGroups();
     addSearchGroup({
       key: 'settings',
@@ -62,8 +64,10 @@
         },
       ],
     });
+  }
 
-    // shortcuts
+  // shortcuts
+  if (import.meta.client) {
     resetShortcuts();
     addShortcut({
       key: 'g-s',
