@@ -18,22 +18,22 @@
     ],
     [
       {
-        label: 'Settings',
-        icon: 'i-heroicons-cog-8-tooth',
+        label: t('page.settings.title'),
+        icon: 'i-fa6-solid-gears',
         shortcuts: ['G', 'S'],
         to: localePath({ name: 'settings' }),
       },
       {
-        label: 'Command menu',
-        icon: 'i-heroicons-command-line',
+        label: t('commandMenu.title'),
+        icon: 'i-fa6-solid-terminal',
         shortcuts: [metaSymbol.value, 'K'],
         click: () => {
           isDashboardSearchModalOpen.value = true;
         },
       },
       {
-        label: 'Help & Support',
-        icon: 'i-heroicons-question-mark-circle',
+        label: t('helpSlideover.title'),
+        icon: 'i-fa6-solid-circle-question',
         shortcuts: ['?'],
         click: () => (isHelpSlideoverOpen.value = true),
       },
@@ -80,7 +80,7 @@
 
     <template #account>
       <div class="text-left">
-        <p>Signed in as</p>
+        <p>{{ $t('user.dropdown.signedInAs') }}</p>
         <p class="truncate font-medium text-gray-900 dark:text-white">{{ user?.email }}</p>
       </div>
     </template>
