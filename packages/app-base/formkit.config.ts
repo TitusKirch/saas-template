@@ -47,7 +47,7 @@ function addAsteriskPlugin(node: FormKitNode) {
             $el: 'span',
             if: '$state.required',
             attrs: {
-              class: '$classes.asterisk',
+              class: 'text-red-500 dark:text-red-400',
             },
             children: ['*'],
           },
@@ -100,7 +100,6 @@ export default defineFormKitConfig(() => {
     icons: {
       // fallback to formkit icons
       ...genesisIcons,
-
       // NOTE: FA PRO
       // override formkit icons with font awesome
       // select: fontAwesomeIconToSvg(fal.faChevronDown),
@@ -109,6 +108,7 @@ export default defineFormKitConfig(() => {
       // password: fontAwesomeIconToSvg(fal.faLock),
       // eye: fontAwesomeIconToSvg(fal.faEye),
       // eyeClosed: fontAwesomeIconToSvg(fal.faEyeSlash),
+      // people: fontAwesomeIconToSvg(fal.faUser), (change to user)
     },
   };
 });

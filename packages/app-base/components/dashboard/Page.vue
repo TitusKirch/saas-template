@@ -16,6 +16,8 @@
     toolbar?: HTMLElement;
     toolbarRight?: HTMLElement;
   }>();
+
+  const { getLayout } = useDashboard();
 </script>
 
 <template>
@@ -33,9 +35,15 @@
 
       <UDashboardToolbar
         v-if="$slots.toolbarLeft || $slots.toolbar || $slots.toolbarRight"
+        :ui="{
+          container:
+            (getLayout() === 'compress' ? 'max-w-7xl' : 'max-w-full') +
+            ' transition-all duration-700 ease-in-out mx-auto',
+        }"
         :class="{
           'py-0 px-1.5 overflow-x-auto': toolbarIsNavigation,
         }"
+        class="w-full transition-all duration-700 ease-in-out"
       >
         <template v-if="$slots.toolbarLeft" #left>
           <slot name="toolbarLeft" />
@@ -51,9 +59,17 @@
       </UDashboardToolbar>
 
       <UDashboardPanelContent>
-        <UserEmailIsNotVerifiedAlert />
+        <div
+          :class="{
+            'max-w-7xl': getLayout() === 'compress',
+            'max-w-full': getLayout() === 'fullscreen',
+          }"
+          class="flex flex-col gap-8 flex-shrink-0 w-full transition-all duration-700 ease-in-out mx-auto"
+        >
+          <UserEmailIsNotVerifiedAlert />
 
-        <slot />
+          <slot />
+        </div>
       </UDashboardPanelContent>
     </UDashboardPanel>
   </UDashboardPage>

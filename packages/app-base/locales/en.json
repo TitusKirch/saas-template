@@ -36,6 +36,14 @@
     "title": "Command menu"
   },
   "dashboard": {
+    "layout": {
+      "compress": {
+        "label": "Compress"
+      },
+      "fullscreen": {
+        "label": "Fullscreen"
+      }
+    },
     "search": {
       "group": {
         "links": {

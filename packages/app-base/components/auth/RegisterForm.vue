@@ -79,7 +79,7 @@
           :label="$t('global.first_name.label')"
           validation="required"
           :placeholder="usePlaceholder({ type: 'first_name' })"
-          prefix-icon="user"
+          prefix-icon="people"
         />
         <FormKit
           type="text"
@@ -87,7 +87,7 @@
           :label="$t('global.last_name.label')"
           validation="required"
           :placeholder="usePlaceholder({ type: 'last_name' })"
-          prefix-icon="user"
+          prefix-icon="people"
         />
       </div>
       <FormKit

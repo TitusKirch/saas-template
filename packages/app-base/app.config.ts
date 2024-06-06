@@ -27,13 +27,13 @@ export default defineAppConfig({
     card: {
       divide: 'divide-y-0',
     },
-    dashboard: {
-      panel: {
-        content: {
-          wrapper: 'gap-8',
-        },
-      },
-    },
+    // dashboard: {
+    //   panel: {
+    //     content: {
+    //       wrapper: 'gap-8',
+    //     },
+    //   },
+    // },
     header: {
       button: {
         icon: {

@@ -12,9 +12,14 @@
     [
       {
         label: t('page.settings.index.title'),
-        icon: 'i-fa6-solid-circle-user',
+        icon: 'i-fa6-solid-gears',
         to: '/settings',
         exact: true,
+      },
+      {
+        label: t('page.settings.account.title'),
+        icon: 'i-fa6-solid-circle-user',
+        to: '/settings/account',
       },
       {
         label: t('page.settings.notifications.title'),

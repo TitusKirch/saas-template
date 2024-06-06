@@ -51,10 +51,16 @@
         {
           id: 'settings-index',
           label: t('page.settings.index.title'),
-          icon: 'i-fa6-solid-circle-user',
+          icon: 'i-fa6-solid-gears',
           to: localePath({ name: 'settings' }),
           shortcuts: ['G', 'S'],
           exact: true,
+        },
+        {
+          id: 'settings-account',
+          label: t('page.settings.account.title'),
+          icon: 'i-fa6-solid-circle-user',
+          to: localePath({ name: 'settings-account' }),
         },
         {
           id: 'settings-notifications',

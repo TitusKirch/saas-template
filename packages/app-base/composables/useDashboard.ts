@@ -5,6 +5,26 @@ import type { DashboardSidebarLink } from '@tituskirch/app-base/types/Dashboard'
 export default function () {
   const dashboardStore = useDashboardStore();
 
+  // layout
+  const getLayout = () => {
+    return dashboardStore.layout;
+  };
+  const { t } = useI18n();
+  const getLayoutOptions = () => {
+    return [
+      {
+        value: 'fullscreen',
+        label: t('dashboard.layout.fullscreen.label'),
+        icon: 'i-fa6-solid-expand',
+      },
+      {
+        value: 'compress',
+        label: t('dashboard.layout.compress.label'),
+        icon: 'i-fa6-solid-compress',
+      },
+    ];
+  };
+
   // sidebar links
   const getSidebarLinks = () => {
     return dashboardStore.sidebarLinks;
@@ -109,6 +129,8 @@ export default function () {
   return {
     // isHelpSlideoverOpen,
     // isNotificationsSlideoverOpen,
+    getLayout,
+    getLayoutOptions,
     getSidebarLinks,
     addSidebarLink,
     addSidebarLinks,

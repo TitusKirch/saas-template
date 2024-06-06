@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     'nuxt-security',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   experimental: {
     externalVue: false,
