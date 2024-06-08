@@ -20,7 +20,7 @@
       }"
     >
       <template #links>
-        <ColorModeDropdown />
+        <ColorModeFormDropdown />
       </template>
     </UDashboardSection>
 
@@ -34,7 +34,21 @@
       }"
     >
       <template #links>
-        <DashboardLayoutDropdown />
+        <DashboardLayoutFormDropdown />
+      </template>
+    </UDashboardSection>
+
+    <UDivider class="mb-4" />
+
+    <UDashboardSection
+      :title="$t('page.settings.index.section.locale.title')"
+      :description="$t('page.settings.index.section.locale.description')"
+      :ui="{
+        ...dashboardSectionUiClasses,
+      }"
+    >
+      <template #links>
+        <LocaleFormDropdown />
       </template>
     </UDashboardSection>
   </div>

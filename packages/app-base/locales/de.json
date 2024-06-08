@@ -1,7 +1,4 @@
 {
-  "base": {
-    "foo": "DE-bar"
-  },
   "global": {
     "email": {
       "placeholder": {
@@ -20,6 +17,14 @@
         "female": "Mustermann",
         "male": "Mustermann"
       }
+    }
+  },
+  "locale": {
+    "de-DE": {
+      "label": "Deutsch"
+    },
+    "en-GB": {
+      "label": "Englisch (GB)"
     }
   }
 }

@@ -8,26 +8,33 @@
 
   // links
   const { t } = useI18n();
-  const links = [
+  const localePath = useLocalePath();
+  const links = ref([
     [
       {
         label: t('page.settings.index.title'),
         icon: 'i-fa6-solid-gears',
-        to: '/settings',
+        to: localePath({
+          name: 'settings',
+        }),
         exact: true,
       },
       {
         label: t('page.settings.account.title'),
         icon: 'i-fa6-solid-circle-user',
-        to: '/settings/account',
+        to: localePath({
+          name: 'settings-account',
+        }),
       },
       {
         label: t('page.settings.notifications.title'),
         icon: 'i-fa6-solid-bell',
-        to: '/settings/notifications',
+        to: localePath({
+          name: 'settings-notifications',
+        }),
       },
     ],
-  ];
+  ]);
 </script>
 
 <template>

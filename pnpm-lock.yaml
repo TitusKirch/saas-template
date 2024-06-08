@@ -159,6 +159,9 @@ importers:
       vue:
         specifier: ^3.4.27
         version: 3.4.27(typescript@5.4.5)
+      vue-country-flag-next:
+        specifier: ^2.3.2
+        version: 2.3.2(vue@3.4.27(typescript@5.4.5))
       vue-router:
         specifier: ^4.3.2
         version: 4.3.2(vue@3.4.27(typescript@5.4.5))
@@ -8217,6 +8220,12 @@ packages:
 
   vue-component-type-helpers@2.0.16:
     resolution: {integrity: sha512-qisL/iAfdO++7w+SsfYQJVPj6QKvxp4i1MMxvsNO41z/8zu3KuAw9LkhKUfP/kcOWGDxESp+pQObWppXusejCA==}
+
+  vue-country-flag-next@2.3.2:
+    resolution: {integrity: sha512-Lv12L1VTwlBgizpZ3xPEPO3zuIETaJmeSiPuLOWLLgu2EakwU/o72iKYiKcdZ6BXiSkfss+Ski5fDzjuxZ1DcA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.0.0
 
   vue-demi@0.14.7:
     resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}
@@ -19067,6 +19076,10 @@ snapshots:
       ufo: 1.5.3
 
   vue-component-type-helpers@2.0.16: {}
+
+  vue-country-flag-next@2.3.2(vue@3.4.27(typescript@5.4.5)):
+    dependencies:
+      vue: 3.4.27(typescript@5.4.5)
 
   vue-demi@0.14.7(vue@3.4.27(typescript@5.4.5)):
     dependencies:

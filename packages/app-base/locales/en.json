@@ -123,6 +123,14 @@
   "helpSlideover": {
     "title": "Help"
   },
+  "locale": {
+    "de-DE": {
+      "label": "German"
+    },
+    "en-GB": {
+      "label": "English (UK)"
+    }
+  },
   "page": {
     "auth": {
       "email": {

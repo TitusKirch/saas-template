@@ -30,6 +30,10 @@
             "description": "Change the layout of the app.",
             "title": "Layout"
           },
+          "locale": {
+            "description": "Change the language of the app.",
+            "title": "Locale"
+          },
           "theme": {
             "description": "Customize the look and feel of the app.",
             "title": "Theme"

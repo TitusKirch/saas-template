@@ -14,12 +14,7 @@
       :options="getLayoutOptions"
     >
       <template #option="{ option, classes }">
-        <div :class="`${classes.option} flex items-center`">
-          <UIcon :name="option.icon" class="w-5 mr-2" />
-          <span>
-            {{ option.label }}
-          </span>
-        </div>
+        <FormDropdownOption :option="option" :classes="classes" />
       </template>
     </FormKit>
 
@@ -33,12 +28,7 @@
         disabled
       >
         <template #option="{ option, classes }">
-          <div :class="`${classes.option} flex items-center`">
-            <UIcon :name="option.icon" class="w-5 mr-2" />
-            <span>
-              {{ option.label }}
-            </span>
-          </div>
+          <FormDropdownOption :option="option" :classes="classes" />
         </template>
       </FormKit>
     </template>

@@ -9,4 +9,9 @@ export const classes = {
   checkbox: {
     decoratorIcon: '!top-0 !left-[calc(66%/(2*2))]',
   },
+  'family:dropdown': {
+    option: '!ml-0',
+    selectedIcon: 'hidden',
+    listitem: 'group/listitem hover:cursor-pointer',
+  },
 };
