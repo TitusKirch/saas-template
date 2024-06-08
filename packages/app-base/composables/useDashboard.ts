@@ -42,6 +42,9 @@ export default function () {
       id,
     });
   };
+  const resetSidebarLinks = () => {
+    dashboardStore.resetSidebarLinks();
+  };
 
   // search groups
   const getSearchGroups = () => {
@@ -135,6 +138,7 @@ export default function () {
     addSidebarLink,
     addSidebarLinks,
     removeSidebarLink,
+    resetSidebarLinks,
     getSearchGroups,
     getSearchGroupsWithLinks,
     addSearchGroup,

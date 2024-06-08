@@ -1,5 +1,6 @@
 <script setup lang="ts">
   const {
+    resetSidebarLinks,
     addSidebarLinks,
     getSidebarLinks,
     resetSearchGroups,
@@ -11,8 +12,9 @@
   const { t } = useI18n();
   const localePath = useLocalePath();
 
-  // sidebar links
-  if (import.meta.server) {
+  onMounted(() => {
+    // sidebar links
+    resetSidebarLinks();
     addSidebarLinks([
       {
         id: 'dashboard',
@@ -39,10 +41,8 @@
         },
       },
     ]);
-  }
 
-  // search groups
-  if (import.meta.server) {
+    // search groups
     resetSearchGroups();
     addSearchGroup({
       key: 'settings',
@@ -70,10 +70,8 @@
         },
       ],
     });
-  }
 
-  // shortcuts
-  if (import.meta.client) {
+    // shortcuts
     resetShortcuts();
     addShortcut({
       key: 'g-s',
@@ -83,7 +81,7 @@
         });
       },
     });
-  }
+  });
 </script>
 
 <template>

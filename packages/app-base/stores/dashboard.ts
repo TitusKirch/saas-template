@@ -19,6 +19,9 @@ export const useDashboardStore = defineStore(
     const removeSidebarLink = ({ id }: { id: string }) => {
       sidebarLinks.value = sidebarLinks.value.filter((link) => link.id !== id);
     };
+    const resetSidebarLinks = () => {
+      sidebarLinks.value = [];
+    };
 
     // search groups
     const { t } = useI18n();
@@ -64,6 +67,7 @@ export const useDashboardStore = defineStore(
       sidebarLinks,
       addSidebarLink,
       removeSidebarLink,
+      resetSidebarLinks,
       searchGroups,
       addSearchGroup,
       removeSearchGroup,
