@@ -8,9 +8,10 @@ WORKDIR /app
 
 # install php extensions
 RUN install-php-extensions \
+  bcmath \
   pcntl \
-  redis \
-  pdo_pgsql
+  pdo_pgsql \
+  redis
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
