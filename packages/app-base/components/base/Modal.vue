@@ -46,19 +46,19 @@
       footer: { base: 'ml-16' } as any,
     }"
   >
-    <template #title v-if="$slots.title">
+    <template v-if="$slots.title" #title>
       <slot name="title" />
     </template>
 
-    <template #description v-if="$slots.description">
+    <template v-if="$slots.description" #description>
       <slot name="description" />
     </template>
 
-    <template #default v-if="$slots.default">
+    <template v-if="$slots.default" #default>
       <slot name="default" />
     </template>
 
-    <template #footer v-if="$slots.footer">
+    <template v-if="$slots.footer" #footer>
       <slot name="footer" />
     </template>
   </UDashboardModal>

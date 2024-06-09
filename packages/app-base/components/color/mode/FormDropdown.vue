@@ -19,7 +19,7 @@
 
 <template>
   <ClientOnly v-if="!colorMode?.forced">
-    <FormKit type="dropdown" name="preference" v-model="preference" popover :options="options">
+    <FormKit v-model="preference" type="dropdown" name="preference" popover :options="options">
       <template #option="{ option, classes }">
         <FormDropdownOption :option="option" :classes="classes" />
       </template>
@@ -27,9 +27,9 @@
 
     <template #fallback>
       <FormKit
+        v-model="preference"
         type="dropdown"
         name="preference"
-        v-model="preference"
         popover
         :options="options"
         disabled

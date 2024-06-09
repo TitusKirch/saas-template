@@ -33,11 +33,11 @@
 
 <template>
   <UAlert :color="color" :icon="icon" :title="title" :description="description">
-    <template #title v-if="$slots.title">
+    <template v-if="$slots.title" #title>
       <slot name="title" />
     </template>
 
-    <template #description v-if="$slots.description">
+    <template v-if="$slots.description" #description>
       <slot name="description" />
     </template>
   </UAlert>

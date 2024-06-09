@@ -115,10 +115,11 @@
       </NuxtLayout>
 
       <UNotifications>
-        <template #title="{ title }">
-          <span>{{ translateNotification({ text: title }) }}</span>
+        <template #title="{ title: notificationTitle }">
+          <span>{{ translateNotification({ text: notificationTitle }) }}</span>
         </template>
         <template #description="{ description }">
+          <!-- eslint-disable vue/no-v-html -->
           <span
             v-html="
               styleNotification({
@@ -126,6 +127,7 @@
               })
             "
           />
+          <!-- eslint-enable vue/no-v-html -->
         </template>
       </UNotifications>
     </Body>

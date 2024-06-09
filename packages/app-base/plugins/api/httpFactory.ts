@@ -1,4 +1,4 @@
-import type { $Fetch, FetchOptions } from 'ofetch';
+import type { $Fetch } from 'ofetch';
 import { withTrailingSlash } from 'ufo';
 import { appendResponseHeader, splitCookiesString } from 'h3';
 import { useUserStore } from '@tituskirch/app-base/stores/user';
@@ -93,7 +93,7 @@ export function createHttpClient(): $Fetch {
   return $fetch.create({
     baseURL: withTrailingSlash(runtimeConfig.public.apiUrl),
 
-    async onRequest({ options, request }) {
+    async onRequest({ options }) {
       const method = options.method?.toLowerCase() ?? 'get';
       const opts: typeof options & {
         prefix?: string;
@@ -175,7 +175,7 @@ export function createHttpClient(): $Fetch {
     /**
      * @see https://github.com/manchenkoff/nuxt-auth-sanctum/blob/141017985113ee70e51f5949f08bcbcfc83c39f9/src/runtime/httpFactory.ts#L150-L169
      */
-    async onResponseError({ request, response }) {
+    async onResponseError({ response }) {
       const userStore = useUserStore();
 
       if (response.status === 419) {

@@ -7,9 +7,9 @@
 <template>
   <ClientOnly>
     <FormKit
+      v-model="dashboardStore.layout"
       type="dropdown"
       name="preference"
-      v-model="dashboardStore.layout"
       popover
       :options="getLayoutOptions"
     >
@@ -20,9 +20,9 @@
 
     <template #fallback>
       <FormKit
+        v-model="dashboardStore.layout"
         type="dropdown"
         name="preference"
-        v-model="dashboardStore.layout"
         popover
         :options="getLayoutOptions"
         disabled

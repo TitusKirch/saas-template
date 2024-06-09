@@ -6,8 +6,8 @@
     classes?: any;
   }>();
   defineSlots<{
-    icon: void;
-    label: void;
+    icon?: HTMLElement;
+    label?: HTMLElement;
   }>();
 </script>
 

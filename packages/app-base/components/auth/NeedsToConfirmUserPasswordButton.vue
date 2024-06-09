@@ -23,7 +23,7 @@
 <template>
   <div class="w-full">
     <slot v-if="authStore.userPasswordConfirmed" />
-    <slot name="confirmPasswordButton" v-else>
+    <slot v-else name="confirmPasswordButton">
       <UButton
         icon="i-fa6-solid-lock"
         :color="getColorByType({ type: 'warning' })"

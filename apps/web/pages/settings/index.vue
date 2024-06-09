@@ -4,10 +4,6 @@
     container: 'items-start',
     links: 'w-full md:w-auto md:min-w-80',
   };
-  const dashboardSectionLinksDivClasses = 'flex flex-col w-full md:w-auto md:min-w-80';
-  const formkitFieldClasses = {
-    label: '$reset hidden',
-  };
 </script>
 
 <template>

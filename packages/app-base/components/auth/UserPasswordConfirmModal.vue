@@ -44,6 +44,8 @@
   watch(form, (newValue: Form, oldValue: Form) => {
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
       if (newValue[key] !== oldValue[key]) {
+        // TODO: Refactor to doesn't use dynamic delete
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete errorMessages.value[key];
       }
     }
@@ -57,12 +59,12 @@
     type="warning"
   >
     <FormKit
-      type="form"
+      v-slot="{ state: { valid } }"
       v-model="form"
+      type="form"
       :actions="false"
       :disabled="status === 'success'"
       @submit="submit"
-      #default="{ state: { valid } }"
     >
       <FormErrorsAlert :error-messages="errorMessages" />
 

@@ -2,6 +2,7 @@
   // setup component
   const props = withDefaults(
     defineProps<{
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       code: any;
       title?: string;
       language?: string;

@@ -20,7 +20,7 @@ const handleIdentityLoadError = ({ error }: { error: Error }) => {
   }
 };
 
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async () => {
   const client = createHttpClient();
 
   const userStore = useUserStore();
@@ -28,6 +28,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     try {
       const user = await client<UserResponse>('users/me', {
         version: 'v1',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
       userStore.setUserData({ data: user.data });
     } catch (error) {

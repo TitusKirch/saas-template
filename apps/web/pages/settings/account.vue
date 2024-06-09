@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   const { me } = useUser();
   const user = await me();
 
@@ -65,6 +63,8 @@
   watch(form, (newValue: Form, oldValue: Form) => {
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
       if (newValue[key] !== oldValue[key]) {
+        // TODO: Refactor to doesn't use dynamic delete
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete errorMessages.value[key];
       }
     }
@@ -80,6 +80,8 @@
     label: '$reset hidden',
   };
 
+  // TODO: Use correct type here
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formRef = ref<any | null>(null);
 </script>
 
@@ -87,12 +89,12 @@
   <div>
     <FormKit
       ref="formRef"
-      type="form"
+      v-slot="{ state: { valid } }"
       v-model="form"
+      type="form"
       :actions="false"
       :disabled="status === 'success'"
       @submit="submit"
-      #default="{ state: { valid } }"
     >
       <UDashboardSection
         :title="$t('page.settings.account.section.name.title')"
@@ -165,8 +167,8 @@
               :placeholder="$t('global.password.label')"
               prefix-icon="password"
               suffix-icon="eyeClosed"
-              @suffix-icon-click="passwordToggle"
               :classes="formkitFieldClasses"
+              @suffix-icon-click="passwordToggle"
             />
             <FormKit
               type="password"
@@ -176,8 +178,8 @@
               :placeholder="$t('global.password_confirm.label')"
               prefix-icon="password"
               suffix-icon="eyeClosed"
-              @suffix-icon-click="passwordToggle"
               :classes="formkitFieldClasses"
+              @suffix-icon-click="passwordToggle"
             />
           </div>
         </template>
