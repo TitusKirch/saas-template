@@ -1,25 +1,41 @@
-<script setup lang="ts">
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const randomColor = (e: any) => {
-    const hex = Math.floor(Math.random() * 16777215).toString(16)
-    e.target.setAttribute('style', 'background-color: #' + hex + '88;')
-  }
-</script>
-
 <template>
-  <div>
-    <UDashboardNavbar title="Inbox" badge="5" />
+  <div class="h-screen">
+    <UHeader
+      :ui="{
+        logo: 'flex items-center space-x-2 group',
+      }"
+    >
+      <template #logo>
+        <UIcon
+          name="i-fa6-solid-fire"
+          class="w-6 text-primary-500 group-hover:text-primary-600 dark:text-primary-400 dark:group-hover:text-primary-500"
+        />
+        <span>{{ $t('app.name') }}</span>
+      </template>
 
-    <HelloApp />
+      <template #right>
+        <UColorModeButton />
 
-    {{ $t('base.foo') }}
+        <NuxtLinkLocale
+          :to="{
+            name: 'auth-logout',
+          }"
+        >
+          <UButton color="gray" variant="ghost" icon="i-fa6-solid-right-to-bracket" />
+        </NuxtLinkLocale>
+      </template>
+    </UHeader>
 
-    <h1>This app is:</h1>
+    <BaseAlertContainer>
+      <UserEmailIsNotVerifiedAlert />
+    </BaseAlertContainer>
 
-    <slot />
-
-    <FormKit type="button" help="You can bind event listeners." @click="randomColor">
-      Click me!
-    </FormKit>
+    <UMain
+      :ui="{
+        wrapper: 'mt-8',
+      }"
+    >
+      <slot />
+    </UMain>
   </div>
 </template>

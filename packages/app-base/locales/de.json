@@ -1,5 +1,30 @@
 {
-  "base": {
-    "foo": "DE-bar"
+  "global": {
+    "email": {
+      "placeholder": {
+        "female": "erika.mustermann{'@'}beispiel.de",
+        "male": "max.mustermann{'@'}beispiel.de"
+      }
+    },
+    "first_name": {
+      "placeholder": {
+        "female": "Erika",
+        "male": "Max"
+      }
+    },
+    "last_name": {
+      "placeholder": {
+        "female": "Mustermann",
+        "male": "Mustermann"
+      }
+    }
+  },
+  "locale": {
+    "de-DE": {
+      "label": "Deutsch"
+    },
+    "en-GB": {
+      "label": "Englisch (GB)"
+    }
   }
 }

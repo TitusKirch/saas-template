@@ -1,16 +1,16 @@
 <script setup lang="ts">
   const props = withDefaults(
     defineProps<{
-      toLowerCase?: boolean
+      toLowerCase?: boolean;
     }>(),
     {
       toLowerCase: false,
     }
-  )
+  );
 
   const message = computed(() => {
-    return props.toLowerCase ? 'hello app!' : 'Hello App!'
-  })
+    return props.toLowerCase ? 'hello app!' : 'Hello App!';
+  });
 </script>
 
 <template>

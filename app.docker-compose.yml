@@ -1,0 +1,106 @@
+version: '3.9'
+
+secrets:
+  NUXT_UI_PRO_LICENSE:
+    environment: APP_NUXT_UI_PRO_LICENSE
+  FORMKIT_PRO_KEY:
+    environment: APP_FORMKIT_PRO_KEY
+
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  blog:
+    container_name: blog
+    build:
+      context: .
+      dockerfile: ./apps/Dockerfile
+      args:
+        - APP_NAME=@tituskirch/blog
+        - APP_PATH=apps/blog
+      secrets:
+        - NUXT_UI_PRO_LICENSE
+        - FORMKIT_PRO_KEY
+    env_file:
+      - ./apps/blog/.env
+    restart: always
+    ports:
+      - 3001:3000
+    networks:
+      - app_network
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./apps/Dockerfile
+      args:
+        - APP_NAME=@tituskirch/web
+        - APP_PATH=apps/web
+      secrets:
+        - NUXT_UI_PRO_LICENSE
+        - FORMKIT_PRO_KEY
+    env_file:
+      - ./apps/web/.env
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - app_network
+  api-app:
+    container_name: api-app
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: app
+      PULSE_SERVER_NAME: api-app
+    ports:
+      - '8000:8000'
+
+  api-scheduler:
+    container_name: api-scheduler
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: scheduler
+      PULSE_SERVER_NAME: api-scheduler
+
+  api-queue:
+    container_name: api-queue
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: queue
+      PULSE_SERVER_NAME: api-queue
+
+  api-pulse-worker:
+    container_name: api-pulse-worker
+    build:
+      context: .
+      dockerfile: ./services/Dockerfile
+      args:
+        - SERVICE_NAME=@tituskirch/api
+        - SERVICE_PATH=services/api
+    env_file:
+      - ./services/api/.env
+    environment:
+      CONTAINER_ROLE: pulse-worker
+      PULSE_SERVER_NAME: api-pulse-worker

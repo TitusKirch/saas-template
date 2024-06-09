@@ -11,4 +11,9 @@ export default defineNuxtConfig({
       { code: 'en-GB', iso: 'en-GB', files: ['en.json'] },
     ],
   },
-})
+  runtimeConfig: {
+    public: {
+      authPagesActive: true,
+    },
+  },
+});

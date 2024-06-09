@@ -1,1 +1,1 @@
-console.log('placeholder-file')
+console.log('placeholder-file');
