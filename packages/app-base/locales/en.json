@@ -1,5 +1,260 @@
 {
+  "auth": {
+    "userPasswordConfirmModal": {
+      "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
+      "title": "Confirm password"
+    }
+  },
   "base": {
-    "foo": "EN-bar"
+    "app": {
+      "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
+      "fallbackTitle": "saas-template",
+      "title": "{title} - saas-template"
+    },
+    "dev": {
+      "card": {
+        "header": {
+          "description": "Here you will find tools that help you to develop and debug your application. Use them to improve your development workflow.",
+          "badge": {
+            "title": "Only for developers"
+          },
+          "title": "Developer tools"
+        }
+      },
+      "code": {
+        "action": {
+          "copy": {
+            "copiedToClipboard": {
+              "title": "Copied!"
+            },
+            "title": "Copy"
+          }
+        }
+      }
+    },
+    "form": {
+      "errorsAlert": {
+        "title": "Following errors occurred:"
+      }
+    }
+  },
+  "commandMenu": {
+    "title": "Command menu"
+  },
+  "dashboard": {
+    "layout": {
+      "compress": {
+        "label": "Compress"
+      },
+      "fullscreen": {
+        "label": "Fullscreen"
+      }
+    },
+    "search": {
+      "group": {
+        "links": {
+          "label": "Go to"
+        }
+      }
+    }
+  },
+  "global": {
+    "action": {
+      "auth": {
+        "confirmPassword": {
+          "label": "Confirm password"
+        },
+        "forgotPassword": {
+          "label": "Forgot password?"
+        },
+        "login": {
+          "label": "Log in"
+        },
+        "logout": {
+          "label": "Log out"
+        },
+        "passwordResetLinkRequest": {
+          "label": "Send password reset link"
+        },
+        "register": {
+          "label": "Register"
+        },
+        "resetPassword": {
+          "label": "Reset password"
+        }
+      },
+      "cancel": {
+        "label": "Cancel"
+      },
+      "confirm": {
+        "label": "Confirm"
+      },
+      "page": {
+        "home": {
+          "label": "Home"
+        }
+      },
+      "save": {
+        "label": "Save"
+      }
+    },
+    "auth": {
+      "rememberMe": {
+        "label": "Remember me"
+      }
+    },
+    "email": {
+      "label": "Email address",
+      "placeholder": {
+        "female": "jane.doe{'@'}example.com",
+        "male": "john.doe{'@'}example.com"
+      }
+    },
+    "email_confirm": {
+      "label": "Confirm email address"
+    },
+    "first_name": {
+      "label": "First name",
+      "placeholder": {
+        "female": "Jane",
+        "male": "John"
+      }
+    },
+    "last_name": {
+      "label": "Last name",
+      "placeholder": {
+        "female": "Doe",
+        "male": "Doe"
+      }
+    },
+    "notification": {
+      "success": {
+        "title": "Success"
+      }
+    },
+    "or": {
+      "label": "or"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "password_confirm": {
+      "label": "Confirm password"
+    },
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds."
+  },
+  "helpSlideover": {
+    "title": "Help"
+  },
+  "locale": {
+    "de-DE": {
+      "label": "German"
+    },
+    "en-GB": {
+      "label": "English (UK)"
+    }
+  },
+  "page": {
+    "auth": {
+      "email": {
+        "verify": {
+          "description": "Please verify your email address.",
+          "authCard": {
+            "error": {
+              "description": "An error occurred while verifying your email address. Please try again.",
+              "title": "Error verifying email"
+            },
+            "success": {
+              "description": "Your email address has been successfully verified. You will be redirected in a few seconds. {0}.",
+              "title": "Email verified"
+            }
+          },
+          "title": "Verify your email"
+        }
+      },
+      "login": {
+        "description": "Here you can login to your account.",
+        "authCard": {
+          "description": "Don't have an account? {0}.",
+          "title": "Log in"
+        },
+        "title": "Log in"
+      },
+      "logout": {
+        "description": "You have been logged out.",
+        "authCard": {
+          "description": "You have been successfully logged out and will be redirected to the login page in a few seconds. {0}.",
+          "title": "Successfully logged out"
+        },
+        "title": "Log out"
+      },
+      "password": {
+        "forgot": {
+          "index": {
+            "description": "Enter your email address and we will send you a link to reset your password.",
+            "authCard": {
+              "description": "Enter your email address and we will send you a link to reset your password. Remembered your password? {0}.",
+              "title": "Forgot password"
+            },
+            "title": "Forgot password"
+          },
+          "success": {
+            "description": "An email has been sent to you with a link to reset your password.",
+            "authCard": {
+              "description": "An email has been sent to you with a link to reset your password. Remembered your password? {0}.",
+              "title": "Password reset email sent"
+            },
+            "title": "Password reset email sent"
+          }
+        },
+        "reset": {
+          "index": {
+            "description": "Enter your new password.",
+            "authCard": {
+              "description": "Enter your new password. Remembered your password? {0}.",
+              "title": "Reset password"
+            },
+            "title": "Reset password"
+          },
+          "success": {
+            "description": "Your password has been successfully reset. You will be redirected in a few seconds.",
+            "authCard": {
+              "description": "Your password has been successfully reset. You will be redirected in a few seconds. {0}.",
+              "title": "Password reset"
+            },
+            "title": "Password reset"
+          }
+        }
+      },
+      "register": {
+        "description": "Here you can register a new account.",
+        "authCard": {
+          "description": "Already have an account? {0}.",
+          "title": "Create an account"
+        },
+        "title": "Register"
+      }
+    }
+  },
+  "user": {
+    "dropdown": {
+      "signedInAs": "Signed in as"
+    },
+    "emailIsNotVerifiedAlert": {
+      "action": {
+        "resendVerificationEmail": {
+          "label": "Resend verification email"
+        }
+      },
+      "title": "Please verify your email address. If you can't find the verification email, take a look at your spam folder or request a new one."
+    },
+    "resendVerificationEmail": {
+      "notification": {
+        "success": {
+          "description": "A new verification email has been sent to your email address. Please check your inbox and follow the instructions.",
+          "title": "Verification email sent"
+        }
+      }
+    }
   }
 }

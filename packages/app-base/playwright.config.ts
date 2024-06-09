@@ -1,6 +1,6 @@
-import { fileURLToPath } from 'node:url'
-import { defineConfig } from '@playwright/test'
-import type { ConfigOptions } from '@nuxt/test-utils/playwright'
+import { fileURLToPath } from 'node:url';
+import { defineConfig } from '@playwright/test';
+import type { ConfigOptions } from '@nuxt/test-utils/playwright';
 
 export default defineConfig<ConfigOptions>({
   use: {
@@ -11,4 +11,4 @@ export default defineConfig<ConfigOptions>({
   },
   testMatch: '*.e2e.ts',
   timeout: 60000,
-})
+});

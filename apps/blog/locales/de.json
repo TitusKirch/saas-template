@@ -1,5 +1,8 @@
 {
-  "app": {
-    "bar": "DE-foo"
+  "page": {
+    "index": {
+      "description": "Willkommen auf der Startseite",
+      "title": "Startseite"
+    }
   }
 }

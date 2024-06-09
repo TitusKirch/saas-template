@@ -1,5 +1,55 @@
 {
   "app": {
-    "bar": "EN-foo"
+    "name": "web saas-template"
+  },
+  "page": {
+    "index": {
+      "description": "Welcome to the home page.",
+      "title": "Home"
+    },
+    "settings": {
+      "description": "Here you can change your settings.",
+      "account": {
+        "notification": {
+          "success": {
+            "description": "Your account has been updated successfully."
+          }
+        },
+        "section": {
+          "name": {
+            "description": "Will appear on your profile, actions you take, communications and more.",
+            "title": "Name"
+          },
+          "email": {
+            "description": "User to sign in, notifications and product updates."
+          },
+          "password": {
+            "description": "If you don't want to change your password, leave these fields empty."
+          }
+        },
+        "title": "Account"
+      },
+      "index": {
+        "section": {
+          "layout": {
+            "description": "Change the layout of the app.",
+            "title": "Layout"
+          },
+          "locale": {
+            "description": "Change the language of the app.",
+            "title": "Locale"
+          },
+          "theme": {
+            "description": "Customize the look and feel of the app.",
+            "title": "Theme"
+          }
+        },
+        "title": "General"
+      },
+      "notifications": {
+        "title": "Notifications"
+      },
+      "title": "Settings"
+    }
   }
 }

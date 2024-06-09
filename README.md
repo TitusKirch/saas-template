@@ -2,7 +2,7 @@
 
 The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.
 
-## Features
+## General
 
 To manage the repository, it uses the pnpm package manager and turborepo.
 
@@ -121,6 +121,22 @@ To develop all apps and packages, run the following command:
 pnpm dev
 ```
 
+### dev.docker-compose.yml
+
+To run all needed services locally, you can use the `dev.docker-compose.yml` file. You can run the following command to start the services:
+
+```Shell
+docker-compose -f dev.docker-compose.yml up
+```
+
+Below is a list of services you can access via browser.
+
+| Service | URL | Description |
+| --- | --- | --- |
+| adminer | [http://localhost:8080](http://localhost:8080) | Database management tool. |
+| redis-commander | [http://localhost:8081](http://localhost:8081) | Redis management tool. |
+| mailpit | [http://localhost:8085](http://localhost:8085) | A simple SMTP server for development. |
+
 ## Linting and formatting
 
 To lint and format all apps and packages, run the following command:
@@ -194,3 +210,29 @@ After that you can copy the generated icons to the `@tituskirch/font-awesome-pro
 ```Shell
 pnpm copy
 ```
+
+After that you can remove the line `icons: ['fa6-solid'],` from `packages/app-base/nuxt.config.ts` and uncomment the lines below it. You can also uninstall the package `@iconify-json/fa6-solid` from `@tituskirch/app-base`. After that you can mass replace the `fa6-solid` with `fal` in the code.
+
+## Features
+
+### Localization
+
+To add a new language to the backend you can run the following command (all available languages can be found [here](https://laravel-lang.com/available-locales-list.html)):
+
+```Shell
+cd services/api/
+php artisan lang:add {LANGUAGE_CODE}
+cd ../..
+```
+
+To update the translations you can run the following command:
+
+```Shell
+cd services/api/
+php artisan lang:update
+cd ../..
+```
+
+### Organization
+
+To disable the organization feature, you can set `teams` to `false` inside of the `services/api/config/permission.php` file. You also want to remove the migrations with organization in the name and the migration `services/api/database/migrations/2024_05_15_115605_add_is_default_and_is_owner_to_roles_table.php`. After that you should be able to user this template with the remaining Organization features. If you want to remove the organization feature completely, you can search the code for `Organization` and remove the code/files or adjust the code to your needs.

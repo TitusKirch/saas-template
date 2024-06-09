@@ -1,9 +1,13 @@
 {
   "recommendations": [
+    "antfu.iconify",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "vue.volar",
+    "jacano.vscode-pnpm",
+    "ms-azuretools.vscode-docker",
+    "open-southeners.laravel-pint",
     "richie5um2.vscode-sort-json",
-    "open-southeners.laravel-pint"
+    "ryannaddy.laravel-artisan",
+    "vue.volar"
   ]
 }

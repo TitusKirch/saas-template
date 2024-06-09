@@ -1,3 +1,12 @@
+<script setup lang="ts">
+  definePageMeta({
+    title: 'page.index.title',
+    description: 'page.index.description',
+    layout: 'dashboard',
+    middleware: ['auth'],
+  });
+</script>
+
 <template>
-  <div>Web! I have here a change too!</div>
+  <DashboardPage :title="$t('page.index.title')" />
 </template>

@@ -1,0 +1,184 @@
+version: '3.9'
+
+volumes:
+  service-api-postgres-volume:
+    driver: local
+  service-api-valkey-volume:
+    driver: local
+  service-api-pulse-postgres-volume:
+    driver: local
+  service-api-pulse-valkey-volume:
+    driver: local
+  service-api-horizon-valkey-volume:
+    driver: local
+  service-api-health-postgres-volume:
+    driver: local
+  service-api-telescope-postgres-volume:
+    driver: local
+
+services:
+  # meilisearch:
+  #   image: 'getmeili/meilisearch:latest'
+  #   ports:
+  #       - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+  #   environment:
+  #       MEILI_NO_ANALYTICS: '${MEILISEARCH_NO_ANALYTICS:-false}'
+  #   volumes:
+  #       - 'sail-meilisearch:/meili_data'
+  #   networks:
+  #       - sail
+  #   healthcheck:
+  #       test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
+  #       retries: 3
+  #       timeout: 5s
+
+  # minio:
+  #   image: 'minio/minio:latest'
+  #   ports:
+  #       - '${FORWARD_MINIO_PORT:-9000}:9000'
+  #       - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+  #   environment:
+  #       MINIO_ROOT_USER: 'sail'
+  #       MINIO_ROOT_PASSWORD: 'password'
+  #   volumes:
+  #       - 'sail-minio:/data/minio'
+  #   networks:
+  #       - sail
+  #   command: minio server /data/minio --console-address ":8900"
+  #   healthcheck:
+  #       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+  #       retries: 3
+  #       timeout: 5s
+
+  service-api-postgres:
+    image: 'postgres:16.3'
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: 'laravel'
+      POSTGRES_PASSWORD: 'laravel'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U laravel']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - 'service-api-postgres-volume:/var/lib/postgresql/data'
+
+  service-api-valkey:
+    image: 'valkey/valkey:7.2-alpine'
+    restart: unless-stopped
+    command: --port 6379
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      retries: 3
+      timeout: 5s
+    volumes:
+      - 'service-api-valkey-volume:/data'
+
+  service-api-pulse-postgres:
+    image: 'postgres:16.3'
+    restart: unless-stopped
+    ports:
+      - '5433:5432'
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: 'pulse'
+      POSTGRES_PASSWORD: 'pulse'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pulse']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - 'service-api-pulse-postgres-volume:/var/lib/postgresql/data'
+
+  service-api-pulse-valkey:
+    image: 'valkey/valkey:7.2-alpine'
+    restart: unless-stopped
+    command: --port 6380
+    ports:
+      - '6380:6380'
+    expose:
+      - '6380'
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      retries: 3
+      timeout: 5s
+    volumes:
+      - 'service-api-pulse-valkey-volume:/data'
+
+  service-api-horizon-valkey:
+    image: 'valkey/valkey:7.2-alpine'
+    restart: unless-stopped
+    command: --port 6381
+    ports:
+      - '6381:6381'
+    expose:
+      - '6381'
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      retries: 3
+      timeout: 5s
+    volumes:
+      - 'service-api-horizon-valkey-volume:/data'
+
+  service-api-health-postgres:
+    image: 'postgres:16.3'
+    restart: unless-stopped
+    ports:
+      - '5435:5432'
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: 'health'
+      POSTGRES_PASSWORD: 'health'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U health']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - 'service-api-health-postgres-volume:/var/lib/postgresql/data'
+
+  service-api-telescope-postgres:
+    image: 'postgres:16.3'
+    restart: unless-stopped
+    ports:
+      - '5434:5432'
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: 'telescope'
+      POSTGRES_PASSWORD: 'telescope'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U telescope']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - 'service-api-telescope-postgres-volume:/var/lib/postgresql/data'
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+
+  redis-commander:
+    image: ghcr.io/joeferner/redis-commander:latest
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      REDIS_HOSTS: local:service-api-valkey:6379,local:service-api-pulse-valkey:6380,local:service-api-horizon-valkey:6381
+
+  mailpit:
+    image: 'axllent/mailpit:latest'
+    ports:
+      - 1025:1025
+      - 8025:8025
