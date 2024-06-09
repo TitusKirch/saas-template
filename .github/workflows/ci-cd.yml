@@ -148,6 +148,7 @@ jobs:
         with:
           working_dir: "services/api"
           php_version: '8.3'
+          php_extensions: bcmath pcntl
 
       - name: Cache composer dependencies
         uses: actions/cache@v4
@@ -180,7 +181,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: pcntl, bcmath
+          extensions: bcmath, pcntl
 
       - name: Install node dependencies
         run: pnpm install
@@ -266,7 +267,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: pcntl, bcmath
+          extensions: bcmath, pcntl
 
       - name: Restore composer dependencies cache for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
@@ -337,7 +338,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: pcntl, bcmath
+          extensions: bcmath, pcntl
 
       - name: Restore composer dependencies cache for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
