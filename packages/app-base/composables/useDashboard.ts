@@ -70,7 +70,6 @@ export default function () {
     return dashboardStore.shortcuts;
   };
   const addShortcut = ({ key, callback }: { key: string; callback: () => void }) => {
-    console.log('addShortcut');
     dashboardStore.addShortcut({
       key,
       callback,

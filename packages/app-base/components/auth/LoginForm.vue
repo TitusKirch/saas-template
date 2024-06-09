@@ -115,7 +115,7 @@
       <UButton
         type="submit"
         block
-        :disabled="!valid || Object.keys(errorMessages).length"
+        :disabled="!valid || !!Object.keys(errorMessages).length"
         :loading="status === 'pending' || (status !== 'idle' && !error)"
         icon="i-fa6-solid-right-to-bracket"
         :ui="{

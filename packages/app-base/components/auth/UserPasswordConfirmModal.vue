@@ -1,37 +1,23 @@
 <script setup lang="ts">
   import type { FormKitNode } from '@formkit/core';
+  import { useAuthStore } from '@tituskirch/app-base/stores/auth';
+  const authStore = useAuthStore();
 
-  // get data from route
-  const route = useRoute();
-  const email = route.query.email as string;
-  const token = route.query.token as string;
-  if (!email || !token) {
-    throw createError({
-      statusCode: 404,
-    });
-  }
-
-  // form setup
-  type Form = AuthResetPasswordForm;
+  type Form = AuthUserConfirmPasswordForm;
   const form: Ref<Form> = ref({
-    email: email,
-    token: token,
     password: '',
-    password_confirm: '',
   });
   const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
 
   // submit handling
-  const { transformResetPasswordFormToData, resetPassword } = useAuth();
-  const resetData: Ref<AuthResetPasswordData | undefined> = ref();
-  const { error, status, execute } = await resetPassword({
-    data: resetData,
+  const { userConfirmPassword } = useAuth();
+  const userConfirmPasswordData: Ref<AuthUserConfirmPasswordData | undefined> = ref();
+  const { error, status, execute } = await userConfirmPassword({
+    data: userConfirmPasswordData,
   });
   const submit = async (data: Form, node: FormKitNode) => {
-    resetData.value = transformResetPasswordFormToData({
-      form: form.value,
-    });
+    userConfirmPasswordData.value = form.value;
     await execute();
     errorMessages.value = {};
     if (error.value?.data?.errors) {
@@ -47,9 +33,11 @@
       return false;
     }
 
-    return navigateToLocale({
-      name: 'auth-password-reset-success',
-    });
+    if (status.value === 'success') {
+      console.log('success');
+      authStore.confirmUserPasswordConfirmed();
+      await authStore.executeUserPasswordConfirmModalSuccessCallback();
+    }
   };
 
   // error handling
@@ -62,7 +50,12 @@
   });
 </script>
 <template>
-  <div class="space-y-6">
+  <BaseModal
+    v-model="authStore.userPasswordConfirmModalIsOpen"
+    :title="$t('auth.userPasswordConfirmModal.title')"
+    :description="$t('auth.userPasswordConfirmModal.description')"
+    type="warning"
+  >
     <FormKit
       type="form"
       v-model="form"
@@ -73,8 +66,6 @@
     >
       <FormErrorsAlert :error-messages="errorMessages" />
 
-      <FormKit type="hidden" name="email" validation="required|email" />
-      <FormKit type="hidden" name="token" />
       <FormKit
         type="password"
         name="password"
@@ -85,28 +76,21 @@
         suffix-icon="eyeClosed"
         @suffix-icon-click="passwordToggle"
       />
-      <FormKit
-        type="password"
-        name="password_confirm"
-        :label="$t('global.password_confirm.label')"
-        validation="required|confirm"
-        :placeholder="usePlaceholder({ type: 'password' })"
-        prefix-icon="password"
-        suffix-icon="eyeClosed"
-        @suffix-icon-click="passwordToggle"
-      />
 
-      <UButton
-        type="submit"
-        block
-        :disabled="!valid || !!Object.keys(errorMessages).length || status === 'success'"
-        :loading="status === 'pending'"
-        icon="i-fa6-solid-paper-plane"
-        :ui="{
-          base: 'mt-8',
-        }"
-        >{{ $t('global.action.auth.resetPassword.label') }}</UButton
-      >
+      <BaseButtonContainer class="mt-8">
+        <UButton
+          type="submit"
+          :disabled="!valid || !!Object.keys(errorMessages).length"
+          :loading="status === 'pending' || (status !== 'idle' && !error)"
+          icon="i-fa6-solid-check"
+          >{{ $t('global.action.confirm.label') }}
+        </UButton>
+        <UButton
+          color="white"
+          :label="$t('global.action.cancel.label')"
+          @click="authStore.hideUserPasswordConfirmModal"
+        />
+      </BaseButtonContainer>
     </FormKit>
-  </div>
+  </BaseModal>
 </template>

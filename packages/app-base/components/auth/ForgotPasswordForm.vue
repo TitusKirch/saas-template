@@ -74,7 +74,7 @@
       <UButton
         type="submit"
         block
-        :disabled="!valid || Object.keys(errorMessages).length || status === 'success'"
+        :disabled="!valid || !!Object.keys(errorMessages).length || status === 'success'"
         :loading="status === 'pending'"
         icon="i-fa6-solid-paper-plane"
         :ui="{

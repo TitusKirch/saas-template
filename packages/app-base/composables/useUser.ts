@@ -5,7 +5,20 @@ export default function () {
   const me = async () => {
     const userStore = useUserStore();
     await userStore.fetchUser();
-    return userStore.user;
+    return computed(() => {
+      return userStore.user;
+    });
+  };
+  const updateMe = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
+    const { put } = useApi();
+
+    return put<UpdateUserMeData, UpdateUserMeResponse>('user/profile-information', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+      body: data,
+    });
   };
   const refetchMe = async () => {
     const userStore = useUserStore();
@@ -29,7 +42,7 @@ export default function () {
   };
   const emailIsVerified = () => {
     const userStore = useUserStore();
-    return userStore.user?.email_verified_at !== null;
+    return userStore.user?.emailVerifiedAt !== null;
   };
   const resendVerificationEmail = async () => {
     const { emailVerificationNotification } = useAuth();
@@ -60,9 +73,23 @@ export default function () {
       updatedAt: new Date(data.updated_at),
     };
   };
+  const transformUserUpdateMeFormToData = ({
+    form,
+  }: {
+    form: UpdateUserMeForm;
+  }): UpdateUserMeData => {
+    return {
+      first_name: form.first_name,
+      last_name: form.last_name,
+      email: form.email,
+      password: form.password,
+      password_confirmation: form.password_confirm,
+    };
+  };
 
   return {
     me,
+    updateMe,
     refetchMe,
     reset,
     isAuthenticated,
@@ -71,5 +98,6 @@ export default function () {
     resendVerificationEmail,
     transformUserData,
     transformUserMeData,
+    transformUserUpdateMeFormToData,
   };
 }

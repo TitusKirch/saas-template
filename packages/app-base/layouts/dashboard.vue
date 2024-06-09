@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import { useAuthStore } from '@tituskirch/app-base/stores/auth';
+
+  // init dashboard
   const {
     resetSidebarLinks,
     addSidebarLinks,
@@ -82,6 +85,28 @@
       },
     });
   });
+
+  // auth user password confirm modal
+  const showUserPasswordConfirmModal = ref(false);
+  const showUserPasswordConfirmModalTimeout: Ref<NodeJS.Timeout | null> = ref(null);
+  const authStore = useAuthStore();
+  watch(
+    () => authStore.userPasswordConfirmModalIsOpen,
+    (newValue) => {
+      if (newValue) {
+        showUserPasswordConfirmModal.value = true;
+      } else {
+        showUserPasswordConfirmModalTimeout.value = setTimeout(() => {
+          showUserPasswordConfirmModal.value = false;
+        }, 200);
+      }
+    }
+  );
+  onBeforeUnmount(() => {
+    if (showUserPasswordConfirmModalTimeout.value) {
+      clearTimeout(showUserPasswordConfirmModalTimeout.value);
+    }
+  });
 </script>
 
 <template>
@@ -119,6 +144,8 @@
       </UDashboardSidebar>
     </UDashboardPanel>
     <slot />
+
+    <AuthUserPasswordConfirmModal v-if="showUserPasswordConfirmModal" />
 
     <ClientOnly>
       <LazyUDashboardSearch

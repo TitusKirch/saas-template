@@ -4,10 +4,13 @@
   // form setup
   type Form = AuthRegisterForm;
   const form: Ref<Form> = ref({
+    first_name: '',
+    last_name: '',
     email: '',
     email_confirm: '',
     password: '',
     password_confirm: '',
+    remember: false,
   });
   const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
@@ -130,7 +133,7 @@
       <UButton
         type="submit"
         block
-        :disabled="!valid || Object.keys(errorMessages).length"
+        :disabled="!valid || !!Object.keys(errorMessages).length"
         :loading="status === 'pending' || (status !== 'idle' && !error)"
         icon="i-fa6-solid-right-to-bracket"
         :ui="{

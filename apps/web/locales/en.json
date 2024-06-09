@@ -10,6 +10,11 @@
     "settings": {
       "description": "Here you can change your settings.",
       "account": {
+        "notification": {
+          "success": {
+            "description": "Your account has been updated successfully."
+          }
+        },
         "section": {
           "name": {
             "description": "Will appear on your profile, actions you take, communications and more.",

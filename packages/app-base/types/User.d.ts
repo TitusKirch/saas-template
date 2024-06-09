@@ -24,3 +24,15 @@ type UserMe = User &
   Omit<UserMeExtraData, 'email_verified_at'> & {
     emailVerifiedAt: Date | null;
   };
+
+type UpdateUserMeForm = {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  password?: string;
+  password_confirm?: string;
+};
+type UpdateUserMeData = Omit<UpdateUserMeForm, 'password_confirm'> & {
+  password_confirmation?: string;
+};
+type UpdateUserMeResponse = ApiResourceResponse<UserMeData>;

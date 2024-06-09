@@ -16,6 +16,8 @@
   defineSlots<{
     title?: HTMLElement;
     description?: HTMLElement;
+    default?: HTMLElement;
+    footer?: HTMLElement;
   }>();
 
   const { getColorByType, getIconByType } = useAlertStyle();
@@ -32,7 +34,18 @@
 </script>
 
 <template>
-  <UAlert :color="color" :icon="icon" :title="title" :description="description">
+  <UDashboardModal
+    :title="title"
+    :description="description"
+    :icon="icon"
+    :ui="{
+      icon: { base: `text-${color}-500 dark:text-${color}-400` } as any,
+      body: {
+        base: 'ml-16',
+      } as any,
+      footer: { base: 'ml-16' } as any,
+    }"
+  >
     <template #title v-if="$slots.title">
       <slot name="title" />
     </template>
@@ -40,5 +53,13 @@
     <template #description v-if="$slots.description">
       <slot name="description" />
     </template>
-  </UAlert>
+
+    <template #default v-if="$slots.default">
+      <slot name="default" />
+    </template>
+
+    <template #footer v-if="$slots.footer">
+      <slot name="footer" />
+    </template>
+  </UDashboardModal>
 </template>

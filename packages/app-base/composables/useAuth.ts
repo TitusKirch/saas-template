@@ -122,6 +122,39 @@ export default function () {
     });
   };
 
+  // user confirm password
+  const userConfirmPassword = ({
+    data,
+  }: {
+    data: Ref<AuthUserConfirmPasswordData | undefined>;
+  }) => {
+    const { post } = useApi();
+
+    return post<AuthUserConfirmPasswordData, AuthUserConfirmPasswordResponse>(
+      'user/confirm-password',
+      {
+        immediate: false,
+        watch: false,
+        prefix: 'auth',
+        version: false,
+        body: data,
+      }
+    );
+  };
+  const userConfirmedPasswordStatus = () => {
+    const { get } = useApi();
+
+    return get<AuthUserConfirmedPasswordStatusData, AuthUserConfirmedPasswordStatusResponse>(
+      'user/confirmed-password-status',
+      {
+        immediate: false,
+        watch: false,
+        prefix: 'auth',
+        version: false,
+      }
+    );
+  };
+
   // third party providers
   const thirdPartyProviders = () => [
     {
@@ -150,6 +183,8 @@ export default function () {
     forgotPassword,
     transformResetPasswordFormToData,
     resetPassword,
+    userConfirmPassword,
+    userConfirmedPasswordStatus,
     thirdPartyProviders,
   };
 }

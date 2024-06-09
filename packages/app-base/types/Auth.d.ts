@@ -48,3 +48,14 @@ type AuthResetPasswordData = Omit<AuthResetPasswordForm, 'password_confirm'> & {
   password_confirmation: string;
 };
 type AuthResetPasswordResponse = ApiResponse<AuthResetPasswordData>;
+
+type AuthUserConfirmPasswordForm = {
+  password: string;
+};
+type AuthUserConfirmPasswordData = AuthUserConfirmPasswordForm;
+type AuthUserConfirmPasswordResponse = ApiMessageResponse;
+
+type AuthUserConfirmedPasswordStatusData = {
+  confirmed: boolean;
+};
+type AuthUserConfirmedPasswordStatusResponse = ApiResponse<AuthUserConfirmedPasswordStatusData>;

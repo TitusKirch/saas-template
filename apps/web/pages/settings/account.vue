@@ -1,16 +1,73 @@
 <script setup lang="ts">
+  import type { FormKitNode } from '@formkit/core';
+
   const { me } = useUser();
   const user = await me();
-  const { passwordToggle } = useFormKit();
 
   // form setup
-  const form = ref({
-    first_name: user?.first_name || '',
-    last_name: user?.last_name || '',
-    email: user?.email || '',
-    email_confirm: user?.email || '',
+  type Form = UpdateUserMeForm;
+  const form: Ref<Form> = ref({
+    first_name: user.value?.first_name || '',
+    last_name: user.value?.last_name || '',
+    email: user.value?.email || '',
     password: '',
     password_confirm: '',
+  });
+  const formValuesBeforeSubmit: Ref<Form> = ref({ ...form.value });
+  const errorMessages: Ref<Record<string, string>> = ref({});
+  const { passwordToggle } = useFormKit();
+  const formValuesHasChanged = computed(() => {
+    return Object.keys(form.value).some(
+      (key) => form.value[key as keyof Form] !== formValuesBeforeSubmit.value[key as keyof Form]
+    );
+  });
+
+  // submit handling
+  const { updateMe, transformUserUpdateMeFormToData, refetchMe } = useUser();
+  const updateData: Ref<UpdateUserMeData | undefined> = ref();
+  const { error, status, execute } = await updateMe({
+    data: updateData,
+  });
+  const submit = async (data: Form, node: FormKitNode) => {
+    updateData.value = transformUserUpdateMeFormToData({
+      form: form.value,
+    });
+    await execute();
+    errorMessages.value = {};
+    if (error.value?.data?.errors) {
+      for (const key in error.value.data.errors) {
+        errorMessages.value[key] = error.value.data.errors[key][0];
+      }
+      node.setErrors([], errorMessages.value);
+      return false;
+    } else if (error.value?.data?.message) {
+      errorMessages.value = {
+        form: error.value.data.message,
+      };
+      return false;
+    }
+
+    if (status.value === 'success') {
+      await refetchMe();
+
+      formValuesBeforeSubmit.value = { ...form.value };
+
+      useNotification({
+        type: 'success',
+        title: t('global.notification.success.title'),
+        description: t('page.settings.account.notification.success.description'),
+      });
+    }
+  };
+  const { t } = useI18n();
+
+  // error handling
+  watch(form, (newValue: Form, oldValue: Form) => {
+    for (const key of Object.keys(newValue) as Array<keyof Form>) {
+      if (newValue[key] !== oldValue[key]) {
+        delete errorMessages.value[key];
+      }
+    }
   });
 
   // classes for same style
@@ -22,13 +79,21 @@
   const formkitFieldClasses = {
     label: '$reset hidden',
   };
+
+  const formRef = ref<any | null>(null);
 </script>
 
 <template>
   <div>
-    <!-- :disabled="status === 'success'"
-      @submit="submit" -->
-    <FormKit type="form" v-model="form" :actions="false" #default="{ state: { valid } }">
+    <FormKit
+      ref="formRef"
+      type="form"
+      v-model="form"
+      :actions="false"
+      :disabled="status === 'success'"
+      @submit="submit"
+      #default="{ state: { valid } }"
+    >
       <UDashboardSection
         :title="$t('page.settings.account.section.name.title')"
         :description="$t('page.settings.account.section.name.description')"
@@ -97,7 +162,6 @@
               type="password"
               name="password"
               :label="$t('global.password.label')"
-              validation="required"
               :placeholder="$t('global.password.label')"
               prefix-icon="password"
               suffix-icon="eyeClosed"
@@ -108,7 +172,7 @@
               type="password"
               name="password_confirm"
               :label="$t('global.password_confirm.label')"
-              validation="required|confirm"
+              validation="confirm"
               :placeholder="$t('global.password_confirm.label')"
               prefix-icon="password"
               suffix-icon="eyeClosed"
@@ -116,6 +180,29 @@
               :classes="formkitFieldClasses"
             />
           </div>
+        </template>
+      </UDashboardSection>
+
+      <UDashboardSection
+        :ui="{
+          ...dashboardSectionUiClasses,
+        }"
+      >
+        <template #links>
+          <AuthNeedsToConfirmUserPasswordButton
+            :confirm-password-button-props="{ block: true }"
+            :confirm-password-button-callback="() => formRef?.node.submit()"
+          >
+            <UButton
+              id="example-submit-button"
+              type="submit"
+              block
+              :disabled="!valid || !!Object.keys(errorMessages).length || !formValuesHasChanged"
+              :loading="status === 'pending'"
+              icon="i-fa6-solid-floppy-disk"
+              >{{ $t('global.action.save.label') }}</UButton
+            >
+          </AuthNeedsToConfirmUserPasswordButton>
         </template>
       </UDashboardSection>
     </FormKit>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { isHelpSlideoverOpen } = useDashboard();
+  // const { isHelpSlideoverOpen } = useDashboard();
   const { isDashboardSearchModalOpen } = useUIState();
   const { metaSymbol } = useShortcuts();
 
@@ -35,7 +35,7 @@
         label: t('helpSlideover.title'),
         icon: 'i-fa6-solid-circle-question',
         shortcuts: ['?'],
-        click: () => (isHelpSlideoverOpen.value = true),
+        click: () => {}, //(isHelpSlideoverOpen.value = true),
       },
     ],
     [

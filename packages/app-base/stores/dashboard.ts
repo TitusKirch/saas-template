@@ -52,7 +52,6 @@ export const useDashboardStore = defineStore(
     // shortcuts
     const shortcuts: Ref<Record<string, () => void>> = ref({});
     const addShortcut = ({ key, callback }: { key: string; callback: () => void }) => {
-      console.log('addShortcut2');
       shortcuts.value[key] = callback;
     };
     const removeShortcut = ({ key }: { key: string }) => {

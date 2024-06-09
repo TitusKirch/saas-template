@@ -1,4 +1,10 @@
 {
+  "auth": {
+    "userPasswordConfirmModal": {
+      "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
+      "title": "Confirm password"
+    }
+  },
   "base": {
     "app": {
       "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
@@ -55,6 +61,9 @@
   "global": {
     "action": {
       "auth": {
+        "confirmPassword": {
+          "label": "Confirm password"
+        },
         "forgotPassword": {
           "label": "Forgot password?"
         },
@@ -74,10 +83,19 @@
           "label": "Reset password"
         }
       },
+      "cancel": {
+        "label": "Cancel"
+      },
+      "confirm": {
+        "label": "Confirm"
+      },
       "page": {
         "home": {
           "label": "Home"
         }
+      },
+      "save": {
+        "label": "Save"
       }
     },
     "auth": {
@@ -107,6 +125,11 @@
       "placeholder": {
         "female": "Doe",
         "male": "Doe"
+      }
+    },
+    "notification": {
+      "success": {
+        "title": "Success"
       }
     },
     "or": {

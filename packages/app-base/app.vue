@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { changeLocale } from '@formkit/vue';
+  import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
   // head
   const route = useRoute();
@@ -28,12 +29,6 @@
       },
     ],
   });
-
-  // // csrf token
-  // onMounted(async () => {
-  //   const { fetchCsrfToken } = useApi();
-  //   await fetchCsrfToken();
-  // });
 
   // notifications
   const translateNotification = ({ text }: { text: string }) => {
@@ -68,6 +63,39 @@
     changeLocale(newLocale.split('-')[0]);
   });
   changeLocale(locale.value.split('-')[0]);
+
+  // user password confirmed reset
+  const authStore = useAuthStore();
+  const resetUserPasswordConfirmedTimout: Ref<NodeJS.Timeout | undefined> = ref();
+  const maxLifetime = 60 * 60 * 3 * 1000; // 3 hours
+  const setResetUserPasswordConfirmedTimeout = () => {
+    clearTimeout(resetUserPasswordConfirmedTimout.value);
+    if (authStore.userPasswordConfirmedAt) {
+      const timeOutIn =
+        maxLifetime - (Date.now() - new Date(authStore.userPasswordConfirmedAt)?.getTime());
+      resetUserPasswordConfirmedTimout.value = setTimeout(() => {
+        authStore.resetUserPasswordConfirmed();
+      }, timeOutIn);
+    }
+  };
+  setResetUserPasswordConfirmedTimeout();
+  watch(
+    () => authStore.userPasswordConfirmedAt,
+    () => {
+      setResetUserPasswordConfirmedTimeout();
+    }
+  );
+  const { me } = useUser();
+  const user = await me();
+  if (user) {
+    const { userConfirmedPasswordStatus } = useAuth();
+    const { data: userConfirmedPasswordStatusData, execute: userConfirmedPasswordStatusExecute } =
+      await userConfirmedPasswordStatus();
+    await userConfirmedPasswordStatusExecute();
+    if (!userConfirmedPasswordStatusData.value?.confirmed) {
+      authStore.resetUserPasswordConfirmed();
+    }
+  }
 </script>
 
 <template>
