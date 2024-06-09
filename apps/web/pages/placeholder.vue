@@ -8,5 +8,5 @@
 </script>
 
 <template>
-  <DashboardPage title="Placeholder"/>
+  <DashboardPage title="Placeholder" />
 </template>

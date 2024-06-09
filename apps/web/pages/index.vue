@@ -8,5 +8,5 @@
 </script>
 
 <template>
-  <DashboardPage :title="$t('page.index.title')"/>
+  <DashboardPage :title="$t('page.index.title')" />
 </template>
