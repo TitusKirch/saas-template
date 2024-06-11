@@ -97,8 +97,8 @@
           class="flex items-center justify-center w-full mt-8 flex-col space-y-4 overflow-hidden"
         >
           <div
-            class="inline-block rounded-lg p-2 bg-white -mx-2"
-            v-html="twoFactorQrCodeData?.svg"
+            class="inline-block rounded-lg p-2 bg-white -mx-2 text-black"
+            v-html="twoFactorQrCodeData?.svg.replace('#2d3748', 'currentColor')"
           />
 
           <div class="text-sm text-gray-500">
