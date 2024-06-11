@@ -44,7 +44,7 @@
   watch(form, (newValue: Form, oldValue: Form) => {
     const updatedErrorMessages: typeof errorMessages.value = {};
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] !== oldValue[key]) {
+      if (newValue[key] !== oldValue[key] && errorMessages.value[key]) {
         updatedErrorMessages[key] = errorMessages.value[key];
       }
     }
