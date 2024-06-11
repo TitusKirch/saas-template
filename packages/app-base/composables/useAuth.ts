@@ -155,6 +155,41 @@ export default function () {
     );
   };
 
+  // two factor authentication
+  const enableTwoFactorAuthentication = () => {
+    const { post } = useApi();
+
+    return post<undefined, ApiResponse<undefined>>('user/two-factor-authentication', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+    });
+  };
+  const disableTwoFactorAuthentication = () => {
+    const { delete: del } = useApi();
+
+    return del<undefined, ApiResponse<undefined>>('user/two-factor-authentication', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+    });
+  };
+  const twoFactorQrCode = () => {
+    const { get } = useApi();
+
+    return get<AuthUserTwoFactorQrCodeData, AuthUserTwoFactorQrCodeResponse>(
+      'user/two-factor-qr-code',
+      {
+        immediate: false,
+        watch: false,
+        prefix: 'auth',
+        version: false,
+      }
+    );
+  };
+
   // third party providers
   const thirdPartyProviders = () => [
     {
@@ -185,6 +220,9 @@ export default function () {
     resetPassword,
     userConfirmPassword,
     userConfirmedPasswordStatus,
+    enableTwoFactorAuthentication,
+    disableTwoFactorAuthentication,
+    twoFactorQrCode,
     thirdPartyProviders,
   };
 }

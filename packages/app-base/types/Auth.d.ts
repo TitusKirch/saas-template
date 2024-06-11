@@ -59,3 +59,8 @@ type AuthUserConfirmedPasswordStatusData = {
   confirmed: boolean;
 };
 type AuthUserConfirmedPasswordStatusResponse = ApiResponse<AuthUserConfirmedPasswordStatusData>;
+
+type AuthUserTwoFactorQrCodeData = {
+  svg: string;
+};
+type AuthUserTwoFactorQrCodeResponse = ApiResponse<AuthUserTwoFactorQrCodeData>;
