@@ -8,10 +8,10 @@
   "dependencies": {
     "@iconify/tools": "^4.0.4",
     "citty": "^0.1.6",
-    "jiti": "^1.21.3"
+    "jiti": "^1.21.6"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
     "typescript": "^5.4.5"
   }
 }

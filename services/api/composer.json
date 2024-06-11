@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "kra8/laravel-snowflake": "^2.3",
+        "laravel-lang/lang": "^15.4",
         "laravel/fortify": "^1.21",
         "laravel/framework": "^11.0",
         "laravel/horizon": "^5.24",
@@ -22,7 +23,6 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel-lang/lang": "^15.4",
         "laravel/pint": "^1.15",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
