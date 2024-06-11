@@ -41,7 +41,7 @@
             ' transition-all duration-700 ease-in-out mx-auto',
         }"
         :class="{
-          'py-0 px-1.5 overflow-x-auto': toolbarIsNavigation,
+          'overflow-x-auto px-1.5 py-0': toolbarIsNavigation,
         }"
         class="w-full transition-all duration-700 ease-in-out"
       >
@@ -64,7 +64,7 @@
             'max-w-7xl': getLayout() === 'compress',
             'max-w-full': getLayout() === 'fullscreen',
           }"
-          class="flex flex-col gap-8 flex-shrink-0 w-full transition-all duration-700 ease-in-out mx-auto"
+          class="mx-auto flex w-full shrink-0 flex-col gap-8 transition-all duration-700 ease-in-out"
         >
           <UserEmailIsNotVerifiedAlert />
 

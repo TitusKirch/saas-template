@@ -40,7 +40,6 @@
     "@vueuse/core": "^10.10.1",
     "@vueuse/nuxt": "10.9.0",
     "date-fns": "^3.6.0",
-    "eslint-plugin-tailwindcss": "^3.17.3",
     "laravel-precognition-vue": "^0.5.5",
     "nuxt": "^3.12.1",
     "nuxt-security": "^1.4.3",
@@ -58,6 +57,7 @@
     "@playwright/test": "^1.44.1",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.4.0",
+    "eslint-plugin-tailwindcss": "^3.17.3",
     "happy-dom": "^14.12.0",
     "playwright-core": "^1.44.1",
     "vitest": "^1.6.0"

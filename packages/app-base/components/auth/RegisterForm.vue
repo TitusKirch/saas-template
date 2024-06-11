@@ -77,7 +77,7 @@
     >
       <FormErrorsAlert :error-messages="errorMessages" />
 
-      <div class="grid md:grid-cols-2 gap-4">
+      <div class="grid gap-4 md:grid-cols-2">
         <FormKit
           type="text"
           name="first_name"
