@@ -38,13 +38,13 @@
 
   // error handling
   watch(form, (newValue: Form, oldValue: Form) => {
+    const updatedErrorMessages: typeof errorMessages.value = {};
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
       if (newValue[key] !== oldValue[key]) {
-        // TODO: Refactor to doesn't use dynamic delete
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete errorMessages.value[key];
+        updatedErrorMessages[key] = errorMessages.value[key];
       }
     }
+    errorMessages.value = updatedErrorMessages;
   });
 </script>
 <template>

@@ -55,9 +55,8 @@ export const useDashboardStore = defineStore(
       shortcuts.value[key] = callback;
     };
     const removeShortcut = ({ key }: { key: string }) => {
-      // TODO: Refactor to doesn't use dynamic delete
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete shortcuts.value[key];
+      const { [key]: _, ...rest } = shortcuts.value;
+      shortcuts.value = rest;
     };
     const resetShortcuts = () => {
       shortcuts.value = {};
