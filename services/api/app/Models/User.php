@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Kra8\Snowflake\HasSnowflakePrimary;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\PermissionRegistrar;
@@ -17,7 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements Auditable, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasRoles, HasSnowflakePrimary, Notifiable, \OwenIt\Auditing\Auditable;
+    use HasApiTokens, HasFactory, HasRoles, HasSnowflakePrimary, Notifiable, \OwenIt\Auditing\Auditable, TwoFactorAuthenticatable;
 
     /**
      * {@inheritdoc}

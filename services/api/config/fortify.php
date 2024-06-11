@@ -150,11 +150,11 @@ return [
         // NOTE: we have merge Features::updatePasswords() into Features::updateProfileInformation()
         // Features::updatePasswords(),
         Features::updateProfileInformation(),
-        // Features::twoFactorAuthentication([
-        //     'confirm' => true,
-        //     'confirmPassword' => true,
-        //     // 'window' => 0,
-        // ]),
+        Features::twoFactorAuthentication([
+            'confirm' => true,
+            'confirmPassword' => true,
+            // 'window' => 0,
+        ]),
     ],
 
 ];
