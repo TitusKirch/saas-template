@@ -54,7 +54,7 @@
   watch(form, (newValue: Form, oldValue: Form) => {
     const updatedErrorMessages: typeof errorMessages.value = {};
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] !== oldValue[key] && errorMessages.value[key]) {
+      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
         updatedErrorMessages[key] = errorMessages.value[key];
       }
     }
@@ -77,7 +77,7 @@
     >
       <FormErrorsAlert :error-messages="errorMessages" />
 
-      <div class="grid gap-4 md:grid-cols-2">
+      <div class="grid gap-x-4 lg:grid-cols-2">
         <FormKit
           type="text"
           name="first_name"

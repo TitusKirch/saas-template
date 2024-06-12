@@ -63,7 +63,7 @@
   watch(form, (newValue: Form, oldValue: Form) => {
     const updatedErrorMessages: typeof errorMessages.value = {};
     for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] !== oldValue[key] && errorMessages.value[key]) {
+      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
         updatedErrorMessages[key] = errorMessages.value[key];
       }
     }
@@ -71,11 +71,7 @@
   });
 
   // classes for same style
-  const dashboardSectionUiClasses = {
-    container: 'items-start',
-    links: 'w-full md:w-auto md:min-w-80',
-  };
-  const dashboardSectionLinksDivClasses = 'flex flex-col w-full md:w-auto md:min-w-80';
+  // const dashboardSectionLinksDivClasses = 'flex flex-col w-full md:w-auto md:min-w-80';
   const formkitFieldClasses = {
     label: '$reset hidden',
   };
@@ -99,31 +95,26 @@
       <UDashboardSection
         :title="$t('page.settings.account.section.name.title')"
         :description="$t('page.settings.account.section.name.description')"
-        :ui="{
-          ...dashboardSectionUiClasses,
-        }"
       >
         <template #links>
-          <div :class="dashboardSectionLinksDivClasses">
-            <FormKit
-              type="text"
-              name="first_name"
-              :label="$t('global.first_name.label')"
-              validation="required"
-              :placeholder="$t('global.first_name.label')"
-              prefix-icon="people"
-              :classes="formkitFieldClasses"
-            />
-            <FormKit
-              type="text"
-              name="last_name"
-              :label="$t('global.last_name.label')"
-              validation="required"
-              :placeholder="$t('global.last_name.label')"
-              prefix-icon="people"
-              :classes="formkitFieldClasses"
-            />
-          </div>
+          <FormKit
+            type="text"
+            name="first_name"
+            :label="$t('global.first_name.label')"
+            validation="required"
+            :placeholder="$t('global.first_name.label')"
+            prefix-icon="people"
+            :classes="formkitFieldClasses"
+          />
+          <FormKit
+            type="text"
+            name="last_name"
+            :label="$t('global.last_name.label')"
+            validation="required"
+            :placeholder="$t('global.last_name.label')"
+            prefix-icon="people"
+            :classes="formkitFieldClasses"
+          />
         </template>
       </UDashboardSection>
 
@@ -132,9 +123,6 @@
       <UDashboardSection
         :title="$t('global.email.label')"
         :description="$t('page.settings.account.section.email.description')"
-        :ui="{
-          ...dashboardSectionUiClasses,
-        }"
       >
         <template #links>
           <FormKit
@@ -154,49 +142,40 @@
       <UDashboardSection
         :title="$t('global.password.label')"
         :description="$t('page.settings.account.section.password.description')"
-        :ui="{
-          ...dashboardSectionUiClasses,
-        }"
       >
         <template #links>
-          <div :class="dashboardSectionLinksDivClasses">
-            <FormKit
-              type="password"
-              name="password"
-              :label="$t('global.password.label')"
-              :placeholder="$t('global.password.label')"
-              prefix-icon="password"
-              suffix-icon="eyeClosed"
-              :classes="formkitFieldClasses"
-              @suffix-icon-click="passwordToggle"
-            />
-            <FormKit
-              type="password"
-              name="password_confirm"
-              :label="$t('global.password_confirm.label')"
-              validation="confirm"
-              :placeholder="$t('global.password_confirm.label')"
-              prefix-icon="password"
-              suffix-icon="eyeClosed"
-              :classes="formkitFieldClasses"
-              @suffix-icon-click="passwordToggle"
-            />
-          </div>
+          <FormKit
+            type="password"
+            name="password"
+            :label="$t('global.password.label')"
+            :placeholder="$t('global.password.label')"
+            prefix-icon="password"
+            suffix-icon="eyeClosed"
+            :classes="formkitFieldClasses"
+            @suffix-icon-click="passwordToggle"
+          />
+          <FormKit
+            type="password"
+            name="password_confirm"
+            :label="$t('global.password_confirm.label')"
+            validation="confirm"
+            :placeholder="$t('global.password_confirm.label')"
+            prefix-icon="password"
+            suffix-icon="eyeClosed"
+            :classes="formkitFieldClasses"
+            @suffix-icon-click="passwordToggle"
+          />
         </template>
       </UDashboardSection>
 
-      <UDashboardSection
-        :ui="{
-          ...dashboardSectionUiClasses,
-        }"
-      >
+      <UDashboardSection>
         <template #links>
           <AuthNeedsToConfirmUserPasswordButton
-            :confirm-password-button-props="{ block: true }"
+            :confirm-password-button-props="{ block: true, disabled: !formValuesHasChanged }"
             :confirm-password-button-callback="() => formRef?.node.submit()"
+            :confirm-password-button-title="$t('global.action.confirmPasswordAndSave.label')"
           >
             <UButton
-              id="example-submit-button"
               type="submit"
               block
               :disabled="!valid || !!Object.keys(errorMessages).length || !formValuesHasChanged"

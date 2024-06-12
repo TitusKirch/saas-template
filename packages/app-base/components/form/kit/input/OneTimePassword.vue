@@ -49,11 +49,15 @@
   const handlePaste = (e) => {
     const paste = e.clipboardData.getData('text');
     if (typeof paste === 'string') {
-      // If it is the right length, paste it.
-      tmp.value = paste.substr(0, digits);
+      // if it is the right length, paste it using slice instead of substr.
+      tmp.value = paste.slice(0, digits);
       const inputs = e.target.parentElement.querySelectorAll('input');
-      // Focus on the last character
+      // focus on the last character
       inputs.item(tmp.value.length - 1).focus();
+
+      if (tmp.value.length === digits) {
+        props.context.node.input(tmp.value);
+      }
     }
   };
 </script>

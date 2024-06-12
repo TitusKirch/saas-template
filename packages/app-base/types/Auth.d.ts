@@ -62,5 +62,17 @@ type AuthUserConfirmedPasswordStatusResponse = ApiResponse<AuthUserConfirmedPass
 
 type AuthUserTwoFactorQrCodeData = {
   svg: string;
+  url: string;
 };
 type AuthUserTwoFactorQrCodeResponse = ApiResponse<AuthUserTwoFactorQrCodeData>;
+
+type AuthUserConfirmedTwoFactorAuthenticationData = {
+  code: string;
+};
+type AuthUserConfirmedTwoFactorAuthenticationResponse =
+  ApiResponse<AuthUserConfirmedTwoFactorAuthenticationData>;
+
+type AuthUserTwoFactorRecoveryCodesData = {
+  codes: string[];
+};
+type AuthUserTwoFactorRecoveryCodesResponse = ApiResponse<AuthUserTwoFactorRecoveryCodesData>;

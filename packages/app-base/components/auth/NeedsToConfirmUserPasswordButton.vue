@@ -2,8 +2,9 @@
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
   const props = defineProps<{
     confirmPasswordButtonTitle?: string;
-    confirmPasswordButtonProps?: Record<'block', unknown>;
+    confirmPasswordButtonProps?: Partial<Record<'block' | 'disabled', unknown>>;
     confirmPasswordButtonCallback?: () => void;
+    disabled?: boolean;
   }>();
   defineSlots<{
     confirmPasswordButton?: HTMLElement;

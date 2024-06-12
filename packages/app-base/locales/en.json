@@ -89,6 +89,9 @@
       "confirm": {
         "label": "Confirm"
       },
+      "confirmPasswordAndSave": {
+        "label": "Confirm password and save"
+      },
       "page": {
         "home": {
           "label": "Home"

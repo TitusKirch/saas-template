@@ -27,13 +27,17 @@ export default defineAppConfig({
     card: {
       divide: 'divide-y-0',
     },
-    // dashboard: {
-    //   panel: {
-    //     content: {
-    //       wrapper: 'gap-8',
-    //     },
-    //   },
-    // },
+    dashboard: {
+      // panel: {
+      //   content: {
+      //     wrapper: 'gap-8',
+      //   },
+      // },
+      section: {
+        container: 'items-start md:flex-nowrap',
+        links: 'w-full md:w-80 flex-nowrap flex-col',
+      },
+    },
     header: {
       button: {
         icon: {

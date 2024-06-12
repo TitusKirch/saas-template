@@ -39,6 +39,11 @@ export const useAuthStore = defineStore(
       userPasswordConfirmModalIsOpen.value = !userPasswordConfirmModalIsOpen.value;
     };
 
+    // general
+    const reset = () => {
+      resetUserPasswordConfirmed();
+    };
+
     return {
       userPasswordConfirmed,
       userPasswordConfirmedAt,
@@ -51,6 +56,7 @@ export const useAuthStore = defineStore(
       showUserPasswordConfirmModal,
       hideUserPasswordConfirmModal,
       toggleUserPasswordConfirmModal,
+      reset,
     };
   },
   {

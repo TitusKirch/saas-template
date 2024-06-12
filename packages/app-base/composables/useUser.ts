@@ -1,4 +1,5 @@
 import { useUserStore } from '@tituskirch/app-base/stores/user';
+import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
 export default function () {
   // me
@@ -39,6 +40,8 @@ export default function () {
     const { execute } = logout();
     await execute();
     reset();
+    const authStore = useAuthStore();
+    authStore.reset();
   };
   const emailIsVerified = () => {
     const userStore = useUserStore();
