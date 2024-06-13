@@ -16,6 +16,7 @@
         variant === 'primary',
       'hover:underline': variant === 'underline',
     }"
+    class="hover:cursor-pointer"
   >
     <slot
   /></NuxtLinkLocale>

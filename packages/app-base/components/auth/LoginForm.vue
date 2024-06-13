@@ -12,7 +12,12 @@
 
   // submit handling
   const { login } = useAuth();
-  const { error, status, execute } = await login({
+  const {
+    data: loginData,
+    error,
+    status,
+    execute,
+  } = await login({
     data: form,
   });
   const submit = async (data: Form, node: FormKitNode) => {
@@ -36,6 +41,16 @@
       await me();
 
       const { redirect } = useRoute().query;
+
+      // check for 2fa
+      if (loginData.value && 'two_factor' in loginData.value && loginData.value.two_factor) {
+        return navigateToLocale({
+          name: 'auth-two-factor',
+          query: {
+            redirect: redirect as string,
+          },
+        });
+      }
 
       if (redirect) {
         return navigateToLocale(redirect as string);

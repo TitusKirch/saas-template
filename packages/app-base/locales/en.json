@@ -95,6 +95,16 @@
         },
         "resetPassword": {
           "label": "Reset password"
+        },
+        "twoFactorChallenge": {
+          "switch": {
+            "code": {
+              "label": "Use code"
+            },
+            "recoveryCode": {
+              "label": "Use recovery code"
+            }
+          }
         }
       },
       "cancel": {
@@ -161,7 +171,15 @@
     "password_confirm": {
       "label": "Confirm password"
     },
-    "tryAgainIn": "Try again in a second. | Try again in {count} seconds."
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
+    "twoFactorChallenge": {
+      "code": {
+        "label": "2FA code"
+      },
+      "recoveryCode": {
+        "label": "Recovery code"
+      }
+    }
   },
   "helpSlideover": {
     "title": "Help"
@@ -253,6 +271,19 @@
           "title": "Create an account"
         },
         "title": "Register"
+      },
+      "twoFactorChallenge": {
+        "description": "Please enter the code from your authenticator app.",
+        "authCard": {
+          "code": {
+            "description": "Please enter the code from your authenticator app. Lost your device? {0}."
+          },
+          "recoveryCode": {
+            "description": "Please enter one of your recovery codes. Found your device? {0}."
+          },
+          "title": "Two-factor authentication"
+        },
+        "title": "Two-factor authentication"
       }
     }
   },

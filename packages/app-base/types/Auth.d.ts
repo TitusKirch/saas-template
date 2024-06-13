@@ -1,10 +1,16 @@
+import { AuthTwoFactorChallengeForm } from './../../../apps/blog/.nuxt/components.d';
 type AuthLoginForm = {
   email: string;
   password: string;
   remember?: boolean;
 };
 type AuthLoginData = AuthLoginForm;
-type AuthLoginResponse = ApiResponse<AuthLoginData>;
+type AuthLoginResponse = ApiResponse<
+  | AuthLoginData
+  | {
+      two_factor: boolean;
+    }
+>;
 
 type AuthLogoutData = undefined;
 type AuthLogoutResponse = ApiResponse<AuthLogoutData>;
@@ -74,3 +80,5 @@ type AuthUserConfirmedTwoFactorAuthenticationResponse =
 
 type AuthUserTwoFactorRecoveryCodesData = string[];
 type AuthUserTwoFactorRecoveryCodesResponse = ApiResponse<AuthUserTwoFactorRecoveryCodesData>;
+
+type AuthTwoFactorChallengeType = 'code' | 'recoveryCode';
