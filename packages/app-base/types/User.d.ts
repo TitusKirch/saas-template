@@ -15,6 +15,7 @@ type User = Omit<UserData, 'created_at' | 'updated_at'> & {
 
 type UserMeExtraData = {
   email_verified_at: string | null;
+  two_factor_confirmed_at: Date | null;
   organizations: string[];
 };
 type UserMeData = UserData & UserMeExtraData;
@@ -23,6 +24,7 @@ type UserMeResponse = ApiResourceResponse<UserMeData>;
 type UserMe = User &
   Omit<UserMeExtraData, 'email_verified_at'> & {
     emailVerifiedAt: Date | null;
+    twoFactorConfirmedAt: Date | null;
   };
 
 type UpdateUserMeForm = {

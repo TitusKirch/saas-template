@@ -133,6 +133,7 @@
             :placeholder="usePlaceholder({ type: 'email' })"
             prefix-icon="email"
             :classes="formkitFieldClasses"
+            autocomplete="username"
           />
         </template>
       </UDashboardSection>
@@ -153,6 +154,7 @@
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"
             @suffix-icon-click="passwordToggle"
+            autocomplete="new-password"
           />
           <FormKit
             type="password"
@@ -164,6 +166,7 @@
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"
             @suffix-icon-click="passwordToggle"
+            autocomplete="new-password"
           />
         </template>
       </UDashboardSection>

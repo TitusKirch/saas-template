@@ -3,6 +3,20 @@
     "userPasswordConfirmModal": {
       "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
       "title": "Confirm password"
+    },
+    "userTwoFactorRecoveryCodesModal": {
+      "description": "Please store these recovery codes in a safe place. They can be used to recover access to your account in case you lose access to your two-factor authentication device.",
+      "action": {
+        "download": {
+          "label": "Download as text file"
+        }
+      },
+      "alert": {
+        "loading": {
+          "title": "Enabling two-factor authentication"
+        }
+      },
+      "title": "Recovery codes"
     }
   },
   "base": {
@@ -85,6 +99,9 @@
       },
       "cancel": {
         "label": "Cancel"
+      },
+      "close": {
+        "label": "Close"
       },
       "confirm": {
         "label": "Confirm"

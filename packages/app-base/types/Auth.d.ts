@@ -72,7 +72,5 @@ type AuthUserConfirmedTwoFactorAuthenticationData = {
 type AuthUserConfirmedTwoFactorAuthenticationResponse =
   ApiResponse<AuthUserConfirmedTwoFactorAuthenticationData>;
 
-type AuthUserTwoFactorRecoveryCodesData = {
-  codes: string[];
-};
+type AuthUserTwoFactorRecoveryCodesData = string[];
 type AuthUserTwoFactorRecoveryCodesResponse = ApiResponse<AuthUserTwoFactorRecoveryCodesData>;

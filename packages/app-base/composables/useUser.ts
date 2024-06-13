@@ -72,6 +72,9 @@ export default function () {
     return {
       ...data,
       emailVerifiedAt: data.email_verified_at ? new Date(data.email_verified_at) : null,
+      twoFactorConfirmedAt: data.two_factor_confirmed_at
+        ? new Date(data.two_factor_confirmed_at)
+        : null,
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
     };

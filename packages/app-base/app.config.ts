@@ -35,7 +35,7 @@ export default defineAppConfig({
       // },
       section: {
         container: 'items-start md:flex-nowrap',
-        links: 'w-full md:w-80 flex-nowrap flex-col',
+        links: 'w-full md:w-80 flex-nowrap flex-col flex-shrink-0',
       },
     },
     header: {
