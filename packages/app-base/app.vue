@@ -87,7 +87,7 @@
   );
   const { me } = useUser();
   const user = await me();
-  if (user) {
+  if (user.value) {
     const { userConfirmedPasswordStatus } = useAuth();
     const { data: userConfirmedPasswordStatusData, execute: userConfirmedPasswordStatusExecute } =
       await userConfirmedPasswordStatus();
