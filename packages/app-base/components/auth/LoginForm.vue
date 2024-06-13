@@ -81,6 +81,7 @@
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
+        autocomplete="username"
       />
       <FormKit
         type="password"
@@ -92,6 +93,7 @@
         suffix-icon="eyeClosed"
         help="TEST"
         @suffix-icon-click="passwordToggle"
+        autocomplete="current-password"
       >
         <template #help="context">
           <div :for="context.id" :class="context.classes.help">

@@ -66,6 +66,7 @@
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
+        autocomplete="username"
       />
 
       <UButton

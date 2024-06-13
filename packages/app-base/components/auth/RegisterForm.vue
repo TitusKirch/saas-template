@@ -85,6 +85,7 @@
           validation="required"
           :placeholder="usePlaceholder({ type: 'first_name' })"
           prefix-icon="people"
+          autocomplete="given-name"
         />
         <FormKit
           type="text"
@@ -93,6 +94,7 @@
           validation="required"
           :placeholder="usePlaceholder({ type: 'last_name' })"
           prefix-icon="people"
+          autocomplete="family-name"
         />
       </div>
       <FormKit
@@ -102,6 +104,7 @@
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
+        autocomplete="username"
       />
       <FormKit
         type="email"
@@ -110,6 +113,7 @@
         validation="required|email|confirm"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
+        autocomplete="username"
       />
       <FormKit
         type="password"
@@ -120,6 +124,7 @@
         prefix-icon="password"
         suffix-icon="eyeClosed"
         @suffix-icon-click="passwordToggle"
+        autocomplete="new-password"
       />
       <FormKit
         type="password"
@@ -130,6 +135,7 @@
         prefix-icon="password"
         suffix-icon="eyeClosed"
         @suffix-icon-click="passwordToggle"
+        autocomplete="new-password"
       />
 
       <UButton
