@@ -1,4 +1,4 @@
-import { error, type FormKitNode } from '@formkit/core';
+import type { FormKitNode } from '@formkit/core';
 
 export default function () {
   const passwordToggle = (node: FormKitNode) => {

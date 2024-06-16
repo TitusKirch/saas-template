@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const props = withDefaults(
+  withDefaults(
     defineProps<{
       type: AuthTwoFactorChallengeType;
     }>(),
@@ -8,19 +8,49 @@
     }
   );
 
-  const form: Ref<any> = ref({
+  // form setup
+  const form: Ref<AuthTwoFactorChallengeData> = ref({
     code: '',
     recovery_code: '',
+  });
+  const { passwordToggle } = useFormKit();
+  const { twoFactorChallenge } = useAuth();
+  const { error, status, execute } = await twoFactorChallenge({
+    data: form,
+  });
+  const { submit, errorMessages } = useFormKitForm<AuthTwoFactorChallengeData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
+      const { redirect } = useRoute().query;
+      const { me } = useUser();
+      await me();
+
+      if (redirect) {
+        return navigateToLocale(redirect as string);
+      }
+
+      return navigateToLocale({
+        name: 'index',
+      });
+    },
   });
 </script>
 
 <template>
   <div class="space-y-6">
-    <FormKit v-slot="{ state: { valid } }" v-model="form" type="form" :actions="false">
-      <!-- 
-          :disabled="status === 'success'"
+    <FormKit
+      v-slot="{ state: { valid } }"
+      v-model="form"
+      type="form"
+      :actions="false"
+      :disabled="status === 'success'"
       @submit="submit"
-    -->
+    >
+      <FormErrorsAlert :error-messages="errorMessages" />
+
       <FormKit
         v-if="type === 'code'"
         type="otp"
@@ -36,16 +66,15 @@
         :label="$t('global.twoFactorChallenge.recoveryCode.label')"
         validation="required"
         prefix-icon="password"
+        suffix-icon="eyeClosed"
+        @suffix-icon-click="passwordToggle"
       />
-
-      <!--  
-      :disabled="!valid || !!Object.keys(errorMessages).length"
-        :loading="status === 'pending' || (status !== 'idle' && !error)"
-         -->
 
       <UButton
         type="submit"
         block
+        :disabled="!valid || !!Object.keys(errorMessages).length"
+        :loading="status === 'pending' || (status !== 'idle' && !error)"
         icon="i-fa6-solid-right-to-bracket"
         :ui="{
           base: 'mt-8',

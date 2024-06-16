@@ -37,20 +37,20 @@
     }
 
     if (status.value === 'success') {
-      const { me } = useUser();
-      await me();
-
       const { redirect } = useRoute().query;
 
       // check for 2fa
       if (loginData.value && 'two_factor' in loginData.value && loginData.value.two_factor) {
         return navigateToLocale({
-          name: 'auth-two-factor',
+          name: 'auth-two-factor-challenge',
           query: {
             redirect: redirect as string,
           },
         });
       }
+
+      const { me } = useUser();
+      await me();
 
       if (redirect) {
         return navigateToLocale(redirect as string);
@@ -106,7 +106,6 @@
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"
-        help="TEST"
         @suffix-icon-click="passwordToggle"
         autocomplete="current-password"
       >

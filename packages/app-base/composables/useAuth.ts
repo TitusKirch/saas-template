@@ -220,6 +220,20 @@ export default function () {
       }
     );
   };
+  const twoFactorChallenge = ({ data }: { data: Ref<AuthTwoFactorChallengeData | undefined> }) => {
+    const { post } = useApi();
+
+    return post<AuthTwoFactorChallengeData, AuthTwoFactorChallengeResponse>(
+      'two-factor-challenge',
+      {
+        immediate: false,
+        watch: false,
+        prefix: 'auth',
+        version: false,
+        body: data,
+      }
+    );
+  };
 
   // third party providers
   const thirdPartyProviders = () => [
@@ -256,6 +270,7 @@ export default function () {
     twoFactorQrCode,
     confirmedTwoFactorAuthentication,
     twoFactorRecoveryCodes,
+    twoFactorChallenge,
     thirdPartyProviders,
   };
 }

@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-  const props = defineProps<{
+  defineProps<{
     confirmPasswordButtonTitle?: string;
     confirmPasswordButtonProps?: Partial<Record<'block' | 'disabled', unknown>>;
-    confirmPasswordButtonCallback?: () => void;
+    confirmPasswordButtonCallback: () => Promise<any>;
     disabled?: boolean;
   }>();
   defineSlots<{
@@ -14,11 +14,7 @@
   const authStore = useAuthStore();
   const { getColorByType } = useAlertStyle();
 
-  if (props.confirmPasswordButtonCallback) {
-    authStore.setUserPasswordConfirmModalSuccessCallback({
-      callback: props.confirmPasswordButtonCallback,
-    });
-  }
+  const modalIsOpen = ref(false);
 </script>
 
 <template>
@@ -29,7 +25,7 @@
         icon="i-fa6-solid-lock"
         :color="getColorByType({ type: 'warning' })"
         v-bind="confirmPasswordButtonProps"
-        @click="authStore.showUserPasswordConfirmModal()"
+        @click="modalIsOpen = true"
       >
         {{
           confirmPasswordButtonTitle
@@ -38,5 +34,10 @@
         }}
       </UButton>
     </slot>
+
+    <AuthUserPasswordConfirmModal
+      v-model="modalIsOpen"
+      :confirm-password-button-callback="confirmPasswordButtonCallback"
+    />
   </div>
 </template>

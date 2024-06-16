@@ -63,7 +63,7 @@
 </script>
 
 <template>
-  <div class="flex space-x-2">
+  <div class="flex space-x-2 w-full justify-between">
     <input
       v-for="index in digits"
       type="number"

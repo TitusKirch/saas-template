@@ -1,4 +1,3 @@
-import { AuthTwoFactorChallengeForm } from './../../../apps/blog/.nuxt/components.d';
 type AuthLoginForm = {
   email: string;
   password: string;
@@ -82,3 +81,12 @@ type AuthUserTwoFactorRecoveryCodesData = string[];
 type AuthUserTwoFactorRecoveryCodesResponse = ApiResponse<AuthUserTwoFactorRecoveryCodesData>;
 
 type AuthTwoFactorChallengeType = 'code' | 'recoveryCode';
+
+type AuthTwoFactorChallengeData =
+  | {
+      code: string;
+    }
+  | {
+      recoveryCode: string;
+    };
+type AuthTwoFactorChallengeResponse = ApiResponse<AuthTwoFactorChallengeData>;

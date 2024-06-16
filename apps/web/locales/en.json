@@ -98,8 +98,11 @@
           "twoFactorRecoveryCodes": {
             "description": "Recovery codes are used to access your account in case you lose access to your two-factor authentication app.",
             "action": {
+              "confirmPasswordAndShow": {
+                "label": "Confirm password and show codes"
+              },
               "show": {
-                "label": "Show recovery codes"
+                "label": "Show codes"
               }
             },
             "title": "Recovery codes"

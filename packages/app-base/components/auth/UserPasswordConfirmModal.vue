@@ -3,6 +3,11 @@
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
   const authStore = useAuthStore();
 
+  const props = defineProps<{
+    confirmPasswordButtonCallback: () => Promise<any>;
+  }>();
+  const model = defineModel();
+
   type Form = AuthUserConfirmPasswordForm;
   const form: Ref<Form> = ref({
     password: '',
@@ -36,7 +41,8 @@
     if (status.value === 'success') {
       console.log('success');
       authStore.confirmUserPasswordConfirmed();
-      await authStore.executeUserPasswordConfirmModalSuccessCallback();
+      await props.confirmPasswordButtonCallback();
+      model.value = false;
     }
   };
 
@@ -50,10 +56,31 @@
     }
     errorMessages.value = updatedErrorMessages;
   });
+
+  // reset form on close
+  const resetTimeout = ref<NodeJS.Timeout | null>(null);
+  watch(
+    () => model.value,
+    (newValue) => {
+      if (!newValue) {
+        resetTimeout.value = setTimeout(() => {
+          form.value = {
+            password: '',
+          };
+          errorMessages.value = {};
+        }, 500);
+      }
+    }
+  );
+  onBeforeUnmount(() => {
+    if (resetTimeout.value) {
+      clearTimeout(resetTimeout.value);
+    }
+  });
 </script>
 <template>
   <BaseModal
-    v-model="authStore.userPasswordConfirmModalIsOpen"
+    v-model="model"
     :title="$t('auth.userPasswordConfirmModal.title')"
     :description="$t('auth.userPasswordConfirmModal.description')"
     type="warning"
@@ -81,17 +108,14 @@
 
       <BaseButtonContainer class="mt-8">
         <UButton
-          type="submit"
+          type="button"
           :disabled="!valid || !!Object.keys(errorMessages).length"
           :loading="status === 'pending' || (status !== 'idle' && !error)"
           icon="i-fa6-solid-check"
+          @click="submit"
           >{{ $t('global.action.confirm.label') }}
         </UButton>
-        <UButton
-          color="white"
-          :label="$t('global.action.cancel.label')"
-          @click="authStore.hideUserPasswordConfirmModal"
-        />
+        <UButton color="white" :label="$t('global.action.cancel.label')" @click="model = false" />
       </BaseButtonContainer>
     </FormKit>
   </BaseModal>

@@ -4,16 +4,6 @@
   const { me } = useUser();
   const user = await me();
 
-  // disable two factor authentication
-  const { disableTwoFactorAuthentication } = useAuth();
-  const {
-    status: disableTwoFactorAuthenticationStatus,
-    execute: disableTwoFactorAuthenticationExecute,
-  } = await disableTwoFactorAuthentication();
-  const disableTwoFactorAuthenticationClick = async () => {
-    await disableTwoFactorAuthenticationExecute();
-  };
-
   const showAuthUserTwoFactorRecoveryCodesModal = ref(false);
   const authUserTwoFactorRecoveryCodesModalForceToDownload = ref(false);
   const openAuthUserTwoFactorRecoveryCodesModal = () => {
@@ -52,18 +42,24 @@
     <UDivider class="mb-4" />
 
     <UDashboardSection
+      v-show="user?.twoFactorConfirmedAt"
       :title="$t('page.settings.security.section.twoFactorRecoveryCodes.title')"
       :description="$t('page.settings.security.section.twoFactorRecoveryCodes.description')"
     >
       <template #links>
-        <UButton
-          block
-          icon="i-fa6-solid-eye"
-          color="primary"
-          @click="openAuthUserTwoFactorRecoveryCodesModal"
+        <AuthNeedsToConfirmUserPasswordButton
+          :confirm-password-button-title="
+            $t(
+              'page.settings.security.section.twoFactorRecoveryCodes.action.confirmPasswordAndShow.label'
+            )
+          "
+          :confirm-password-button-props="{ block: true }"
+          :confirm-password-button-callback="openAuthUserTwoFactorRecoveryCodesModal"
         >
-          {{ $t('page.settings.security.section.twoFactorRecoveryCodes.action.show.label') }}
-        </UButton>
+          <UButton block icon="i-fa6-solid-eye" @click="openAuthUserTwoFactorRecoveryCodesModal">
+            {{ $t('page.settings.security.section.twoFactorRecoveryCodes.action.show.label') }}
+          </UButton>
+        </AuthNeedsToConfirmUserPasswordButton>
 
         <AuthUserTwoFactorRecoveryCodesModal
           v-model="showAuthUserTwoFactorRecoveryCodesModal"
