@@ -1,64 +1,32 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   // form setup
-  type Form = AuthRegisterForm;
-  const form: Ref<Form> = ref({
+  const form: Ref<AuthRegisterData> = ref({
     first_name: '',
     last_name: '',
     email: '',
-    email_confirm: '',
+    email_confirmation: '',
     password: '',
-    password_confirm: '',
+    password_confirmation: '',
     remember: false,
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
-
-  // submit handling
-  const { transformRegisterFormToData, register } = useAuth();
-  const registerData: Ref<AuthRegisterData | undefined> = ref();
+  const { register } = useAuth();
   const { error, status, execute } = await register({
-    data: registerData,
+    data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    registerData.value = transformRegisterFormToData({
-      form: form.value,
-    });
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
-
-    if (status.value === 'success') {
+  const { submit, errorMessages } = useFormKitForm<AuthRegisterData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
       const { me } = useUser();
       await me();
 
       return navigateToLocale({
         name: 'index',
       });
-    }
-  };
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof errorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
-        updatedErrorMessages[key] = errorMessages.value[key];
-      }
-    }
-    errorMessages.value = updatedErrorMessages;
+    },
   });
 
   // third party providers
@@ -108,9 +76,9 @@
       />
       <FormKit
         type="email"
-        name="email_confirm"
-        :label="$t('global.email_confirm.label')"
-        validation="required|email|confirm"
+        name="email_confirmation"
+        :label="$t('global.email_confirmation.label')"
+        validation="required|email|confirm:email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
         autocomplete="username"
@@ -128,9 +96,9 @@
       />
       <FormKit
         type="password"
-        name="password_confirm"
-        :label="$t('global.password_confirm.label')"
-        validation="required|confirm"
+        name="password_confirmation"
+        :label="$t('global.password_confirmation.label')"
+        validation="required|confirm:password"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"

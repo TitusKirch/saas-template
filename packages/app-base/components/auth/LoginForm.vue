@@ -1,16 +1,10 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   // form setup
-  type Form = AuthLoginForm;
-  const form: Ref<Form> = ref({
+  const form: Ref<AuthLoginData> = ref({
     email: '',
     password: '',
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
-
-  // submit handling
   const { login } = useAuth();
   const {
     data: loginData,
@@ -20,23 +14,12 @@
   } = await login({
     data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
-
-    if (status.value === 'success') {
+  const { submit, errorMessages } = useFormKitForm<AuthLoginData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
       const { redirect } = useRoute().query;
 
       // check for 2fa
@@ -59,18 +42,7 @@
       return navigateToLocale({
         name: 'index',
       });
-    }
-  };
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof errorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
-        updatedErrorMessages[key] = errorMessages.value[key];
-      }
-    }
-    errorMessages.value = updatedErrorMessages;
+    },
   });
 
   // third party providers

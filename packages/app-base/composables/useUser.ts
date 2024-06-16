@@ -62,34 +62,23 @@ export default function () {
 
   // transformers
   const transformUserData = ({ data }: { data: UserData }): User => {
+    const { created_at, updated_at, ...rest } = data;
     return {
-      ...data,
+      ...rest,
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
     };
   };
   const transformUserMeData = ({ data }: { data: UserMeData }): UserMe => {
+    const { email_verified_at, two_factor_confirmed_at, created_at, updated_at, ...rest } = data;
     return {
-      ...data,
+      ...rest,
       emailVerifiedAt: data.email_verified_at ? new Date(data.email_verified_at) : null,
       twoFactorConfirmedAt: data.two_factor_confirmed_at
         ? new Date(data.two_factor_confirmed_at)
         : null,
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
-    };
-  };
-  const transformUserUpdateMeFormToData = ({
-    form,
-  }: {
-    form: UpdateUserMeForm;
-  }): UpdateUserMeData => {
-    return {
-      first_name: form.first_name,
-      last_name: form.last_name,
-      email: form.email,
-      password: form.password,
-      password_confirmation: form.password_confirm,
     };
   };
 
@@ -104,6 +93,5 @@ export default function () {
     resendVerificationEmail,
     transformUserData,
     transformUserMeData,
-    transformUserUpdateMeFormToData,
   };
 }

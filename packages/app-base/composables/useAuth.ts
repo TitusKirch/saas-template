@@ -25,16 +25,6 @@ export default function () {
   };
 
   // registration
-  const transformRegisterFormToData = ({ form }: { form: AuthRegisterForm }): AuthRegisterData => {
-    return {
-      first_name: form.first_name,
-      last_name: form.last_name,
-      email: form.email,
-      name: form.email,
-      password: form.password,
-      password_confirmation: form.password_confirm,
-    };
-  };
   const register = ({ data }: { data: Ref<AuthRegisterData | undefined> }) => {
     const { post } = useApi();
 
@@ -98,18 +88,6 @@ export default function () {
   };
 
   // reset password
-  const transformResetPasswordFormToData = ({
-    form,
-  }: {
-    form: AuthResetPasswordForm;
-  }): AuthResetPasswordData => {
-    return {
-      email: form.email,
-      token: form.token,
-      password: form.password,
-      password_confirmation: form.password_confirm,
-    };
-  };
   const resetPassword = ({ data }: { data: Ref<AuthResetPasswordData | undefined> }) => {
     const { post } = useApi();
 
@@ -256,12 +234,10 @@ export default function () {
   return {
     login,
     logout,
-    transformRegisterFormToData,
     register,
     emailVerificationNotification,
     emailVerify,
     forgotPassword,
-    transformResetPasswordFormToData,
     resetPassword,
     userConfirmPassword,
     userConfirmedPasswordStatus,

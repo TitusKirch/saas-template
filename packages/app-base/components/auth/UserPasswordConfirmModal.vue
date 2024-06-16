@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
   const authStore = useAuthStore();
 
@@ -8,53 +7,25 @@
   }>();
   const model = defineModel();
 
-  type Form = AuthUserConfirmPasswordForm;
-  const form: Ref<Form> = ref({
+  // form setup
+  const form: Ref<AuthUserConfirmPasswordData> = ref({
     password: '',
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
-
-  // submit handling
   const { userConfirmPassword } = useAuth();
-  const userConfirmPasswordData: Ref<AuthUserConfirmPasswordData | undefined> = ref();
   const { error, status, execute } = await userConfirmPassword({
-    data: userConfirmPasswordData,
+    data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    userConfirmPasswordData.value = form.value;
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
-
-    if (status.value === 'success') {
-      console.log('success');
+  const { submit, errorMessages } = useFormKitForm<AuthUserConfirmPasswordData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
       authStore.confirmUserPasswordConfirmed();
       await props.confirmPasswordButtonCallback();
       model.value = false;
-    }
-  };
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof errorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
-        updatedErrorMessages[key] = errorMessages.value[key];
-      }
-    }
-    errorMessages.value = updatedErrorMessages;
+    },
   });
 
   // reset form on close

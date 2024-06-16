@@ -1,50 +1,22 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   // form setup
-  type Form = AuthForgotPasswordForm;
-  const form: Ref<Form> = ref({
+  const form: Ref<AuthForgotPasswordData> = ref({
     email: '',
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
-
-  // submit handling
   const { forgotPassword } = useAuth();
   const { error, status, execute } = await forgotPassword({
     data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
-
-    if (status.value === 'success') {
+  const { submit, errorMessages } = useFormKitForm<AuthForgotPasswordData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
       return navigateToLocale({
         name: 'auth-password-forgot-success',
       });
-    }
-  };
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof errorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
-        updatedErrorMessages[key] = errorMessages.value[key];
-      }
-    }
-    errorMessages.value = updatedErrorMessages;
+    },
   });
 </script>
 <template>

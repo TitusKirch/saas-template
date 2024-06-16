@@ -3,49 +3,33 @@
   const user = await me();
 
   // form setup
-  type Form = UpdateUserMeForm;
-  const form: Ref<Form> = ref({
+  const form: Ref<UpdateUserMeData> = ref({
     first_name: user.value?.first_name || '',
     last_name: user.value?.last_name || '',
     email: user.value?.email || '',
     password: '',
-    password_confirm: '',
+    password_confirmation: '',
   });
-  const formValuesBeforeSubmit: Ref<Form> = ref({ ...form.value });
-  const errorMessages: Ref<Record<string, string>> = ref({});
+  const formValuesBeforeSubmit: Ref<UpdateUserMeData> = ref({ ...form.value });
   const { passwordToggle } = useFormKit();
   const formValuesHasChanged = computed(() => {
     return Object.keys(form.value).some(
-      (key) => form.value[key as keyof Form] !== formValuesBeforeSubmit.value[key as keyof Form]
+      (key) =>
+        form.value[key as keyof UpdateUserMeData] !==
+        formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
     );
   });
-
-  // submit handling
-  const { updateMe, transformUserUpdateMeFormToData, refetchMe } = useUser();
-  const updateData: Ref<UpdateUserMeData | undefined> = ref();
+  const { updateMe, refetchMe } = useUser();
+  const { t } = useI18n();
   const { error, status, execute } = await updateMe({
-    data: updateData,
+    data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    updateData.value = transformUserUpdateMeFormToData({
-      form: form.value,
-    });
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
-
-    if (status.value === 'success') {
+  const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
       await refetchMe();
 
       formValuesBeforeSubmit.value = { ...form.value };
@@ -55,19 +39,7 @@
         title: t('global.notification.success.title'),
         description: t('page.settings.account.notification.success.description'),
       });
-    }
-  };
-  const { t } = useI18n();
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof errorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
-        updatedErrorMessages[key] = errorMessages.value[key];
-      }
-    }
-    errorMessages.value = updatedErrorMessages;
+    },
   });
 
   // classes for same style
@@ -158,10 +130,10 @@
           />
           <FormKit
             type="password"
-            name="password_confirm"
-            :label="$t('global.password_confirm.label')"
-            validation="confirm"
-            :placeholder="$t('global.password_confirm.label')"
+            name="password_confirmation"
+            :label="$t('global.password_confirmation.label')"
+            validation="confirm:password"
+            :placeholder="$t('global.password_confirmation.label')"
             prefix-icon="password"
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"

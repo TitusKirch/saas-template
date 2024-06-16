@@ -140,7 +140,7 @@
         "male": "john.doe{'@'}example.com"
       }
     },
-    "email_confirm": {
+    "email_confirmation": {
       "label": "Confirm email address"
     },
     "first_name": {
@@ -168,7 +168,7 @@
     "password": {
       "label": "Password"
     },
-    "password_confirm": {
+    "password_confirmation": {
       "label": "Confirm password"
     },
     "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",

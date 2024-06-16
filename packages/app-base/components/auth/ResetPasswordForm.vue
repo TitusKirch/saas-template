@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   // get data from route
   const route = useRoute();
   const email = route.query.email as string;
@@ -12,55 +10,35 @@
   }
 
   // form setup
-  type Form = AuthResetPasswordForm;
-  const form: Ref<Form> = ref({
+  const form: Ref<AuthResetPasswordData> = ref({
     email: email,
     token: token,
     password: '',
-    password_confirm: '',
+    password_confirmation: '',
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
-
-  // submit handling
-  const { transformResetPasswordFormToData, resetPassword } = useAuth();
-  const resetData: Ref<AuthResetPasswordData | undefined> = ref();
+  const { resetPassword } = useAuth();
   const { error, status, execute } = await resetPassword({
-    data: resetData,
+    data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    resetData.value = transformResetPasswordFormToData({
-      form: form.value,
-    });
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
+  const { submit, errorMessages } = useFormKitForm<AuthResetPasswordData>({
+    form,
+    error,
+    status,
+    executeCallback: execute,
+    successCallback: async () => {
+      const { redirect } = useRoute().query;
+      const { me } = useUser();
+      await me();
 
-    return navigateToLocale({
-      name: 'auth-password-reset-success',
-    });
-  };
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof errorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] === oldValue[key] && errorMessages.value[key]) {
-        updatedErrorMessages[key] = errorMessages.value[key];
+      if (redirect) {
+        return navigateToLocale(redirect as string);
       }
-    }
-    errorMessages.value = updatedErrorMessages;
+
+      return navigateToLocale({
+        name: 'auth-password-reset-success',
+      });
+    },
   });
 </script>
 <template>
@@ -89,9 +67,9 @@
       />
       <FormKit
         type="password"
-        name="password_confirm"
-        :label="$t('global.password_confirm.label')"
-        validation="required|confirm"
+        name="password_confirmation"
+        :label="$t('global.password_confirmation.label')"
+        validation="required|confirm:password"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   const emit = defineEmits<{
     success: [];
   }>();
@@ -33,13 +31,9 @@
   });
 
   // form setup
-  type Form = AuthUserConfirmedTwoFactorAuthenticationData;
-  const form: Ref<Form> = ref({
+  const form: Ref<AuthUserConfirmedTwoFactorAuthenticationData> = ref({
     code: '',
   });
-  const formErrorMessages: Ref<Record<string, string> | false> = ref({});
-  const { setErrors } = useFormKit();
-
   const { confirmedTwoFactorAuthentication } = useAuth();
   const { refetchMe } = useUser();
   const {
@@ -49,34 +43,17 @@
   } = await confirmedTwoFactorAuthentication({
     data: form,
   });
-  const submitConfirmedTwoFactorAuthentication = async (data: Form, node: FormKitNode) => {
-    await confirmedTwoFactorAuthenticationExecute();
-    formErrorMessages.value = setErrors<AuthUserConfirmedTwoFactorAuthenticationData>({
-      node,
-      error: confirmedTwoFactorAuthenticationError.value?.data,
+  const { submit: submitConfirmedTwoFactorAuthentication, errorMessages } =
+    useFormKitForm<AuthUserConfirmedTwoFactorAuthenticationData>({
+      form,
+      error: confirmedTwoFactorAuthenticationError,
+      status: confirmedTwoFactorAuthenticationStatus,
+      executeCallback: confirmedTwoFactorAuthenticationExecute,
+      successCallback: async () => {
+        emit('success');
+        await refetchMe();
+      },
     });
-
-    if (confirmedTwoFactorAuthenticationStatus.value === 'success') {
-      emit('success');
-      await refetchMe();
-    }
-  };
-
-  // error handling for form
-  watch(form, (newValue: Form, oldValue: Form) => {
-    const updatedErrorMessages: typeof formErrorMessages.value = {};
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (
-        newValue[key] === oldValue[key] &&
-        formErrorMessages.value != false &&
-        formErrorMessages.value[key]
-      ) {
-        6;
-        updatedErrorMessages[key] = formErrorMessages.value[key];
-      }
-    }
-    formErrorMessages.value = updatedErrorMessages;
-  });
 </script>
 
 <template>
@@ -136,7 +113,7 @@
         form: 'w-full',
       }"
     >
-      <FormErrorsAlert v-if="formErrorMessages" :error-messages="formErrorMessages" />
+      <FormErrorsAlert v-if="errorMessages" :error-messages="errorMessages" />
 
       <FormKit
         type="otp"
@@ -148,11 +125,12 @@
       <UButton
         type="submit"
         block
-        :disabled="!valid || !!Object.keys(formErrorMessages).length"
+        :disabled="!valid || !!Object.keys(errorMessages).length"
         :loading="confirmedTwoFactorAuthenticationStatus === 'pending'"
         icon="i-fa6-solid-floppy-disk"
-        >{{ $t('global.action.save.label') }}</UButton
       >
+        {{ $t('global.action.save.label') }}
+      </UButton>
     </FormKit>
   </div>
 </template>
