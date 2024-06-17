@@ -1,9 +1,9 @@
 export default function () {
   // login
-  const login = ({ data }: { data: Ref<AuthLoginForm | undefined> }) => {
+  const login = ({ data }: { data: Ref<AuthLoginData | undefined> }) => {
     const { post } = useApi();
 
-    return post<AuthLoginForm, AuthLoginResponse>('login', {
+    return post<AuthLoginData, AuthLoginResponse>('login', {
       immediate: false,
       watch: false,
       prefix: 'auth',
@@ -75,10 +75,10 @@ export default function () {
   };
 
   // forgot password
-  const forgotPassword = ({ data }: { data: Ref<AuthForgotPasswordForm | undefined> }) => {
+  const forgotPassword = ({ data }: { data: Ref<AuthForgotPasswordData | undefined> }) => {
     const { post } = useApi();
 
-    return post<AuthForgotPasswordForm, AuthForgotPasswordResponse>('forgot-password', {
+    return post<AuthForgotPasswordData, AuthForgotPasswordResponse>('forgot-password', {
       immediate: false,
       watch: false,
       prefix: 'auth',
