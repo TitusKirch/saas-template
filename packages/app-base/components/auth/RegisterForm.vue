@@ -21,10 +21,10 @@
     executeCallback: execute,
     successCallback: async () => {
       const { me } = useUser();
-      await me();
-
-      return navigateToLocale({
-        name: 'index',
+      return await me().finally(() => {
+        return navigateToLocale({
+          name: 'index',
+        });
       });
     },
   });

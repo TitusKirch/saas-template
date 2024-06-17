@@ -33,14 +33,14 @@
       }
 
       const { me } = useUser();
-      await me();
+      return await me().finally(async () => {
+        if (redirect) {
+          return navigateToLocale(redirect as string);
+        }
 
-      if (redirect) {
-        return navigateToLocale(redirect as string);
-      }
-
-      return navigateToLocale({
-        name: 'index',
+        return navigateToLocale({
+          name: 'index',
+        });
       });
     },
   });

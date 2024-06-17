@@ -29,14 +29,14 @@
     successCallback: async () => {
       const { redirect } = useRoute().query;
       const { me } = useUser();
-      await me();
+      return await me().finally(() => {
+        if (redirect) {
+          return navigateToLocale(redirect as string);
+        }
 
-      if (redirect) {
-        return navigateToLocale(redirect as string);
-      }
-
-      return navigateToLocale({
-        name: 'auth-password-reset-success',
+        return navigateToLocale({
+          name: 'auth-password-reset-success',
+        });
       });
     },
   });
