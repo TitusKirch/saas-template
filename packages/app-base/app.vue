@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { changeLocale } from '@formkit/vue';
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
+  import { useFeatureStore } from '@tituskirch/app-base/stores/feature';
 
   // head
   const route = useRoute();
@@ -96,6 +97,10 @@
       authStore.resetUserPasswordConfirmed();
     }
   }
+
+  // feature flags
+  const featureStore = useFeatureStore();
+  await featureStore.fetchFeatures();
 </script>
 
 <template>
