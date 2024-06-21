@@ -26,7 +26,7 @@ export default defineNuxtPlugin(async () => {
   const userStore = useUserStore();
   if (!userStore.userLoaded) {
     try {
-      const user = await client<UserResponse>('users/me', {
+      const user = await client<UserMeResponse>('users/me', {
         version: 'v1',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
