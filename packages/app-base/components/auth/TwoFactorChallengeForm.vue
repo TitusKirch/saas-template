@@ -28,8 +28,16 @@
 
       const { me } = useUser();
       return await me().finally(async () => {
-        if (redirect) {
-          return navigateToLocale(redirect as string);
+        if (redirect && redirect != '/') {
+          const localeRoute = useLocaleRoute();
+          const localeRedirectRoute = localeRoute(redirect as string);
+
+          if (
+            localeRedirectRoute?.name &&
+            !(localeRedirectRoute.name as string).startsWith('auth-')
+          ) {
+            return navigateToLocale(redirect as string);
+          }
         }
 
         return navigateToLocale({
