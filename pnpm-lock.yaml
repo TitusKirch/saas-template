@@ -123,6 +123,9 @@ importers:
       '@nuxtjs/i18n':
         specifier: ^8.3.1
         version: 8.3.1(rollup@4.17.2)(vue@3.4.27(typescript@5.4.5))
+      '@nuxtjs/turnstile':
+        specifier: ^0.8.0
+        version: 0.8.0(rollup@4.17.2)
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.17.2)(typescript@5.4.5)(vue@3.4.27(typescript@5.4.5))
@@ -141,9 +144,6 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
-      eslint-plugin-tailwindcss:
-        specifier: ^3.17.3
-        version: 3.17.3(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))
       laravel-precognition-vue:
         specifier: ^0.5.5
         version: 0.5.5(vue@3.4.27(typescript@5.4.5))
@@ -190,6 +190,9 @@ importers:
       eslint:
         specifier: ^9.4.0
         version: 9.4.0
+      eslint-plugin-tailwindcss:
+        specifier: ^3.17.3
+        version: 3.17.3(tailwindcss@3.4.3(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))
       happy-dom:
         specifier: ^14.12.0
         version: 14.12.0
@@ -1740,6 +1743,9 @@ packages:
 
   '@nuxtjs/tailwindcss@6.12.0':
     resolution: {integrity: sha512-vXvEq8z177TQcx0tc10mw3O6T9WeN0iTL8hIKGDfidmr+HKReexJU01aPgHefFrCu4LJB70egYFYnywzB9lMyQ==}
+
+  '@nuxtjs/turnstile@0.8.0':
+    resolution: {integrity: sha512-m4u/fVKVKF1fz1nH8LYYXY51jGzd1ROfujh0cfiGAYtQtn9D+V3nKdHFG9iHmRtfZxqzbL6z32V0k+6YYD6iig==}
 
   '@oclif/core@2.16.0':
     resolution: {integrity: sha512-dL6atBH0zCZl1A1IXCKJgLPrM/wR7K+Wi401E/IvqsK8m2iCHW+0TEOGrans/cuN3oTW+uxIyJFHJ8Im0k4qBw==}
@@ -11861,6 +11867,15 @@ snapshots:
       - supports-color
       - ts-node
       - uWebSockets.js
+
+  '@nuxtjs/turnstile@0.8.0(rollup@4.17.2)':
+    dependencies:
+      '@nuxt/kit': 3.12.1(rollup@4.17.2)
+      defu: 6.1.4
+      pathe: 1.1.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
 
   '@oclif/core@2.16.0(@types/node@20.12.11)(typescript@5.4.5)':
     dependencies:
