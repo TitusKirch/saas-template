@@ -1,8 +1,11 @@
 <script setup lang="ts">
   // form setup
+  const turnstile = ref();
+  const turnstileToken = ref('');
   const form: Ref<AuthLoginData> = ref({
     email: '',
     password: '',
+    'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
   const { login } = useAuth();
@@ -18,6 +21,9 @@
     form,
     error,
     status,
+    beforeExecuteCallback: async () => {
+      form.value['cf-turnstile-response'] = turnstileToken.value;
+    },
     executeCallback: execute,
     successCallback: async () => {
       const { redirect } = useRoute().query;
@@ -42,6 +48,9 @@
           name: 'index',
         });
       });
+    },
+    errorCallback: async () => {
+      turnstile.value?.reset();
     },
   });
 
@@ -102,6 +111,10 @@
         :default="true"
       />
 
+      <FormTurnstileContainer>
+        <NuxtTurnstile ref="turnstile" v-model="turnstileToken" />
+      </FormTurnstileContainer>
+
       <UButton
         type="submit"
         block
@@ -111,8 +124,9 @@
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.login.label') }}</UButton
       >
+        {{ $t('global.action.auth.login.label') }}
+      </UButton>
     </FormKit>
 
     <UDivider :label="$t('global.or.label')" />

@@ -2,6 +2,7 @@ type AuthLoginData = {
   email: string;
   password: string;
   remember?: boolean;
+  'cf-turnstile-response': string;
 };
 type AuthLoginResponse = ApiResponse<
   | AuthLoginData
