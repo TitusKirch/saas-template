@@ -2,8 +2,7 @@ type AuthLoginData = {
   email: string;
   password: string;
   remember?: boolean;
-  'cf-turnstile-response': string;
-};
+} & ApiRequestDataTurnstile;
 type AuthLoginResponse = ApiResponse<
   | AuthLoginData
   | {
@@ -21,21 +20,25 @@ type AuthRegisterData = {
   email_confirmation: string;
   password: string;
   password_confirmation: string;
-};
+} & ApiRequestDataTurnstile;
 type AuthRegisterResponse = ApiResponse<AuthRegisterData>;
 
 type AuthEmailVerificationNotificationData = undefined;
 type AuthEmailVerificationNotificationResponse = ApiResponse<AuthEmailVerificationNotificationData>;
 
-type AuthEmailVerifyData = {
+type AuthEmailVerifyPath = {
+  id: string;
+  hash: string;
+};
+type AuthEmailVerifyParams = {
   expires: string;
   signature: string;
 };
-type AuthEmailVerifyResponse = ApiResponse<AuthEmailVerifyData>;
+type AuthEmailVerifyResponse = ApiResponse<AuthEmailVerifyParams>;
 
 type AuthForgotPasswordData = {
   email: string;
-};
+} & ApiRequestDataTurnstile;
 type AuthForgotPasswordResponse = ApiMessageResponse;
 
 type AuthResetPasswordData = {
@@ -43,7 +46,7 @@ type AuthResetPasswordData = {
   token: string;
   password: string;
   password_confirmation: string;
-};
+} & ApiRequestDataTurnstile;
 type AuthResetPasswordResponse = ApiResponse<AuthResetPasswordData>;
 
 type AuthUserConfirmPasswordData = {

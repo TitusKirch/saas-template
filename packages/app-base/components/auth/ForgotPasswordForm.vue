@@ -1,7 +1,10 @@
 <script setup lang="ts">
   // form setup
+  const turnstile = ref();
+  const turnstileToken = ref('');
   const form: Ref<AuthForgotPasswordData> = ref({
     email: '',
+    'cf-turnstile-response': '',
   });
   const { forgotPassword } = useAuth();
   const { error, status, execute } = await forgotPassword({
@@ -11,11 +14,17 @@
     form,
     error,
     status,
+    beforeExecuteCallback: async () => {
+      form.value['cf-turnstile-response'] = turnstileToken.value;
+    },
     executeCallback: execute,
     successCallback: async () => {
       return navigateToLocale({
         name: 'auth-password-forgot-success',
       });
+    },
+    errorCallback: async () => {
+      turnstile.value?.reset();
     },
   });
 </script>
@@ -41,10 +50,22 @@
         autocomplete="username"
       />
 
+      <FormTurnstileContainer :first-show-on="valid">
+        <NuxtTurnstile
+          ref="turnstile"
+          v-model="turnstileToken"
+          :options="{
+            action: 'forgot-password',
+          }"
+        />
+      </FormTurnstileContainer>
+
       <UButton
         type="submit"
         block
-        :disabled="!valid || !!Object.keys(errorMessages).length || status === 'success'"
+        :disabled="
+          !valid || !!Object.keys(errorMessages).length || status === 'success' || !turnstileToken
+        "
         :loading="status === 'pending'"
         icon="i-fa6-solid-paper-plane"
         :ui="{

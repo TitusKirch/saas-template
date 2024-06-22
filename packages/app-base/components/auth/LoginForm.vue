@@ -119,14 +119,20 @@
         :default="true"
       />
 
-      <FormTurnstileContainer>
-        <NuxtTurnstile ref="turnstile" v-model="turnstileToken" />
+      <FormTurnstileContainer :first-show-on="valid">
+        <NuxtTurnstile
+          ref="turnstile"
+          v-model="turnstileToken"
+          :options="{
+            action: 'login',
+          }"
+        />
       </FormTurnstileContainer>
 
       <UButton
         type="submit"
         block
-        :disabled="!valid || !!Object.keys(errorMessages).length"
+        :disabled="!valid || !!Object.keys(errorMessages).length || !turnstileToken"
         :loading="status === 'pending' || (status !== 'idle' && !error)"
         icon="i-fa6-solid-right-to-bracket"
         :ui="{

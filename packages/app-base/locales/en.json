@@ -202,6 +202,14 @@
               "description": "An error occurred while verifying your email address. Please try again.",
               "title": "Error verifying email"
             },
+            "idle": {
+              "description": "Confirm the captcha to verify your email address.",
+              "title": "Verify your email"
+            },
+            "pending": {
+              "description": "Please wait while we verify your email address.",
+              "title": "Verifying email"
+            },
             "success": {
               "description": "Your email address has been successfully verified. You will be redirected in a few seconds. {0}.",
               "title": "Email verified"

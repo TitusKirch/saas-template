@@ -30,6 +30,7 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'cf-turnstile-response' => ['required', Rule::turnstile()],
         ])->validate();
 
         return User::create([

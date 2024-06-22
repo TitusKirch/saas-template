@@ -10,11 +10,14 @@
   }
 
   // form setup
+  const turnstile = ref();
+  const turnstileToken = ref('');
   const form: Ref<AuthResetPasswordData> = ref({
     email: email,
     token: token,
     password: '',
     password_confirmation: '',
+    'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
   const { resetPassword } = useAuth();
@@ -25,6 +28,9 @@
     form,
     error,
     status,
+    beforeExecuteCallback: async () => {
+      form.value['cf-turnstile-response'] = turnstileToken.value;
+    },
     executeCallback: execute,
     successCallback: async () => {
       const { redirect } = useRoute().query;
@@ -38,6 +44,9 @@
           name: 'auth-password-reset-success',
         });
       });
+    },
+    errorCallback: async () => {
+      turnstile.value?.reset();
     },
   });
 </script>
@@ -76,10 +85,22 @@
         @suffix-icon-click="passwordToggle"
       />
 
+      <FormTurnstileContainer :first-show-on="valid">
+        <NuxtTurnstile
+          ref="turnstile"
+          v-model="turnstileToken"
+          :options="{
+            action: 'reset-password',
+          }"
+        />
+      </FormTurnstileContainer>
+
       <UButton
         type="submit"
         block
-        :disabled="!valid || !!Object.keys(errorMessages).length || status === 'success'"
+        :disabled="
+          !valid || !!Object.keys(errorMessages).length || status === 'success' || !turnstileToken
+        "
         :loading="status === 'pending'"
         icon="i-fa6-solid-paper-plane"
         :ui="{

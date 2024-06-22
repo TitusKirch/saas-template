@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Rule;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
@@ -37,11 +39,24 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
 
     // Password Reset...
     if (Features::enabled(Features::resetPasswords())) {
-        Route::post(RoutePath::for('password.email', '/forgot-password'), [PasswordResetLinkController::class, 'store'])
+        Route::post(RoutePath::for('password.email', '/forgot-password'), function (Request $request) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', Rule::turnstile()],
+            ]);
+
+            return [PasswordResetLinkController::class, 'store'];
+        },
+        )
             ->middleware(['guest:'.config('fortify.guard')])
             ->name('password.email');
 
-        Route::post(RoutePath::for('password.update', '/reset-password'), [NewPasswordController::class, 'store'])
+        Route::post(RoutePath::for('password.update', '/reset-password'), function (Request $request) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', Rule::turnstile()],
+            ]);
+
+            return [NewPasswordController::class, 'store'];
+        })
             ->middleware(['guest:'.config('fortify.guard')])
             ->name('password.update');
     }

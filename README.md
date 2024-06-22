@@ -43,19 +43,25 @@ You need to set the following secrets in the GitHub repository.
 - `STAGE_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL` - The Laravel Forge trigger URL for the stage environment.
 - `PROD_SERVICE_API_LARAVEL_FORGE_TRIGGER_URL` - The Laravel Forge trigger URL for the prod environment.
 - `NUXT_UI_PRO_LICENSE` - The Nuxt UI Pro license key (opt-out if not using Nuxt UI Pro).
-- `FORMKIT_PRO_KEY` - The FormKit Pro key (opt-in if using FormKit Pro (search for `#NOTE: FORMKIT PRO` in the code)).
+- `NUXT_PUBLIC_FORMKIT_PRO_KEY` - The FormKit Pro key (opt-in if using FormKit Pro (search for `#NOTE: FORMKIT PRO` in the code)).
 
 #### Dependabot secrets
 
 - `NUXT_UI_PRO_LICENSE` - The Nuxt UI Pro license key (opt-out if not using Nuxt UI Pro).
-- `FORMKIT_PRO_KEY` - The FormKit Pro key (opt-in if using FormKit Pro (search for `#NOTE: FORMKIT PRO` in the code)).
+- `NUXT_PUBLIC_FORMKIT_PRO_KEY` - The FormKit Pro key (opt-in if using FormKit Pro (search for `#NOTE: FORMKIT PRO` in the code)).
 
 ### Cloudflare Pages
 
 You need to create a Cloudflare page per app and set the following environment variables.
 
+- `NUXT_PUBLIC_API_URL` - The API URL for the app.
 - `NUXT_UI_PRO_LICENSE` - The Nuxt UI Pro license key (opt-out if not using Nuxt UI Pro).
-- `FORMKIT_PRO_KEY` - The FormKit Pro key (opt-in if using FormKit Pro (search for `#NOTE: FORMKIT PRO` in the code)).
+- `NUXT_PUBLIC_FORMKIT_PRO_KEY` - The FormKit Pro key (opt-in if using FormKit Pro (search for `#NOTE: FORMKIT PRO` in the code)).
+- `NUXT_PUBLIC_TURNSTILE_SITE_KEY` - The Turnstile site key for the app.
+- `NUXT_TURNSTILE_SECRET_KEY` - The Turnstile secret key for the app.
+- `NUXT_PUBLIC_APP_NAME` - The app name for the app.
+- `NUXT_PUBLIC_APP_VERSION` - The app version for the app. (should be set by the deployment)
+- `NUXT_PUBLIC_BASE_URL` - The base URL for the app.
 
 ### Laravel Forge
 

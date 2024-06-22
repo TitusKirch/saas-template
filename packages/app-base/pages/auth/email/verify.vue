@@ -5,28 +5,33 @@
     middleware: ['auth'],
   });
 
-  const redirectTimeout = ref<NodeJS.Timeout | null>(null);
   const { emailVerify } = useAuth();
   const { id, hash, expires, signature } = useRoute().query;
-  const { execute, status } = emailVerify({
+  const path: Ref<AuthEmailVerifyPath> = ref({
     id: id as string,
     hash: hash as string,
+  });
+  const params: Ref<AuthEmailVerifyParams> = ref({
     expires: expires as string,
     signature: signature as string,
   });
+  const { execute, status } = emailVerify({
+    path,
+    params,
+  });
   await execute();
 
-  await execute();
-  const { refetchMe } = useUser();
-  await refetchMe();
+  const redirectTimeout = ref<NodeJS.Timeout | null>(null);
   if (status.value === 'success') {
-    redirectTimeout.value = setTimeout(() => {
-      navigateToLocale({
-        name: 'index',
+    redirectTimeout.value = setTimeout(async () => {
+      const { refetchMe } = useUser();
+      return await refetchMe().finally(() => {
+        return navigateToLocale({
+          name: 'index',
+        });
       });
     }, 3000);
   }
-
   onBeforeUnmount(() => {
     if (redirectTimeout.value) {
       clearTimeout(redirectTimeout.value);
@@ -38,14 +43,10 @@
   <UPage>
     <UPageBody>
       <PageCardGrid>
-        <AuthCard
-          :title="
-            $t(`page.auth.email.verify.authCard.${status == 'success' ? 'success' : 'error'}.title`)
-          "
-        >
+        <AuthCard :title="$t(`page.auth.email.verify.authCard.${status}.title`)">
           <template #description>
             <i18n-t
-              :keypath="`page.auth.email.verify.authCard.${status == 'success' ? 'success' : 'error'}.description`"
+              :keypath="`page.auth.email.verify.authCard.${status}.description`"
               tag="p"
               class="mt-1 text-gray-500 dark:text-gray-400"
             >

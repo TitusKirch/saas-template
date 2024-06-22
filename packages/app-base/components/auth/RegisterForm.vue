@@ -1,5 +1,7 @@
 <script setup lang="ts">
   // form setup
+  const turnstile = ref();
+  const turnstileToken = ref('');
   const form: Ref<AuthRegisterData> = ref({
     first_name: '',
     last_name: '',
@@ -8,6 +10,7 @@
     password: '',
     password_confirmation: '',
     remember: false,
+    'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
   const { register } = useAuth();
@@ -18,14 +21,20 @@
     form,
     error,
     status,
+    beforeExecuteCallback: async () => {
+      form.value['cf-turnstile-response'] = turnstileToken.value;
+    },
     executeCallback: execute,
     successCallback: async () => {
       const { me } = useUser();
-      return await me().finally(() => {
+      return await me().finally(async () => {
         return navigateToLocale({
           name: 'index',
         });
       });
+    },
+    errorCallback: async () => {
+      turnstile.value?.reset();
     },
   });
 
@@ -106,10 +115,20 @@
         autocomplete="new-password"
       />
 
+      <FormTurnstileContainer :first-show-on="valid">
+        <NuxtTurnstile
+          ref="turnstile"
+          v-model="turnstileToken"
+          :options="{
+            action: 'register',
+          }"
+        />
+      </FormTurnstileContainer>
+
       <UButton
         type="submit"
         block
-        :disabled="!valid || !!Object.keys(errorMessages).length"
+        :disabled="!valid || !!Object.keys(errorMessages).length || !turnstileToken"
         :loading="status === 'pending' || (status !== 'idle' && !error)"
         icon="i-fa6-solid-right-to-bracket"
         :ui="{

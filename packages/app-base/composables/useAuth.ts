@@ -52,26 +52,24 @@ export default function () {
     );
   };
   const emailVerify = ({
-    id,
-    hash,
-    expires,
-    signature,
+    path,
+    params,
   }: {
-    id: string;
-    hash: string;
-  } & AuthEmailVerifyData) => {
+    path: Ref<AuthEmailVerifyPath>;
+    params: Ref<AuthEmailVerifyParams>;
+  }) => {
     const { get } = useApi();
 
-    return get<AuthEmailVerifyData, AuthEmailVerifyResponse>(`email/verify/${id}/${hash}`, {
-      immediate: false,
-      watch: false,
-      prefix: 'auth',
-      version: false,
-      params: {
-        expires,
-        signature,
-      },
-    });
+    return get<AuthEmailVerifyParams, AuthEmailVerifyResponse>(
+      `email/verify/${path.value.id}/${path.value.hash}`,
+      {
+        immediate: false,
+        watch: false,
+        prefix: 'auth',
+        version: false,
+        params,
+      }
+    );
   };
 
   // forgot password
