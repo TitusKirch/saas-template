@@ -15,10 +15,13 @@
         "laravel/pennant": "^1.7",
         "laravel/pulse": "^1.0",
         "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.15",
         "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.9",
         "owen-it/laravel-auditing": "^13.6",
         "ryangjchandler/laravel-cloudflare-turnstile": "^1.1",
+        "socialiteproviders/github": "^4.1",
+        "socialiteproviders/google": "^4.1",
         "spatie/laravel-health": "^1.29",
         "spatie/laravel-permission": "^6.7"
     },
