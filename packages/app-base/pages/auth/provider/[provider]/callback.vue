@@ -7,7 +7,7 @@
 
   const route = useRoute();
   const { authProviderCallback } = useAuth();
-  const { execute, data, status } = authProviderCallback({
+  const { execute, status } = authProviderCallback({
     provider: route.params.provider as AuthProvider,
     query: route.query,
   });

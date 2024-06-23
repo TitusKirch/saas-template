@@ -1,8 +1,10 @@
-<script setup>
+<script setup lang="ts">
+  import type { FormKitContext } from '@formkit/core';
+
   // see https://formkit.com/guides/create-a-custom-input#create-a-custom-input
-  const props = defineProps({
-    context: Object,
-  });
+  const props = defineProps<{
+    context: FormKitContext;
+  }>();
 
   const digits = Number(props.context?.digits) || 6;
   const tmp = ref(props.context.value || '');
@@ -63,18 +65,19 @@
 </script>
 
 <template>
-  <div class="flex space-x-2 w-full justify-between">
+  <div class="flex w-full justify-between space-x-2">
     <input
       v-for="index in digits"
+      :key="index"
       type="number"
       min="0"
       max="9"
       maxlength="1"
       :value="tmp[index - 1] || ''"
+      class="focus-within:!ring-primary-500 focus-within:!border-primary-500 formkit-inner flex w-10 items-center rounded border border-gray-400 bg-white px-3 py-2 text-center text-base shadow focus-within:ring-1 group-[]/multistep:shadow-none group-[]/repeater:shadow-none group-data-[disabled]:!cursor-not-allowed group-data-[invalid]:border-red-500 group-data-[disabled]:bg-gray-100 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-500 dark:border-gray-500 dark:bg-transparent dark:group-data-[invalid]:border-red-500 dark:group-data-[disabled]:bg-gray-800/5 dark:group-data-[invalid]:ring-red-500"
       @input="handleInput(index - 1, $event)"
       @focus="handleFocus"
       @paste="handlePaste"
-      class="text-base text-center w-10 flex items-center py-2 px-3 rounded border border-gray-400 bg-white focus-within:ring-1 focus-within:!ring-primary-500 focus-within:!border-primary-500 group-data-[invalid]:border-red-500 group-data-[invalid]:ring-1 group-data-[invalid]:ring-red-500 group-data-[disabled]:bg-gray-100 group-data-[disabled]:!cursor-not-allowed shadow group-[]/repeater:shadow-none group-[]/multistep:shadow-none dark:bg-transparent dark:border-gray-500 dark:group-data-[disabled]:bg-gray-800/5 dark:group-data-[invalid]:border-red-500 dark:group-data-[invalid]:ring-red-500 formkit-inner"
     />
   </div>
 </template>

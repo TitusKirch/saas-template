@@ -1,4 +1,4 @@
-import type { LocationQuery, RouteParams } from 'vue-router';
+import type { LocationQuery } from 'vue-router';
 
 export default function () {
   // login

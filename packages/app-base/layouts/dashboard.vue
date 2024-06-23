@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-
   // init dashboard
   const {
     resetSidebarLinks,

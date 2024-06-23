@@ -6,7 +6,10 @@ export default withNuxt(tailwind.configs['flat/recommended']).override('tailwind
     'tailwindcss/no-custom-classname': [
       'warn',
       {
-        whitelist: ['^(bg|text)-primary-(50|100|200|300|400|500|600|700|800|900|950)$'],
+        whitelist: [
+          '^!?(bg|border|ring|text)-primary-(50|100|200|300|400|500|600|700|800|900|950)$',
+          'formkit-inner',
+        ],
       },
     ],
   },

@@ -125,8 +125,8 @@
             prefix-icon="password"
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"
-            @suffix-icon-click="passwordToggle"
             autocomplete="new-password"
+            @suffix-icon-click="passwordToggle"
           />
           <FormKit
             type="password"
@@ -137,8 +137,8 @@
             prefix-icon="password"
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"
-            @suffix-icon-click="passwordToggle"
             autocomplete="new-password"
+            @suffix-icon-click="passwordToggle"
           />
         </template>
       </UDashboardSection>

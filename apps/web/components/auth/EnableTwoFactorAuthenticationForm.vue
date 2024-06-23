@@ -80,18 +80,20 @@
 
   <div
     v-if="twoFactorQrCodeData?.svg"
-    class="flex items-center justify-center w-full flex-col space-y-4 overflow-hidden"
+    class="flex w-full flex-col items-center justify-center space-y-4 overflow-hidden"
   >
+    <!-- eslint-disable vue/no-v-html -->
     <div
-      class="inline-block rounded-lg p-2 bg-white -mx-2 text-black"
+      class="-mx-2 inline-block rounded-lg bg-white p-2 text-black"
       v-html="twoFactorQrCodeData?.svg.replace('#2d3748', 'currentColor')"
     />
+    <!-- eslint-enable vue/no-v-html -->
 
-    <div class="text-sm text-gray-500 flex flex-col items-center gap-1">
+    <div class="flex flex-col items-center gap-1 text-sm text-gray-500">
       <div class="text-wrap">
         {{ $t('auth.enableTwoFactorAuthenticationForm.qrCode.description') }}
       </div>
-      <div class="inline-flex items-center bg-gray-100 dark:bg-gray-950 rounded-lg px-2 py-1 gap-1">
+      <div class="inline-flex items-center gap-1 rounded-lg bg-gray-100 px-2 py-1 dark:bg-gray-950">
         <code>{{ twoFactorQrCodeSecret }}</code>
         <CopyButton
           v-if="twoFactorQrCodeSecret"
@@ -108,10 +110,10 @@
       type="form"
       :actions="false"
       :disabled="confirmedTwoFactorAuthenticationStatus === 'success'"
-      @submit="submitConfirmedTwoFactorAuthentication"
       :classes="{
         form: 'w-full',
       }"
+      @submit="submitConfirmedTwoFactorAuthentication"
     >
       <FormErrorsAlert v-if="errorMessages" :error-messages="errorMessages" />
 

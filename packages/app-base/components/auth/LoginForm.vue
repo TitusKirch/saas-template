@@ -97,8 +97,8 @@
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"
-        @suffix-icon-click="passwordToggle"
         autocomplete="current-password"
+        @suffix-icon-click="passwordToggle"
       >
         <template #help="context">
           <div :for="context.id" :class="context.classes.help">

@@ -99,8 +99,8 @@
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"
-        @suffix-icon-click="passwordToggle"
         autocomplete="new-password"
+        @suffix-icon-click="passwordToggle"
       />
       <FormKit
         type="password"
@@ -110,8 +110,8 @@
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"
-        @suffix-icon-click="passwordToggle"
         autocomplete="new-password"
+        @suffix-icon-click="passwordToggle"
       />
 
       <FormTurnstileContainer :first-show-on="valid">

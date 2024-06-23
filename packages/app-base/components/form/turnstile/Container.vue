@@ -35,7 +35,7 @@
 </script>
 
 <template>
-  <div class="flex justify-center mt-8">
+  <div class="mt-8 flex justify-center">
     <slot v-if="isLoaded" />
   </div>
 </template>

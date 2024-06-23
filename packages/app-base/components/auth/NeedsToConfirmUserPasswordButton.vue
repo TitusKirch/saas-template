@@ -3,7 +3,7 @@
   defineProps<{
     confirmPasswordButtonTitle?: string;
     confirmPasswordButtonProps?: Partial<Record<'block' | 'disabled', unknown>>;
-    confirmPasswordButtonCallback: () => Promise<any>;
+    confirmPasswordButtonCallback: () => Promise<void>;
     disabled?: boolean;
   }>();
   defineSlots<{

@@ -3,9 +3,9 @@
   const authStore = useAuthStore();
 
   const props = defineProps<{
-    confirmPasswordButtonCallback: () => Promise<any>;
+    confirmPasswordButtonCallback: () => Promise<void>;
   }>();
-  const model = defineModel();
+  const model = defineModel<boolean>();
 
   // form setup
   const form: Ref<AuthUserConfirmPasswordData> = ref({

@@ -1,6 +1,7 @@
 import type { FormKitNode } from '@formkit/core';
 import type { AsyncDataRequestStatus } from '#app';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function <FormT extends Record<string, any>>({
   form,
   error,
@@ -17,6 +18,7 @@ export default function <FormT extends Record<string, any>>({
   } | null>;
   beforeExecuteCallback?: () => Promise<void>;
   executeCallback?: () => Promise<void>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   successCallback?: () => Promise<any>;
   errorCallback?: () => Promise<void>;
 }) {

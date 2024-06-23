@@ -69,20 +69,19 @@ export default function () {
     const { created_at, updated_at, ...rest } = data;
     return {
       ...rest,
-      createdAt: new Date(data.created_at),
-      updatedAt: new Date(data.updated_at),
+      createdAt: new Date(created_at),
+      updatedAt: new Date(updated_at),
     };
   };
   const transformUserMeData = ({ data }: { data: UserMeData }): UserMe => {
     const { email_verified_at, two_factor_confirmed_at, created_at, updated_at, ...rest } = data;
+
     return {
       ...rest,
-      emailVerifiedAt: data.email_verified_at ? new Date(data.email_verified_at) : null,
-      twoFactorConfirmedAt: data.two_factor_confirmed_at
-        ? new Date(data.two_factor_confirmed_at)
-        : null,
-      createdAt: new Date(data.created_at),
-      updatedAt: new Date(data.updated_at),
+      emailVerifiedAt: email_verified_at ? new Date(email_verified_at) : null,
+      twoFactorConfirmedAt: two_factor_confirmed_at ? new Date(two_factor_confirmed_at) : null,
+      createdAt: new Date(created_at),
+      updatedAt: new Date(updated_at),
     };
   };
 

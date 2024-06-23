@@ -7,7 +7,7 @@ export default function () {
   };
 
   const setErrors = <T>({ node, error }: { node: FormKitNode; error?: ApiErrorResponse<T> }) => {
-    let errorMessages: Record<string, string> = {};
+    const errorMessages: Record<string, string> = {};
     if (!error) {
       return false;
     }

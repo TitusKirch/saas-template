@@ -55,7 +55,8 @@ export const useDashboardStore = defineStore(
       shortcuts.value[key] = callback;
     };
     const removeShortcut = ({ key }: { key: string }) => {
-      const { [key]: _, ...rest } = shortcuts.value;
+      const { [key]: removedShortcut, ...rest } = shortcuts.value;
+      console.debug(`Shortcut with key "${key}" removed`, removedShortcut);
       shortcuts.value = rest;
     };
     const resetShortcuts = () => {

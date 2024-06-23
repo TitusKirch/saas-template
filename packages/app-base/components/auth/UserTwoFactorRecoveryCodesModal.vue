@@ -7,7 +7,7 @@
       forceToDownload: false,
     }
   );
-  const model = defineModel();
+  const model = defineModel<boolean>();
 
   // get two factor recovery codes
   const { twoFactorRecoveryCodes } = useAuth();
@@ -50,12 +50,12 @@
 </script>
 <template>
   <BaseModal
+    v-model="model"
     :title="$t('auth.userTwoFactorRecoveryCodesModal.title')"
     :description="$t('auth.userTwoFactorRecoveryCodesModal.description')"
     type="warning"
-    v-model="model"
     :prevent-close="forceToDownload && !hasDownloaded"
-    :closeButton="{
+    :close-button="{
       disabled: forceToDownload && !hasDownloaded,
     }"
   >
@@ -68,7 +68,7 @@
       <li
         v-for="code in data"
         :key="code"
-        class="bg-gray-100 dark:bg-gray-950 rounded-lg px-2 py-1 text-center"
+        class="rounded-lg bg-gray-100 px-2 py-1 text-center dark:bg-gray-950"
       >
         <code>{{ code }}</code>
       </li>

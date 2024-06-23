@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import type { RouteRecordName } from 'vue-router';
-
   const { t } = useI18n();
   const route = useRoute();
   const actions = ref([
