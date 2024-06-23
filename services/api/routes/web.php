@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthProviderController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\UserController;
@@ -10,6 +11,8 @@ Route::get('/health/json', \Spatie\Health\Http\Controllers\HealthCheckJsonResult
 
 Route::get('/auth/provider/{provider}', [AuthProviderController::class, 'redirectToProvider'])->name('auth.provider.redirect');
 Route::get('/auth/provider/{provider}/callback', [AuthProviderController::class, 'handleProviderCallback'])->name('auth.provider.callback');
+
+Route::post('/auth/set-password', [AuthController::class, 'setPassword']);
 
 Route::group([
     'prefix' => 'v1',

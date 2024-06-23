@@ -33,14 +33,17 @@
         return navigateToLocale({
           name: 'auth-two-factor-challenge',
           query: {
-            redirect: redirect as string,
+            redirect:
+              redirect && redirect != '/' && (redirect as string).startsWith('/')
+                ? redirect
+                : undefined,
           },
         });
       }
 
       const { me } = useUser();
       return await me().finally(async () => {
-        if (redirect && redirect != '/') {
+        if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);
 
@@ -63,8 +66,7 @@
   });
 
   // third party providers
-  const { thirdPartyProviders } = useAuth();
-  const providers = thirdPartyProviders();
+  const { authProviders } = useAuth();
 </script>
 <template>
   <div class="space-y-6">
@@ -145,14 +147,14 @@
 
     <UDivider :label="$t('global.or.label')" />
 
-    <div v-if="providers?.length" class="space-y-3">
+    <div v-if="authProviders()?.length" class="space-y-3">
       <UButton
-        v-for="(provider, index) in providers"
-        :key="index"
-        v-bind="provider"
+        v-for="authProvider in authProviders()"
+        :key="authProvider.provider"
+        v-bind="authProvider"
         color="gray"
         block
-        @click="provider.click"
+        @click="authProvider.click"
       />
     </div>
   </div>

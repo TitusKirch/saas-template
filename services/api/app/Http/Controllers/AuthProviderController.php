@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthProviderController extends Controller
@@ -36,12 +38,42 @@ class AuthProviderController extends Controller
     /**
      * Obtain the user information from the provider.
      */
-    public function handleProviderCallback(string $provider): void
+    public function handleProviderCallback(string $provider): JsonResponse
     {
         $this->validateProvider($provider);
 
-        $user = Socialite::driver($provider)->user();
+        $providerUser = Socialite::driver($provider)->user();
 
-        // $user->token;
+        // check if user with email exists
+        if ($user = User::where('email', $providerUser->email)->first()) {
+
+            $user->update([
+                $provider.'_id' => $providerUser->id,
+                $provider.'_token' => $providerUser->token,
+                $provider.'_refresh_token' => $providerUser->refreshToken,
+            ]);
+
+            Auth::login($user);
+
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            $nameParts = explode(' ', $providerUser->getName());
+            $user = User::create([
+                'first_name' => $nameParts[0],
+                'last_name' => implode(' ', array_slice($nameParts, 1)),
+                'email' => $providerUser->getEmail(),
+                $provider.'_id' => $providerUser->getId(),
+                $provider.'_token' => $providerUser->token,
+                $provider.'_refresh_token' => $providerUser->refreshToken,
+            ]);
+
+            Auth::login($user);
+
+            return response()->json([
+                'success' => true,
+            ]);
+        }
     }
 }

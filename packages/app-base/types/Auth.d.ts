@@ -83,3 +83,14 @@ type AuthTwoFactorChallengeData =
       recoveryCode: string;
     };
 type AuthTwoFactorChallengeResponse = ApiResponse<AuthTwoFactorChallengeData>;
+
+type AuthProvider = 'github' | 'google';
+type AuthProviderResponse = ApiResponse<{
+  redirect: string;
+}>;
+
+type AuthSetPasswordData = {
+  password: string;
+  password_confirmation: string;
+};
+type AuthSetPasswordResponse = ApiResourceResponse<AuthSetPasswordData>;

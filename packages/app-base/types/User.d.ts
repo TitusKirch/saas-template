@@ -14,6 +14,7 @@ type User = Omit<UserData, 'created_at' | 'updated_at'> & {
 };
 
 type UserMeExtraData = {
+  has_password: boolean;
   email_verified_at: string | null;
   two_factor_confirmed_at: Date | null;
   organizations: string[];

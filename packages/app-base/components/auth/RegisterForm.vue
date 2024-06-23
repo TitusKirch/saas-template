@@ -39,8 +39,7 @@
   });
 
   // third party providers
-  const { thirdPartyProviders } = useAuth();
-  const providers = thirdPartyProviders();
+  const { authProviders } = useAuth();
 </script>
 <template>
   <div class="space-y-6">
@@ -140,14 +139,14 @@
 
     <UDivider :label="$t('global.or.label')" />
 
-    <div v-if="providers?.length" class="space-y-3">
+    <div v-if="authProviders()?.length" class="space-y-3">
       <UButton
-        v-for="(provider, index) in providers"
-        :key="index"
-        v-bind="provider"
+        v-for="authProvider in authProviders()"
+        :key="authProvider.provider"
+        v-bind="authProvider"
         color="gray"
         block
-        @click="provider.click"
+        @click="authProvider.click"
       />
     </div>
   </div>

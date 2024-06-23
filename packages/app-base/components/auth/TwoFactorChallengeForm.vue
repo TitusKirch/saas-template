@@ -28,7 +28,7 @@
 
       const { me } = useUser();
       return await me().finally(async () => {
-        if (redirect && redirect != '/') {
+        if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);
 

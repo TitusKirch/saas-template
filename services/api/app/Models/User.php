@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,6 +38,12 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         'is_admin',
         'password',
         'remember_token',
+        'github_id',
+        'github_token',
+        'github_refresh_token',
+        'google_id',
+        'google_token',
+        'google_refresh_token',
     ];
 
     /**
@@ -66,6 +71,16 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 
             $user->assignRole($organization->ownerRole());
         });
+    }
+
+    /**
+     * Get the user's hasPassword attribute
+     */
+    protected function hasPassword(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => (bool) $attributes['password']
+        );
     }
 
     /**

@@ -17,6 +17,7 @@ class UserMeResource extends UserResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'has_password' => $this->has_password,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
             'two_factor_confirmed_at' => $this->two_factor_confirmed_at,

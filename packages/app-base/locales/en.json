@@ -1,5 +1,21 @@
 {
   "auth": {
+    "needsToConfirmUserPasswordButton": {
+      "noPassword": {
+        "label": "No password set for confirmation",
+        "tooltip": "You have not set a password for your account. This maybe because you signed in with a social provider. Please follow the instructions in the alert to set a password."
+      }
+    },
+    "provider": {
+      "github": {
+        "label": "GitHub",
+        "signInWith": "Sign in with GitHub"
+      },
+      "google": {
+        "label": "Google",
+        "signInWith": "Sign in with Google"
+      }
+    },
     "userPasswordConfirmModal": {
       "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
       "title": "Confirm password"
@@ -96,6 +112,9 @@
         "resetPassword": {
           "label": "Reset password"
         },
+        "setPassword": {
+          "label": "Set password"
+        },
         "twoFactorChallenge": {
           "switch": {
             "code": {
@@ -118,6 +137,9 @@
       },
       "confirmPasswordAndSave": {
         "label": "Confirm password and save"
+      },
+      "goBack": {
+        "label": "Go back"
       },
       "page": {
         "home": {
@@ -270,6 +292,36 @@
             },
             "title": "Password reset"
           }
+        },
+        "set": {
+          "index": {
+            "description": "Please set a strong password for your account.",
+            "authCard": {
+              "description": "Please set a strong password for your account. {0}.",
+              "title": "Set password"
+            },
+            "title": "Set password"
+          },
+          "success": {
+            "description": "Your password has been successfully set. You will be redirected in a few seconds.",
+            "authCard": {
+              "description": "Your password has been successfully set. You will be redirected in a few seconds. {0}.",
+              "title": "Password set"
+            },
+            "title": "Password set"
+          }
+        }
+      },
+      "provider": {
+        "provider": {
+          "callback": {
+            "description": "Please wait while we sign you in.",
+            "authCard": {
+              "description": "Please wait while we sign you in. We will redirect you in a few seconds.",
+              "title": "Signing in"
+            },
+            "title": "Signing in"
+          }
         }
       },
       "register": {
@@ -306,6 +358,14 @@
         }
       },
       "title": "Please verify your email address. If you can't find the verification email, take a look at your spam folder or request a new one."
+    },
+    "noPasswordAlert": {
+      "action": {
+        "navigateToAuthPasswordSet": {
+          "label": "Set password"
+        }
+      },
+      "title": "You have not set a password for your account. This maybe because you signed in with a social provider. Please set a password to secure your account."
     },
     "resendVerificationEmail": {
       "notification": {

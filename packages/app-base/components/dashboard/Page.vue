@@ -66,7 +66,10 @@
           }"
           class="mx-auto flex w-full shrink-0 flex-col gap-8 transition-all duration-700 ease-in-out"
         >
-          <UserEmailIsNotVerifiedAlert />
+          <BaseAlertContainer>
+            <UserNoPasswordAlert />
+            <UserEmailIsNotVerifiedAlert />
+          </BaseAlertContainer>
 
           <slot />
         </div>

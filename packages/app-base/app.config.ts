@@ -11,6 +11,12 @@ export default defineAppConfig({
         actionButton: {
           variant: 'link',
         },
+        closeButton: {
+          icon: 'i-fa6-solid-xmark',
+          color: 'gray',
+          variant: 'link',
+          padded: false,
+        },
       },
     },
     badge: {
@@ -42,7 +48,7 @@ export default defineAppConfig({
       button: {
         icon: {
           open: 'i-fa6-solid-bars',
-          close: 'i-fa6-solid-x',
+          close: 'i-fa6-solid-xmark',
         },
       },
     },

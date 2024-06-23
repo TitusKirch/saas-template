@@ -59,6 +59,10 @@ export default function () {
       type: 'success',
     });
   };
+  const hasPassword = () => {
+    const userStore = useUserStore();
+    return userStore.user?.has_password ?? false;
+  };
 
   // transformers
   const transformUserData = ({ data }: { data: UserData }): User => {
@@ -89,6 +93,7 @@ export default function () {
     reset,
     isAuthenticated,
     emailIsVerified,
+    hasPassword,
     logout,
     resendVerificationEmail,
     transformUserData,

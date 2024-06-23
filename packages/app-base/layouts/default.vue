@@ -27,6 +27,7 @@
     </UHeader>
 
     <BaseAlertContainer>
+      <UserNoPasswordAlert />
       <UserEmailIsNotVerifiedAlert />
     </BaseAlertContainer>
 

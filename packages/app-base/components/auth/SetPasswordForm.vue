@@ -1,47 +1,36 @@
 <script setup lang="ts">
-  // get data from route
-  const route = useRoute();
-  const email = route.query.email as string;
-  const token = route.query.token as string;
-  if (!email || !token) {
-    throw createError({
-      statusCode: 404,
-    });
-  }
+  import type { RouteLocationRaw } from 'vue-router';
+
+  const props = defineProps<{
+    goBackRoute: RouteLocationRaw;
+  }>();
 
   // form setup
-  const turnstile = ref();
-  const turnstileToken = ref('');
-  const form: Ref<AuthResetPasswordData> = ref({
-    email: email,
-    token: token,
+  const form: Ref<AuthSetPasswordData> = ref({
     password: '',
     password_confirmation: '',
-    'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
-  const { resetPassword } = useAuth();
-  const { error, status, execute } = await resetPassword({
+  const { setPassword } = useAuth();
+  const { error, status, execute } = await setPassword({
     data: form,
   });
-  const { submit, errorMessages } = useFormKitForm<AuthResetPasswordData>({
+  const { submit, errorMessages } = useFormKitForm<AuthSetPasswordData>({
     form,
     error,
     status,
-    beforeExecuteCallback: async () => {
-      form.value['cf-turnstile-response'] = turnstileToken.value;
-    },
     executeCallback: execute,
     successCallback: async () => {
-      const { me } = useUser();
-      return await me().finally(() => {
+      const { refetchMe } = useUser();
+      const localePath = useLocalePath();
+      return await refetchMe().finally(() => {
         return navigateToLocale({
-          name: 'auth-password-reset-success',
+          name: 'auth-password-set-success',
+          query: {
+            redirect: props.goBackRoute ? localePath(props.goBackRoute) : undefined,
+          },
         });
       });
-    },
-    errorCallback: async () => {
-      turnstile.value?.reset();
     },
   });
 </script>
@@ -57,8 +46,6 @@
     >
       <FormErrorsAlert :error-messages="errorMessages" />
 
-      <FormKit type="hidden" name="email" validation="required|email" />
-      <FormKit type="hidden" name="token" />
       <FormKit
         type="password"
         name="password"
@@ -80,28 +67,16 @@
         @suffix-icon-click="passwordToggle"
       />
 
-      <FormTurnstileContainer :first-show-on="valid">
-        <NuxtTurnstile
-          ref="turnstile"
-          v-model="turnstileToken"
-          :options="{
-            action: 'reset-password',
-          }"
-        />
-      </FormTurnstileContainer>
-
       <UButton
         type="submit"
         block
-        :disabled="
-          !valid || !!Object.keys(errorMessages).length || status === 'success' || !turnstileToken
-        "
+        :disabled="!valid || !!Object.keys(errorMessages).length || status === 'success'"
         :loading="status === 'pending'"
         icon="i-fa6-solid-paper-plane"
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.resetPassword.label') }}</UButton
+        >{{ $t('global.action.auth.setPassword.label') }}</UButton
       >
     </FormKit>
   </div>

@@ -1,3 +1,5 @@
+import type { LocationQuery, RouteParams } from 'vue-router';
+
 export default function () {
   // login
   const login = ({ data }: { data: Ref<AuthLoginData | undefined> }) => {
@@ -211,23 +213,85 @@ export default function () {
     );
   };
 
+  // set password
+  const setPassword = ({ data }: { data: Ref<AuthSetPasswordData> }) => {
+    const { post } = useApi();
+
+    return post<AuthSetPasswordData, AuthSetPasswordResponse>('set-password', {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+      body: data,
+    });
+  };
+
   // third party providers
-  const thirdPartyProviders = () => [
-    {
-      label: 'Google',
-      icon: 'i-fa6-brands-google',
-      click: () => {
-        alert('Placeholder provider for Google');
+  const authProviderRedirect = ({ provider }: { provider: AuthProvider }) => {
+    const { get } = useApi();
+
+    return get<undefined, AuthProviderResponse>(`provider/${provider}`, {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+    });
+  };
+  const authProviderCallback = ({
+    provider,
+    query,
+  }: {
+    provider: AuthProvider;
+    query?: LocationQuery;
+  }) => {
+    const { get } = useApi();
+
+    return get<undefined, ApiResponse<undefined>>(`provider/${provider}/callback`, {
+      immediate: false,
+      watch: false,
+      prefix: 'auth',
+      version: false,
+      query,
+    });
+  };
+  const authProviders: () => {
+    provider: AuthProvider;
+    label: string;
+    icon: string;
+    click: () => void;
+  }[] = () => {
+    const { t } = useI18n();
+
+    const click = async ({ provider }: { provider: AuthProvider }): Promise<void> => {
+      const { execute, data } = authProviderRedirect({ provider });
+      await execute();
+
+      if (data.value?.redirect) {
+        navigateTo(data.value.redirect, {
+          external: true,
+        });
+      }
+    };
+
+    return [
+      {
+        provider: 'github',
+        label: t('auth.provider.github.label'),
+        icon: 'i-fa6-brands-github',
+        click: async () => {
+          await click({ provider: 'github' });
+        },
       },
-    },
-    {
-      label: 'Facebook',
-      icon: 'i-fa6-brands-facebook',
-      click: () => {
-        alert('Placeholder provider for Facebook');
+      {
+        provider: 'google',
+        label: t('auth.provider.google.label'),
+        icon: 'i-fa6-brands-google',
+        click: async () => {
+          await click({ provider: 'google' });
+        },
       },
-    },
-  ];
+    ];
+  };
 
   return {
     login,
@@ -245,6 +309,9 @@ export default function () {
     confirmedTwoFactorAuthentication,
     twoFactorRecoveryCodes,
     twoFactorChallenge,
-    thirdPartyProviders,
+    setPassword,
+    authProviderRedirect,
+    authProviderCallback,
+    authProviders,
   };
 }
