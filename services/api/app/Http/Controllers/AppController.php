@@ -2,6 +2,4 @@
 
 namespace App\Http\Controllers;
 
-class AppController extends Controller
-{
-}
+class AppController extends Controller {}
