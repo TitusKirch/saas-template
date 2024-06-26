@@ -159,6 +159,24 @@ pnpm lint:fix
 pnpm format:fix
 ```
 
+## Testing
+
+### Unit tests
+
+To test all apps, packages and services, run the following command:
+
+```Shell
+pnpm test
+```
+
+### End-to-end tests
+
+To test all apps, run the following command:
+
+```Shell
+pnpm test:e2e
+```
+
 ## Update dependencies
 
 ### Node dependencies
