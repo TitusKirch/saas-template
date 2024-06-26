@@ -101,6 +101,15 @@
   // feature flags
   const featureStore = useFeatureStore();
   await featureStore.fetchFeatures();
+
+  // alerts
+  const { triggerPageChange } = useAlert();
+  watch(
+    () => route.fullPath,
+    () => {
+      triggerPageChange();
+    }
+  );
 </script>
 
 <template>

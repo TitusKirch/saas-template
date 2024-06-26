@@ -82,6 +82,7 @@
 <template>
   <BaseAlert
     v-if="!emailIsVerified()"
+    id="user.emailIsNotVerifiedAlert"
     :title="$t('user.emailIsNotVerifiedAlert.title')"
     type="warning"
     :actions="actions"
