@@ -15,6 +15,7 @@
       isComponent?: boolean;
     }>(),
     {
+      id: undefined,
       type: 'info',
       icon: '',
       title: '',
