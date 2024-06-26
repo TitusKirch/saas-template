@@ -18,8 +18,8 @@ return new class extends Migration
         }
 
         Schema::table($tableNames['roles'], function (Blueprint $table) {
-            $table->boolean('is_default')->default(false);
-            $table->boolean('is_owner')->default(false);
+            $table->boolean('is_default')->default(false)->after('guard_name');
+            $table->boolean('is_owner')->default(false)->after('is_default');
         });
     }
 

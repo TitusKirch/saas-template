@@ -80,13 +80,13 @@
       <div class="overflow-hidden border-none">
         <div class="flex select-none flex-col sm:h-14 sm:flex-row sm:items-center sm:gap-4">
           <div
-            class="flex h-14 grow items-center gap-3 p-4 leading-6 text-gray-700 hover:cursor-pointer dark:text-gray-300 sm:h-full"
+            class="flex h-14 grow items-center gap-3 p-4 leading-6 text-gray-700 hover:cursor-pointer sm:h-full dark:text-gray-300"
             @click="clickToggleHandler"
           >
             <UIcon
               name="i-fa6-solid-chevron-right"
               :class="{
-                'rotate-90 transform': isOpen,
+                'rotate-90': isOpen,
               }"
               class="text-lg transition-transform duration-100"
             />

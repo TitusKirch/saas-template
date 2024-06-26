@@ -1,4 +1,5 @@
 import { useUserStore } from '@tituskirch/app-base/stores/user';
+import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
 export default function () {
   // me
@@ -39,6 +40,8 @@ export default function () {
     const { execute } = logout();
     await execute();
     reset();
+    const authStore = useAuthStore();
+    authStore.reset();
   };
   const emailIsVerified = () => {
     const userStore = useUserStore();
@@ -56,34 +59,29 @@ export default function () {
       type: 'success',
     });
   };
+  const hasPassword = () => {
+    const userStore = useUserStore();
+    return userStore.user?.has_password ?? false;
+  };
 
   // transformers
   const transformUserData = ({ data }: { data: UserData }): User => {
+    const { created_at, updated_at, ...rest } = data;
     return {
-      ...data,
-      createdAt: new Date(data.created_at),
-      updatedAt: new Date(data.updated_at),
+      ...rest,
+      createdAt: new Date(created_at),
+      updatedAt: new Date(updated_at),
     };
   };
   const transformUserMeData = ({ data }: { data: UserMeData }): UserMe => {
+    const { email_verified_at, two_factor_confirmed_at, created_at, updated_at, ...rest } = data;
+
     return {
-      ...data,
-      emailVerifiedAt: data.email_verified_at ? new Date(data.email_verified_at) : null,
-      createdAt: new Date(data.created_at),
-      updatedAt: new Date(data.updated_at),
-    };
-  };
-  const transformUserUpdateMeFormToData = ({
-    form,
-  }: {
-    form: UpdateUserMeForm;
-  }): UpdateUserMeData => {
-    return {
-      first_name: form.first_name,
-      last_name: form.last_name,
-      email: form.email,
-      password: form.password,
-      password_confirmation: form.password_confirm,
+      ...rest,
+      emailVerifiedAt: email_verified_at ? new Date(email_verified_at) : null,
+      twoFactorConfirmedAt: two_factor_confirmed_at ? new Date(two_factor_confirmed_at) : null,
+      createdAt: new Date(created_at),
+      updatedAt: new Date(updated_at),
     };
   };
 
@@ -94,10 +92,10 @@ export default function () {
     reset,
     isAuthenticated,
     emailIsVerified,
+    hasPassword,
     logout,
     resendVerificationEmail,
     transformUserData,
     transformUserMeData,
-    transformUserUpdateMeFormToData,
   };
 }

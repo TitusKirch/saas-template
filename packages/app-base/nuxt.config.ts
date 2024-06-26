@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/turnstile',
   ],
   experimental: {
     externalVue: false,
@@ -64,8 +65,8 @@ export default defineNuxtConfig({
   security: {
     corsHandler: {
       origin: [
-        withoutTrailingSlash(process.env.BASE_URL) || 'http://localhost:3000',
-        withoutTrailingSlash(process.env.API_URL) || 'http://localhost:8000',
+        withoutTrailingSlash(process.env.NUXT_PUBLIC_BASE_URL) || 'http://localhost:3000',
+        withoutTrailingSlash(process.env.NUXT_PUBLIC_API_URL) || 'http://localhost:8000',
       ],
     },
     headers: {
@@ -80,6 +81,9 @@ export default defineNuxtConfig({
   tailwindcss: {
     configPath: join(currentDir, 'tailwind.config.ts'),
   },
+  turnstile: {
+    siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY || '',
+  },
   ui: {
     global: true,
     safelistColors: ['blue', 'green', 'orange', 'red'],
@@ -92,14 +96,20 @@ export default defineNuxtConfig({
     // },
   },
   runtimeConfig: {
+    turnstile: {
+      secretKey: process.env.NUXT_TURNSTILE_SECRET_KEY || '',
+    },
     public: {
-      apiUrl: withoutTrailingSlash(process.env.API_URL) || 'http://localhost:8000',
-      appName: process.env.APP_NAME || 'unkown app',
+      apiUrl: withoutTrailingSlash(process.env.NUXT_PUBLIC_API_URL) || 'http://localhost:8000',
+      appName: process.env.NUXT_PUBLIC_APP_NAME || 'unkown app',
       appVersion: process.env.APP_VERSION || 'latest',
       authPagesActive: false,
-      baseUrl: withoutTrailingSlash(process.env.BASE_URL) || 'http://localhost:3000',
-      formkitProKey: (process.env.FORMKIT_PRO_KEY as string) || '',
+      baseUrl: withoutTrailingSlash(process.env.NUXT_PUBLIC_BASE_URL) || 'http://localhost:3000',
+      formkitProKey: (process.env.NUXT_PUBLIC_FORMKIT_PRO_KEY as string) || '',
       nodeEnv: process.env.NODE_ENV || 'production',
+      turnstile: {
+        siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY || '',
+      },
     },
   },
 });

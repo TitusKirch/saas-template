@@ -26,7 +26,7 @@
     :class="{
       'opacity-30': disabled,
     }"
-    class="hover:text-primary-700 dark:hover:text-primary-500 group flex items-center gap-2 p-4 text-gray-700 hover:cursor-pointer dark:text-gray-300 lg:justify-center"
+    class="hover:text-primary-700 dark:hover:text-primary-500 group flex items-center gap-2 p-4 text-gray-700 hover:cursor-pointer lg:justify-center dark:text-gray-300"
     @click="clickHandler"
   >
     <UIcon :name="icon" class="text-lg" />

@@ -1,8 +1,38 @@
 {
   "auth": {
+    "needsToConfirmUserPasswordButton": {
+      "noPassword": {
+        "label": "No password set for confirmation",
+        "tooltip": "You have not set a password for your account. This maybe because you signed in with a social provider. Please follow the instructions in the alert to set a password."
+      }
+    },
+    "provider": {
+      "github": {
+        "label": "GitHub",
+        "signInWith": "Sign in with GitHub"
+      },
+      "google": {
+        "label": "Google",
+        "signInWith": "Sign in with Google"
+      }
+    },
     "userPasswordConfirmModal": {
       "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
       "title": "Confirm password"
+    },
+    "userTwoFactorRecoveryCodesModal": {
+      "description": "Please store these recovery codes in a safe place. They can be used to recover access to your account in case you lose access to your two-factor authentication device.",
+      "action": {
+        "download": {
+          "label": "Download as text file"
+        }
+      },
+      "alert": {
+        "loading": {
+          "title": "Enabling two-factor authentication"
+        }
+      },
+      "title": "Recovery codes"
     }
   },
   "base": {
@@ -81,13 +111,35 @@
         },
         "resetPassword": {
           "label": "Reset password"
+        },
+        "setPassword": {
+          "label": "Set password"
+        },
+        "twoFactorChallenge": {
+          "switch": {
+            "code": {
+              "label": "Use code"
+            },
+            "recoveryCode": {
+              "label": "Use recovery code"
+            }
+          }
         }
       },
       "cancel": {
         "label": "Cancel"
       },
+      "close": {
+        "label": "Close"
+      },
       "confirm": {
         "label": "Confirm"
+      },
+      "confirmPasswordAndSave": {
+        "label": "Confirm password and save"
+      },
+      "goBack": {
+        "label": "Go back"
       },
       "page": {
         "home": {
@@ -110,7 +162,7 @@
         "male": "john.doe{'@'}example.com"
       }
     },
-    "email_confirm": {
+    "email_confirmation": {
       "label": "Confirm email address"
     },
     "first_name": {
@@ -138,10 +190,18 @@
     "password": {
       "label": "Password"
     },
-    "password_confirm": {
+    "password_confirmation": {
       "label": "Confirm password"
     },
-    "tryAgainIn": "Try again in a second. | Try again in {count} seconds."
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
+    "twoFactorChallenge": {
+      "code": {
+        "label": "2FA code"
+      },
+      "recoveryCode": {
+        "label": "Recovery code"
+      }
+    }
   },
   "helpSlideover": {
     "title": "Help"
@@ -163,6 +223,14 @@
             "error": {
               "description": "An error occurred while verifying your email address. Please try again.",
               "title": "Error verifying email"
+            },
+            "idle": {
+              "description": "Confirm the captcha to verify your email address.",
+              "title": "Verify your email"
+            },
+            "pending": {
+              "description": "Please wait while we verify your email address.",
+              "title": "Verifying email"
             },
             "success": {
               "description": "Your email address has been successfully verified. You will be redirected in a few seconds. {0}.",
@@ -224,6 +292,36 @@
             },
             "title": "Password reset"
           }
+        },
+        "set": {
+          "index": {
+            "description": "Please set a strong password for your account.",
+            "authCard": {
+              "description": "Please set a strong password for your account. {0}.",
+              "title": "Set password"
+            },
+            "title": "Set password"
+          },
+          "success": {
+            "description": "Your password has been successfully set. You will be redirected in a few seconds.",
+            "authCard": {
+              "description": "Your password has been successfully set. You will be redirected in a few seconds. {0}.",
+              "title": "Password set"
+            },
+            "title": "Password set"
+          }
+        }
+      },
+      "provider": {
+        "provider": {
+          "callback": {
+            "description": "Please wait while we sign you in.",
+            "authCard": {
+              "description": "Please wait while we sign you in. We will redirect you in a few seconds.",
+              "title": "Signing in"
+            },
+            "title": "Signing in"
+          }
         }
       },
       "register": {
@@ -233,6 +331,19 @@
           "title": "Create an account"
         },
         "title": "Register"
+      },
+      "twoFactorChallenge": {
+        "description": "Please enter the code from your authenticator app.",
+        "authCard": {
+          "code": {
+            "description": "Please enter the code from your authenticator app. Lost your device? {0}."
+          },
+          "recoveryCode": {
+            "description": "Please enter one of your recovery codes. Found your device? {0}."
+          },
+          "title": "Two-factor authentication"
+        },
+        "title": "Two-factor authentication"
       }
     }
   },
@@ -247,6 +358,14 @@
         }
       },
       "title": "Please verify your email address. If you can't find the verification email, take a look at your spam folder or request a new one."
+    },
+    "noPasswordAlert": {
+      "action": {
+        "navigateToAuthPasswordSet": {
+          "label": "Set password"
+        }
+      },
+      "title": "You have not set a password for your account. This maybe because you signed in with a social provider. Please set a password to secure your account."
     },
     "resendVerificationEmail": {
       "notification": {

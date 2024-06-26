@@ -2,6 +2,4 @@
 
 namespace App\Http\Controllers;
 
-class OrganizationController extends Controller
-{
-}
+class OrganizationController extends Controller {}

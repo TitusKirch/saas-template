@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-  const props = defineProps<{
+  defineProps<{
     confirmPasswordButtonTitle?: string;
-    confirmPasswordButtonProps?: Record<'block', unknown>;
-    confirmPasswordButtonCallback?: () => void;
+    confirmPasswordButtonProps?: Partial<Record<'block' | 'disabled', unknown>>;
+    confirmPasswordButtonCallback: () => Promise<void>;
+    disabled?: boolean;
   }>();
   defineSlots<{
     confirmPasswordButton?: HTMLElement;
@@ -12,23 +13,39 @@
 
   const authStore = useAuthStore();
   const { getColorByType } = useAlertStyle();
+  const { hasPassword } = useUser();
 
-  if (props.confirmPasswordButtonCallback) {
-    authStore.setUserPasswordConfirmModalSuccessCallback({
-      callback: props.confirmPasswordButtonCallback,
-    });
-  }
+  const modalIsOpen = ref(false);
 </script>
 
 <template>
   <div class="w-full">
     <slot v-if="authStore.userPasswordConfirmed" />
     <slot v-else name="confirmPasswordButton">
+      <UTooltip
+        v-if="!hasPassword()"
+        :text="$t('auth.needsToConfirmUserPasswordButton.noPassword.tooltip')"
+        :popper="{
+          resize: true,
+        }"
+        :ui="{
+          base: 'text-wrap h-auto',
+        }"
+      >
+        <UButton
+          icon="i-fa6-solid-lock"
+          :color="getColorByType({ type: 'warning' })"
+          :disabled="true"
+        >
+          {{ $t('auth.needsToConfirmUserPasswordButton.noPassword.label') }}
+        </UButton>
+      </UTooltip>
       <UButton
+        v-else
         icon="i-fa6-solid-lock"
         :color="getColorByType({ type: 'warning' })"
         v-bind="confirmPasswordButtonProps"
-        @click="authStore.showUserPasswordConfirmModal()"
+        @click="modalIsOpen = true"
       >
         {{
           confirmPasswordButtonTitle
@@ -37,5 +54,10 @@
         }}
       </UButton>
     </slot>
+
+    <AuthUserPasswordConfirmModal
+      v-model="modalIsOpen"
+      :confirm-password-button-callback="confirmPasswordButtonCallback"
+    />
   </div>
 </template>

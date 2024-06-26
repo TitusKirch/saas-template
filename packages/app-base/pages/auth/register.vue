@@ -15,7 +15,7 @@
             <i18n-t
               keypath="page.auth.register.authCard.description"
               tag="p"
-              class="text-gray-500 dark:text-gray-400 mt-1"
+              class="mt-1 text-gray-500 dark:text-gray-400"
             >
               <BaseLink
                 :to="{

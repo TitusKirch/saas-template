@@ -8,7 +8,7 @@
       <template #logo>
         <UIcon
           name="i-fa6-solid-fire"
-          class="w-6 text-primary-500 group-hover:text-primary-600 dark:text-primary-400 dark:group-hover:text-primary-500"
+          class="text-primary-500 group-hover:text-primary-600 dark:text-primary-400 dark:group-hover:text-primary-500 w-6"
         />
         <span>{{ $t('app.name') }}</span>
       </template>
@@ -27,6 +27,7 @@
     </UHeader>
 
     <BaseAlertContainer>
+      <UserNoPasswordAlert />
       <UserEmailIsNotVerifiedAlert />
     </BaseAlertContainer>
 

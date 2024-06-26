@@ -2,11 +2,16 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
+use Laravel\Fortify\Fortify;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,6 +20,17 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        Fortify::authenticateUsing(function (Request $request) {
+            $request->validate([
+                'cf-turnstile-response' => ['required', Rule::turnstile()],
+            ]);
+
+            $user = User::where('email', $request->email)->first();
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+        });
+
         // override the verify email email
         VerifyEmail::toMailUsing(function ($notifiable, $verificationUrl) {
             $verificationUrlParts = explode('/auth/email/verify/', $verificationUrl)[1];

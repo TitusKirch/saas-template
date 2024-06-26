@@ -1,3 +1,2 @@
-import withNuxt from './.nuxt/eslint.config.mjs';
-
-export default withNuxt();
+import eslintConfig from '@tituskirch/app-base/eslint.config.mjs';
+export default eslintConfig;

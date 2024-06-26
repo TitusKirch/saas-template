@@ -7,15 +7,15 @@
 </script>
 
 <template>
-  <div class="h-screen overlay">
-    <div class="gradient" />
+  <div id="layout-auth-overlay" class="h-screen">
+    <div id="layout-auth-gradient" />
 
     <UMain
       :ui="{
         wrapper: 'flex items-center justify-center',
       }"
     >
-      <div class="max-w-sm w-full">
+      <div class="w-full max-w-sm">
         <slot />
       </div>
     </UMain>
@@ -23,7 +23,7 @@
 </template>
 
 <style scoped>
-  .gradient {
+  #layout-auth-gradient {
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -35,7 +35,7 @@
   }
 
   .dark {
-    .gradient {
+    #layout-auth-gradient {
       background: radial-gradient(
         50% 50% at 50% 50%,
         rgb(var(--color-primary-400) / 0.1) 0,
@@ -44,13 +44,13 @@
     }
   }
 
-  .overlay {
+  #layout-auth-overlay {
     background-size: 100px 100px;
     background-image: linear-gradient(to right, rgb(var(--color-gray-200)) 0.5px, transparent 0.5px),
       linear-gradient(to bottom, rgb(var(--color-gray-200)) 0.5px, transparent 0.5px);
   }
   .dark {
-    .overlay {
+    #layout-auth-overlay {
       background-image: linear-gradient(
           to right,
           rgb(var(--color-gray-900)) 0.5px,

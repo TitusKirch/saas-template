@@ -24,7 +24,7 @@
       <template #option="{ option, classes }">
         <FormDropdownOption :option="option" :classes="classes">
           <template #icon>
-            <div class="flex w-5 items-center justify-center mr-2">
+            <div class="mr-2 flex w-5 items-center justify-center">
               <CountryFlag
                 :country="option.value.split('-')[1].toLowerCase()"
                 size="normal"
@@ -48,7 +48,7 @@
         <template #option="{ option, classes }">
           <FormDropdownOption :option="option" :classes="classes">
             <template #icon>
-              <div class="flex w-5 items-center justify-center mr-2">
+              <div class="mr-2 flex w-5 items-center justify-center">
                 <CountryFlag
                   :country="option.value.split('-')[1].toLowerCase()"
                   size="normal"

@@ -7,6 +7,9 @@ changelog:
       - "question"
       - "wontfix"
   categories:
+    - title: Breaking changes
+      labels:
+        - "⚠️ breaking change"
     - title: Added
       labels:
         - "enhancement"

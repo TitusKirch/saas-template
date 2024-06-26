@@ -5,11 +5,12 @@ namespace App\Providers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Pennant\Feature;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * {@inheritdoc}
      */
     public function register(): void
     {
@@ -21,9 +22,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->guardDestructiveCommands();
+        $this->defineGates();
+
+        Feature::discover();
+    }
+
+    /**
+     * Guard against destructive commands.
+     */
+    private function guardDestructiveCommands(): void
+    {
         // prohibit some commands in production (especially destructive ones)
         DB::prohibitDestructiveCommands(app()->isProduction());
+    }
 
+    /**
+     * Define gates.
+     */
+    private function defineGates(): void
+    {
         // guard Laravel Pulse routes
         if (! app()->isLocal()) {
             Gate::define('viewPulse', static function ($user) {

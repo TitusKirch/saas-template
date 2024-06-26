@@ -51,7 +51,7 @@
     >
       <UAvatar :src="organization.avatar.src" size="2xs" />
 
-      <span class="truncate text-gray-900 dark:text-white font-semibold flex-grow text-left">{{
+      <span class="grow truncate text-left font-semibold text-gray-900 dark:text-white">{{
         organization.label
       }}</span>
     </UButton>

@@ -7,15 +7,9 @@
 <template>
   <UContainer
     :ui="{
-      base: 'grid grid-cols-1 gap-4',
+      base: 'grid grid-cols-1 gap-4 w-full !p-0 !max-w-none',
     }"
   >
     <slot />
   </UContainer>
 </template>
-
-<style scoped>
-  div > :deep(:first-child) {
-    @apply mt-8;
-  }
-</style>

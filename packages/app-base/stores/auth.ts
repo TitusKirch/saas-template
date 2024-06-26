@@ -13,30 +13,9 @@ export const useAuthStore = defineStore(
       userPasswordConfirmedAt.value = null;
     };
 
-    // user password confirm modal
-    const userPasswordConfirmModalIsOpen = ref(false);
-    const userPasswordConfirmModalSuccessCallback = ref<() => void>(() => {});
-    const resetUserPasswordConfirmModalSuccessCallback = () => {
-      userPasswordConfirmModalSuccessCallback.value = () => {};
-    };
-    const setUserPasswordConfirmModalSuccessCallback = ({ callback }: { callback: () => void }) => {
-      userPasswordConfirmModalSuccessCallback.value = callback;
-    };
-    const executeUserPasswordConfirmModalSuccessCallback = async () => {
-      console.log('executeUserPasswordConfirmModalSuccessCallback');
-      await userPasswordConfirmModalSuccessCallback.value();
-      console.log('executeUserPasswordConfirmModalSuccessCallback done');
-      hideUserPasswordConfirmModal();
-    };
-    const showUserPasswordConfirmModal = () => {
-      userPasswordConfirmModalIsOpen.value = true;
-    };
-    const hideUserPasswordConfirmModal = () => {
-      userPasswordConfirmModalIsOpen.value = false;
-      resetUserPasswordConfirmModalSuccessCallback();
-    };
-    const toggleUserPasswordConfirmModal = () => {
-      userPasswordConfirmModalIsOpen.value = !userPasswordConfirmModalIsOpen.value;
+    // general
+    const reset = () => {
+      resetUserPasswordConfirmed();
     };
 
     return {
@@ -44,13 +23,7 @@ export const useAuthStore = defineStore(
       userPasswordConfirmedAt,
       confirmUserPasswordConfirmed,
       resetUserPasswordConfirmed,
-      userPasswordConfirmModalIsOpen,
-      resetUserPasswordConfirmModalSuccessCallback,
-      setUserPasswordConfirmModalSuccessCallback,
-      executeUserPasswordConfirmModalSuccessCallback,
-      showUserPasswordConfirmModal,
-      hideUserPasswordConfirmModal,
-      toggleUserPasswordConfirmModal,
+      reset,
     };
   },
   {

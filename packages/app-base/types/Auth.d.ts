@@ -1,61 +1,96 @@
-type AuthLoginForm = {
+type AuthLoginData = {
   email: string;
   password: string;
   remember?: boolean;
-};
-type AuthLoginData = AuthLoginForm;
-type AuthLoginResponse = ApiResponse<AuthLoginData>;
+} & ApiRequestDataTurnstile;
+type AuthLoginResponse = ApiResponse<
+  | AuthLoginData
+  | {
+      two_factor: boolean;
+    }
+>;
 
 type AuthLogoutData = undefined;
 type AuthLogoutResponse = ApiResponse<AuthLogoutData>;
 
-type AuthRegisterForm = {
+type AuthRegisterData = {
   first_name: string;
   last_name: string;
   email: string;
-  email_confirm: string;
+  email_confirmation: string;
   password: string;
-  password_confirm: string;
-};
-type AuthRegisterData = Omit<AuthRegisterForm, 'email_confirm' | 'password_confirm'> & {
-  name: string;
   password_confirmation: string;
-};
+} & ApiRequestDataTurnstile;
 type AuthRegisterResponse = ApiResponse<AuthRegisterData>;
 
 type AuthEmailVerificationNotificationData = undefined;
 type AuthEmailVerificationNotificationResponse = ApiResponse<AuthEmailVerificationNotificationData>;
 
-type AuthEmailVerifyData = {
+type AuthEmailVerifyPath = {
+  id: string;
+  hash: string;
+};
+type AuthEmailVerifyParams = {
   expires: string;
   signature: string;
 };
-type AuthEmailVerifyResponse = ApiResponse<AuthEmailVerifyData>;
+type AuthEmailVerifyResponse = ApiResponse<AuthEmailVerifyParams>;
 
-type AuthForgotPasswordForm = {
+type AuthForgotPasswordData = {
   email: string;
-};
-type AuthForgotPasswordData = AuthForgotPasswordForm;
+} & ApiRequestDataTurnstile;
 type AuthForgotPasswordResponse = ApiMessageResponse;
 
-type AuthResetPasswordForm = {
+type AuthResetPasswordData = {
   email: string;
   token: string;
   password: string;
-  password_confirm: string;
-};
-type AuthResetPasswordData = Omit<AuthResetPasswordForm, 'password_confirm'> & {
   password_confirmation: string;
-};
+} & ApiRequestDataTurnstile;
 type AuthResetPasswordResponse = ApiResponse<AuthResetPasswordData>;
 
-type AuthUserConfirmPasswordForm = {
+type AuthUserConfirmPasswordData = {
   password: string;
 };
-type AuthUserConfirmPasswordData = AuthUserConfirmPasswordForm;
 type AuthUserConfirmPasswordResponse = ApiMessageResponse;
 
 type AuthUserConfirmedPasswordStatusData = {
   confirmed: boolean;
 };
 type AuthUserConfirmedPasswordStatusResponse = ApiResponse<AuthUserConfirmedPasswordStatusData>;
+
+type AuthUserTwoFactorQrCodeData = {
+  svg: string;
+  url: string;
+};
+type AuthUserTwoFactorQrCodeResponse = ApiResponse<AuthUserTwoFactorQrCodeData>;
+
+type AuthUserConfirmedTwoFactorAuthenticationData = {
+  code: string;
+};
+type AuthUserConfirmedTwoFactorAuthenticationResponse =
+  ApiResponse<AuthUserConfirmedTwoFactorAuthenticationData>;
+
+type AuthUserTwoFactorRecoveryCodesData = string[];
+type AuthUserTwoFactorRecoveryCodesResponse = ApiResponse<AuthUserTwoFactorRecoveryCodesData>;
+
+type AuthTwoFactorChallengeType = 'code' | 'recoveryCode';
+type AuthTwoFactorChallengeData =
+  | {
+      code: string;
+    }
+  | {
+      recoveryCode: string;
+    };
+type AuthTwoFactorChallengeResponse = ApiResponse<AuthTwoFactorChallengeData>;
+
+type AuthProvider = 'github' | 'google';
+type AuthProviderResponse = ApiResponse<{
+  redirect: string;
+}>;
+
+type AuthSetPasswordData = {
+  password: string;
+  password_confirmation: string;
+};
+type AuthSetPasswordResponse = ApiResourceResponse<AuthSetPasswordData>;

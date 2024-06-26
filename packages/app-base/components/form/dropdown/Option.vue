@@ -14,7 +14,7 @@
 <template>
   <div :class="`${classes.option} flex items-center`">
     <slot name="icon">
-      <UIcon :name="option.icon" class="w-5 mr-2" />
+      <UIcon :name="option.icon" class="mr-2 w-5" />
     </slot>
     <span>
       <slot name="label">

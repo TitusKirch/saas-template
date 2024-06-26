@@ -21,16 +21,16 @@
   "devDependencies": {
     "@tituskirch/eslint-config": "workspace:*",
     "@tituskirch/typescript-config": "workspace:*",
-    "prettier": "^3.3.1",
-    "taze": "^0.13.8",
+    "prettier": "^3.3.2",
+    "taze": "^0.13.9",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@9.2.0",
+  "packageManager": "pnpm@9.4.0",
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "artillery": "^2.0.14",
+    "artillery": "^2.0.16",
     "pinia": "^2.1.7"
   },
   "pnpm": {

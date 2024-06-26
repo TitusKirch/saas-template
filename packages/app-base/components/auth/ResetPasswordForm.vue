@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import type { FormKitNode } from '@formkit/core';
-
   // get data from route
   const route = useRoute();
   const email = route.query.email as string;
@@ -12,55 +10,39 @@
   }
 
   // form setup
-  type Form = AuthResetPasswordForm;
-  const form: Ref<Form> = ref({
+  const turnstile = ref();
+  const turnstileToken = ref('');
+  const form: Ref<AuthResetPasswordData> = ref({
     email: email,
     token: token,
     password: '',
-    password_confirm: '',
+    password_confirmation: '',
+    'cf-turnstile-response': '',
   });
-  const errorMessages: Ref<Record<string, string>> = ref({});
   const { passwordToggle } = useFormKit();
-
-  // submit handling
-  const { transformResetPasswordFormToData, resetPassword } = useAuth();
-  const resetData: Ref<AuthResetPasswordData | undefined> = ref();
+  const { resetPassword } = useAuth();
   const { error, status, execute } = await resetPassword({
-    data: resetData,
+    data: form,
   });
-  const submit = async (data: Form, node: FormKitNode) => {
-    resetData.value = transformResetPasswordFormToData({
-      form: form.value,
-    });
-    await execute();
-    errorMessages.value = {};
-    if (error.value?.data?.errors) {
-      for (const key in error.value.data.errors) {
-        errorMessages.value[key] = error.value.data.errors[key][0];
-      }
-      node.setErrors([], errorMessages.value);
-      return false;
-    } else if (error.value?.data?.message) {
-      errorMessages.value = {
-        form: error.value.data.message,
-      };
-      return false;
-    }
-
-    return navigateToLocale({
-      name: 'auth-password-reset-success',
-    });
-  };
-
-  // error handling
-  watch(form, (newValue: Form, oldValue: Form) => {
-    for (const key of Object.keys(newValue) as Array<keyof Form>) {
-      if (newValue[key] !== oldValue[key]) {
-        // TODO: Refactor to doesn't use dynamic delete
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete errorMessages.value[key];
-      }
-    }
+  const { submit, errorMessages } = useFormKitForm<AuthResetPasswordData>({
+    form,
+    error,
+    status,
+    beforeExecuteCallback: async () => {
+      form.value['cf-turnstile-response'] = turnstileToken.value;
+    },
+    executeCallback: execute,
+    successCallback: async () => {
+      const { me } = useUser();
+      return await me().finally(() => {
+        return navigateToLocale({
+          name: 'auth-password-reset-success',
+        });
+      });
+    },
+    errorCallback: async () => {
+      turnstile.value?.reset();
+    },
   });
 </script>
 <template>
@@ -89,19 +71,31 @@
       />
       <FormKit
         type="password"
-        name="password_confirm"
-        :label="$t('global.password_confirm.label')"
-        validation="required|confirm"
+        name="password_confirmation"
+        :label="$t('global.password_confirmation.label')"
+        validation="required|confirm:password"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
         suffix-icon="eyeClosed"
         @suffix-icon-click="passwordToggle"
       />
 
+      <FormTurnstileContainer :first-show-on="valid">
+        <NuxtTurnstile
+          ref="turnstile"
+          v-model="turnstileToken"
+          :options="{
+            action: 'reset-password',
+          }"
+        />
+      </FormTurnstileContainer>
+
       <UButton
         type="submit"
         block
-        :disabled="!valid || !!Object.keys(errorMessages).length || status === 'success'"
+        :disabled="
+          !valid || !!Object.keys(errorMessages).length || status === 'success' || !turnstileToken
+        "
         :loading="status === 'pending'"
         icon="i-fa6-solid-paper-plane"
         :ui="{

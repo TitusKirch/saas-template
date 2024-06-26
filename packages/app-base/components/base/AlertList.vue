@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <ul class="list-disc list-outside ml-4">
+  <ul class="ml-4 list-outside list-disc">
     <li v-for="(item, key) in items" :key="key">
       <template v-if="$slots.item">
         <slot name="item" :item="item" />
