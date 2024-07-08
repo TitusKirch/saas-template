@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { useAlertStore } from '@tituskirch/app-base/stores/alert';
+
   withDefaults(
     defineProps<{
       title: string;
@@ -18,6 +20,8 @@
   }>();
 
   const { getLayout } = useDashboard();
+
+  const alertStore = useAlertStore();
 </script>
 
 <template>
@@ -69,6 +73,12 @@
           <BaseAlertContainer>
             <UserNoPasswordAlert />
             <UserEmailIsNotVerifiedAlert />
+
+            <BaseAlert
+              v-for="alert in alertStore.getNonComponentAlerts"
+              :key="alert.id"
+              v-bind="alert"
+            />
           </BaseAlertContainer>
 
           <slot />
