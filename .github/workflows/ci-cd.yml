@@ -373,10 +373,12 @@ jobs:
         uses: JarvusInnovations/background-action@v1
         with:
           run: |
-            php artisan serve
+            php artisan serve &
+          wait-on: |
+            tcp:localhost:8000
           tail: true
           log-output-resume: stderr
-          wait-for: 10s
+          wait-for: 30s
           log-output: stderr,stdout
           log-output-if: failure
           working-directory: services/api
