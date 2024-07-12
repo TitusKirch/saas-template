@@ -373,8 +373,7 @@ jobs:
         uses: JarvusInnovations/background-action@v1
         with:
           run: |
-            cd services/api
-            php artisan serve
+            pnpm dev --filter=@tituskirch/api &
           wait-on: |
             http://localhost:8000
           wait-for: 30s
