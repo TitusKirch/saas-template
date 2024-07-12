@@ -3,14 +3,14 @@
   const user = await me();
 
   // form setup
-  const form: Ref<UpdateUserMeData> = ref({
+  const form = ref<UpdateUserMeData>({
     first_name: user.value?.first_name || '',
     last_name: user.value?.last_name || '',
     email: user.value?.email || '',
     password: '',
     password_confirmation: '',
   });
-  const formValuesBeforeSubmit: Ref<UpdateUserMeData> = ref({ ...form.value });
+  const formValuesBeforeSubmit = ref<UpdateUserMeData>({ ...form.value });
   const { passwordToggle } = useFormKit();
   const formValuesHasChanged = computed(() => {
     return Object.keys(form.value).some(

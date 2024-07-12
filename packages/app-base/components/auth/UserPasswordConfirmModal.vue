@@ -8,7 +8,7 @@
   const model = defineModel<boolean>();
 
   // form setup
-  const form: Ref<AuthUserConfirmPasswordData> = ref({
+  const form = ref<AuthUserConfirmPasswordData>({
     password: '',
   });
   const { passwordToggle } = useFormKit();
@@ -29,7 +29,7 @@
   });
 
   // reset form on close
-  const resetTimeout = ref<NodeJS.Timeout | null>(null);
+  const resetTimeout = ref<NodeJS.Timeout | undefined>();
   watch(
     () => model.value,
     (newValue) => {

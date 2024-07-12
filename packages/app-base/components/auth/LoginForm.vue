@@ -2,7 +2,7 @@
   // form setup
   const turnstile = ref();
   const turnstileToken = ref('');
-  const form: Ref<AuthLoginData> = ref({
+  const form = ref<AuthLoginData>({
     email: '',
     password: '',
     'cf-turnstile-response': '',

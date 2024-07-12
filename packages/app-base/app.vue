@@ -67,7 +67,7 @@
 
   // user password confirmed reset
   const authStore = useAuthStore();
-  const resetUserPasswordConfirmedTimout: Ref<NodeJS.Timeout | undefined> = ref();
+  const resetUserPasswordConfirmedTimout = ref<NodeJS.Timeout | undefined>();
   const maxLifetime = 60 * 60 * 3 * 1000; // 3 hours
   const setResetUserPasswordConfirmedTimeout = () => {
     clearTimeout(resetUserPasswordConfirmedTimout.value);

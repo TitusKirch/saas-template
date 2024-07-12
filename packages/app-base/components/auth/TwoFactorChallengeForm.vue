@@ -9,9 +9,8 @@
   );
 
   // form setup
-  const form: Ref<AuthTwoFactorChallengeData> = ref({
+  const form = ref<AuthTwoFactorChallengeData>({
     code: '',
-    recovery_code: '',
   });
   const { passwordToggle } = useFormKit();
   const { twoFactorChallenge } = useAuth();

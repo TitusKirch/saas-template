@@ -25,7 +25,7 @@
 
   // download recovery codes
   const hasDownloaded = ref(false);
-  const hasDownloadedTimeout = ref<NodeJS.Timeout | null>(null);
+  const hasDownloadedTimeout = ref<NodeJS.Timeout | undefined>();
   const downloadRecoveryCodes = () => {
     if (!data.value) {
       return;

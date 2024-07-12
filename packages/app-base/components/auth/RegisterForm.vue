@@ -2,7 +2,7 @@
   // form setup
   const turnstile = ref();
   const turnstileToken = ref('');
-  const form: Ref<AuthRegisterData> = ref({
+  const form = ref<AuthRegisterData>({
     first_name: '',
     last_name: '',
     email: '',

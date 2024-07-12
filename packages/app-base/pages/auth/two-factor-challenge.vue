@@ -5,7 +5,7 @@
     middleware: ['guest'],
   });
 
-  const formType: Ref<AuthTwoFactorChallengeType> = ref('code');
+  const formType = ref<AuthTwoFactorChallengeType>('code');
 </script>
 
 <template>

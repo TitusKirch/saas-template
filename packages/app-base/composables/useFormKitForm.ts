@@ -22,7 +22,7 @@ export default function <FormT extends Record<string, any>>({
   successCallback?: () => Promise<any>;
   errorCallback?: () => Promise<void>;
 }) {
-  const errorMessages: Ref<Record<string, string>> = ref({});
+  const errorMessages = ref<Record<string, string>>({});
   const submit = async (data: FormT, node: FormKitNode) => {
     if (beforeExecuteCallback) {
       await beforeExecuteCallback();
