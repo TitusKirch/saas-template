@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "turbo build",
     "build:cloudflare": "turbo build:cloudflare",
@@ -25,12 +26,12 @@
     "taze": "^0.13.9",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@9.5.0",
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "artillery": "^2.0.16",
+    "artillery": "^2.0.17",
     "pinia": "^2.1.7"
   },
   "pnpm": {
