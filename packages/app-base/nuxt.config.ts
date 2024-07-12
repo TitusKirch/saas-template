@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/turnstile',
   ],
+  compatibilityDate: '2024-07-12',
   experimental: {
     externalVue: false,
   },
