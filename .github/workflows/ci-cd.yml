@@ -373,11 +373,11 @@ jobs:
         uses: JarvusInnovations/background-action@v1
         with:
           run: |
-            cd services/api &
             php artisan serve &
           wait-on: |
             http://127.0.0.1:8000/up
           wait-for: 30s
+          working-directory: services/api
 
       - name: Test E2E
         run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
