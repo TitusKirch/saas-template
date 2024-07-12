@@ -376,7 +376,11 @@ jobs:
             php artisan serve &
           wait-on: |
             http://127.0.0.1:8000/up
+          tail: true
+          log-output-resume: stderr
           wait-for: 30s
+          log-output: stderr,stdout
+          log-output-if: failure
           working-directory: services/api
 
       - name: Test E2E
