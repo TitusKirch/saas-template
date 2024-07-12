@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class AuthProviderController extends Controller
     /**
      * Redirect the user to the provider authentication page.
      */
-    public function redirectToProvider(string $provider): JsonResponse
+    public function redirect(string $provider): JsonResponse
     {
         $this->validateProvider($provider);
 
@@ -38,7 +39,7 @@ class AuthProviderController extends Controller
     /**
      * Obtain the user information from the provider.
      */
-    public function handleProviderCallback(string $provider): JsonResponse
+    public function callback(string $provider): JsonResponse
     {
         $this->validateProvider($provider);
 

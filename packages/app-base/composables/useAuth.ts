@@ -1,15 +1,15 @@
 import type { LocationQuery } from 'vue-router';
+import type { FetchOptions } from '@tituskirch/app-base/types/Fetch';
 
 export default function () {
   // login
   const login = ({ data }: { data: Ref<AuthLoginData | undefined> }) => {
     const { post } = useApi();
 
-    return post<AuthLoginData, AuthLoginResponse>('login', {
+    return post<AuthLoginData, AuthLoginResponse>('auth/login', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -18,11 +18,11 @@ export default function () {
   const logout = () => {
     const { post } = useApi();
 
-    return post<AuthLogoutData, AuthLogoutResponse>('logout', {
+    return post<AuthLogoutData, AuthLogoutResponse>('auth/logout', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+
+      version: 'v1',
     });
   };
 
@@ -30,11 +30,10 @@ export default function () {
   const register = ({ data }: { data: Ref<AuthRegisterData | undefined> }) => {
     const { post } = useApi();
 
-    return post<AuthRegisterData, AuthRegisterResponse>('register', {
+    return post<AuthRegisterData, AuthRegisterResponse>('auth/register', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -44,12 +43,11 @@ export default function () {
     const { post } = useApi();
 
     return post<AuthEmailVerificationNotificationData, AuthEmailVerificationNotificationResponse>(
-      'email/verification-notification',
+      'auth/email/verification-notification',
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
       }
     );
   };
@@ -63,12 +61,11 @@ export default function () {
     const { get } = useApi();
 
     return get<AuthEmailVerifyParams, AuthEmailVerifyResponse>(
-      `email/verify/${path.value.id}/${path.value.hash}`,
+      `auth/email/verify/${path.value.id}/${path.value.hash}`,
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
         params,
       }
     );
@@ -78,11 +75,10 @@ export default function () {
   const forgotPassword = ({ data }: { data: Ref<AuthForgotPasswordData | undefined> }) => {
     const { post } = useApi();
 
-    return post<AuthForgotPasswordData, AuthForgotPasswordResponse>('forgot-password', {
+    return post<AuthForgotPasswordData, AuthForgotPasswordResponse>('auth/forgot-password', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -91,11 +87,10 @@ export default function () {
   const resetPassword = ({ data }: { data: Ref<AuthResetPasswordData | undefined> }) => {
     const { post } = useApi();
 
-    return post<AuthResetPasswordData, AuthResetPasswordResponse>('reset-password', {
+    return post<AuthResetPasswordData, AuthResetPasswordResponse>('auth/reset-password', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -109,12 +104,11 @@ export default function () {
     const { post } = useApi();
 
     return post<AuthUserConfirmPasswordData, AuthUserConfirmPasswordResponse>(
-      'user/confirm-password',
+      'auth/user/confirm-password',
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
         body: data,
       }
     );
@@ -123,12 +117,11 @@ export default function () {
     const { get } = useApi();
 
     return get<AuthUserConfirmedPasswordStatusData, AuthUserConfirmedPasswordStatusResponse>(
-      'user/confirmed-password-status',
+      'auth/user/confirmed-password-status',
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
       }
     );
   };
@@ -137,33 +130,30 @@ export default function () {
   const enableTwoFactorAuthentication = () => {
     const { post } = useApi();
 
-    return post<undefined, ApiResponse<undefined>>('user/two-factor-authentication', {
+    return post<undefined, ApiResponse<undefined>>('auth/user/two-factor-authentication', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
     });
   };
   const disableTwoFactorAuthentication = () => {
     const { delete: del } = useApi();
 
-    return del<undefined, ApiResponse<undefined>>('user/two-factor-authentication', {
+    return del<undefined, ApiResponse<undefined>>('auth/user/two-factor-authentication', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
     });
   };
   const twoFactorQrCode = () => {
     const { get } = useApi();
 
     return get<AuthUserTwoFactorQrCodeData, AuthUserTwoFactorQrCodeResponse>(
-      'user/two-factor-qr-code',
+      'auth/user/two-factor-qr-code',
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
       }
     );
   };
@@ -177,11 +167,10 @@ export default function () {
     return post<
       AuthUserConfirmedTwoFactorAuthenticationData,
       AuthUserConfirmedTwoFactorAuthenticationResponse
-    >('user/confirmed-two-factor-authentication', {
+    >('auth/user/confirmed-two-factor-authentication', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -189,12 +178,11 @@ export default function () {
     const { get } = useApi();
 
     return get<AuthUserTwoFactorRecoveryCodesData, AuthUserTwoFactorRecoveryCodesResponse>(
-      'user/two-factor-recovery-codes',
+      'auth/user/two-factor-recovery-codes',
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
       }
     );
   };
@@ -202,12 +190,11 @@ export default function () {
     const { post } = useApi();
 
     return post<AuthTwoFactorChallengeData, AuthTwoFactorChallengeResponse>(
-      'two-factor-challenge',
+      'auth/two-factor-challenge',
       {
         immediate: false,
         watch: false,
-        prefix: 'auth',
-        version: false,
+        version: 'v1',
         body: data,
       }
     );
@@ -217,11 +204,10 @@ export default function () {
   const setPassword = ({ data }: { data: Ref<AuthSetPasswordData> }) => {
     const { post } = useApi();
 
-    return post<AuthSetPasswordData, AuthSetPasswordResponse>('set-password', {
+    return post<AuthSetPasswordData, AuthSetPasswordResponse>('auth/set-password', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -230,11 +216,10 @@ export default function () {
   const authProviderRedirect = ({ provider }: { provider: AuthProvider }) => {
     const { get } = useApi();
 
-    return get<undefined, AuthProviderResponse>(`provider/${provider}`, {
+    return get<undefined, AuthProviderResponse>(`auth/provider/${provider}/redirect`, {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
     });
   };
   const authProviderCallback = ({
@@ -246,11 +231,10 @@ export default function () {
   }) => {
     const { get } = useApi();
 
-    return get<undefined, ApiResponse<undefined>>(`provider/${provider}/callback`, {
+    return get<undefined, ApiResponse<undefined>>(`auth/provider/${provider}/callback`, {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       query,
     });
   };

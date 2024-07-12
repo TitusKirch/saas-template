@@ -1,13 +1,6 @@
-import type { UseFetchOptions } from '#app';
+import type { FetchUrl, FetchOptions } from '@tituskirch/app-base/types/Fetch';
 
 export default function () {
-  type FetchUrl = string | (() => string);
-  type FetchOptions<ResponseT> = Omit<ApiFetchOptions & UseFetchOptions<ResponseT>, 'default'> & {
-    default?: () => ResponseT | Ref<ResponseT>;
-    prefix?: string;
-    version?: string | boolean;
-  };
-
   const fetchWrapper = <
     RequestDataT = ApiRequestData,
     ResponseT = ApiResponse | ApiResourceResponse,

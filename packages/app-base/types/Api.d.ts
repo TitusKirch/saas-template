@@ -16,7 +16,6 @@ type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = ApiMessageRespon
 };
 
 type ApiFetchOptions = {
-  prefix?: string | false;
   version?: string | false;
   setCsrfToken?: boolean;
 };

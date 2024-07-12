@@ -13,11 +13,10 @@ export default function () {
   const updateMe = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
     const { put } = useApi();
 
-    return put<UpdateUserMeData, UpdateUserMeResponse>('user/profile-information', {
+    return put<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
