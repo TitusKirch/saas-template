@@ -1,5 +1,4 @@
 import type { LocationQuery } from 'vue-router';
-import type { FetchOptions } from '@tituskirch/app-base/types/Fetch';
 
 export default function () {
   // login
