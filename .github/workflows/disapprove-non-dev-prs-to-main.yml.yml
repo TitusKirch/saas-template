@@ -1,0 +1,37 @@
+name: Disapprove PRs to main not from dev
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-source-branch:
+    name: Check if PR is from dev branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if the PR is from the dev branch
+        id: check-pr
+        run: |
+          PR_BRANCH=$(jq -r .pull_request.head.ref "$GITHUB_EVENT_PATH")
+          if [ "$PR_BRANCH" != "dev" ]; then
+            echo "Pull request to main is not from dev. Disapproving."
+            echo "result=failure" >> $GITHUB_ENV
+            exit 1
+          else
+            echo "Pull request to main is from dev. Proceeding."
+            echo "result=success" >> $GITHUB_ENV
+          fi
+
+      - name: Disapprove PR if not from dev
+        if: env.result == 'failure'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=$(jq -r .number "$GITHUB_EVENT_PATH")
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/comments \
+            -d '{"body":"This PR has been disapproved because it is not from the dev branch."}'
+
