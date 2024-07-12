@@ -39,7 +39,7 @@
     "@unovis/ts": "^1.4.2",
     "@unovis/vue": "^1.4.2",
     "@vueuse/core": "^10.11.0",
-    "@vueuse/nuxt": "10.9.0",
+    "@vueuse/nuxt": "10.11.0",
     "date-fns": "^3.6.0",
     "laravel-precognition-vue": "^0.5.6",
     "nuxt": "^3.12.3",
