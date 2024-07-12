@@ -334,33 +334,28 @@ jobs:
         run: pnpm install
 
       - name: Setup php
-        if: needs.files-changed.outputs.service_api == 'true'
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           extensions: bcmath, pcntl
 
       - name: Restore composer dependencies cache for service "api"
-        if: needs.files-changed.outputs.service_api == 'true'
         uses: actions/cache@v4
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
         
       - name: Copy .env.example to .env for service "api"
-        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           cp .env.example .env
       
       - name: Generate key for service "api"
-        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           php artisan key:generate
         
       - name: Create database for service "api"
-        if: needs.files-changed.outputs.service_api == 'true'
         run: |
           cd services/api
           mkdir -p database
@@ -373,7 +368,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          
+
+      - name: Run Api service (in background)
+        uses: JarvusInnovations/background-action@v1
+        with:
+          run: |
+            php artisan serve &
+          wait-on: |
+            tcp:localhost:8000
+          tail: true
+          log-output-resume: stderr
+          wait-for: 30s
+          log-output: stderr,stdout
+          log-output-if: failure
+          working-directory: services/api
+
       - name: Test E2E
         run: pnpm test:e2e ${{ needs.files-changed.outputs.turbo_filter_args }}
         env:

@@ -12,3 +12,6 @@ Schedule::command(\Spatie\Health\Commands\ScheduleCheckHeartbeatCommand::class)-
 
 // telescope (development only)
 Schedule::command('telescope:prune --hours=48')->daily();
+
+// cloudflare
+Schedule::command('cloudflare:reload')->daily();

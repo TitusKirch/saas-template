@@ -37,6 +37,7 @@
 <template>
   <BaseAlert
     v-if="!hasPassword()"
+    id="user.noPasswordAlert"
     :title="$t('user.noPasswordAlert.title')"
     type="warning"
     :actions="actions"
