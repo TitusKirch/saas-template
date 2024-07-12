@@ -373,9 +373,10 @@ jobs:
         uses: JarvusInnovations/background-action@v1
         with:
           run: |
-            pnpm dev --filter=@tituskirch/api &
+            cd services/api &
+            php artisan serve &
           wait-on: |
-            http://localhost:8000
+            http://127.0.0.1:8000/up
           wait-for: 30s
 
       - name: Test E2E
