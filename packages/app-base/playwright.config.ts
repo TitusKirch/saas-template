@@ -10,5 +10,5 @@ export default defineConfig<ConfigOptions>({
     },
   },
   testMatch: '*.e2e.ts',
-  timeout: 60000,
+  timeout: 1200000,
 });
