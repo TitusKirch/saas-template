@@ -18,7 +18,6 @@ jobs:
           if [ "$PR_BRANCH" != "dev" ]; then
             echo "Pull request to main is not from dev. Disapproving."
             echo "result=failure" >> $GITHUB_ENV
-            exit 1
           else
             echo "Pull request to main is from dev. Proceeding."
             echo "result=success" >> $GITHUB_ENV
