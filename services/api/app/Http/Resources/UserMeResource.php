@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 
-class UsersMeResource extends UserResource
+class UserMeResource extends UserResource
 {
     /**
      * Transform the resource into an array.
