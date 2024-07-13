@@ -19,8 +19,8 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'provider',
-        'as' => 'provider:',
+        'prefix' => 'providers',
+        'as' => 'providers:',
         'middleware' => ['guest'],
     ], function () {
         Route::get('/{provider}/redirect', [AuthProviderController::class, 'redirect'])->name('redirect');

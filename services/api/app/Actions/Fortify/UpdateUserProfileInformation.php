@@ -42,7 +42,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill(
-                $this->getUserData($input)
+                $this->getUsersData($input)
             )->save();
         }
     }
@@ -53,7 +53,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param  array<string, string>  $input
      * @return array<string, string>
      */
-    protected function getUserData(array $input): array
+    protected function getUsersData(array $input): array
     {
         $userData = [
             'first_name' => $input['first_name'],
@@ -74,7 +74,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     protected function updateVerifiedUser(User $user, array $input): void
     {
-        $user->forceFill(array_merge($this->getUserData($input), [
+        $user->forceFill(array_merge($this->getUsersData($input), [
             'email' => $input['email'],
             'email_verified_at' => null,
         ]))->save();

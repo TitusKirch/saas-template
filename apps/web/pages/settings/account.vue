@@ -3,20 +3,20 @@
   const user = await me();
 
   // form setup
-  const form = ref<UpdateUserMeData>({
+  const form = ref<UpdateUsersMeData>({
     first_name: user.value?.first_name || '',
     last_name: user.value?.last_name || '',
     email: user.value?.email || '',
     password: '',
     password_confirmation: '',
   });
-  const formValuesBeforeSubmit = ref<UpdateUserMeData>({ ...form.value });
+  const formValuesBeforeSubmit = ref<UpdateUsersMeData>({ ...form.value });
   const { passwordToggle } = useFormKit();
   const formValuesHasChanged = computed(() => {
     return Object.keys(form.value).some(
       (key) =>
-        form.value[key as keyof UpdateUserMeData] !==
-        formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
+        form.value[key as keyof UpdateUsersMeData] !==
+        formValuesBeforeSubmit.value[key as keyof UpdateUsersMeData]
     );
   });
   const { updateMe, refetchMe } = useUser();
@@ -24,7 +24,7 @@
   const { error, status, execute } = await updateMe({
     data: form,
   });
-  const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
+  const { submit, errorMessages } = useFormKitForm<UpdateUsersMeData>({
     form,
     error,
     status,

@@ -26,11 +26,11 @@ export default defineNuxtPlugin(async () => {
   const userStore = useUserStore();
   if (!userStore.userLoaded) {
     try {
-      const user = await client<UserMeResponse>('users/me', {
+      const user = await client<UsersMeResponse>('users/me', {
         version: 'v1',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
-      userStore.setUserData({ data: user.data });
+      userStore.setUsersData({ data: user.data });
     } catch (error) {
       handleIdentityLoadError({ error: error as Error });
     }

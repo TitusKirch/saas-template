@@ -215,7 +215,7 @@ export default function () {
   const authProviderRedirect = ({ provider }: { provider: AuthProvider }) => {
     const { get } = useApi();
 
-    return get<undefined, AuthProviderResponse>(`auth/provider/${provider}/redirect`, {
+    return get<undefined, AuthProviderResponse>(`auth/providers/${provider}/redirect`, {
       immediate: false,
       watch: false,
       version: 'v1',
@@ -230,7 +230,7 @@ export default function () {
   }) => {
     const { get } = useApi();
 
-    return get<undefined, ApiResponse<undefined>>(`auth/provider/${provider}/callback`, {
+    return get<undefined, ApiResponse<undefined>>(`auth/providers/${provider}/callback`, {
       immediate: false,
       watch: false,
       version: 'v1',

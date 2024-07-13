@@ -1,5 +1,5 @@
 export const useUserStore = defineStore('user', () => {
-  const user = ref<UserMe | null>(null);
+  const user = ref<UsersMe | null>(null);
   const userLoaded = ref(false);
 
   const fetchUser = async ({
@@ -12,21 +12,21 @@ export const useUserStore = defineStore('user', () => {
     }
     userLoaded.value = true;
     const { get } = useApi();
-    const { transformUserMeData } = useUser();
-    const { data } = await get<UserMeData, UserMeResponse>('users/me', {
+    const { transformUsersMeData } = useUser();
+    const { data } = await get<UsersMeData, UsersMeResponse>('users/me', {
       version: 'v1',
     });
     if (!data.value?.data) {
       return;
     }
-    user.value = transformUserMeData({ data: data.value.data });
+    user.value = transformUsersMeData({ data: data.value.data });
   };
-  const setUser = ({ user: newUserMe }: { user: UserMe }) => {
-    user.value = newUserMe;
+  const setUser = ({ user: newUsersMe }: { user: UsersMe }) => {
+    user.value = newUsersMe;
   };
-  const setUserData = ({ data }: { data: UserMeData }) => {
-    const { transformUserMeData } = useUser();
-    user.value = transformUserMeData({ data });
+  const setUsersData = ({ data }: { data: UsersMeData }) => {
+    const { transformUsersMeData } = useUser();
+    user.value = transformUsersMeData({ data });
   };
   const resetUser = () => {
     user.value = null;
@@ -38,7 +38,7 @@ export const useUserStore = defineStore('user', () => {
     userLoaded,
     fetchUser,
     setUser,
-    setUserData,
+    setUsersData,
     resetUser,
   };
 });
