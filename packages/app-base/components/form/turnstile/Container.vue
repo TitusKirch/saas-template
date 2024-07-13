@@ -9,7 +9,7 @@
   );
 
   const isLoaded = ref(false);
-  const timeout: Ref<NodeJS.Timeout | null> = ref(null);
+  const timeout = ref<NodeJS.Timeout | undefined>();
 
   if (props.firstShowOn !== undefined) {
     watch(

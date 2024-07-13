@@ -6,7 +6,7 @@
   }>();
 
   // form setup
-  const form: Ref<AuthSetPasswordData> = ref({
+  const form = ref<AuthSetPasswordData>({
     password: '',
     password_confirmation: '',
   });

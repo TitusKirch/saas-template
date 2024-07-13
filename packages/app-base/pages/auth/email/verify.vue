@@ -7,11 +7,11 @@
 
   const { emailVerify } = useAuth();
   const { id, hash, expires, signature } = useRoute().query;
-  const path: Ref<AuthEmailVerifyPath> = ref({
+  const path = ref<AuthEmailVerifyPath>({
     id: id as string,
     hash: hash as string,
   });
-  const params: Ref<AuthEmailVerifyParams> = ref({
+  const params = ref<AuthEmailVerifyParams>({
     expires: expires as string,
     signature: signature as string,
   });
@@ -21,7 +21,7 @@
   });
   await execute();
 
-  const redirectTimeout = ref<NodeJS.Timeout | null>(null);
+  const redirectTimeout = ref<NodeJS.Timeout | undefined>();
   if (status.value === 'success') {
     redirectTimeout.value = setTimeout(async () => {
       const { refetchMe } = useUser();

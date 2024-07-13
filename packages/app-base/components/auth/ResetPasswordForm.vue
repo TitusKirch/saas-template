@@ -12,7 +12,7 @@
   // form setup
   const turnstile = ref();
   const turnstileToken = ref('');
-  const form: Ref<AuthResetPasswordData> = ref({
+  const form = ref<AuthResetPasswordData>({
     email: email,
     token: token,
     password: '',

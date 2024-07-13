@@ -5,7 +5,7 @@
     middleware: ['auth'],
   });
 
-  const redirectTimeout = ref<NodeJS.Timeout | null>(null);
+  const redirectTimeout = ref<NodeJS.Timeout | undefined>();
   const { logout } = useUser();
   onMounted(async () => {
     await logout();

@@ -2,14 +2,24 @@ name: Disapprove PRs to main not from dev
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - main
+
+# remove default permissions of GITHUB_TOKEN for security
+# https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 jobs:
   check-source-branch:
     name: Check if PR is from dev branch
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: write
     steps:
       - name: Check if the PR is from the dev branch
         id: check-pr
@@ -18,7 +28,6 @@ jobs:
           if [ "$PR_BRANCH" != "dev" ]; then
             echo "Pull request to main is not from dev. Disapproving."
             echo "result=failure" >> $GITHUB_ENV
-            exit 1
           else
             echo "Pull request to main is from dev. Proceeding."
             echo "result=success" >> $GITHUB_ENV
@@ -32,6 +41,6 @@ jobs:
           PR_NUMBER=$(jq -r .number "$GITHUB_EVENT_PATH")
           curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/comments \
-            -d '{"body":"This PR has been disapproved because it is not from the dev branch."}'
+            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews \
+            -d '{"body":"This PR has been disapproved because it is not from the dev branch. Please create a PR to the dev branch instead.", "event":"REQUEST_CHANGES"}'
 

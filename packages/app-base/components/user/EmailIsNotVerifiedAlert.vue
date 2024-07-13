@@ -31,7 +31,7 @@
   };
 
   const { emailIsVerified, resendVerificationEmail } = useUser();
-  const tryAgainInInterval = ref<NodeJS.Timeout | null>(null);
+  const tryAgainInInterval = ref<NodeJS.Timeout | undefined>();
   const tryAgainIn = ref(0);
   const resendVerificationEmailAction = async () => {
     updateActionByKey({

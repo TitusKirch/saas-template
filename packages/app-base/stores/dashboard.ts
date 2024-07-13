@@ -5,11 +5,11 @@ export const useDashboardStore = defineStore(
   'dashboard',
   () => {
     // layout
-    const layout: Ref<'fullscreen' | 'compress'> = ref('fullscreen');
+    const layout = ref<'fullscreen' | 'compress'>('fullscreen');
 
     // sidebar links
     const localePath = useLocalePath();
-    const sidebarLinks: Ref<DashboardSidebarLink[]> = ref([]);
+    const sidebarLinks = ref<DashboardSidebarLink[]>([]);
     const addSidebarLink = (link: DashboardSidebarLink) => {
       sidebarLinks.value.push({
         ...link,
@@ -25,7 +25,7 @@ export const useDashboardStore = defineStore(
 
     // search groups
     const { t } = useI18n();
-    const searchGroups: Ref<Group[]> = ref([]);
+    const searchGroups = ref<Group[]>([]);
     const addSearchGroup = (group: Group) => {
       searchGroups.value.push(group);
     };
@@ -50,7 +50,7 @@ export const useDashboardStore = defineStore(
     };
 
     // shortcuts
-    const shortcuts: Ref<Record<string, () => void>> = ref({});
+    const shortcuts = ref<Record<string, () => void>>({});
     const addShortcut = ({ key, callback }: { key: string; callback: () => void }) => {
       shortcuts.value[key] = callback;
     };

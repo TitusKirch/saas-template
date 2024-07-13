@@ -5,7 +5,7 @@
     middleware: ['guest'],
   });
 
-  const redirectTimeout = ref<NodeJS.Timeout | null>(null);
+  const redirectTimeout = ref<NodeJS.Timeout | undefined>();
   onMounted(async () => {
     redirectTimeout.value = setTimeout(() => {
       navigateToLocale({

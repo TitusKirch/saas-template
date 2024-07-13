@@ -1,7 +1,7 @@
 import { useUserStore } from '@tituskirch/app-base/stores/user';
 
 export const useFeatureStore = defineStore('feature', () => {
-  const features: Ref<Feature[]> = ref([]);
+  const features = ref<Feature[]>([]);
 
   // general
   const reset = async ({ fetch = false }: { fetch?: boolean }) => {

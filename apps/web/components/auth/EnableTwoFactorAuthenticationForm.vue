@@ -31,7 +31,7 @@
   });
 
   // form setup
-  const form: Ref<AuthUserConfirmedTwoFactorAuthenticationData> = ref({
+  const form = ref<AuthUserConfirmedTwoFactorAuthenticationData>({
     code: '',
   });
   const { confirmedTwoFactorAuthentication } = useAuth();

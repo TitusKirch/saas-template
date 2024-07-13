@@ -96,16 +96,12 @@ export function createHttpClient(): $Fetch {
     async onRequest({ options }) {
       const method = options.method?.toLowerCase() ?? 'get';
       const opts: typeof options & {
-        prefix?: string;
         version?: string;
         setCsrfToken?: boolean;
       } = options || {};
 
       opts.credentials = 'include';
       opts.headers = buildHeaders({ headers: opts.headers || {} });
-      if (opts?.prefix) {
-        opts.baseURL = withTrailingSlash(opts.baseURL + opts.prefix);
-      }
       if (opts?.version) {
         opts.baseURL = withTrailingSlash(opts.baseURL + opts.version);
       }

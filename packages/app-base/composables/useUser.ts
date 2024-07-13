@@ -10,14 +10,13 @@ export default function () {
       return userStore.user;
     });
   };
-  const updateMe = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
+  const updateMe = ({ data }: { data: Ref<UpdateUsersMeData | undefined> }) => {
     const { put } = useApi();
 
-    return put<UpdateUserMeData, UpdateUserMeResponse>('user/profile-information', {
+    return put<UpdateUsersMeData, UpdateUsersMeResponse>('auth/user/profile-information', {
       immediate: false,
       watch: false,
-      prefix: 'auth',
-      version: false,
+      version: 'v1',
       body: data,
     });
   };
@@ -65,7 +64,7 @@ export default function () {
   };
 
   // transformers
-  const transformUserData = ({ data }: { data: UserData }): User => {
+  const transformUsersData = ({ data }: { data: UsersData }): User => {
     const { created_at, updated_at, ...rest } = data;
     return {
       ...rest,
@@ -73,7 +72,7 @@ export default function () {
       updatedAt: new Date(updated_at),
     };
   };
-  const transformUserMeData = ({ data }: { data: UserMeData }): UserMe => {
+  const transformUsersMeData = ({ data }: { data: UsersMeData }): UsersMe => {
     const { email_verified_at, two_factor_confirmed_at, created_at, updated_at, ...rest } = data;
 
     return {
@@ -95,7 +94,7 @@ export default function () {
     hasPassword,
     logout,
     resendVerificationEmail,
-    transformUserData,
-    transformUserMeData,
+    transformUsersData,
+    transformUsersMeData,
   };
 }
