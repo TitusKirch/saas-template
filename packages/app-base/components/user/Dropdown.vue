@@ -73,7 +73,7 @@
         </template>
 
         <template #trailing>
-          <UIcon name="i-heroicons-ellipsis-vertical" class="ml-auto size-5" />
+          <UIcon name="i-fa6-solid-ellipsis-vertical" class="ml-auto size-5" />
         </template>
       </UButton>
     </template>
