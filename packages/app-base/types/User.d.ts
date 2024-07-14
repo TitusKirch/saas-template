@@ -2,6 +2,7 @@ type UsersData = {
   id: number;
   first_name: string;
   last_name: string;
+  avatar?: string;
   email: string;
   created_at: string;
   updated_at: string;
@@ -36,3 +37,6 @@ type UpdateUsersMeData = {
   password_confirmation?: string;
 };
 type UpdateUsersMeResponse = ApiResourceResponse<UsersMeData>;
+
+type UpdateUsersMeAvatarData = FormData;
+type UpdateUsersMeAvatarResponse = ApiPresignedUrlResponse;

@@ -58,5 +58,6 @@ Route::group([
     'middleware' => ['auth:sanctum'],
 ], function () {
     Route::get('/me', [UserController::class, 'showMe'])->name('me');
+    Route::post('/me/avatar', [UserController::class, 'updateAvatar'])->name('update-avatar');
     Route::get('/{user}', [UserController::class, 'show'])->name('show');
 });

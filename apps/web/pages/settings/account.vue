@@ -1,6 +1,39 @@
 <script setup lang="ts">
-  const { me } = useUser();
+  const { me, updateMeAvatar } = useUser();
   const user = await me();
+
+  // update user avatar
+  const updateMeAvatarData = ref<UpdateUsersMeAvatarData | undefined>();
+
+  const { execute: executeUpdateMeAvatar } = updateMeAvatar({
+    data: updateMeAvatarData,
+  });
+  const clickAvatarChange = () => {
+    const input = document.querySelector('input[type="file"][name="avatar"]');
+    if (input && input instanceof HTMLElement) {
+      input.click();
+    }
+  };
+  const changeAvatarInputChanged = async (event: Event) => {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files[0]) {
+      const formData = new FormData();
+      formData.append('avatar', fileInput.files[0]);
+
+      console.info('Avatar data', formData.get('avatar'));
+
+      // Update the avatar data ref
+      updateMeAvatarData.value = formData;
+
+      // Execute the update avatar function
+      try {
+        await executeUpdateMeAvatar();
+        console.info('Avatar updated');
+      } catch (error) {
+        console.error('Error updating avatar:', error);
+      }
+    }
+  };
 
   // form setup
   const form = ref<UpdateUsersMeData>({
@@ -55,6 +88,35 @@
 
 <template>
   <div>
+    <UDashboardSection
+      :title="$t('page.settings.account.section.avatar.title')"
+      :description="$t('page.settings.account.section.avatar.description')"
+    >
+      <template #links>
+        <div class="relative group">
+          <UAvatar size="3xl" :src="user?.avatar" :alt="`${user?.first_name} ${user?.last_name}`" />
+
+          {{ updateMeAvatarData }}
+
+          <input
+            type="file"
+            name="avatar"
+            accept=".jpeg,.jpg,.png,.bmp,.gif,.svg,.webp"
+            class="hidden"
+            @change="changeAvatarInputChanged"
+          />
+
+          <div
+            @click="clickAvatarChange"
+            class="group-hover:cursor-pointer text-transparent group-hover:text-white flex group-hover:bg-opacity-50 rounded-full absolute bottom-0 right-0 w-full h-full bg-black bg-opacity-0 items-center justify-center transition-all duration-300"
+          >
+            <UIcon name="i-fa6-solid-camera" class="text-3xl" />
+          </div>
+        </div>
+      </template>
+    </UDashboardSection>
+
+    <UDivider class="mb-4" />
     <FormKit
       ref="formRef"
       v-slot="{ state: { valid } }"
