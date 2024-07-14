@@ -13,6 +13,7 @@ class PresignedUrlResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'conformationUrl' => $this->conformationUrl ?? null,
             'presignedUrl' => $this->presignedUrl,
         ];
     }
