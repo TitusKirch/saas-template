@@ -18,7 +18,7 @@ export const useFeatureStore = defineStore('feature', () => {
     }
 
     const { get } = useApi();
-    const { data } = await get<FeaturesIndexRequestData, FeaturesIndexResponse>('features', {
+    const { data } = await get<FeaturesRequestData, FeaturesResponse>('features', {
       version: 'v1',
     });
 
