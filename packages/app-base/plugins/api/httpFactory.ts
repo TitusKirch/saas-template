@@ -14,13 +14,30 @@ export function createHttpClient(): $Fetch {
    * Basic headers for the API
    *
    * @param headers
+   * @param setDefaultContentType
    * @returns {HeadersInit}
    */
-  function buildHeaders({ headers }: { headers: HeadersInit }): HeadersInit {
-    return {
-      ...headers,
+  function buildHeaders({
+    headers,
+    setDefaultContentType,
+  }: {
+    headers: HeadersInit;
+    setDefaultContentType?: boolean;
+  }): HeadersInit {
+    let result: HeadersInit = {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+    };
+
+    if (setDefaultContentType !== false) {
+      result = {
+        ...result,
+        'Content-Type': 'application/json',
+      };
+    }
+
+    return {
+      ...result,
+      ...headers,
     };
   }
 
@@ -98,10 +115,14 @@ export function createHttpClient(): $Fetch {
       const opts: typeof options & {
         version?: string;
         setCsrfToken?: boolean;
+        setDefaultContentType?: boolean;
       } = options || {};
 
       opts.credentials = 'include';
-      opts.headers = buildHeaders({ headers: opts.headers || {} });
+      opts.headers = buildHeaders({
+        headers: opts.headers || {},
+        setDefaultContentType: opts.setDefaultContentType,
+      });
       if (opts?.version) {
         opts.baseURL = withTrailingSlash(opts.baseURL + opts.version);
       }
