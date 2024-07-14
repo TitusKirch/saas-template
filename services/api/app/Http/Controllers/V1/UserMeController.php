@@ -29,19 +29,24 @@ class UserMeController extends Controller
             'avatar' => 'required|image',
         ]);
 
-        $path = 'avatars/'.auth()->user()->id.'/'.uniqid().'.'.$request->avatar->extension();
+        $fileName = uniqid().'.'.$request->avatar->extension();
+        $path = 'avatars/'.auth()->user()->id.'/';
+
+        if (! Storage::disk('s3')->exists($path)) {
+            Storage::disk('s3')->makeDirectory($path);
+        }
 
         $presignedUrl = (string) Storage::temporaryUrl(
-            $path,
-            now()->addMinutes(5),
-            ['Content-Type' => $request->avatar->getMimeType()]
+            $path.$fileName,
+            now()->addMinutes(30),
+            // ['Content-Type' => $request->avatar->getMimeType(), 'Method' => 'PUT']
         );
         $conformationUrl = URL::temporarySignedRoute(
             'v1:users.me.avatar.store',
-            now()->addMinutes(5),
+            now()->addMinutes(30),
             [
                 'user' => auth()->user()->id,
-                'path' => $path,
+                'path' => $path.$fileName,
             ]
         );
 

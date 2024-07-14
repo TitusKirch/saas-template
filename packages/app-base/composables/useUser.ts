@@ -20,16 +20,23 @@ export default function () {
       body: data,
     });
   };
-  const updateMeAvatar = ({ data }: { data: Ref<UpdateUsersMeAvatarData | undefined> }) => {
+  const getMeAvatarPresignedUrl = ({
+    data,
+  }: {
+    data: Ref<UpdateUsersMeAvatarData | undefined>;
+  }) => {
     const { post } = useApi();
 
-    return post<UpdateUsersMeAvatarData, UpdateUsersMeAvatarResponse>('users/me/avatar', {
-      immediate: false,
-      watch: false,
-      setDefaultContentType: false,
-      version: 'v1',
-      body: data,
-    });
+    return post<UpdateUsersMeAvatarData, UpdateUsersMeAvatarResponse>(
+      'users/me/avatar/presigned-url',
+      {
+        immediate: false,
+        watch: false,
+        setDefaultContentType: false,
+        version: 'v1',
+        body: data,
+      }
+    );
   };
   const refetchMe = async () => {
     const userStore = useUserStore();
@@ -98,7 +105,7 @@ export default function () {
   return {
     me,
     updateMe,
-    updateMeAvatar,
+    getMeAvatarPresignedUrl,
     refetchMe,
     reset,
     isAuthenticated,

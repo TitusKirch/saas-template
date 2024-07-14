@@ -8,9 +8,10 @@ type ApiResponse<DataT = unknown> = DataT;
 type ApiMessageResponse = {
   message: string;
 };
-type ApiPresignedUrlResponse = {
+type ApiPresignedUrlResponse = ApiResourceResponse<{
   presignedUrl: string;
-};
+  conformationUrl?: string;
+}>;
 
 type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = ApiMessageResponse & {
   errors: RequestDataT extends unknown

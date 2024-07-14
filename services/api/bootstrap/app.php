@@ -2,7 +2,6 @@
 
 use App\Http\Middleware\AcceptLanguage;
 use App\Http\Middleware\OrganizationsPermission;
-use App\Http\Middleware\ValidateSignature;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,7 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append([
             AcceptLanguage::class,
-            ValidateSignature::class,
         ]);
         $middleware->replace(
             \Illuminate\Http\Middleware\TrustProxies::class,
