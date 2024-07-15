@@ -38,6 +38,7 @@ export default function () {
       }
     );
   };
+
   const refetchMe = async () => {
     const userStore = useUserStore();
     await userStore.fetchUser({

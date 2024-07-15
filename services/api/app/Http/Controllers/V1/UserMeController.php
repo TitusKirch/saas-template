@@ -30,36 +30,35 @@ class UserMeController extends Controller
         ]);
 
         $fileName = uniqid().'.'.$request->avatar->extension();
-        $path = 'avatars/'.auth()->user()->id.'/';
+        $path = 'avatars/'.auth()->user()->id.'/'.$fileName;
 
-        if (! Storage::disk('s3')->exists($path)) {
-            Storage::disk('s3')->makeDirectory($path);
-        }
+        $client = Storage::getClient();
+        $cmd = $client->getCommand('PutObject', [
+            'Bucket' => Storage::getConfig()['bucket'],
+            'Key' => $path,
 
-        $presignedUrl = (string) Storage::temporaryUrl(
-            $path.$fileName,
-            now()->addMinutes(30),
-            // ['Content-Type' => $request->avatar->getMimeType(), 'Method' => 'PUT']
-        );
-        $conformationUrl = URL::temporarySignedRoute(
-            'v1:users.me.avatar.store',
-            now()->addMinutes(30),
+        ]);
+        $request = $client->createPresignedRequest($cmd, now()->addMinutes(5));
+
+        $confirmationUrl = URL::temporarySignedRoute(
+            'v1:users.me.avatar.update',
+            now()->addMinutes(5),
             [
                 'user' => auth()->user()->id,
-                'path' => $path.$fileName,
+                'path' => $path,
             ]
         );
 
         return new PresignedUrlResource((object) [
-            'presignedUrl' => $presignedUrl,
-            'conformationUrl' => $conformationUrl,
+            'presignedUrl' => (string) $request->getUri(),
+            'confirmationUrl' => $confirmationUrl,
         ]);
     }
 
     /**
-     * Store the current user's avatar.
+     * Update the current user's avatar.
      */
-    public function storeAvatar(Request $request): \Illuminate\Http\Response
+    public function updateAvatar(Request $request) //: \Illuminate\Http\Response
     {
         $request->validate([
             'path' => 'required',

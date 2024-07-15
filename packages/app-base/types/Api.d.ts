@@ -10,7 +10,7 @@ type ApiMessageResponse = {
 };
 type ApiPresignedUrlResponse = ApiResourceResponse<{
   presignedUrl: string;
-  conformationUrl?: string;
+  confirmationUrl?: string;
 }>;
 
 type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = ApiMessageResponse & {

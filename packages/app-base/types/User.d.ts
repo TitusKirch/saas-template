@@ -40,3 +40,6 @@ type UpdateUsersMeResponse = ApiResourceResponse<UsersMeData>;
 
 type UpdateUsersMeAvatarData = FormData;
 type UpdateUsersMeAvatarResponse = ApiPresignedUrlResponse;
+
+type StoreUsersMeAvatarData = undefined;
+type StoreUsersMeAvatarResponse = ApiResourceResponse<StoreUsersMeAvatarData>;

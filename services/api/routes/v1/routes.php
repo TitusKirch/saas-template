@@ -68,9 +68,9 @@ Route::group([
         Route::get('/', [UserMeController::class, 'show'])->name('show');
         Route::post('/avatar/presigned-url', [UserMeController::class, 'generateAvatarPresignedUrl'])->name('avatar.presigned-url.generate');
 
-        Route::post('/avatar', [UserMeController::class, 'storeAvatar'])
+        Route::put('/avatar', [UserMeController::class, 'updateAvatar'])
             ->middleware(ValidateSignature::class)
-            ->name('avatar.store');
+            ->name('avatar.update');
     });
 
     Route::get('/{user}', [UserController::class, 'show'])->name('show');
