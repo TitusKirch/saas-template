@@ -116,7 +116,7 @@
       :description="$t('page.settings.account.section.avatar.description')"
     >
       <template #links>
-        <div class="relative group">
+        <div class="group relative">
           <UAvatar size="3xl" :src="avatarSrc" :alt="`${user?.first_name} ${user?.last_name}`" />
           <input
             type="file"
@@ -127,8 +127,8 @@
           />
 
           <div
+            class="absolute bottom-0 right-0 flex size-full items-center justify-center rounded-full bg-black/0 text-transparent transition-all duration-300 group-hover:cursor-pointer group-hover:bg-black/50 group-hover:text-white"
             @click="clickAvatarChange"
-            class="group-hover:cursor-pointer text-transparent group-hover:text-white flex group-hover:bg-opacity-50 rounded-full absolute bottom-0 right-0 w-full h-full bg-black bg-opacity-0 items-center justify-center transition-all duration-300"
           >
             <UIcon name="i-fa6-solid-camera" class="text-3xl" />
           </div>

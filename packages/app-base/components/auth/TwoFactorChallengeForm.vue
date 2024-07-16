@@ -26,7 +26,7 @@
       const { redirect } = useRoute().query;
 
       const { currentUser } = useCurrentUser();
-      return await me().finally(async () => {
+      return await currentUser().finally(async () => {
         if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);

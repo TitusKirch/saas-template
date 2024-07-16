@@ -27,7 +27,7 @@
     executeCallback: execute,
     successCallback: async () => {
       const { currentUser } = useCurrentUser();
-      return await me().finally(async () => {
+      return await currentUser().finally(async () => {
         return navigateToLocale({
           name: 'index',
         });
