@@ -29,5 +29,6 @@
     "test:e2e": {
       "dependsOn": ["^test:e2e"]
     }
-  }
+  },
+  "ui": "tui"
 }

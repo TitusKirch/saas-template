@@ -7,4 +7,5 @@ export type FetchOptions<ResponseT> = Omit<
 > & {
   default?: () => ResponseT | Ref<ResponseT>;
   version?: string | boolean;
+  setDefaultContentType?: boolean;
 };

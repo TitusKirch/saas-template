@@ -1,4 +1,4 @@
-import { useUserStore } from '@tituskirch/app-base/stores/user';
+import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 
 export const useFeatureStore = defineStore('feature', () => {
   const features = ref<Feature[]>([]);
@@ -18,7 +18,7 @@ export const useFeatureStore = defineStore('feature', () => {
     }
 
     const { get } = useApi();
-    const { data } = await get<FeaturesIndexRequestData, FeaturesIndexResponse>('features', {
+    const { data } = await get<FeaturesRequestData, FeaturesResponse>('features', {
       version: 'v1',
     });
 
@@ -44,9 +44,9 @@ export const useFeatureStore = defineStore('feature', () => {
   };
 
   // watch user
-  const userStore = useUserStore();
+  const currentUserStore = useCurrentUserStore();
   watch(
-    () => userStore.user,
+    () => currentUserStore.user,
     async (oldUser, newUser) => {
       if (!oldUser || !newUser || oldUser.id !== newUser.id) {
         await reset({ fetch: true });

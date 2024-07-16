@@ -1,36 +1,92 @@
 <script setup lang="ts">
-  const { me } = useUser();
-  const user = await me();
+  const {
+    avatar,
+    currentUser,
+    getAvatarPresignedUploadUrl,
+    updateCurrentUser,
+    refetchCurrentUser,
+    refetchAvatar,
+  } = useCurrentUser();
+  const { put } = useApi();
+  const user = await currentUser();
+
+  // user avatar
+  const avatarSrc = await avatar();
+  const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
+  const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
+    getAvatarPresignedUploadUrl({
+      data: getAvatarPresignedUploadUrlData,
+    });
+  const clickAvatarChange = () => {
+    const input = document.querySelector('input[type="file"][name="avatar"]');
+    if (input && input instanceof HTMLElement) {
+      input.click();
+    }
+  };
+  const { uploadFileByPresignedUrl } = useS3();
+  const changeAvatarInputChanged = async (event: Event) => {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files[0]) {
+      const formData = new FormData();
+      formData.append('avatar', fileInput.files[0]);
+      getAvatarPresignedUploadUrlData.value = formData;
+
+      try {
+        await executeUpdateMeAvatar();
+        console.info('Avatar updated');
+      } catch (error) {
+        console.error('Error updating avatar:', error);
+        return;
+      }
+
+      if (!avatarPresignedUrlData.value) {
+        console.error('No avatar presigned url data');
+        return;
+      }
+
+      await uploadFileByPresignedUrl({
+        presignedUrl: avatarPresignedUrlData.value.data.presignedUrl,
+        file: fileInput.files[0],
+      });
+
+      const { execute: executeConfirmationUrl } = put(
+        avatarPresignedUrlData.value.data.confirmationUrl
+      );
+
+      await executeConfirmationUrl();
+
+      await refetchAvatar();
+    }
+  };
 
   // form setup
-  const form = ref<UpdateUsersMeData>({
+  const form = ref<UpdateUserMeData>({
     first_name: user.value?.first_name || '',
     last_name: user.value?.last_name || '',
     email: user.value?.email || '',
     password: '',
     password_confirmation: '',
   });
-  const formValuesBeforeSubmit = ref<UpdateUsersMeData>({ ...form.value });
+  const formValuesBeforeSubmit = ref<UpdateUserMeData>({ ...form.value });
   const { passwordToggle } = useFormKit();
   const formValuesHasChanged = computed(() => {
     return Object.keys(form.value).some(
       (key) =>
-        form.value[key as keyof UpdateUsersMeData] !==
-        formValuesBeforeSubmit.value[key as keyof UpdateUsersMeData]
+        form.value[key as keyof UpdateUserMeData] !==
+        formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
     );
   });
-  const { updateMe, refetchMe } = useUser();
   const { t } = useI18n();
-  const { error, status, execute } = await updateMe({
+  const { error, status, execute } = await updateCurrentUser({
     data: form,
   });
-  const { submit, errorMessages } = useFormKitForm<UpdateUsersMeData>({
+  const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
     form,
     error,
     status,
     executeCallback: execute,
     successCallback: async () => {
-      await refetchMe();
+      await refetchCurrentUser();
 
       formValuesBeforeSubmit.value = { ...form.value };
 
@@ -55,6 +111,32 @@
 
 <template>
   <div>
+    <UDashboardSection
+      :title="$t('page.settings.account.section.avatar.title')"
+      :description="$t('page.settings.account.section.avatar.description')"
+    >
+      <template #links>
+        <div class="group relative">
+          <UAvatar size="3xl" :src="avatarSrc" :alt="`${user?.first_name} ${user?.last_name}`" />
+          <input
+            type="file"
+            name="avatar"
+            accept=".jpeg,.jpg,.png,.bmp,.gif,.svg,.webp"
+            class="hidden"
+            @change="changeAvatarInputChanged"
+          />
+
+          <div
+            class="absolute bottom-0 right-0 flex size-full items-center justify-center rounded-full bg-black/0 text-transparent transition-all duration-300 group-hover:cursor-pointer group-hover:bg-black/50 group-hover:text-white"
+            @click="clickAvatarChange"
+          >
+            <UIcon name="i-fa6-solid-camera" class="text-3xl" />
+          </div>
+        </div>
+      </template>
+    </UDashboardSection>
+
+    <UDivider class="mb-4" />
     <FormKit
       ref="formRef"
       v-slot="{ state: { valid } }"

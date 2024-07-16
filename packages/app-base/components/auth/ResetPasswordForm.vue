@@ -33,8 +33,8 @@
     },
     executeCallback: execute,
     successCallback: async () => {
-      const { me } = useUser();
-      return await me().finally(() => {
+      const { currentUser } = useCurrentUser();
+      return await currentUser().finally(() => {
         return navigateToLocale({
           name: 'auth-password-reset-success',
         });

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FeatureResource extends JsonResource
+class PresignedUrlResource extends JsonResource
 {
     /**
      * {@inheritdoc}
@@ -13,8 +13,8 @@ class FeatureResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->name,
-            'value' => $this->value,
+            'confirmationUrl' => $this->confirmationUrl ?? null,
+            'presignedUrl' => $this->presignedUrl,
         ];
     }
 }

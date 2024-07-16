@@ -86,8 +86,8 @@
       setResetUserPasswordConfirmedTimeout();
     }
   );
-  const { me } = useUser();
-  const user = await me();
+  const { currentUser } = useCurrentUser();
+  const user = await currentUser();
   if (user.value) {
     const { userConfirmedPasswordStatus } = useAuth();
     const { data: userConfirmedPasswordStatusData, execute: userConfirmedPasswordStatusExecute } =

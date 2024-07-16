@@ -1,8 +1,8 @@
 <script setup lang="ts">
   // import type { FormKitNode } from '@formkit/core';
 
-  const { me } = useUser();
-  const user = await me();
+  const { currentUser } = useCurrentUser();
+  const user = await currentUser();
 
   const showAuthUserTwoFactorRecoveryCodesModal = ref(false);
   const authUserTwoFactorRecoveryCodesModalForceToDownload = ref(false);
@@ -26,7 +26,7 @@
       :description="$t('page.settings.security.section.twoFactorAuthentication.description')"
     >
       <template #links>
-        <AuthDisableTwoFactorAuthenticationButton v-if="user?.twoFactorConfirmedAt" />
+        <AuthDisableTwoFactorAuthenticationButton v-if="user?.two_factor_confirmed_at" />
         <AuthEnableTwoFactorAuthenticationForm
           v-else
           @success="
@@ -42,7 +42,7 @@
     <UDivider class="mb-4" />
 
     <UDashboardSection
-      v-show="user?.twoFactorConfirmedAt"
+      v-show="user?.two_factor_confirmed_at"
       :title="$t('page.settings.security.section.twoFactorRecoveryCodes.title')"
       :description="$t('page.settings.security.section.twoFactorRecoveryCodes.description')"
     >

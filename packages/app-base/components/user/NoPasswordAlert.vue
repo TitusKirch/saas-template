@@ -19,7 +19,7 @@
     },
   ]);
 
-  const { hasPassword } = useUser();
+  const { hasPassword } = useCurrentUser();
 
   const forceShow = computed(() => {
     if (

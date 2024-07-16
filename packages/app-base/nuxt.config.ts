@@ -72,7 +72,13 @@ export default defineNuxtConfig({
     },
     headers: {
       contentSecurityPolicy: {
-        'img-src': ["'self'", 'data:', 'blob:', 'https://avatars.githubusercontent.com'],
+        'img-src': [
+          "'self'",
+          'data:',
+          'blob:',
+          'https://avatars.githubusercontent.com',
+          withoutTrailingSlash(process.env.NUXT_PUBLIC_S3_URL) || '',
+        ],
         'form-action': ["'self'"],
       },
       crossOriginEmbedderPolicy:

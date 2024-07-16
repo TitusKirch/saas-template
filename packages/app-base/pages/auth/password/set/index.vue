@@ -7,7 +7,7 @@
     middleware: ['auth'],
   });
 
-  const { hasPassword } = useUser();
+  const { hasPassword } = useCurrentUser();
   if (hasPassword()) {
     throw createError({
       statusCode: 404,

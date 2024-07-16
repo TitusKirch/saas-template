@@ -5,7 +5,7 @@ type Feature = {
   value: boolean | number | string;
 };
 
-type FeaturesIndexResponse = ApiResourceResponse<Feature[]>;
-type FeaturesIndexRequestData = undefined;
+type FeaturesResponse = ApiResourceResponse<Feature[]>;
+type FeaturesRequestData = undefined;
 type FeaturesShowResponse = ApiResourceResponse<Feature>;
 type FeaturesShowRequestData = undefined;

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  const { me } = useUser();
-  const user = await me();
+  const { currentUser } = useCurrentUser();
+  const user = await currentUser();
 
   // disable two factor authentication
-  const { refetchMe } = useUser();
+  const { refetchCurrentUser } = useCurrentUser();
   const { disableTwoFactorAuthentication } = useAuth();
   const {
     status: disableTwoFactorAuthenticationStatus,
@@ -11,13 +11,13 @@
   } = await disableTwoFactorAuthentication();
   const disableTwoFactorAuthenticationClick = async () => {
     await disableTwoFactorAuthenticationExecute();
-    await refetchMe();
+    await refetchCurrentUser();
   };
 </script>
 
 <template>
   <AuthNeedsToConfirmUserPasswordButton
-    v-if="user?.twoFactorConfirmedAt"
+    v-if="user?.two_factor_confirmed_at"
     :confirm-password-button-title="
       $t('auth.disableTwoFactorAuthenticationButton.action.confirmPasswordAndDisable.label')
     "

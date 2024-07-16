@@ -15,6 +15,8 @@ volumes:
     driver: local
   service-api-telescope-postgres-volume:
     driver: local
+  service-api-minio-volume:
+    driver: local
 
 services:
   # meilisearch:
@@ -29,24 +31,6 @@ services:
   #       - sail
   #   healthcheck:
   #       test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
-  #       retries: 3
-  #       timeout: 5s
-
-  # minio:
-  #   image: 'minio/minio:latest'
-  #   ports:
-  #       - '${FORWARD_MINIO_PORT:-9000}:9000'
-  #       - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
-  #   environment:
-  #       MINIO_ROOT_USER: 'sail'
-  #       MINIO_ROOT_PASSWORD: 'password'
-  #   volumes:
-  #       - 'sail-minio:/data/minio'
-  #   networks:
-  #       - sail
-  #   command: minio server /data/minio --console-address ":8900"
-  #   healthcheck:
-  #       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
   #       retries: 3
   #       timeout: 5s
 
@@ -162,6 +146,34 @@ services:
       retries: 5
     volumes:
       - 'service-api-telescope-postgres-volume:/var/lib/postgresql/data'
+
+  service-api-minio:
+    image: 'minio/minio:latest'
+    ports:
+      - '9000:9000'
+      - '8900:8900'
+    environment:
+      MINIO_ROOT_USER: 'minio'
+      MINIO_ROOT_PASSWORD: 'miniominio'
+    volumes:
+      - 'service-api-minio-volume:/data/minio'
+    command: minio server /data/minio --console-address ":8900"
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      retries: 3
+      timeout: 5s
+
+  service-api-minio-createbuckets:
+    image: 'minio/mc:latest'
+    depends_on:
+      - service-api-minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set service-api-minio http://service-api-minio:9000 minio miniominio;
+      /usr/bin/mc mb service-api-minio/default;
+      /usr/bin/mc policy set public service-api-minio/default;
+      exit 0;
+      "
 
   adminer:
     image: adminer

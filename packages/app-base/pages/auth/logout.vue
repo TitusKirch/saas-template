@@ -6,7 +6,7 @@
   });
 
   const redirectTimeout = ref<NodeJS.Timeout | undefined>();
-  const { logout } = useUser();
+  const { logout } = useCurrentUser();
   onMounted(async () => {
     await logout();
 

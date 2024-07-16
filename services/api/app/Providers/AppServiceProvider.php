@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Filesystem\AwsS3V3Adapter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        AwsS3V3Adapter::macro('getClient', function () {
+            /** @disregard P1014 Undefined property '$client' */
+            return $this->client;
+        });
+
         $this->guardDestructiveCommands();
         $this->defineGates();
 
