@@ -1,11 +1,18 @@
 <script setup lang="ts">
-  const { currentUser, getAvatarPresignedUploadUrl } = useCurrentUser();
+  const {
+    avatar,
+    currentUser,
+    getAvatarPresignedUploadUrl,
+    updateCurrentUser,
+    refetchCurrentUser,
+    refetchAvatar,
+  } = useCurrentUser();
   const { put } = useApi();
   const user = await currentUser();
 
-  // update user avatar
+  // user avatar
+  const avatarSrc = await avatar();
   const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
-
   const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
     getAvatarPresignedUploadUrl({
       data: getAvatarPresignedUploadUrlData,
@@ -42,16 +49,13 @@
         file: fileInput.files[0],
       });
 
-      if (!avatarPresignedUrlData.value?.data?.confirmationUrl) {
-        return;
-      }
       const { execute: executeConfirmationUrl } = put(
         avatarPresignedUrlData.value.data.confirmationUrl
       );
 
       await executeConfirmationUrl();
 
-      await refetch();
+      await refetchAvatar();
     }
   };
 
@@ -72,9 +76,8 @@
         formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
     );
   });
-  const { update, refetch } = useCurrentUser();
   const { t } = useI18n();
-  const { error, status, execute } = await update({
+  const { error, status, execute } = await updateCurrentUser({
     data: form,
   });
   const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
@@ -83,7 +86,7 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      await refetch();
+      await refetchCurrentUser();
 
       formValuesBeforeSubmit.value = { ...form.value };
 
@@ -114,8 +117,7 @@
     >
       <template #links>
         <div class="relative group">
-          <UAvatar size="3xl" :src="user?.avatar" :alt="`${user?.first_name} ${user?.last_name}`" />
-
+          <UAvatar size="3xl" :src="avatarSrc" :alt="`${user?.first_name} ${user?.last_name}`" />
           <input
             type="file"
             name="avatar"

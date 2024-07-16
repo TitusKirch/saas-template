@@ -16,8 +16,8 @@
     await execute();
 
     if (status.value === 'success') {
-      const { refetch } = useCurrentUser();
-      return await refetch().finally(async () => {
+      const { refetchCurrentUser } = useCurrentUser();
+      return await refetchCurrentUser().finally(async () => {
         return navigateToLocale({
           name: 'index',
         });

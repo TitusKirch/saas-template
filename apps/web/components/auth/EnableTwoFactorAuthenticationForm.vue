@@ -35,7 +35,7 @@
     code: '',
   });
   const { confirmedTwoFactorAuthentication } = useAuth();
-  const { refetch } = useCurrentUser();
+  const { refetchCurrentUser } = useCurrentUser();
   const {
     status: confirmedTwoFactorAuthenticationStatus,
     execute: confirmedTwoFactorAuthenticationExecute,
@@ -51,7 +51,7 @@
       executeCallback: confirmedTwoFactorAuthenticationExecute,
       successCallback: async () => {
         emit('success');
-        await refetch();
+        await refetchCurrentUser();
       },
     });
 </script>

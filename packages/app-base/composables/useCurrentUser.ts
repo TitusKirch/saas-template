@@ -10,7 +10,7 @@ export default function () {
       return currentUserStore.user;
     });
   };
-  const update = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
+  const updateCurrentUser = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
     const { put } = useApi();
 
     return put<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
@@ -20,8 +20,7 @@ export default function () {
       body: data,
     });
   };
-
-  const refetch = async () => {
+  const refetchCurrentUser = async () => {
     const currentUserStore = useCurrentUserStore();
     await currentUserStore.fetchUser({
       force: true,
@@ -41,14 +40,14 @@ export default function () {
   };
 
   // me/avatar
-  const getAvatarPresignedUploadUrl = async ({
+  const getAvatarPresignedUploadUrl = ({
     data,
   }: {
-    data: Ref<UserMeAvatarPresignedUploadData> | undefined;
+    data: Ref<UserMeAvatarPresignedUploadData | undefined>;
   }) => {
     const { post } = useApi();
     return post<UserMeAvatarPresignedUploadData, UserMeAvatarPresignedUploadResponse>(
-      'users/me/avatar/presigned-url',
+      'users/me/avatar/presigned',
       {
         immediate: false,
         watch: false,
@@ -56,6 +55,19 @@ export default function () {
         body: data,
       }
     );
+  };
+  const avatar = async () => {
+    const currentUserStore = useCurrentUserStore();
+    await currentUserStore.fetchAvatar();
+    return computed(() => {
+      return currentUserStore.avatar;
+    });
+  };
+  const refetchAvatar = async () => {
+    const currentUserStore = useCurrentUserStore();
+    await currentUserStore.fetchAvatar({
+      force: true,
+    });
   };
 
   // general
@@ -85,15 +97,17 @@ export default function () {
   };
 
   return {
+    avatar,
     currentUser,
     emailIsVerified,
     getAvatarPresignedUploadUrl,
     hasPassword,
     isAuthenticated,
     logout,
-    refetch,
+    refetchAvatar,
+    refetchCurrentUser,
     resendVerificationEmail,
     reset,
-    update,
+    updateCurrentUser,
   };
 }

@@ -24,7 +24,7 @@ export default defineNuxtPlugin(async () => {
   const client = createHttpClient();
 
   const currentUserStore = useCurrentUserStore();
-  if (!currentUserStore.isLoaded) {
+  if (!currentUserStore.userIsLoaded) {
     try {
       const user = await client<UserMeResponse>('v1/users/me');
       currentUserStore.setUser({ user: user.data });

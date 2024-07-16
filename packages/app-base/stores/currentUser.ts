@@ -1,16 +1,16 @@
 export const useCurrentUserStore = defineStore('currentUser', () => {
+  // user
   const user = ref<UserMe | undefined>();
-  const isLoaded = ref(false);
-
+  const userIsLoaded = ref(false);
   const fetchUser = async ({
     force = false,
   }: {
     force?: boolean;
   } = {}) => {
-    if (isLoaded.value && !force) {
+    if (userIsLoaded.value && !force) {
       return;
     }
-    isLoaded.value = true;
+    userIsLoaded.value = true;
 
     const { get } = useApi();
     const { data } = await get<UserMeData, UserMeResponse>('users/me');
@@ -19,21 +19,45 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     }
     user.value = data.value.data;
   };
-
   const setUser = ({ user: newUser }: { user: UserMe }) => {
     user.value = newUser;
   };
 
+  // avatar
+  const avatar = ref<string | undefined>();
+  const avatarIsLoaded = ref(false);
+  const fetchAvatar = async ({
+    force = false,
+  }: {
+    force?: boolean;
+  } = {}) => {
+    if (avatarIsLoaded.value && !force) {
+      return;
+    }
+    avatarIsLoaded.value = true;
+
+    const { get } = useApi();
+    const { data } = await get<UserMeAvatarData, UserMeAvatarResponse>('users/me/avatar');
+    if (!data.value?.data) {
+      return;
+    }
+    avatar.value = data.value.data.presignedUrl;
+  };
+
   const reset = () => {
     user.value = undefined;
-    isLoaded.value = false;
+    userIsLoaded.value = false;
+    avatar.value = undefined;
   };
 
   return {
-    user,
-    isLoaded,
+    avatar,
+    avatarIsLoaded,
+    fetchAvatar,
     fetchUser,
-    setUser,
     reset,
+    setUser,
+    user,
+    userIsLoaded,
   };
 });

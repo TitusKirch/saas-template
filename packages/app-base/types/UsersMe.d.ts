@@ -16,6 +16,7 @@ type UpdateUserMeData = Pick<UserMe, 'first_name' | 'last_name' | 'email'> & {
 };
 type UpdateUserMeResponse = ApiResourceResponse<UpdateUserMeData>;
 
+type UserMeAvatarData = undefined;
 type UserMeAvatarResponse = ApiPresignedUrlResponse;
 
 type UserMeAvatarPresignedUploadData = FormData;

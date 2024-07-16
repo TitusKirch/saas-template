@@ -24,8 +24,8 @@
   const redirectTimeout = ref<NodeJS.Timeout | undefined>();
   if (status.value === 'success') {
     redirectTimeout.value = setTimeout(async () => {
-      const { refetch } = useCurrentUser();
-      return await refetch().finally(() => {
+      const { refetchCurrentUser } = useCurrentUser();
+      return await refetchCurrentUser().finally(() => {
         return navigateToLocale({
           name: 'index',
         });

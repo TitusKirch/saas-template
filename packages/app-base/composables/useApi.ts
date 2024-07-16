@@ -14,8 +14,6 @@ export default function () {
       options.version = 'v1';
     }
 
-    console.info('fetchWrapper', url, options);
-
     return useFetch<
       ResponseT,
       {
