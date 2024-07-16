@@ -3,8 +3,8 @@
   const { isDashboardSearchModalOpen } = useUIState();
   const { metaSymbol } = useShortcuts();
 
-  const { me } = useUser();
-  const user = await me();
+  const { currentUser } = useCurrentUser();
+  const user = await currentUser();
 
   const { t } = useI18n();
   const localePath = useLocalePath();

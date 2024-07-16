@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Kra8\Snowflake\HasSnowflakePrimary;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Pennant\Concerns\HasFeatures;
@@ -73,21 +72,6 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
 
             $user->assignRole($organization->ownerRole());
         });
-    }
-
-    /**
-     * Get the user's avatar attribute
-     */
-    protected function avatar(): Attribute
-    {
-        return Attribute::make(
-            get: function (mixed $value, array $attributes) {
-                return Storage::temporaryUrl(
-                    $value,
-                    now()->addMinutes(5)
-                );
-            }
-        );
     }
 
     /**

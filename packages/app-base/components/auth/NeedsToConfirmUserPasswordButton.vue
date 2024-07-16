@@ -13,7 +13,7 @@
 
   const authStore = useAuthStore();
   const { getColorByType } = useAlertStyle();
-  const { hasPassword } = useUser();
+  const { hasPassword } = useCurrentUser();
 
   const modalIsOpen = ref(false);
 </script>

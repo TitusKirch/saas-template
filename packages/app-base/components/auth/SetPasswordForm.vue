@@ -21,9 +21,9 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      const { refetchMe } = useUser();
+      const { refetch } = useCurrentUser();
       const localePath = useLocalePath();
-      return await refetchMe().finally(() => {
+      return await refetch().finally(() => {
         return navigateToLocale({
           name: 'auth-password-set-success',
           query: {

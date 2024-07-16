@@ -1,14 +1,15 @@
 <script setup lang="ts">
-  const { me, getMeAvatarPresignedUrl } = useUser();
+  const { currentUser, getAvatarPresignedUploadUrl } = useCurrentUser();
   const { put } = useApi();
-  const user = await me();
+  const user = await currentUser();
 
   // update user avatar
-  const getMeAvatarPresignedUrlData = ref<UpdateUsersMeAvatarData | undefined>();
+  const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
 
-  const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } = getMeAvatarPresignedUrl({
-    data: getMeAvatarPresignedUrlData,
-  });
+  const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
+    getAvatarPresignedUploadUrl({
+      data: getAvatarPresignedUploadUrlData,
+    });
   const clickAvatarChange = () => {
     const input = document.querySelector('input[type="file"][name="avatar"]');
     if (input && input instanceof HTMLElement) {
@@ -21,7 +22,7 @@
     if (fileInput.files && fileInput.files[0]) {
       const formData = new FormData();
       formData.append('avatar', fileInput.files[0]);
-      getMeAvatarPresignedUrlData.value = formData;
+      getAvatarPresignedUploadUrlData.value = formData;
 
       try {
         await executeUpdateMeAvatar();
@@ -50,39 +51,39 @@
 
       await executeConfirmationUrl();
 
-      await refetchMe();
+      await refetch();
     }
   };
 
   // form setup
-  const form = ref<UpdateUsersMeData>({
+  const form = ref<UpdateUserMeData>({
     first_name: user.value?.first_name || '',
     last_name: user.value?.last_name || '',
     email: user.value?.email || '',
     password: '',
     password_confirmation: '',
   });
-  const formValuesBeforeSubmit = ref<UpdateUsersMeData>({ ...form.value });
+  const formValuesBeforeSubmit = ref<UpdateUserMeData>({ ...form.value });
   const { passwordToggle } = useFormKit();
   const formValuesHasChanged = computed(() => {
     return Object.keys(form.value).some(
       (key) =>
-        form.value[key as keyof UpdateUsersMeData] !==
-        formValuesBeforeSubmit.value[key as keyof UpdateUsersMeData]
+        form.value[key as keyof UpdateUserMeData] !==
+        formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
     );
   });
-  const { updateMe, refetchMe } = useUser();
+  const { update, refetch } = useCurrentUser();
   const { t } = useI18n();
-  const { error, status, execute } = await updateMe({
+  const { error, status, execute } = await update({
     data: form,
   });
-  const { submit, errorMessages } = useFormKitForm<UpdateUsersMeData>({
+  const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
     form,
     error,
     status,
     executeCallback: execute,
     successCallback: async () => {
-      await refetchMe();
+      await refetch();
 
       formValuesBeforeSubmit.value = { ...form.value };
 

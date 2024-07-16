@@ -4,7 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\PresignedUrlResource;
-use App\Http\Resources\V1\UserMeResource;
+use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,15 +15,34 @@ class UserMeController extends Controller
     /**
      * Display the current user.
      */
-    public function show(): UserMeResource
+    public function show(): UserResource
     {
-        return new UserMeResource(auth()->user());
+        return new UserResource(auth()->user());
+    }
+
+    /**
+     * Show current user's avatar URL.
+     */
+    public function showAvatar(): PresignedUrlResource
+    {
+        $presignedUrl = null;
+
+        if (auth()->user()->avatar && Storage::exists(auth()->user()->avatar)) {
+            $presignedUrl = Storage::temporaryUrl(
+                auth()->user()->avatar,
+                now()->addMinutes(60)
+            );
+        }
+
+        return new PresignedUrlResource((object) [
+            'presignedUrl' => $presignedUrl,
+        ]);
     }
 
     /**
      * Generate a presigned URL for the current user's avatar.
      */
-    public function generateAvatarPresignedUrl(Request $request): PresignedUrlResource
+    public function generatePresignedUrlForAvatarUpload(Request $request): PresignedUrlResource
     {
         $request->validate([
             'avatar' => 'required|image',

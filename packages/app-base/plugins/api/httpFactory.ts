@@ -1,7 +1,7 @@
 import type { $Fetch } from 'ofetch';
 import { withTrailingSlash } from 'ufo';
 import { appendResponseHeader, splitCookiesString } from 'h3';
-import { useUserStore } from '@tituskirch/app-base/stores/user';
+import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 
 const SECURE_METHODS = new Set(['post', 'delete', 'put', 'patch']);
 const COOKIE_OPTIONS: { readonly: true } = { readonly: true };
@@ -187,13 +187,48 @@ export function createHttpClient(): $Fetch {
       if (response.redirected) {
         await nuxtApp.runWithContext(() => navigateTo(response.url));
       }
+
+      // function to recursively convert attributes with _at suffix to Date
+      const convertAttributesToDate = (obj: Record<string, unknown>) => {
+        for (const [key, value] of Object.entries(obj)) {
+          if (typeof value === 'object' && value !== null) {
+            convertAttributesToDate(value as Record<string, unknown>);
+          } else if (typeof key === 'string' && key.endsWith('_at')) {
+            obj[key] = new Date(value as string);
+          }
+        }
+      };
+
+      // // function to recursively convert snake_case keys to camelCase
+      // const convertSnakeCaseToCamelCase = (obj: Record<string, unknown>) => {
+      //   for (const [key, value] of Object.entries(obj)) {
+      //     if (typeof value === 'object' && value !== null) {
+      //       convertSnakeCaseToCamelCase(value as Record<string, unknown>);
+      //     }
+
+      //     const camelCaseKey = key.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+      //     if (key !== camelCaseKey) {
+      //       obj[camelCaseKey] = value;
+      //       delete obj[key];
+      //     }
+      //   }
+      // };
+
+      // check if response._data exists before processing
+      if (response._data) {
+        // convert attributes with _at suffix to Date
+        convertAttributesToDate(response._data);
+
+        // // convert snake_case keys to camelCase
+        // convertSnakeCaseToCamelCase(response._data);
+      }
     },
 
     /**
      * @see https://github.com/manchenkoff/nuxt-auth-sanctum/blob/141017985113ee70e51f5949f08bcbcfc83c39f9/src/runtime/httpFactory.ts#L150-L169
      */
     async onResponseError({ response }) {
-      const userStore = useUserStore();
+      const currentUserStore = useCurrentUserStore();
 
       if (response.status === 419) {
         console.warn('CSRF token mismatch, check your API configuration');
@@ -204,10 +239,10 @@ export function createHttpClient(): $Fetch {
       if (
         response.status === 401 &&
         // request.toString().endsWith('/users/me') &&
-        userStore.user !== null
+        currentUserStore.user !== null
       ) {
         console.warn('User session is not set in API or expired, resetting identity');
-        userStore.resetUser();
+        currentUserStore.reset();
       }
     },
   }) as $Fetch;

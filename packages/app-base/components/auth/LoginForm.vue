@@ -41,7 +41,7 @@
         });
       }
 
-      const { me } = useUser();
+      const { currentUser } = useCurrentUser();
       return await me().finally(async () => {
         if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();

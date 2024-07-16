@@ -59,18 +59,24 @@ Route::group([
     'as' => 'users.',
     'middleware' => ['auth:sanctum'],
 ], function () {
+
     Route::group([
         'prefix' => 'me',
         'as' => 'me.',
-        'middleware' => ['auth:sanctum'],
     ], function () {
-
         Route::get('/', [UserMeController::class, 'show'])->name('show');
-        Route::post('/avatar/presigned-url', [UserMeController::class, 'generateAvatarPresignedUrl'])->name('avatar.presigned-url.generate');
 
-        Route::put('/avatar', [UserMeController::class, 'updateAvatar'])
-            ->middleware(ValidateSignature::class)
-            ->name('avatar.update');
+        Route::group([
+            'prefix' => 'avatar',
+            'as' => 'avatar.',
+        ], function () {
+            Route::get('/', [UserMeController::class, 'showAvatar'])->name('show');
+
+            Route::post('/presigned', [UserMeController::class, 'generatePresignedUrlForAvatarUpload'])->name('presigned');
+            Route::put('/', [UserMeController::class, 'updateAvatar'])
+                ->middleware(ValidateSignature::class)
+                ->name('update');
+        });
     });
 
     Route::get('/{user}', [UserController::class, 'show'])->name('show');

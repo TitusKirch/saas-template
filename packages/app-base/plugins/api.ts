@@ -1,4 +1,4 @@
-import { useUserStore } from '@tituskirch/app-base/stores/user';
+import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 import { createHttpClient } from './api/httpFactory';
 
 import { FetchError } from 'ofetch';
@@ -23,14 +23,11 @@ const handleIdentityLoadError = ({ error }: { error: Error }) => {
 export default defineNuxtPlugin(async () => {
   const client = createHttpClient();
 
-  const userStore = useUserStore();
-  if (!userStore.userLoaded) {
+  const currentUserStore = useCurrentUserStore();
+  if (!currentUserStore.isLoaded) {
     try {
-      const user = await client<UsersMeResponse>('users/me', {
-        version: 'v1',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any);
-      userStore.setUsersData({ data: user.data });
+      const user = await client<UserMeResponse>('v1/users/me');
+      currentUserStore.setUser({ user: user.data });
     } catch (error) {
       handleIdentityLoadError({ error: error as Error });
     }
