@@ -19,7 +19,7 @@
     "@tituskirch/app-base": "workspace:*",
     "date-fns": "^3.6.0",
     "nuxt": "^3.12.3",
-    "vue": "^3.4.31",
+    "vue": "^3.4.32",
     "vue-router": "^4.4.0"
   }
 }
