@@ -12,8 +12,7 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     }
     userIsLoaded.value = true;
 
-    const { get } = useApi();
-    const { data } = await get<UserMeData, UserMeResponse>('users/me');
+    const { data } = await useApiFetch<UserMeData, UserMeResponse>('users/me');
     if (!data.value?.data) {
       return;
     }
@@ -36,8 +35,9 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     }
     avatarIsLoaded.value = true;
 
-    const { get } = useApi();
-    const { data } = await get<UserMeAvatarData, UserMeAvatarResponse>('users/me/avatar');
+    const { data } = await useApiFetch<UserMeAvatarData, UserMeAvatarResponse>('users/me/avatar', {
+      lazy: true,
+    });
     if (!data.value?.data) {
       return;
     }

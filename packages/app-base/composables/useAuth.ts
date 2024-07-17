@@ -3,52 +3,43 @@ import type { LocationQuery } from 'vue-router';
 export default function () {
   // login
   const login = ({ data }: { data: Ref<AuthLoginData | undefined> }) => {
-    const { post } = useApi();
-
-    return post<AuthLoginData, AuthLoginResponse>('auth/login', {
+    return useApiFetch<AuthLoginData, AuthLoginResponse>('auth/login', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
       body: data,
     });
   };
 
   // logout
   const logout = () => {
-    const { post } = useApi();
-
-    return post<AuthLogoutData, AuthLogoutResponse>('auth/logout', {
+    return useApiFetch<AuthLogoutData, AuthLogoutResponse>('auth/logout', {
+      method: 'POST',
       immediate: false,
       watch: false,
-
-      version: 'v1',
     });
   };
 
   // registration
   const register = ({ data }: { data: Ref<AuthRegisterData | undefined> }) => {
-    const { post } = useApi();
-
-    return post<AuthRegisterData, AuthRegisterResponse>('auth/register', {
+    return useApiFetch<AuthRegisterData, AuthRegisterResponse>('auth/register', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
       body: data,
     });
   };
 
   // email verification
   const emailVerificationNotification = () => {
-    const { post } = useApi();
-
-    return post<AuthEmailVerificationNotificationData, AuthEmailVerificationNotificationResponse>(
-      'auth/email/verification-notification',
-      {
-        immediate: false,
-        watch: false,
-        version: 'v1',
-      }
-    );
+    return useApiFetch<
+      AuthEmailVerificationNotificationData,
+      AuthEmailVerificationNotificationResponse
+    >('auth/email/verification-notification', {
+      method: 'POST',
+      immediate: false,
+      watch: false,
+    });
   };
   const emailVerify = ({
     path,
@@ -57,14 +48,11 @@ export default function () {
     path: Ref<AuthEmailVerifyPath>;
     params: Ref<AuthEmailVerifyParams>;
   }) => {
-    const { get } = useApi();
-
-    return get<AuthEmailVerifyParams, AuthEmailVerifyResponse>(
+    return useApiFetch<AuthEmailVerifyParams, AuthEmailVerifyResponse>(
       `auth/email/verify/${path.value.id}/${path.value.hash}`,
       {
         immediate: false,
         watch: false,
-        version: 'v1',
         params,
       }
     );
@@ -72,24 +60,20 @@ export default function () {
 
   // forgot password
   const forgotPassword = ({ data }: { data: Ref<AuthForgotPasswordData | undefined> }) => {
-    const { post } = useApi();
-
-    return post<AuthForgotPasswordData, AuthForgotPasswordResponse>('auth/forgot-password', {
+    return useApiFetch<AuthForgotPasswordData, AuthForgotPasswordResponse>('auth/forgot-password', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
       body: data,
     });
   };
 
   // reset password
   const resetPassword = ({ data }: { data: Ref<AuthResetPasswordData | undefined> }) => {
-    const { post } = useApi();
-
-    return post<AuthResetPasswordData, AuthResetPasswordResponse>('auth/reset-password', {
+    return useApiFetch<AuthResetPasswordData, AuthResetPasswordResponse>('auth/reset-password', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
       body: data,
     });
   };
@@ -100,59 +84,47 @@ export default function () {
   }: {
     data: Ref<AuthUserConfirmPasswordData | undefined>;
   }) => {
-    const { post } = useApi();
-
-    return post<AuthUserConfirmPasswordData, AuthUserConfirmPasswordResponse>(
+    return useApiFetch<AuthUserConfirmPasswordData, AuthUserConfirmPasswordResponse>(
       'auth/user/confirm-password',
       {
+        method: 'POST',
         immediate: false,
         watch: false,
-        version: 'v1',
         body: data,
       }
     );
   };
   const userConfirmedPasswordStatus = () => {
-    const { get } = useApi();
-
-    return get<AuthUserConfirmedPasswordStatusData, AuthUserConfirmedPasswordStatusResponse>(
-      'auth/user/confirmed-password-status',
-      {
-        immediate: false,
-        watch: false,
-        version: 'v1',
-      }
-    );
+    return useApiFetch<
+      AuthUserConfirmedPasswordStatusData,
+      AuthUserConfirmedPasswordStatusResponse
+    >('auth/user/confirmed-password-status', {
+      immediate: false,
+      watch: false,
+    });
   };
 
   // two factor authentication
   const enableTwoFactorAuthentication = () => {
-    const { post } = useApi();
-
-    return post<undefined, ApiResponse<undefined>>('auth/user/two-factor-authentication', {
+    return useApiFetch<undefined, ApiResponse<undefined>>('auth/user/two-factor-authentication', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
     });
   };
   const disableTwoFactorAuthentication = () => {
-    const { delete: del } = useApi();
-
-    return del<undefined, ApiResponse<undefined>>('auth/user/two-factor-authentication', {
+    return useApiFetch<undefined, ApiResponse<undefined>>('auth/user/two-factor-authentication', {
+      method: 'DELETE',
       immediate: false,
       watch: false,
-      version: 'v1',
     });
   };
   const twoFactorQrCode = () => {
-    const { get } = useApi();
-
-    return get<AuthUserTwoFactorQrCodeData, AuthUserTwoFactorQrCodeResponse>(
+    return useApiFetch<AuthUserTwoFactorQrCodeData, AuthUserTwoFactorQrCodeResponse>(
       'auth/user/two-factor-qr-code',
       {
         immediate: false,
         watch: false,
-        version: 'v1',
       }
     );
   };
@@ -161,39 +133,32 @@ export default function () {
   }: {
     data: Ref<AuthUserConfirmedTwoFactorAuthenticationData | undefined>;
   }) => {
-    const { post } = useApi();
-
-    return post<
+    return useApiFetch<
       AuthUserConfirmedTwoFactorAuthenticationData,
       AuthUserConfirmedTwoFactorAuthenticationResponse
     >('auth/user/confirmed-two-factor-authentication', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
       body: data,
     });
   };
   const twoFactorRecoveryCodes = () => {
-    const { get } = useApi();
-
-    return get<AuthUserTwoFactorRecoveryCodesData, AuthUserTwoFactorRecoveryCodesResponse>(
+    return useApiFetch<AuthUserTwoFactorRecoveryCodesData, AuthUserTwoFactorRecoveryCodesResponse>(
       'auth/user/two-factor-recovery-codes',
       {
         immediate: false,
         watch: false,
-        version: 'v1',
       }
     );
   };
   const twoFactorChallenge = ({ data }: { data: Ref<AuthTwoFactorChallengeData | undefined> }) => {
-    const { post } = useApi();
-
-    return post<AuthTwoFactorChallengeData, AuthTwoFactorChallengeResponse>(
+    return useApiFetch<AuthTwoFactorChallengeData, AuthTwoFactorChallengeResponse>(
       'auth/two-factor-challenge',
       {
+        method: 'POST',
         immediate: false,
         watch: false,
-        version: 'v1',
         body: data,
       }
     );
@@ -201,24 +166,19 @@ export default function () {
 
   // set password
   const setPassword = ({ data }: { data: Ref<AuthSetPasswordData> }) => {
-    const { post } = useApi();
-
-    return post<AuthSetPasswordData, AuthSetPasswordResponse>('auth/set-password', {
+    return useApiFetch<AuthSetPasswordData, AuthSetPasswordResponse>('auth/set-password', {
+      method: 'POST',
       immediate: false,
       watch: false,
-      version: 'v1',
       body: data,
     });
   };
 
   // third party providers
   const authProviderRedirect = ({ provider }: { provider: AuthProvider }) => {
-    const { get } = useApi();
-
-    return get<undefined, AuthProviderResponse>(`auth/providers/${provider}/redirect`, {
+    return useApiFetch<undefined, AuthProviderResponse>(`auth/providers/${provider}/redirect`, {
       immediate: false,
       watch: false,
-      version: 'v1',
     });
   };
   const authProviderCallback = ({
@@ -228,12 +188,9 @@ export default function () {
     provider: AuthProvider;
     query?: LocationQuery;
   }) => {
-    const { get } = useApi();
-
-    return get<undefined, ApiResponse<undefined>>(`auth/providers/${provider}/callback`, {
+    return useApiFetch<undefined, ApiResponse<undefined>>(`auth/providers/${provider}/callback`, {
       immediate: false,
       watch: false,
-      version: 'v1',
       query,
     });
   };

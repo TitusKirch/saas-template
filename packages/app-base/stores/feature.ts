@@ -17,18 +17,14 @@ export const useFeatureStore = defineStore('feature', () => {
       return;
     }
 
-    const { get } = useApi();
-    const { data } = await get<FeaturesRequestData, FeaturesResponse>('features', {
-      version: 'v1',
-    });
+    const { data } = await useApiFetch<FeaturesRequestData, FeaturesResponse>('features');
 
     features.value = data.value?.data || [];
   };
   const fetchFeature = async ({ name }: { name: FeatureName }) => {
-    const { get } = useApi();
-    const { data } = await get<FeaturesShowRequestData, FeaturesShowResponse>(`features/${name}`, {
-      version: 'v1',
-    });
+    const { data } = await useApiFetch<FeaturesShowRequestData, FeaturesShowResponse>(
+      `features/${name}`
+    );
 
     if (!data.value) {
       return;

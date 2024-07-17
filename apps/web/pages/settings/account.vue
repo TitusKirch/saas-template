@@ -7,7 +7,6 @@
     refetchCurrentUser,
     refetchAvatar,
   } = useCurrentUser();
-  const { put } = useApi();
   const user = await currentUser();
 
   // user avatar
@@ -49,8 +48,11 @@
         file: fileInput.files[0],
       });
 
-      const { execute: executeConfirmationUrl } = put(
-        avatarPresignedUrlData.value.data.confirmationUrl
+      const { execute: executeConfirmationUrl } = useApiFetch(
+        avatarPresignedUrlData.value.data.confirmationUrl,
+        {
+          method: 'PUT',
+        }
       );
 
       await executeConfirmationUrl();

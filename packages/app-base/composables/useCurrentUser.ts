@@ -11,9 +11,8 @@ export default function () {
     });
   };
   const updateCurrentUser = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
-    const { put } = useApi();
-
-    return put<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
+    return useApiFetch<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
+      method: 'PUT',
       immediate: false,
       watch: false,
       version: 'v1',
@@ -45,10 +44,10 @@ export default function () {
   }: {
     data: Ref<UserMeAvatarPresignedUploadData | undefined>;
   }) => {
-    const { post } = useApi();
-    return post<UserMeAvatarPresignedUploadData, UserMeAvatarPresignedUploadResponse>(
+    return useApiFetch<UserMeAvatarPresignedUploadData, UserMeAvatarPresignedUploadResponse>(
       'users/me/avatar/presigned',
       {
+        method: 'POST',
         immediate: false,
         watch: false,
         setDefaultContentType: false,
