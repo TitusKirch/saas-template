@@ -1,16 +1,21 @@
 <script setup lang="ts">
   const {
     avatar,
+    avatarIsLoaded,
     currentUser,
     getAvatarPresignedUploadUrl,
     updateCurrentUser,
     refetchCurrentUser,
     refetchAvatar,
   } = useCurrentUser();
-  const user = await currentUser();
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+
+  const currentUserStore = useCurrentUserStore();
 
   // user avatar
+  const avatarSrcIsLoaded = avatarIsLoaded();
   const avatarSrc = await avatar();
+  await refetchAvatar();
   const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
   const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
     getAvatarPresignedUploadUrl({
@@ -63,9 +68,9 @@
 
   // form setup
   const form = ref<UpdateUserMeData>({
-    first_name: user.value?.first_name || '',
-    last_name: user.value?.last_name || '',
-    email: user.value?.email || '',
+    first_name: currentUserStore.user?.first_name || '',
+    last_name: currentUserStore.user?.last_name || '',
+    email: currentUserStore.user?.email || '',
     password: '',
     password_confirmation: '',
   });
@@ -119,7 +124,12 @@
     >
       <template #links>
         <div class="group relative">
-          <UAvatar size="3xl" :src="avatarSrc" :alt="`${user?.first_name} ${user?.last_name}`" />
+          <UserAvatar
+            size="3xl"
+            :src="currentUserStore.avatar"
+            :user="currentUserStore.user"
+            :loading="!avatarSrcIsLoaded"
+          />
           <input
             type="file"
             name="avatar"

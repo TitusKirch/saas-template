@@ -3,13 +3,6 @@ import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
 export default function () {
   // me
-  const currentUser = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchUser();
-    return computed(() => {
-      return currentUserStore.user;
-    });
-  };
   const updateCurrentUser = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
     return useApiFetch<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
       method: 'PUT',
@@ -24,18 +17,6 @@ export default function () {
     await currentUserStore.fetchUser({
       force: true,
     });
-  };
-  const isAuthenticated = () => {
-    const currentUserStore = useCurrentUserStore();
-    return !!currentUserStore.user;
-  };
-  const emailIsVerified = () => {
-    const currentUserStore = useCurrentUserStore();
-    return currentUserStore.user?.email_verified_at !== null;
-  };
-  const hasPassword = () => {
-    const currentUserStore = useCurrentUserStore();
-    return currentUserStore.user?.has_password ?? false;
   };
 
   // me/avatar
@@ -61,6 +42,10 @@ export default function () {
     return computed(() => {
       return currentUserStore.avatar;
     });
+  };
+  const avatarIsLoaded = () => {
+    const currentUserStore = useCurrentUserStore();
+    return currentUserStore.avatarIsLoaded;
   };
   const refetchAvatar = async () => {
     const currentUserStore = useCurrentUserStore();
@@ -97,11 +82,8 @@ export default function () {
 
   return {
     avatar,
-    currentUser,
-    emailIsVerified,
+    avatarIsLoaded,
     getAvatarPresignedUploadUrl,
-    hasPassword,
-    isAuthenticated,
     logout,
     refetchAvatar,
     refetchCurrentUser,

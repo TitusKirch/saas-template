@@ -1,8 +1,6 @@
 <script setup lang="ts">
-  // import type { FormKitNode } from '@formkit/core';
-
-  const { currentUser } = useCurrentUser();
-  const user = await currentUser();
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+  const currentUserStore = useCurrentUserStore();
 
   const showAuthUserTwoFactorRecoveryCodesModal = ref(false);
   const authUserTwoFactorRecoveryCodesModalForceToDownload = ref(false);
@@ -26,7 +24,9 @@
       :description="$t('page.settings.security.section.twoFactorAuthentication.description')"
     >
       <template #links>
-        <AuthDisableTwoFactorAuthenticationButton v-if="user?.two_factor_confirmed_at" />
+        <AuthDisableTwoFactorAuthenticationButton
+          v-if="currentUserStore.user?.two_factor_confirmed_at"
+        />
         <AuthEnableTwoFactorAuthenticationForm
           v-else
           @success="
@@ -42,7 +42,7 @@
     <UDivider class="mb-4" />
 
     <UDashboardSection
-      v-show="user?.two_factor_confirmed_at"
+      v-show="currentUserStore.user?.two_factor_confirmed_at"
       :title="$t('page.settings.security.section.twoFactorRecoveryCodes.title')"
       :description="$t('page.settings.security.section.twoFactorRecoveryCodes.description')"
     >

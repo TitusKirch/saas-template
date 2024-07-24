@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+  const currentUserStore = useCurrentUserStore();
+
   const { t } = useI18n();
   const route = useRoute();
   const actions = ref([
@@ -19,8 +22,6 @@
     },
   ]);
 
-  const { hasPassword } = useCurrentUser();
-
   const forceShow = computed(() => {
     if (
       route?.name &&
@@ -36,7 +37,7 @@
 
 <template>
   <BaseAlert
-    v-if="!hasPassword()"
+    v-if="!currentUserStore.hasPassword"
     id="user.noPasswordAlert"
     :title="$t('user.noPasswordAlert.title')"
     type="warning"

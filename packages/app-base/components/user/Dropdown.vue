@@ -1,10 +1,10 @@
 <script setup lang="ts">
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+  const currentUserStore = useCurrentUserStore();
+
   // const { isHelpSlideoverOpen } = useDashboard();
   const { isDashboardSearchModalOpen } = useUIState();
   const { metaSymbol } = useShortcuts();
-
-  const { currentUser } = useCurrentUser();
-  const user = await currentUser();
 
   const { t } = useI18n();
   const localePath = useLocalePath();
@@ -65,11 +65,14 @@
         color="gray"
         variant="ghost"
         class="w-full"
-        :label="`${user?.first_name} ${user?.last_name}`"
+        :label="`${currentUserStore.user?.first_name} ${currentUserStore.user?.last_name}`"
         :class="[open && 'bg-gray-50 dark:bg-gray-800']"
       >
         <template #leading>
-          <UAvatar size="2xs" :alt="`${user?.first_name} ${user?.last_name}`" />
+          <UAvatar
+            size="2xs"
+            :alt="`${currentUserStore.user?.first_name} ${currentUserStore.user?.last_name}`"
+          />
         </template>
 
         <template #trailing>
@@ -81,7 +84,9 @@
     <template #account>
       <div class="text-left">
         <p>{{ $t('user.dropdown.signedInAs') }}</p>
-        <p class="truncate font-medium text-gray-900 dark:text-white">{{ user?.email }}</p>
+        <p class="truncate font-medium text-gray-900 dark:text-white">
+          {{ currentUserStore.user?.email }}
+        </p>
       </div>
     </template>
   </UDropdown>

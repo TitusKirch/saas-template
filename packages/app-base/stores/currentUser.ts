@@ -22,6 +22,16 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     user.value = newUser;
   };
 
+  const isAuthenticated = computed(() => {
+    return !!user.value;
+  });
+  const emailIsVerified = computed(() => {
+    return user.value?.email_verified_at !== null;
+  });
+  const hasPassword = computed(() => {
+    return user.value?.has_password ?? false;
+  });
+
   // avatar
   const avatar = ref<string | undefined>();
   const avatarIsLoaded = ref(false);
@@ -59,5 +69,8 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     setUser,
     user,
     userIsLoaded,
+    isAuthenticated,
+    emailIsVerified,
+    hasPassword,
   };
 });

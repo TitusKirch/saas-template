@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+  const currentUserStore = useCurrentUserStore();
+
   // get data from route
   const route = useRoute();
   const email = route.query.email as string;
@@ -33,8 +36,7 @@
     },
     executeCallback: execute,
     successCallback: async () => {
-      const { currentUser } = useCurrentUser();
-      return await currentUser().finally(() => {
+      return await currentUserStore.fetchUser().finally(() => {
         return navigateToLocale({
           name: 'auth-password-reset-success',
         });

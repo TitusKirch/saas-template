@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  const { currentUser } = useCurrentUser();
-  const user = await currentUser();
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+  const currentUserStore = useCurrentUserStore();
 
   // disable two factor authentication
   const { refetchCurrentUser } = useCurrentUser();
@@ -17,7 +17,7 @@
 
 <template>
   <AuthNeedsToConfirmUserPasswordButton
-    v-if="user?.two_factor_confirmed_at"
+    v-if="currentUserStore.user?.two_factor_confirmed_at"
     :confirm-password-button-title="
       $t('auth.disableTwoFactorAuthenticationButton.action.confirmPasswordAndDisable.label')
     "

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+  const currentUserStore = useCurrentUserStore();
+
   withDefaults(
     defineProps<{
       type: AuthTwoFactorChallengeType;
@@ -25,8 +28,7 @@
     successCallback: async () => {
       const { redirect } = useRoute().query;
 
-      const { currentUser } = useCurrentUser();
-      return await currentUser().finally(async () => {
+      return await currentUserStore.fetchUser().finally(async () => {
         if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);
