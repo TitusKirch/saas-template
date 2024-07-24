@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PresignedUrlResource extends JsonResource
+class ConfirmablePresignedUrlResource extends JsonResource
 {
     /**
      * {@inheritdoc}
@@ -13,6 +13,7 @@ class PresignedUrlResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'confirmationUrl' => $this->confirmationUrl,
             'presignedUrl' => $this->presignedUrl,
         ];
     }
