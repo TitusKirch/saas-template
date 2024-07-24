@@ -11,9 +11,10 @@ type ApiMessageResponse = {
 type ApiPresignedUrlResponse = ApiResourceResponse<{
   presignedUrl: string;
 }>;
-type ApiConfirmablePresignedUrlResponse = ApiPresignedUrlResponse & {
-  confirmationUrl: string;
-};
+type ApiConfirmablePresignedUrlResponse = ApiPresignedUrlResponse &
+  ApiResourceResponse<{
+    confirmationUrl: string;
+  }>;
 
 type ApiErrorResponse<RequestDataT = ApiRequestData<unknown>> = ApiMessageResponse & {
   errors: RequestDataT extends unknown
