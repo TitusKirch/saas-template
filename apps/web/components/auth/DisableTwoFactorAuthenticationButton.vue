@@ -3,7 +3,6 @@
   const currentUserStore = useCurrentUserStore();
 
   // disable two factor authentication
-  const { refetchCurrentUser } = useCurrentUser();
   const { disableTwoFactorAuthentication } = useAuth();
   const {
     status: disableTwoFactorAuthenticationStatus,
@@ -11,7 +10,7 @@
   } = await disableTwoFactorAuthentication();
   const disableTwoFactorAuthenticationClick = async () => {
     await disableTwoFactorAuthenticationExecute();
-    await refetchCurrentUser();
+    await currentUserStore.refetchUser();
   };
 </script>
 

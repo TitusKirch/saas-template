@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
   import type { RouteLocationRaw } from 'vue-router';
 
   const props = defineProps<{
     goBackRoute: RouteLocationRaw;
   }>();
+  const currentUserStore = useCurrentUserStore();
 
   // form setup
   const form = ref<AuthSetPasswordData>({
@@ -21,9 +23,8 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      const { refetchCurrentUser } = useCurrentUser();
       const localePath = useLocalePath();
-      return await refetchCurrentUser().finally(() => {
+      return await currentUserStore.refetchUser().finally(() => {
         return navigateToLocale({
           name: 'auth-password-set-success',
           query: {

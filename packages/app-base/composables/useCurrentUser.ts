@@ -12,12 +12,6 @@ export default function () {
       body: data,
     });
   };
-  const refetchCurrentUser = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchUser({
-      force: true,
-    });
-  };
 
   // me/avatar
   const getAvatarPresignedUploadUrl = ({
@@ -86,7 +80,6 @@ export default function () {
     getAvatarPresignedUploadUrl,
     logout,
     refetchAvatar,
-    refetchCurrentUser,
     resendVerificationEmail,
     reset,
     updateCurrentUser,

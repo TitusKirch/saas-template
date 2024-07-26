@@ -1,13 +1,6 @@
 <script setup lang="ts">
-  const {
-    avatar,
-    avatarIsLoaded,
-    currentUser,
-    getAvatarPresignedUploadUrl,
-    updateCurrentUser,
-    refetchCurrentUser,
-    refetchAvatar,
-  } = useCurrentUser();
+  const { avatar, avatarIsLoaded, getAvatarPresignedUploadUrl, updateCurrentUser, refetchAvatar } =
+    useCurrentUser();
   import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 
   const currentUserStore = useCurrentUserStore();
@@ -93,7 +86,7 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      await refetchCurrentUser();
+      await currentUserStore.refetchUser();
 
       formValuesBeforeSubmit.value = { ...form.value };
 

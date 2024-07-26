@@ -1,7 +1,10 @@
 <script setup lang="ts">
+  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+
   const emit = defineEmits<{
     success: [];
   }>();
+  const currentUserStore = useCurrentUserStore();
 
   // get two factor qr code
   const { enableTwoFactorAuthentication, twoFactorQrCode } = useAuth();
@@ -35,7 +38,6 @@
     code: '',
   });
   const { confirmedTwoFactorAuthentication } = useAuth();
-  const { refetchCurrentUser } = useCurrentUser();
   const {
     status: confirmedTwoFactorAuthenticationStatus,
     execute: confirmedTwoFactorAuthenticationExecute,
@@ -51,7 +53,7 @@
       executeCallback: confirmedTwoFactorAuthenticationExecute,
       successCallback: async () => {
         emit('success');
-        await refetchCurrentUser();
+        await currentUserStore.refetchUser();
       },
     });
 </script>
