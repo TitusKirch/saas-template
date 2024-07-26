@@ -1,8 +1,6 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-  const currentUserStore = useCurrentUserStore();
-
   // disable two factor authentication
+  const { fetchCurrentUser, currentUser } = useNewCurrentUser();
   const { disableTwoFactorAuthentication } = useAuth();
   const {
     status: disableTwoFactorAuthenticationStatus,
@@ -10,13 +8,13 @@
   } = await disableTwoFactorAuthentication();
   const disableTwoFactorAuthenticationClick = async () => {
     await disableTwoFactorAuthenticationExecute();
-    await currentUserStore.refetchUser();
+    await fetchCurrentUser();
   };
 </script>
 
 <template>
   <AuthNeedsToConfirmUserPasswordButton
-    v-if="currentUserStore.user?.two_factor_confirmed_at"
+    v-if="currentUser?.two_factor_confirmed_at"
     :confirm-password-button-title="
       $t('auth.disableTwoFactorAuthenticationButton.action.confirmPasswordAndDisable.label')
     "

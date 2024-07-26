@@ -43,6 +43,9 @@ export default defineNuxtConfig({
       '@fortawesome/vue-fontawesome',
     ],
   },
+  imports: {
+    dirs: [join(currentDir, './composables/api/*.{ts,js,mjs,mts}')],
+  },
   colorMode: {
     classSuffix: '',
     // TODO: Store color mode in cookie to support subdomains

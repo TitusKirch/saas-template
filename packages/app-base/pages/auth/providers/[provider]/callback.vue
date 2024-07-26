@@ -1,13 +1,11 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
   definePageMeta({
     title: 'page.auth.provider.provider.callback.title',
     description: 'page.auth.provider.provider.callback.description',
     middleware: ['guest'],
   });
 
-  const currentUserStore = useCurrentUserStore();
+  const { fetchCurrentUser } = useNewCurrentUser();
   const route = useRoute();
   const { authProviderCallback } = useAuth();
   const { execute, status } = authProviderCallback({
@@ -19,7 +17,7 @@
     await execute();
 
     if (status.value === 'success') {
-      return await currentUserStore.refetchUser().finally(async () => {
+      return await fetchCurrentUser().finally(async () => {
         return navigateToLocale({
           name: 'index',
         });

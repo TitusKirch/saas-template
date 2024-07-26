@@ -1,6 +1,7 @@
 <script setup lang="ts">
   const { avatar, avatarIsLoaded, getAvatarPresignedUploadUrl, updateCurrentUser, refetchAvatar } =
     useCurrentUser();
+  const { fetchCurrentUser, currentUser } = useNewCurrentUser();
   import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 
   const currentUserStore = useCurrentUserStore();
@@ -61,9 +62,9 @@
 
   // form setup
   const form = ref<UpdateUserMeData>({
-    first_name: currentUserStore.user?.first_name || '',
-    last_name: currentUserStore.user?.last_name || '',
-    email: currentUserStore.user?.email || '',
+    first_name: currentUser.value.first_name || '',
+    last_name: currentUser.value.last_name || '',
+    email: currentUser.value?.email || '',
     password: '',
     password_confirmation: '',
   });
@@ -86,7 +87,7 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      await currentUserStore.refetchUser();
+      await fetchCurrentUser();
 
       formValuesBeforeSubmit.value = { ...form.value };
 
@@ -120,7 +121,7 @@
           <UserAvatar
             size="3xl"
             :src="currentUserStore.avatar"
-            :user="currentUserStore.user"
+            :user="currentUser"
             :loading="!avatarSrcIsLoaded"
           />
           <input

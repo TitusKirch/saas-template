@@ -1,13 +1,11 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
   definePageMeta({
     title: 'page.auth.email.verify.title',
     description: 'page.auth.email.verify.description',
     middleware: ['auth'],
   });
 
-  const currentUserStore = useCurrentUserStore();
+  const { fetchCurrentUser } = useNewCurrentUser();
   const { emailVerify } = useAuth();
   const { id, hash, expires, signature } = useRoute().query;
   const path = ref<AuthEmailVerifyPath>({
@@ -27,7 +25,7 @@
   const redirectTimeout = ref<NodeJS.Timeout | undefined>();
   if (status.value === 'success') {
     redirectTimeout.value = setTimeout(async () => {
-      return await currentUserStore.refetchUser().finally(() => {
+      return await fetchCurrentUser().finally(() => {
         return navigateToLocale({
           name: 'index',
         });

@@ -4,20 +4,19 @@
     middleware: ['dev-only'],
   });
 
-  const { getUsersMe } = useUsersMe();
-  const { data, error, status, execute } = await getUsersMe();
+  const { fetchCurrentUser, currentUser, fetchUserError, fetchUserStatus } = useNewCurrentUser();
 
   const click = async () => {
-    await execute();
+    await fetchCurrentUser();
   };
 </script>
 
 <template>
   <div>
     <DevCard>
-      <DevCode :code="data" title="data" :default-is-open="true" />
-      <DevCode :code="error" title="error" :default-is-open="true" />
-      <DevCode :code="status" title="status" :default-is-open="true" />
+      <DevCode :code="currentUser" title="currentUser" :default-is-open="true" />
+      <DevCode :code="fetchUserError" title="fetchUserError" :default-is-open="true" />
+      <DevCode :code="fetchUserStatus" title="fetchUserStatus" :default-is-open="true" />
 
       <UButton @click="click">Refetch</UButton>
     </DevCard>
