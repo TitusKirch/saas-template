@@ -1,5 +1,13 @@
 <script setup lang="ts">
-  const { currentUser } = useNewCurrentUser();
+  const { fetchCurrentUserAvatar, currentUser, currentUserAvatarUrl, fetchUserAvatarStatus } =
+    useNewCurrentUser();
+
+  // user avatar
+  onMounted(async () => {
+    if (!currentUserAvatarUrl.value) {
+      await fetchCurrentUserAvatar();
+    }
+  });
 
   // const { isHelpSlideoverOpen } = useDashboard();
   const { isDashboardSearchModalOpen } = useUIState();
@@ -68,7 +76,12 @@
         :class="[open && 'bg-gray-50 dark:bg-gray-800']"
       >
         <template #leading>
-          <UAvatar size="2xs" :alt="`${currentUser?.first_name} ${currentUser?.last_name}`" />
+          <UserAvatar
+            size="3xs"
+            :src="currentUserAvatarUrl"
+            :user="currentUser"
+            :loading="!currentUserAvatarUrl && fetchUserAvatarStatus !== 'success'"
+          />
         </template>
 
         <template #trailing>
