@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { fetchCurrentUser } = useNewCurrentUser();
+  const { fetchCurrentUser } = useCurrentUser();
 
   // form setup
   const turnstile = ref();

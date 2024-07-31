@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { emailIsVerified } = useNewCurrentUser();
+  const { emailIsVerified } = useCurrentUser();
 
   const { t } = useI18n();
   const actions = ref([

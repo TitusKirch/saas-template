@@ -5,7 +5,7 @@
     middleware: ['guest'],
   });
 
-  const { fetchCurrentUser } = useNewCurrentUser();
+  const { fetchCurrentUser } = useCurrentUser();
   const route = useRoute();
   const { authProviderCallback } = useApiAuth();
   const { execute, status } = authProviderCallback({

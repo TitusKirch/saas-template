@@ -1,6 +1,6 @@
 <script setup lang="ts">
   // disable two factor authentication
-  const { fetchCurrentUser, currentUser } = useNewCurrentUser();
+  const { fetchCurrentUser, currentUser } = useCurrentUser();
   const { disableTwoFactorAuthentication } = useApiAuth();
   const {
     status: disableTwoFactorAuthenticationStatus,

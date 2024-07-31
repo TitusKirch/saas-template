@@ -9,7 +9,7 @@
     fetchCurrentUserAvatarPresignedUploadUrl,
     currentUserAvatarPresignedUploadUrlData,
     fetchUserAvatarPresignedUploadData,
-  } = useNewCurrentUser();
+  } = useCurrentUser();
 
   // user avatar
   onMounted(async () => {

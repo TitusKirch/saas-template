@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { currentUser } = useNewCurrentUser();
+  const { currentUser } = useCurrentUser();
 
   const showAuthUserTwoFactorRecoveryCodesModal = ref(false);
   const authUserTwoFactorRecoveryCodesModalForceToDownload = ref(false);

@@ -4,7 +4,7 @@
     middleware: ['dev-only'],
   });
 
-  const { fetchCurrentUser, currentUser, fetchUserError, fetchUserStatus } = useNewCurrentUser();
+  const { fetchCurrentUser, currentUser, fetchUserError, fetchUserStatus } = useCurrentUser();
 
   const click = async () => {
     await fetchCurrentUser();

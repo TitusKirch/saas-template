@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
-  const { hasPassword } = useNewCurrentUser();
+  const { hasPassword } = useCurrentUser();
 
   defineProps<{
     confirmPasswordButtonTitle?: string;

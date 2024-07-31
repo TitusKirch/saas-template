@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { RouteLocationNamedRaw } from 'vue-router';
-  const { hasPassword } = useNewCurrentUser();
+  const { hasPassword } = useCurrentUser();
 
   definePageMeta({
     title: 'page.auth.password.set.index.title',

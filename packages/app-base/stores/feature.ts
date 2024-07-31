@@ -1,5 +1,5 @@
 export const useFeatureStore = defineStore('feature', () => {
-  const { currentUser } = useNewCurrentUser();
+  const { currentUser } = useCurrentUser();
   const features = ref<Feature[]>([]);
 
   // general

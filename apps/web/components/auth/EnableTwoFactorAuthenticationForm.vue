@@ -41,7 +41,7 @@
   });
 
   // form setup
-  const { fetchCurrentUser } = useNewCurrentUser();
+  const { fetchCurrentUser } = useCurrentUser();
   const form = ref<AuthUserConfirmedTwoFactorAuthenticationData>({
     code: '',
   });

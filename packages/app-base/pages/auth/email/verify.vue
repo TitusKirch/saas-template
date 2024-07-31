@@ -5,7 +5,7 @@
     middleware: ['auth'],
   });
 
-  const { fetchCurrentUser } = useNewCurrentUser();
+  const { fetchCurrentUser } = useCurrentUser();
   const { emailVerify } = useApiAuth();
   const { id, hash, expires, signature } = useRoute().query;
   const path = ref<AuthEmailVerifyPath>({

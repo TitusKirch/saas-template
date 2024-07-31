@@ -6,7 +6,7 @@
     middleware: ['auth'],
   });
 
-  const { fetchCurrentUser, currentUser } = useNewCurrentUser();
+  const { fetchCurrentUser, currentUser } = useCurrentUser();
 
   const clickButton = async () => {
     await fetchCurrentUser();

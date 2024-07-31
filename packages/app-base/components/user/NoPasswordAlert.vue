@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { hasPassword } = useNewCurrentUser();
+  const { hasPassword } = useCurrentUser();
 
   const { t } = useI18n();
   const route = useRoute();

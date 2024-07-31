@@ -1,6 +1,6 @@
 <script setup lang="ts">
   const { fetchCurrentUserAvatar, currentUser, currentUserAvatarUrl, fetchUserAvatarStatus } =
-    useNewCurrentUser();
+    useCurrentUser();
 
   // user avatar
   onMounted(async () => {

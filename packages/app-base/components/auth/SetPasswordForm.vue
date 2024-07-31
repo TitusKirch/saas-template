@@ -6,7 +6,7 @@
   }>();
 
   // form setup
-  const { fetchCurrentUser } = useNewCurrentUser();
+  const { fetchCurrentUser } = useCurrentUser();
   const form = ref<AuthSetPasswordData>({
     password: '',
     password_confirmation: '',
