@@ -24,15 +24,15 @@
     "@tituskirch/typescript-config": "workspace:*",
     "prettier": "^3.3.3",
     "taze": "^0.13.9",
-    "turbo": "^2.0.7"
+    "turbo": "^2.0.11"
   },
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.6.0",
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "artillery": "^2.0.17",
-    "pinia": "^2.1.7"
+    "artillery": "^2.0.18",
+    "pinia": "^2.2.0"
   },
   "pnpm": {
     "overrides": {
