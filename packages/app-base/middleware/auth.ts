@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
   const { isAuthenticated } = useCurrentUser();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated.value) {
     return navigateToLocale({
       name: 'auth-login',
       query: {
