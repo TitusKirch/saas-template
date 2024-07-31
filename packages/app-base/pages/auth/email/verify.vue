@@ -6,7 +6,7 @@
   });
 
   const { fetchCurrentUser } = useNewCurrentUser();
-  const { emailVerify } = useAuth();
+  const { emailVerify } = useApiAuth();
   const { id, hash, expires, signature } = useRoute().query;
   const path = ref<AuthEmailVerifyPath>({
     id: id as string,
@@ -19,6 +19,10 @@
   const { execute, status } = emailVerify({
     path,
     params,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   await execute();
 

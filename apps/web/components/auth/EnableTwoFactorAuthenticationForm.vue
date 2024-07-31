@@ -4,12 +4,17 @@
   }>();
 
   // get two factor qr code
-  const { enableTwoFactorAuthentication, twoFactorQrCode } = useAuth();
+  const { enableTwoFactorAuthentication, twoFactorQrCode } = useApiAuth();
 
   const {
     status: enableTwoFactorAuthenticationStatus,
     execute: enableTwoFactorAuthenticationExecute,
-  } = await enableTwoFactorAuthentication();
+  } = await enableTwoFactorAuthentication({
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
   const enableTwoFactorAuthenticationClick = async () => {
     await enableTwoFactorAuthenticationExecute();
   };
@@ -17,7 +22,12 @@
     data: twoFactorQrCodeData,
     status: twoFactorQrCodeStatus,
     execute: twoFactorQrCodeExecute,
-  } = await twoFactorQrCode();
+  } = await twoFactorQrCode({
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
   watch(
     () => enableTwoFactorAuthenticationStatus.value,
     async (status) => {
@@ -35,13 +45,17 @@
   const form = ref<AuthUserConfirmedTwoFactorAuthenticationData>({
     code: '',
   });
-  const { confirmedTwoFactorAuthentication } = useAuth();
+  const { confirmedTwoFactorAuthentication } = useApiAuth();
   const {
     status: confirmedTwoFactorAuthenticationStatus,
     execute: confirmedTwoFactorAuthenticationExecute,
     error: confirmedTwoFactorAuthenticationError,
   } = await confirmedTwoFactorAuthentication({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit: submitConfirmedTwoFactorAuthentication, errorMessages } =
     useFormKitForm<AuthUserConfirmedTwoFactorAuthenticationData>({

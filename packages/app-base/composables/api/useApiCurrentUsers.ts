@@ -1,24 +1,13 @@
 import type { FetchOptions } from '@tituskirch/app-base/types/Fetch';
 
 export default function () {
+  const { updateUserProfileInformation } = useApiAuth();
+
   const getCurrentUser = ({ options }: { options?: FetchOptions<UserMeResponse> } = {}) =>
     useApiFetch<UserMeData, UserMeResponse>('users/me', {
       ...options,
     });
-
-  // TODO: Fix type naming
-  const updateCurrentUser = async ({
-    data,
-    options,
-  }: {
-    data: Ref<UpdateUserMeData>;
-    options?: FetchOptions<UpdateUserMeResponse>;
-  }) =>
-    useApiFetch<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
-      method: 'PUT',
-      body: data,
-      ...options,
-    });
+  const updateCurrentUser = updateUserProfileInformation;
 
   const getCurrentUserAvatar = ({
     options,
@@ -45,8 +34,8 @@ export default function () {
 
   return {
     getCurrentUser,
-    updateCurrentUser,
     getCurrentUserAvatar,
     getCurrentUserAvatarPresignedUploadUrl,
+    updateCurrentUser,
   };
 }

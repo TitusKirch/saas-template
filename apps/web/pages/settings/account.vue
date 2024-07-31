@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { updateCurrentUser } = useCurrentUser();
+  const { updateCurrentUser } = useApiCurrentUsers();
   const {
     fetchCurrentUserAvatar,
     fetchCurrentUser,
@@ -83,6 +83,10 @@
   const { t } = useI18n();
   const { error, status, execute } = await updateCurrentUser({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
     form,

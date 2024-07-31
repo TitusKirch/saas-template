@@ -10,7 +10,7 @@
     'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
-  const { login } = useAuth();
+  const { login } = useApiAuth();
   const {
     data: loginData,
     error,
@@ -18,6 +18,10 @@
     execute,
   } = await login({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthLoginData>({
     form,

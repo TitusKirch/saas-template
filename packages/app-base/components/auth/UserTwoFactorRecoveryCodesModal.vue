@@ -10,8 +10,13 @@
   const model = defineModel<boolean>();
 
   // get two factor recovery codes
-  const { twoFactorRecoveryCodes } = useAuth();
-  const { data, execute, status } = await twoFactorRecoveryCodes();
+  const { twoFactorRecoveryCodes } = useApiAuth();
+  const { data, execute, status } = await twoFactorRecoveryCodes({
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
 
   // check if modal is open
   watch(

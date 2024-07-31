@@ -15,9 +15,13 @@
     'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
-  const { register } = useAuth();
+  const { register } = useApiAuth();
   const { error, status, execute } = await register({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthRegisterData>({
     form,

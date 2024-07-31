@@ -88,9 +88,14 @@
     }
   );
   if (currentUser.value) {
-    const { userConfirmedPasswordStatus } = useAuth();
+    const { userConfirmedPasswordStatus } = useApiAuth();
     const { data: userConfirmedPasswordStatusData, execute: userConfirmedPasswordStatusExecute } =
-      await userConfirmedPasswordStatus();
+      await userConfirmedPasswordStatus({
+        options: {
+          immediate: false,
+          watch: false,
+        },
+      });
     await userConfirmedPasswordStatusExecute();
     if (!userConfirmedPasswordStatusData.value?.confirmed) {
       authStore.resetUserPasswordConfirmed();

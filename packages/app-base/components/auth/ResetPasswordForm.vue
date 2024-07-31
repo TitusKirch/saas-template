@@ -22,9 +22,13 @@
     'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
-  const { resetPassword } = useAuth();
+  const { resetPassword } = useApiAuth();
   const { error, status, execute } = await resetPassword({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthResetPasswordData>({
     form,

@@ -1,11 +1,16 @@
 <script setup lang="ts">
   // disable two factor authentication
   const { fetchCurrentUser, currentUser } = useNewCurrentUser();
-  const { disableTwoFactorAuthentication } = useAuth();
+  const { disableTwoFactorAuthentication } = useApiAuth();
   const {
     status: disableTwoFactorAuthenticationStatus,
     execute: disableTwoFactorAuthenticationExecute,
-  } = await disableTwoFactorAuthentication();
+  } = await disableTwoFactorAuthentication({
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
   const disableTwoFactorAuthenticationClick = async () => {
     await disableTwoFactorAuthenticationExecute();
     await fetchCurrentUser();

@@ -15,9 +15,13 @@
     code: '',
   });
   const { passwordToggle } = useFormKit();
-  const { twoFactorChallenge } = useAuth();
+  const { twoFactorChallenge } = useApiAuth();
   const { error, status, execute } = await twoFactorChallenge({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthTwoFactorChallengeData>({
     form,

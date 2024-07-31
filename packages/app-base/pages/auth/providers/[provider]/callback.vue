@@ -7,10 +7,14 @@
 
   const { fetchCurrentUser } = useNewCurrentUser();
   const route = useRoute();
-  const { authProviderCallback } = useAuth();
+  const { authProviderCallback } = useApiAuth();
   const { execute, status } = authProviderCallback({
     provider: route.params.provider as AuthProvider,
     query: route.query,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
 
   onMounted(async () => {

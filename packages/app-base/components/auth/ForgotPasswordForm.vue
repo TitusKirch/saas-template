@@ -6,9 +6,13 @@
     email: '',
     'cf-turnstile-response': '',
   });
-  const { forgotPassword } = useAuth();
+  const { forgotPassword } = useApiAuth();
   const { error, status, execute } = await forgotPassword({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthForgotPasswordData>({
     form,

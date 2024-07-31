@@ -12,9 +12,13 @@
     password_confirmation: '',
   });
   const { passwordToggle } = useFormKit();
-  const { setPassword } = useAuth();
+  const { setPassword } = useApiAuth();
   const { error, status, execute } = await setPassword({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthSetPasswordData>({
     form,
