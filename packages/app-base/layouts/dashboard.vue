@@ -96,7 +96,7 @@
     <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
-          <OrganizationsDropdown />
+          <TeamsDropdown />
         </template>
       </UDashboardNavbar>
 

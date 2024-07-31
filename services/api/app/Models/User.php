@@ -66,11 +66,11 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
         parent::boot();
 
         self::created(function ($user) {
-            $organization = Organization::create([
-                'name' => $user->first_name.'\'s Organization',
+            $team = Team::create([
+                'name' => $user->first_name.'\'s Team',
             ]);
 
-            $user->assignRole($organization->ownerRole());
+            $user->assignRole($team->ownerRole());
         });
     }
 
@@ -85,7 +85,7 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     }
 
     /**
-     * Get all roles (ignore the organization)
+     * Get all roles (ignore the teams)
      */
     public function rolesAll(): BelongsToMany
     {
@@ -99,12 +99,12 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     }
 
     /**
-     * Get the organizations for the user.
+     * Get the teams for the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function organizations()
+    public function teams()
     {
-        return $this->rolesAll()->with('organization')->get()->pluck('organization')->unique('id');
+        return $this->rolesAll()->with('team')->get()->pluck('team')->unique('id');
     }
 }

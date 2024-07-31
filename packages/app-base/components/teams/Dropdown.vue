@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  const organizations = [
+  const teams = [
     {
       label: 'Zuhause',
       avatar: {
         src: 'https://avatars.githubusercontent.com/u/23360933?s=200&v=4',
       },
       click: () => {
-        organization.value = organizations[0];
+        team.value = teams[0];
       },
     },
     {
@@ -15,7 +15,7 @@
         src: 'https://avatars.githubusercontent.com/u/62017400?s=200&v=4',
       },
       click: () => {
-        organization.value = organizations[1];
+        team.value = teams[1];
       },
     },
   ];
@@ -31,14 +31,14 @@
     },
   ];
 
-  const organization = ref(organizations[0]);
+  const team = ref(teams[0]);
 </script>
 
 <template>
   <UDropdown
     v-slot="{ open }"
     mode="hover"
-    :items="[organizations, actions]"
+    :items="[teams, actions]"
     class="w-full"
     :ui="{ width: 'w-full' }"
     :popper="{ strategy: 'absolute' }"
@@ -49,10 +49,10 @@
       :class="[open && 'bg-gray-50 dark:bg-gray-800']"
       class="w-full"
     >
-      <UAvatar :src="organization.avatar.src" size="2xs" />
+      <UAvatar :src="team.avatar.src" size="2xs" />
 
       <span class="grow truncate text-left font-semibold text-gray-900 dark:text-white">{{
-        organization.label
+        team.label
       }}</span>
     </UButton>
   </UDropdown>

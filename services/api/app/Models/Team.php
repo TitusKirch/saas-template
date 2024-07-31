@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Organization extends Model implements Auditable
+class Team extends Model implements Auditable
 {
     use HasFactory, HasSnowflakePrimary, \OwenIt\Auditing\Auditable;
 
@@ -25,25 +25,25 @@ class Organization extends Model implements Auditable
     {
         parent::boot();
 
-        self::created(function ($organization) {
+        self::created(function ($team) {
             Role::create([
-                'organization_id' => $organization->id,
+                'team_id' => $team->id,
                 'name' => 'Owner',
                 'is_owner' => true,
             ]);
 
             Role::create([
-                'organization_id' => $organization->id,
+                'team_id' => $team->id,
                 'name' => 'Member',
                 'is_default' => true,
             ]);
 
-            setPermissionsTeamId($organization->id);
+            setPermissionsTeamId($team->id);
         });
     }
 
     /**
-     * Get the roles for the organization.
+     * Get the roles for the team.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -53,7 +53,7 @@ class Organization extends Model implements Auditable
     }
 
     /**
-     * Get the owner role for the organization.
+     * Get the owner role for the team.
      *
      * @return \App\Models\Role
      */
@@ -63,7 +63,7 @@ class Organization extends Model implements Auditable
     }
 
     /**
-     * Get the default role for the organization.
+     * Get the default role for the team.
      *
      * @return \App\Models\Role
      */
@@ -73,7 +73,7 @@ class Organization extends Model implements Auditable
     }
 
     /**
-     * Get the users for the organization.
+     * Get the users for the team.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
