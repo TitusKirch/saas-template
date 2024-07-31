@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { changeLocale } from '@formkit/vue';
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-  import { useFeatureStore } from '@tituskirch/app-base/stores/feature';
+  const { currentUser } = useCurrentUser();
 
   // head
   const route = useRoute();
@@ -86,12 +86,15 @@
       setResetUserPasswordConfirmedTimeout();
     }
   );
-  const { currentUser } = useCurrentUser();
-  const user = await currentUser();
-  if (user.value) {
-    const { userConfirmedPasswordStatus } = useAuth();
+  if (currentUser.value) {
+    const { userConfirmedPasswordStatus } = useApiAuth();
     const { data: userConfirmedPasswordStatusData, execute: userConfirmedPasswordStatusExecute } =
-      await userConfirmedPasswordStatus();
+      await userConfirmedPasswordStatus({
+        options: {
+          immediate: false,
+          watch: false,
+        },
+      });
     await userConfirmedPasswordStatusExecute();
     if (!userConfirmedPasswordStatusData.value?.confirmed) {
       authStore.resetUserPasswordConfirmed();
@@ -99,8 +102,8 @@
   }
 
   // feature flags
-  const featureStore = useFeatureStore();
-  await featureStore.fetchFeatures();
+  const { fetchFeatures } = useFeatures();
+  await fetchFeatures();
 
   // alerts
   const { triggerPageChange } = useAlert();

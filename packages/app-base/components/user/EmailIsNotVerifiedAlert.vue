@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  const { emailIsVerified } = useCurrentUser();
+
   const { t } = useI18n();
   const actions = ref([
     {
@@ -30,7 +32,7 @@
     });
   };
 
-  const { emailIsVerified, resendVerificationEmail } = useCurrentUser();
+  const { resendVerificationEmail } = useCurrentUser();
   const tryAgainInInterval = ref<NodeJS.Timeout | undefined>();
   const tryAgainIn = ref(0);
   const resendVerificationEmailAction = async () => {
@@ -81,7 +83,7 @@
 
 <template>
   <BaseAlert
-    v-if="!emailIsVerified()"
+    v-if="!emailIsVerified"
     id="user.emailIsNotVerifiedAlert"
     :title="$t('user.emailIsNotVerifiedAlert.title')"
     type="warning"

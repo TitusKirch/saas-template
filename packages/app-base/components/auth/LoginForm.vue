@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  const { fetchCurrentUser } = useCurrentUser();
+
   // form setup
   const turnstile = ref();
   const turnstileToken = ref('');
@@ -8,7 +10,7 @@
     'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
-  const { login } = useAuth();
+  const { login } = useApiAuth();
   const {
     data: loginData,
     error,
@@ -16,6 +18,10 @@
     execute,
   } = await login({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthLoginData>({
     form,
@@ -41,8 +47,7 @@
         });
       }
 
-      const { currentUser } = useCurrentUser();
-      return await currentUser().finally(async () => {
+      return await fetchCurrentUser().finally(async () => {
         if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);

@@ -2,90 +2,72 @@ import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 import { useAuthStore } from '@tituskirch/app-base/stores/auth';
 
 export default function () {
-  // me
-  const currentUser = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchUser();
-    return computed(() => {
-      return currentUserStore.user;
-    });
-  };
-  const updateCurrentUser = ({ data }: { data: Ref<UpdateUserMeData | undefined> }) => {
-    const { put } = useApi();
+  const currentUserStore = useCurrentUserStore();
+  const currentUserStoreRefs = storeToRefs(currentUserStore);
 
-    return put<UpdateUserMeData, UpdateUserMeResponse>('auth/user/profile-information', {
+  // current user
+  const { getCurrentUser } = useApiCurrentUsers();
+  const {
+    data: fetchUserData,
+    status: fetchUserStatus,
+    execute: fetchCurrentUser,
+    error: fetchUserError,
+  } = getCurrentUser({
+    options: {
       immediate: false,
       watch: false,
-      version: 'v1',
-      body: data,
-    });
-  };
-  const refetchCurrentUser = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchUser({
-      force: true,
-    });
-  };
-  const isAuthenticated = () => {
-    const currentUserStore = useCurrentUserStore();
-    return !!currentUserStore.user;
-  };
-  const emailIsVerified = () => {
-    const currentUserStore = useCurrentUserStore();
-    return currentUserStore.user?.email_verified_at !== null;
-  };
-  const hasPassword = () => {
-    const currentUserStore = useCurrentUserStore();
-    return currentUserStore.user?.has_password ?? false;
-  };
+    },
+  });
+  watch(fetchUserData, (newData) => {
+    if (!newData?.data) {
+      return;
+    }
+    currentUserStore.setCurrentUser({ user: newData.data });
+  });
 
-  // me/avatar
-  const getAvatarPresignedUploadUrl = ({
-    data,
-  }: {
-    data: Ref<UserMeAvatarPresignedUploadData | undefined>;
-  }) => {
-    const { post } = useApi();
-    return post<UserMeAvatarPresignedUploadData, UserMeAvatarPresignedUploadResponse>(
-      'users/me/avatar/presigned',
-      {
+  // current user avatar url
+  const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiCurrentUsers();
+  const {
+    data: fetchUserAvatarData,
+    status: fetchUserAvatarStatus,
+    execute: fetchCurrentUserAvatar,
+    error: fetchUserAvatarError,
+  } = getCurrentUserAvatar({
+    options: {
+      immediate: false,
+      watch: false,
+      lazy: true,
+    },
+  });
+  watch(fetchUserAvatarData, (newData) => {
+    if (!newData?.data) {
+      return;
+    }
+    currentUserStore.setCurrentUserAvatarUrl({ avatarUrl: newData.data.presignedUrl });
+  });
+  const {
+    data: fetchUserAvatarPresignedUploadData,
+    status: fetchUserAvatarPresignedUploadStatus,
+    execute: fetchCurrentUserAvatarPresignedUploadUrl,
+    error: fetchUserAvatarPresignedUploadError,
+  } = getCurrentUserAvatarPresignedUploadUrl({
+    data: currentUserStoreRefs.currentUserAvatarPresignedUploadUrlData,
+    options: {
+      immediate: false,
+      watch: false,
+      lazy: true,
+    },
+  });
+
+  // email verification
+  const resendVerificationEmail = async () => {
+    const { emailVerificationNotification } = useApiAuth();
+    const { execute } = emailVerificationNotification({
+      options: {
         immediate: false,
         watch: false,
-        setDefaultContentType: false,
-        body: data,
-      }
-    );
-  };
-  const avatar = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchAvatar();
-    return computed(() => {
-      return currentUserStore.avatar;
+      },
     });
-  };
-  const refetchAvatar = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchAvatar({
-      force: true,
-    });
-  };
-
-  // general
-  const reset = () => {
-    const currentUserStore = useCurrentUserStore();
-    currentUserStore.reset();
-  };
-  const logout = async () => {
-    const { logout } = useAuth();
-    const { execute } = logout();
-    await execute();
-    reset();
-    const authStore = useAuthStore();
-    authStore.reset();
-  };
-  const resendVerificationEmail = async () => {
-    const { emailVerificationNotification } = useAuth();
-    const { execute } = emailVerificationNotification();
     await execute();
 
     const { t } = useNuxtApp().$i18n;
@@ -96,18 +78,38 @@ export default function () {
     });
   };
 
+  // logout
+  const logout = async () => {
+    const { logout } = useApiAuth();
+    const { execute } = logout({
+      options: {
+        immediate: false,
+        watch: false,
+      },
+    });
+    await execute();
+    const currentUserStore = useCurrentUserStore();
+    currentUserStore.reset();
+    const authStore = useAuthStore();
+    authStore.reset();
+    const { fetchFeatures } = useFeatures();
+    await fetchFeatures();
+  };
+
   return {
-    avatar,
-    currentUser,
-    emailIsVerified,
-    getAvatarPresignedUploadUrl,
-    hasPassword,
-    isAuthenticated,
+    ...currentUserStore,
+    ...currentUserStoreRefs,
+    fetchCurrentUser,
+    fetchCurrentUserAvatar,
+    fetchCurrentUserAvatarPresignedUploadUrl,
+    fetchUserAvatarError,
+    fetchUserAvatarPresignedUploadData,
+    fetchUserAvatarPresignedUploadError,
+    fetchUserAvatarPresignedUploadStatus,
+    fetchUserAvatarStatus,
+    fetchUserError,
+    fetchUserStatus,
     logout,
-    refetchAvatar,
-    refetchCurrentUser,
     resendVerificationEmail,
-    reset,
-    updateCurrentUser,
   };
 }

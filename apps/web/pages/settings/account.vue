@@ -1,22 +1,22 @@
 <script setup lang="ts">
+  const { updateCurrentUser } = useApiCurrentUsers();
   const {
-    avatar,
+    fetchCurrentUserAvatar,
+    fetchCurrentUser,
     currentUser,
-    getAvatarPresignedUploadUrl,
-    updateCurrentUser,
-    refetchCurrentUser,
-    refetchAvatar,
+    currentUserAvatarUrl,
+    fetchUserAvatarStatus,
+    fetchCurrentUserAvatarPresignedUploadUrl,
+    currentUserAvatarPresignedUploadUrlData,
+    fetchUserAvatarPresignedUploadData,
   } = useCurrentUser();
-  const { put } = useApi();
-  const user = await currentUser();
 
   // user avatar
-  const avatarSrc = await avatar();
-  const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
-  const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
-    getAvatarPresignedUploadUrl({
-      data: getAvatarPresignedUploadUrlData,
-    });
+  onMounted(async () => {
+    if (!currentUserAvatarUrl.value) {
+      await fetchCurrentUserAvatar();
+    }
+  });
   const clickAvatarChange = () => {
     const input = document.querySelector('input[type="file"][name="avatar"]');
     if (input && input instanceof HTMLElement) {
@@ -29,41 +29,45 @@
     if (fileInput.files && fileInput.files[0]) {
       const formData = new FormData();
       formData.append('avatar', fileInput.files[0]);
-      getAvatarPresignedUploadUrlData.value = formData;
+
+      currentUserAvatarPresignedUploadUrlData.value = formData;
 
       try {
-        await executeUpdateMeAvatar();
+        await fetchCurrentUserAvatarPresignedUploadUrl();
         console.info('Avatar updated');
       } catch (error) {
         console.error('Error updating avatar:', error);
         return;
       }
 
-      if (!avatarPresignedUrlData.value) {
+      if (!fetchUserAvatarPresignedUploadData.value) {
         console.error('No avatar presigned url data');
         return;
       }
 
       await uploadFileByPresignedUrl({
-        presignedUrl: avatarPresignedUrlData.value.data.presignedUrl,
+        presignedUrl: fetchUserAvatarPresignedUploadData.value.data.presignedUrl,
         file: fileInput.files[0],
       });
 
-      const { execute: executeConfirmationUrl } = put(
-        avatarPresignedUrlData.value.data.confirmationUrl
+      const { execute: executeConfirmationUrl } = useApiFetch(
+        fetchUserAvatarPresignedUploadData.value.data.confirmationUrl,
+        {
+          method: 'PUT',
+        }
       );
 
       await executeConfirmationUrl();
 
-      await refetchAvatar();
+      await fetchCurrentUserAvatar();
     }
   };
 
   // form setup
   const form = ref<UpdateUserMeData>({
-    first_name: user.value?.first_name || '',
-    last_name: user.value?.last_name || '',
-    email: user.value?.email || '',
+    first_name: currentUser.value?.first_name || '',
+    last_name: currentUser.value?.last_name || '',
+    email: currentUser.value?.email || '',
     password: '',
     password_confirmation: '',
   });
@@ -79,6 +83,10 @@
   const { t } = useI18n();
   const { error, status, execute } = await updateCurrentUser({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<UpdateUserMeData>({
     form,
@@ -86,7 +94,7 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      await refetchCurrentUser();
+      await fetchCurrentUser();
 
       formValuesBeforeSubmit.value = { ...form.value };
 
@@ -116,8 +124,13 @@
       :description="$t('page.settings.account.section.avatar.description')"
     >
       <template #links>
-        <div class="group relative">
-          <UAvatar size="3xl" :src="avatarSrc" :alt="`${user?.first_name} ${user?.last_name}`" />
+        <div class="group relative h-20">
+          <UserAvatar
+            size="3xl"
+            :src="currentUserAvatarUrl"
+            :user="currentUser"
+            :loading="!currentUserAvatarUrl && fetchUserAvatarStatus !== 'success'"
+          />
           <input
             type="file"
             name="avatar"

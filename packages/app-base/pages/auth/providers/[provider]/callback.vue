@@ -5,19 +5,23 @@
     middleware: ['guest'],
   });
 
+  const { fetchCurrentUser } = useCurrentUser();
   const route = useRoute();
-  const { authProviderCallback } = useAuth();
+  const { authProviderCallback } = useApiAuth();
   const { execute, status } = authProviderCallback({
     provider: route.params.provider as AuthProvider,
     query: route.query,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
 
   onMounted(async () => {
     await execute();
 
     if (status.value === 'success') {
-      const { refetchCurrentUser } = useCurrentUser();
-      return await refetchCurrentUser().finally(async () => {
+      return await fetchCurrentUser().finally(async () => {
         return navigateToLocale({
           name: 'index',
         });

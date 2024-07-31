@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\ConfirmablePresignedUrlResource;
 use App\Http\Resources\V1\PresignedUrlResource;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
@@ -42,7 +43,7 @@ class UserMeController extends Controller
     /**
      * Generate a presigned URL for the current user's avatar.
      */
-    public function generatePresignedUrlForAvatarUpload(Request $request): PresignedUrlResource
+    public function generatePresignedUrlForAvatarUpload(Request $request): ConfirmablePresignedUrlResource
     {
         $request->validate([
             'avatar' => 'required|image',
@@ -68,7 +69,7 @@ class UserMeController extends Controller
             ]
         );
 
-        return new PresignedUrlResource((object) [
+        return new ConfirmablePresignedUrlResource((object) [
             'presignedUrl' => (string) $request->getUri(),
             'confirmationUrl' => $confirmationUrl,
         ]);

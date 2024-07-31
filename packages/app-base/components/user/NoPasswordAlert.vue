@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  const { hasPassword } = useCurrentUser();
+
   const { t } = useI18n();
   const route = useRoute();
   const actions = ref([
@@ -19,8 +21,6 @@
     },
   ]);
 
-  const { hasPassword } = useCurrentUser();
-
   const forceShow = computed(() => {
     if (
       route?.name &&
@@ -36,7 +36,7 @@
 
 <template>
   <BaseAlert
-    v-if="!hasPassword()"
+    v-if="!hasPassword"
     id="user.noPasswordAlert"
     :title="$t('user.noPasswordAlert.title')"
     type="warning"

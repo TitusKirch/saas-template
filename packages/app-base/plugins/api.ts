@@ -24,10 +24,10 @@ export default defineNuxtPlugin(async () => {
   const client = createHttpClient();
 
   const currentUserStore = useCurrentUserStore();
-  if (!currentUserStore.userIsLoaded) {
+  if (!currentUserStore.currentUser) {
     try {
       const user = await client<UserMeResponse>('v1/users/me');
-      currentUserStore.setUser({ user: user.data });
+      currentUserStore.setCurrentUser({ user: user.data });
     } catch (error) {
       handleIdentityLoadError({ error: error as Error });
     }

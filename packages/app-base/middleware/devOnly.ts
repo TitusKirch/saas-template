@@ -1,9 +1,8 @@
 export default defineNuxtRouteMiddleware(() => {
-  const { isAuthenticated } = useCurrentUser();
-
-  if (isAuthenticated) {
+  if (process.env.NODE_ENV === 'production') {
     return navigateToLocale({
       name: 'index',
     });
   }
+  return;
 });

@@ -5,7 +5,8 @@
     middleware: ['auth'],
   });
 
-  const { emailVerify } = useAuth();
+  const { fetchCurrentUser } = useCurrentUser();
+  const { emailVerify } = useApiAuth();
   const { id, hash, expires, signature } = useRoute().query;
   const path = ref<AuthEmailVerifyPath>({
     id: id as string,
@@ -18,14 +19,17 @@
   const { execute, status } = emailVerify({
     path,
     params,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   await execute();
 
   const redirectTimeout = ref<NodeJS.Timeout | undefined>();
   if (status.value === 'success') {
     redirectTimeout.value = setTimeout(async () => {
-      const { refetchCurrentUser } = useCurrentUser();
-      return await refetchCurrentUser().finally(() => {
+      return await fetchCurrentUser().finally(() => {
         return navigateToLocale({
           name: 'index',
         });

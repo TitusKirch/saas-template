@@ -6,14 +6,10 @@
     middleware: ['auth'],
   });
 
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
-  const currentUserStore = useCurrentUserStore();
+  const { fetchCurrentUser, currentUser } = useCurrentUser();
 
   const clickButton = async () => {
-    await currentUserStore.fetchUser({
-      force: true,
-    });
+    await fetchCurrentUser();
   };
 </script>
 
@@ -22,7 +18,7 @@
     <UButton @click="clickButton">Test</UButton>
 
     <DevCard>
-      <DevCode :code="currentUserStore.user" title="currentUserStore.user" />
+      <DevCode :code="currentUser" title="currentUser" />
     </DevCard>
   </DashboardPage>
 </template>

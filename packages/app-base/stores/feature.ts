@@ -1,63 +1,53 @@
-import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
 export const useFeatureStore = defineStore('feature', () => {
   const features = ref<Feature[]>([]);
-
-  // general
-  const reset = async ({ fetch = false }: { fetch?: boolean }) => {
+  const setFeature = ({ feature: newFeature }: { feature: Feature }) => {
+    features.value = features.value.map((feature) =>
+      feature.name === newFeature.name ? newFeature : feature
+    );
+  };
+  const setFeatures = ({ features: newFeatures }: { features: Feature[] }) => {
+    features.value = newFeatures;
+  };
+  const reset = () => {
     features.value = [];
-    if (fetch) {
-      await fetchFeatures();
-    }
   };
 
-  // fetching
-  const fetchFeatures = async () => {
-    if (features.value.length) {
-      return;
-    }
+  // active checks
+  const active = ({ name }: { name: FeatureName }) =>
+    features.value.some((feature) => feature.name === name && !!feature.value);
+  const allAreActive = ({ names }: { names: FeatureName[] }) =>
+    names.every((name) => active({ name }));
 
-    const { get } = useApi();
-    const { data } = await get<FeaturesRequestData, FeaturesResponse>('features', {
-      version: 'v1',
+  const someAreActive = ({ names }: { names: FeatureName[] }) =>
+    names.some((name) => active({ name }));
+
+  // inactive checks
+  const inactive = ({ name }: { name: FeatureName }) =>
+    !active({
+      name,
     });
+  const allAreInactive = ({ names }: { names: FeatureName[] }) =>
+    names.every((name) => inactive({ name }));
+  const someAreInactive = ({ names }: { names: FeatureName[] }) =>
+    names.some((name) => inactive({ name }));
 
-    features.value = data.value?.data || [];
-  };
-  const fetchFeature = async ({ name }: { name: FeatureName }) => {
-    const { get } = useApi();
-    const { data } = await get<FeaturesShowRequestData, FeaturesShowResponse>(`features/${name}`, {
-      version: 'v1',
-    });
-
-    if (!data.value) {
-      return;
-    }
-
-    // check if feature exists in features array
-    const existingFeature = features.value.find((feature) => feature.name === name);
-    if (existingFeature) {
-      Object.assign(existingFeature, data.value);
-    } else {
-      features.value.push(data.value.data);
-    }
-  };
-
-  // watch user
-  const currentUserStore = useCurrentUserStore();
-  watch(
-    () => currentUserStore.user,
-    async (oldUser, newUser) => {
-      if (!oldUser || !newUser || oldUser.id !== newUser.id) {
-        await reset({ fetch: true });
-      }
-    }
-  );
+  // value
+  const value = ({ name }: { name: FeatureName }) =>
+    features.value.find((feature) => feature.name === name)?.value;
+  const values = ({ names }: { names: FeatureName[] }) => names.map((name) => value({ name }));
 
   return {
+    active,
+    allAreActive,
+    allAreInactive,
     features,
+    inactive,
     reset,
-    fetchFeatures,
-    fetchFeature,
+    setFeature,
+    setFeatures,
+    someAreActive,
+    someAreInactive,
+    value,
+    values,
   };
 });

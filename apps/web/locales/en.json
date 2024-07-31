@@ -60,6 +60,10 @@
             "description": "Will appear on your profile, actions you take, communications and more.",
             "title": "Name"
           },
+          "avatar": {
+            "description": "Will appear on your profile, actions you take, communications and more.",
+            "title": "Avatar"
+          },
           "email": {
             "description": "User to sign in, notifications and product updates."
           },

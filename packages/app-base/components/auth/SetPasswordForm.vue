@@ -6,14 +6,19 @@
   }>();
 
   // form setup
+  const { fetchCurrentUser } = useCurrentUser();
   const form = ref<AuthSetPasswordData>({
     password: '',
     password_confirmation: '',
   });
   const { passwordToggle } = useFormKit();
-  const { setPassword } = useAuth();
+  const { setPassword } = useApiAuth();
   const { error, status, execute } = await setPassword({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthSetPasswordData>({
     form,
@@ -21,9 +26,8 @@
     status,
     executeCallback: execute,
     successCallback: async () => {
-      const { refetchCurrentUser } = useCurrentUser();
       const localePath = useLocalePath();
-      return await refetchCurrentUser().finally(() => {
+      return await fetchCurrentUser().finally(() => {
         return navigateToLocale({
           name: 'auth-password-set-success',
           query: {

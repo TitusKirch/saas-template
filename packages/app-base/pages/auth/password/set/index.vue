@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { RouteLocationNamedRaw } from 'vue-router';
+  const { hasPassword } = useCurrentUser();
 
   definePageMeta({
     title: 'page.auth.password.set.index.title',
@@ -7,8 +8,7 @@
     middleware: ['auth'],
   });
 
-  const { hasPassword } = useCurrentUser();
-  if (hasPassword()) {
+  if (hasPassword) {
     throw createError({
       statusCode: 404,
     });

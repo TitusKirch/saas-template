@@ -1,23 +1,25 @@
 <script setup lang="ts">
-  const { currentUser } = useCurrentUser();
-  const user = await currentUser();
-
   // disable two factor authentication
-  const { refetchCurrentUser } = useCurrentUser();
-  const { disableTwoFactorAuthentication } = useAuth();
+  const { fetchCurrentUser, currentUser } = useCurrentUser();
+  const { disableTwoFactorAuthentication } = useApiAuth();
   const {
     status: disableTwoFactorAuthenticationStatus,
     execute: disableTwoFactorAuthenticationExecute,
-  } = await disableTwoFactorAuthentication();
+  } = await disableTwoFactorAuthentication({
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
   const disableTwoFactorAuthenticationClick = async () => {
     await disableTwoFactorAuthenticationExecute();
-    await refetchCurrentUser();
+    await fetchCurrentUser();
   };
 </script>
 
 <template>
   <AuthNeedsToConfirmUserPasswordButton
-    v-if="user?.two_factor_confirmed_at"
+    v-if="currentUser?.two_factor_confirmed_at"
     :confirm-password-button-title="
       $t('auth.disableTwoFactorAuthenticationButton.action.confirmPasswordAndDisable.label')
     "

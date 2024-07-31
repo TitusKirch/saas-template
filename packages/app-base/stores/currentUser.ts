@@ -1,63 +1,42 @@
 export const useCurrentUserStore = defineStore('currentUser', () => {
-  // user
-  const user = ref<UserMe | undefined>();
-  const userIsLoaded = ref(false);
-  const fetchUser = async ({
-    force = false,
-  }: {
-    force?: boolean;
-  } = {}) => {
-    if (userIsLoaded.value && !force) {
-      return;
-    }
-    userIsLoaded.value = true;
-
-    const { get } = useApi();
-    const { data } = await get<UserMeData, UserMeResponse>('users/me');
-    if (!data.value?.data) {
-      return;
-    }
-    user.value = data.value.data;
-  };
-  const setUser = ({ user: newUser }: { user: UserMe }) => {
-    user.value = newUser;
+  // current user
+  const currentUser = ref<UserMe | undefined>();
+  const isAuthenticated = computed(() => {
+    return !!currentUser.value;
+  });
+  const emailIsVerified = computed(() => {
+    return currentUser.value?.email_verified_at !== null;
+  });
+  const hasPassword = computed(() => {
+    return currentUser.value?.has_password ?? false;
+  });
+  const setCurrentUser = ({ user: newUser }: { user: UserMe }) => {
+    currentUser.value = newUser;
   };
 
-  // avatar
-  const avatar = ref<string | undefined>();
-  const avatarIsLoaded = ref(false);
-  const fetchAvatar = async ({
-    force = false,
-  }: {
-    force?: boolean;
-  } = {}) => {
-    if (avatarIsLoaded.value && !force) {
-      return;
-    }
-    avatarIsLoaded.value = true;
-
-    const { get } = useApi();
-    const { data } = await get<UserMeAvatarData, UserMeAvatarResponse>('users/me/avatar');
-    if (!data.value?.data) {
-      return;
-    }
-    avatar.value = data.value.data.presignedUrl;
+  // current user avatar url
+  const currentUserAvatarUrl = ref<string | undefined>();
+  const currentUserAvatarPresignedUploadUrlData = ref<
+    UserMeAvatarPresignedUploadData | undefined
+  >();
+  const setCurrentUserAvatarUrl = ({ avatarUrl }: { avatarUrl: string }) => {
+    currentUserAvatarUrl.value = avatarUrl;
   };
 
   const reset = () => {
-    user.value = undefined;
-    userIsLoaded.value = false;
-    avatar.value = undefined;
+    currentUser.value = undefined;
+    currentUserAvatarUrl.value = undefined;
   };
 
   return {
-    avatar,
-    avatarIsLoaded,
-    fetchAvatar,
-    fetchUser,
+    currentUser,
+    currentUserAvatarUrl,
+    currentUserAvatarPresignedUploadUrlData,
+    emailIsVerified,
+    hasPassword,
+    isAuthenticated,
     reset,
-    setUser,
-    user,
-    userIsLoaded,
+    setCurrentUser,
+    setCurrentUserAvatarUrl,
   };
 });

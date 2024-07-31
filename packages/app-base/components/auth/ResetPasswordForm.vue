@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  const { fetchCurrentUser } = useCurrentUser();
+
   // get data from route
   const route = useRoute();
   const email = route.query.email as string;
@@ -20,9 +22,13 @@
     'cf-turnstile-response': '',
   });
   const { passwordToggle } = useFormKit();
-  const { resetPassword } = useAuth();
+  const { resetPassword } = useApiAuth();
   const { error, status, execute } = await resetPassword({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthResetPasswordData>({
     form,
@@ -33,8 +39,7 @@
     },
     executeCallback: execute,
     successCallback: async () => {
-      const { currentUser } = useCurrentUser();
-      return await currentUser().finally(() => {
+      return await fetchCurrentUser().finally(() => {
         return navigateToLocale({
           name: 'auth-password-reset-success',
         });

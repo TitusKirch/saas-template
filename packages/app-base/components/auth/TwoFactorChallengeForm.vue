@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  const { fetchCurrentUser } = useCurrentUser();
+
   withDefaults(
     defineProps<{
       type: AuthTwoFactorChallengeType;
@@ -13,9 +15,13 @@
     code: '',
   });
   const { passwordToggle } = useFormKit();
-  const { twoFactorChallenge } = useAuth();
+  const { twoFactorChallenge } = useApiAuth();
   const { error, status, execute } = await twoFactorChallenge({
     data: form,
+    options: {
+      immediate: false,
+      watch: false,
+    },
   });
   const { submit, errorMessages } = useFormKitForm<AuthTwoFactorChallengeData>({
     form,
@@ -25,8 +31,7 @@
     successCallback: async () => {
       const { redirect } = useRoute().query;
 
-      const { currentUser } = useCurrentUser();
-      return await currentUser().finally(async () => {
+      return await fetchCurrentUser().finally(async () => {
         if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);
