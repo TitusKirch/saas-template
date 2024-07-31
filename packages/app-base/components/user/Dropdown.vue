@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-  const currentUserStore = useCurrentUserStore();
+  const { currentUser } = useNewCurrentUser();
 
   // const { isHelpSlideoverOpen } = useDashboard();
   const { isDashboardSearchModalOpen } = useUIState();
@@ -65,14 +64,11 @@
         color="gray"
         variant="ghost"
         class="w-full"
-        :label="`${currentUserStore.user?.first_name} ${currentUserStore.user?.last_name}`"
+        :label="`${currentUser?.first_name} ${currentUser?.last_name}`"
         :class="[open && 'bg-gray-50 dark:bg-gray-800']"
       >
         <template #leading>
-          <UAvatar
-            size="2xs"
-            :alt="`${currentUserStore.user?.first_name} ${currentUserStore.user?.last_name}`"
-          />
+          <UAvatar size="2xs" :alt="`${currentUser?.first_name} ${currentUser?.last_name}`" />
         </template>
 
         <template #trailing>
@@ -85,7 +81,7 @@
       <div class="text-left">
         <p>{{ $t('user.dropdown.signedInAs') }}</p>
         <p class="truncate font-medium text-gray-900 dark:text-white">
-          {{ currentUserStore.user?.email }}
+          {{ currentUser?.email }}
         </p>
       </div>
     </template>

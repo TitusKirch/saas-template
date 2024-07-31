@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
+
+  const { hasPassword } = useNewCurrentUser();
 
   defineProps<{
     confirmPasswordButtonTitle?: string;
@@ -16,8 +17,6 @@
   const authStore = useAuthStore();
   const { getColorByType } = useAlertStyle();
 
-  const currentUserStore = useCurrentUserStore();
-
   const modalIsOpen = ref(false);
 </script>
 
@@ -26,7 +25,7 @@
     <slot v-if="authStore.userPasswordConfirmed" />
     <slot v-else name="confirmPasswordButton">
       <UTooltip
-        v-if="!currentUserStore.hasPassword"
+        v-if="!hasPassword"
         :text="$t('auth.needsToConfirmUserPasswordButton.noPassword.tooltip')"
         :popper="{
           resize: true,

@@ -1,9 +1,7 @@
-import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
 export default defineNuxtRouteMiddleware((to) => {
-  const currentUserStore = useCurrentUserStore();
+  const { isAuthenticated } = useNewCurrentUser();
 
-  if (!currentUserStore.isAuthenticated) {
+  if (!isAuthenticated) {
     return navigateToLocale({
       name: 'auth-login',
       query: {

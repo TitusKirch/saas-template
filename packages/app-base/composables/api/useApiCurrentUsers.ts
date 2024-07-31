@@ -20,8 +20,16 @@ export default function () {
       ...options,
     });
 
+  const getCurrentUserAvatar = ({
+    options,
+  }: { options?: FetchOptions<UserMeAvatarResponse> } = {}) =>
+    useApiFetch<UserMeAvatarData, UserMeAvatarResponse>('users/me/avatar', {
+      ...options,
+    });
+
   return {
     getCurrentUser,
     updateCurrentUser,
+    getCurrentUserAvatar,
   };
 }

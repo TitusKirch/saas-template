@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-  const currentUserStore = useCurrentUserStore();
+  const { hasPassword } = useNewCurrentUser();
 
   const { t } = useI18n();
   const route = useRoute();
@@ -37,7 +36,7 @@
 
 <template>
   <BaseAlert
-    v-if="!currentUserStore.hasPassword"
+    v-if="!hasPassword"
     id="user.noPasswordAlert"
     :title="$t('user.noPasswordAlert.title')"
     type="warning"

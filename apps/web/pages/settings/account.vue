@@ -1,15 +1,19 @@
 <script setup lang="ts">
-  const { avatar, avatarIsLoaded, getAvatarPresignedUploadUrl, updateCurrentUser, refetchAvatar } =
-    useCurrentUser();
-  const { fetchCurrentUser, currentUser } = useNewCurrentUser();
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
-  const currentUserStore = useCurrentUserStore();
+  const { getAvatarPresignedUploadUrl, updateCurrentUser } = useCurrentUser();
+  const {
+    fetchCurrentUserAvatar,
+    fetchCurrentUser,
+    currentUser,
+    currentUserAvatarUrl,
+    fetchUserAvatarStatus,
+  } = useNewCurrentUser();
 
   // user avatar
-  const avatarSrcIsLoaded = avatarIsLoaded();
-  const avatarSrc = await avatar();
-  await refetchAvatar();
+  onMounted(async () => {
+    if (!currentUserAvatarUrl.value) {
+      await fetchCurrentUserAvatar();
+    }
+  });
   const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
   const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
     getAvatarPresignedUploadUrl({
@@ -56,14 +60,14 @@
 
       await executeConfirmationUrl();
 
-      await refetchAvatar();
+      await fetchCurrentUserAvatar();
     }
   };
 
   // form setup
   const form = ref<UpdateUserMeData>({
-    first_name: currentUser.value.first_name || '',
-    last_name: currentUser.value.last_name || '',
+    first_name: currentUser.value?.first_name || '',
+    last_name: currentUser.value?.last_name || '',
     email: currentUser.value?.email || '',
     password: '',
     password_confirmation: '',
@@ -120,9 +124,9 @@
         <div class="group relative">
           <UserAvatar
             size="3xl"
-            :src="currentUserStore.avatar"
+            :src="currentUserAvatarUrl"
             :user="currentUser"
-            :loading="!avatarSrcIsLoaded"
+            :loading="!currentUserAvatarUrl && fetchUserAvatarStatus !== 'success'"
           />
           <input
             type="file"

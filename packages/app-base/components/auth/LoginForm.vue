@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-  const currentUserStore = useCurrentUserStore();
+  const { fetchCurrentUser } = useNewCurrentUser();
 
   // form setup
   const turnstile = ref();
@@ -44,7 +43,7 @@
         });
       }
 
-      return await currentUserStore.fetchUser().finally(async () => {
+      return await fetchCurrentUser().finally(async () => {
         if (redirect && redirect != '/' && (redirect as string).startsWith('/')) {
           const localeRoute = useLocaleRoute();
           const localeRedirectRoute = localeRoute(redirect as string);

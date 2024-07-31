@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
-  const currentUserStore = useCurrentUserStore();
+  const { emailIsVerified } = useNewCurrentUser();
 
   const { t } = useI18n();
   const actions = ref([
@@ -85,7 +83,7 @@
 
 <template>
   <BaseAlert
-    v-if="!currentUserStore.emailIsVerified"
+    v-if="!emailIsVerified"
     id="user.emailIsNotVerifiedAlert"
     :title="$t('user.emailIsNotVerifiedAlert.title')"
     type="warning"

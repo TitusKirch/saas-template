@@ -239,7 +239,7 @@ export function createHttpClient(): $Fetch {
       if (
         response.status === 401 &&
         // request.toString().endsWith('/users/me') &&
-        currentUserStore.user !== null
+        currentUserStore.currentUser !== null
       ) {
         console.warn('User session is not set in API or expired, resetting identity');
         currentUserStore.reset();

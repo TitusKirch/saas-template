@@ -30,23 +30,6 @@ export default function () {
       }
     );
   };
-  const avatar = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchAvatar();
-    return computed(() => {
-      return currentUserStore.avatar;
-    });
-  };
-  const avatarIsLoaded = () => {
-    const currentUserStore = useCurrentUserStore();
-    return currentUserStore.avatarIsLoaded;
-  };
-  const refetchAvatar = async () => {
-    const currentUserStore = useCurrentUserStore();
-    await currentUserStore.fetchAvatar({
-      force: true,
-    });
-  };
 
   // general
   const reset = () => {
@@ -75,11 +58,8 @@ export default function () {
   };
 
   return {
-    avatar,
-    avatarIsLoaded,
     getAvatarPresignedUploadUrl,
     logout,
-    refetchAvatar,
     resendVerificationEmail,
     reset,
     updateCurrentUser,

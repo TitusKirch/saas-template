@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-  const currentUserStore = useCurrentUserStore();
+  const { fetchCurrentUser } = useNewCurrentUser();
 
   // get data from route
   const route = useRoute();
@@ -36,7 +35,7 @@
     },
     executeCallback: execute,
     successCallback: async () => {
-      return await currentUserStore.fetchUser().finally(() => {
+      return await fetchCurrentUser().finally(() => {
         return navigateToLocale({
           name: 'auth-password-reset-success',
         });

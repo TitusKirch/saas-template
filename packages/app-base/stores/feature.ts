@@ -1,6 +1,5 @@
-import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
 export const useFeatureStore = defineStore('feature', () => {
+  const { currentUser } = useNewCurrentUser();
   const features = ref<Feature[]>([]);
 
   // general
@@ -40,9 +39,8 @@ export const useFeatureStore = defineStore('feature', () => {
   };
 
   // watch user
-  const currentUserStore = useCurrentUserStore();
   watch(
-    () => currentUserStore.user,
+    () => currentUser.value,
     async (oldUser, newUser) => {
       if (!oldUser || !newUser || oldUser.id !== newUser.id) {
         await reset({ fetch: true });

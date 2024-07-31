@@ -2,9 +2,7 @@
   import { changeLocale } from '@formkit/vue';
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
   import { useFeatureStore } from '@tituskirch/app-base/stores/feature';
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-
-  const currentUserStore = useCurrentUserStore();
+  const { currentUser } = useNewCurrentUser();
 
   // head
   const route = useRoute();
@@ -89,7 +87,7 @@
       setResetUserPasswordConfirmedTimeout();
     }
   );
-  if (currentUserStore.user) {
+  if (currentUser.value) {
     const { userConfirmedPasswordStatus } = useAuth();
     const { data: userConfirmedPasswordStatusData, execute: userConfirmedPasswordStatusExecute } =
       await userConfirmedPasswordStatus();

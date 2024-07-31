@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
-  const currentUserStore = useCurrentUserStore();
+  const { fetchCurrentUser } = useNewCurrentUser();
 
   // form setup
   const turnstile = ref();
@@ -29,7 +28,7 @@
     },
     executeCallback: execute,
     successCallback: async () => {
-      return await currentUserStore.fetchUser().finally(async () => {
+      return await fetchCurrentUser().finally(async () => {
         return navigateToLocale({
           name: 'index',
         });

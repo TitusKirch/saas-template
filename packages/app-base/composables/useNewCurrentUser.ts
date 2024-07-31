@@ -3,8 +3,9 @@ import { useCurrentUserStore } from '@tituskirch/app-base/stores/currentUser';
 export default function () {
   const currentUserStore = useCurrentUserStore();
   const currentUserStoreRefs = storeToRefs(currentUserStore);
-  const { getCurrentUser } = useApiCurrentUsers();
 
+  // current user
+  const { getCurrentUser } = useApiCurrentUsers();
   const {
     data: fetchUserData,
     status: fetchUserStatus,
@@ -16,7 +17,6 @@ export default function () {
       watch: false,
     },
   });
-
   watch(fetchUserData, (newData) => {
     if (!newData?.data) {
       return;
@@ -24,11 +24,36 @@ export default function () {
     currentUserStore.setCurrentUser({ user: newData.data });
   });
 
+  // current user avatar url
+  const { getCurrentUserAvatar } = useApiCurrentUsers();
+  const {
+    data: fetchUserAvatarData,
+    status: fetchUserAvatarStatus,
+    execute: fetchCurrentUserAvatar,
+    error: fetchUserAvatarError,
+  } = getCurrentUserAvatar({
+    options: {
+      immediate: false,
+      watch: false,
+      lazy: true,
+    },
+  });
+
+  watch(fetchUserAvatarData, (newData) => {
+    if (!newData?.data) {
+      return;
+    }
+    currentUserStore.setCurrentUserAvatarUrl({ avatarUrl: newData.data.presignedUrl });
+  });
+
   return {
     ...currentUserStore,
     ...currentUserStoreRefs,
     fetchCurrentUser,
-    fetchUserStatus,
+    fetchCurrentUserAvatar,
+    fetchUserAvatarError,
+    fetchUserAvatarStatus,
     fetchUserError,
+    fetchUserStatus,
   };
 }

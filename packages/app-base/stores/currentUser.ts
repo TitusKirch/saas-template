@@ -1,5 +1,5 @@
 export const useCurrentUserStore = defineStore('currentUser', () => {
-  // user
+  // current user
   const currentUser = ref<UserMe | undefined>();
   const isAuthenticated = computed(() => {
     return !!currentUser.value;
@@ -14,42 +14,25 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     currentUser.value = newUser;
   };
 
-  // avatar
-  const avatar = ref<string | undefined>();
-  const avatarIsLoaded = ref(false);
-  const fetchAvatar = async ({
-    force = false,
-  }: {
-    force?: boolean;
-  } = {}) => {
-    if (avatarIsLoaded.value && !force) {
-      return;
-    }
-    avatarIsLoaded.value = true;
-
-    const { data } = await useApiFetch<UserMeAvatarData, UserMeAvatarResponse>('users/me/avatar', {
-      lazy: true,
-    });
-    if (!data.value?.data) {
-      return;
-    }
-    avatar.value = data.value.data.presignedUrl;
+  // current user avatar url
+  const currentUserAvatarUrl = ref<string | undefined>();
+  const setCurrentUserAvatarUrl = ({ avatarUrl }: { avatarUrl: string }) => {
+    currentUserAvatarUrl.value = avatarUrl;
   };
 
   const reset = () => {
     currentUser.value = undefined;
-    avatar.value = undefined;
+    currentUserAvatarUrl.value = undefined;
   };
 
   return {
-    avatar,
-    avatarIsLoaded,
+    currentUser,
+    currentUserAvatarUrl,
     emailIsVerified,
-    fetchAvatar,
     hasPassword,
     isAuthenticated,
     reset,
     setCurrentUser,
-    currentUser,
+    setCurrentUserAvatarUrl,
   };
 });
