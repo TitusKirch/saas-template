@@ -1,57 +1,53 @@
 export const useFeatureStore = defineStore('feature', () => {
-  const { currentUser } = useCurrentUser();
   const features = ref<Feature[]>([]);
-
-  // general
-  const reset = async ({ fetch = false }: { fetch?: boolean }) => {
-    features.value = [];
-    if (fetch) {
-      await fetchFeatures();
-    }
-  };
-
-  // fetching
-  const fetchFeatures = async () => {
-    if (features.value.length) {
-      return;
-    }
-
-    const { data } = await useApiFetch<FeaturesRequestData, FeaturesResponse>('features');
-
-    features.value = data.value?.data || [];
-  };
-  const fetchFeature = async ({ name }: { name: FeatureName }) => {
-    const { data } = await useApiFetch<FeaturesShowRequestData, FeaturesShowResponse>(
-      `features/${name}`
+  const setFeature = ({ feature: newFeature }: { feature: Feature }) => {
+    features.value = features.value.map((feature) =>
+      feature.name === newFeature.name ? newFeature : feature
     );
-
-    if (!data.value) {
-      return;
-    }
-
-    // check if feature exists in features array
-    const existingFeature = features.value.find((feature) => feature.name === name);
-    if (existingFeature) {
-      Object.assign(existingFeature, data.value);
-    } else {
-      features.value.push(data.value.data);
-    }
+  };
+  const setFeatures = ({ features: newFeatures }: { features: Feature[] }) => {
+    features.value = newFeatures;
+  };
+  const reset = () => {
+    features.value = [];
   };
 
-  // watch user
-  watch(
-    () => currentUser.value,
-    async (oldUser, newUser) => {
-      if (!oldUser || !newUser || oldUser.id !== newUser.id) {
-        await reset({ fetch: true });
-      }
-    }
-  );
+  // active checks
+  const active = ({ name }: { name: FeatureName }) =>
+    features.value.some((feature) => feature.name === name && !!feature.value);
+  const allAreActive = ({ names }: { names: FeatureName[] }) =>
+    names.every((name) => active({ name }));
+
+  const someAreActive = ({ names }: { names: FeatureName[] }) =>
+    names.some((name) => active({ name }));
+
+  // inactive checks
+  const inactive = ({ name }: { name: FeatureName }) =>
+    !active({
+      name,
+    });
+  const allAreInactive = ({ names }: { names: FeatureName[] }) =>
+    names.every((name) => inactive({ name }));
+  const someAreInactive = ({ names }: { names: FeatureName[] }) =>
+    names.some((name) => inactive({ name }));
+
+  // value
+  const value = ({ name }: { name: FeatureName }) =>
+    features.value.find((feature) => feature.name === name)?.value;
+  const values = ({ names }: { names: FeatureName[] }) => names.map((name) => value({ name }));
 
   return {
+    active,
+    allAreActive,
+    allAreInactive,
     features,
+    inactive,
     reset,
-    fetchFeatures,
-    fetchFeature,
+    setFeature,
+    setFeatures,
+    someAreActive,
+    someAreInactive,
+    value,
+    values,
   };
 });

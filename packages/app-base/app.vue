@@ -103,8 +103,8 @@
   }
 
   // feature flags
-  const featureStore = useFeatureStore();
-  await featureStore.fetchFeatures();
+  const { fetchFeatures } = useFeatures();
+  await fetchFeatures();
 
   // alerts
   const { triggerPageChange } = useAlert();

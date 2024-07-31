@@ -92,6 +92,8 @@ export default function () {
     currentUserStore.reset();
     const authStore = useAuthStore();
     authStore.reset();
+    const { fetchFeatures } = useFeatures();
+    await fetchFeatures();
   };
 
   return {
