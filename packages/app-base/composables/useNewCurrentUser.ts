@@ -25,7 +25,7 @@ export default function () {
   });
 
   // current user avatar url
-  const { getCurrentUserAvatar } = useApiCurrentUsers();
+  const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiCurrentUsers();
   const {
     data: fetchUserAvatarData,
     status: fetchUserAvatarStatus,
@@ -38,12 +38,24 @@ export default function () {
       lazy: true,
     },
   });
-
   watch(fetchUserAvatarData, (newData) => {
     if (!newData?.data) {
       return;
     }
     currentUserStore.setCurrentUserAvatarUrl({ avatarUrl: newData.data.presignedUrl });
+  });
+  const {
+    data: fetchUserAvatarPresignedUploadData,
+    status: fetchUserAvatarPresignedUploadStatus,
+    execute: fetchCurrentUserAvatarPresignedUploadUrl,
+    error: fetchUserAvatarPresignedUploadError,
+  } = getCurrentUserAvatarPresignedUploadUrl({
+    data: currentUserStoreRefs.currentUserAvatarPresignedUploadUrlData,
+    options: {
+      immediate: false,
+      watch: false,
+      lazy: true,
+    },
   });
 
   return {
@@ -55,5 +67,9 @@ export default function () {
     fetchUserAvatarStatus,
     fetchUserError,
     fetchUserStatus,
+    fetchCurrentUserAvatarPresignedUploadUrl,
+    fetchUserAvatarPresignedUploadError,
+    fetchUserAvatarPresignedUploadStatus,
+    fetchUserAvatarPresignedUploadData,
   };
 }

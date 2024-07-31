@@ -13,24 +13,6 @@ export default function () {
     });
   };
 
-  // me/avatar
-  const getAvatarPresignedUploadUrl = ({
-    data,
-  }: {
-    data: Ref<UserMeAvatarPresignedUploadData | undefined>;
-  }) => {
-    return useApiFetch<UserMeAvatarPresignedUploadData, UserMeAvatarPresignedUploadResponse>(
-      'users/me/avatar/presigned',
-      {
-        method: 'POST',
-        immediate: false,
-        watch: false,
-        setDefaultContentType: false,
-        body: data,
-      }
-    );
-  };
-
   // general
   const reset = () => {
     const currentUserStore = useCurrentUserStore();
@@ -58,7 +40,6 @@ export default function () {
   };
 
   return {
-    getAvatarPresignedUploadUrl,
     logout,
     resendVerificationEmail,
     reset,

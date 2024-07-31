@@ -16,6 +16,9 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
 
   // current user avatar url
   const currentUserAvatarUrl = ref<string | undefined>();
+  const currentUserAvatarPresignedUploadUrlData = ref<
+    UserMeAvatarPresignedUploadData | undefined
+  >();
   const setCurrentUserAvatarUrl = ({ avatarUrl }: { avatarUrl: string }) => {
     currentUserAvatarUrl.value = avatarUrl;
   };
@@ -28,6 +31,7 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
   return {
     currentUser,
     currentUserAvatarUrl,
+    currentUserAvatarPresignedUploadUrlData,
     emailIsVerified,
     hasPassword,
     isAuthenticated,

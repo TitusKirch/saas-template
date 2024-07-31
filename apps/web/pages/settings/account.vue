@@ -1,11 +1,14 @@
 <script setup lang="ts">
-  const { getAvatarPresignedUploadUrl, updateCurrentUser } = useCurrentUser();
+  const { updateCurrentUser } = useCurrentUser();
   const {
     fetchCurrentUserAvatar,
     fetchCurrentUser,
     currentUser,
     currentUserAvatarUrl,
     fetchUserAvatarStatus,
+    fetchCurrentUserAvatarPresignedUploadUrl,
+    currentUserAvatarPresignedUploadUrlData,
+    fetchUserAvatarPresignedUploadData,
   } = useNewCurrentUser();
 
   // user avatar
@@ -14,11 +17,6 @@
       await fetchCurrentUserAvatar();
     }
   });
-  const getAvatarPresignedUploadUrlData = ref<UserMeAvatarPresignedUploadData | undefined>();
-  const { execute: executeUpdateMeAvatar, data: avatarPresignedUrlData } =
-    getAvatarPresignedUploadUrl({
-      data: getAvatarPresignedUploadUrlData,
-    });
   const clickAvatarChange = () => {
     const input = document.querySelector('input[type="file"][name="avatar"]');
     if (input && input instanceof HTMLElement) {
@@ -31,28 +29,29 @@
     if (fileInput.files && fileInput.files[0]) {
       const formData = new FormData();
       formData.append('avatar', fileInput.files[0]);
-      getAvatarPresignedUploadUrlData.value = formData;
+
+      currentUserAvatarPresignedUploadUrlData.value = formData;
 
       try {
-        await executeUpdateMeAvatar();
+        await fetchCurrentUserAvatarPresignedUploadUrl();
         console.info('Avatar updated');
       } catch (error) {
         console.error('Error updating avatar:', error);
         return;
       }
 
-      if (!avatarPresignedUrlData.value) {
+      if (!fetchUserAvatarPresignedUploadData.value) {
         console.error('No avatar presigned url data');
         return;
       }
 
       await uploadFileByPresignedUrl({
-        presignedUrl: avatarPresignedUrlData.value.data.presignedUrl,
+        presignedUrl: fetchUserAvatarPresignedUploadData.value.data.presignedUrl,
         file: fileInput.files[0],
       });
 
       const { execute: executeConfirmationUrl } = useApiFetch(
-        avatarPresignedUrlData.value.data.confirmationUrl,
+        fetchUserAvatarPresignedUploadData.value.data.confirmationUrl,
         {
           method: 'PUT',
         }
@@ -121,7 +120,7 @@
       :description="$t('page.settings.account.section.avatar.description')"
     >
       <template #links>
-        <div class="group relative">
+        <div class="group relative h-20">
           <UserAvatar
             size="3xl"
             :src="currentUserAvatarUrl"
