@@ -24,7 +24,7 @@
     "@tituskirch/typescript-config": "workspace:*",
     "prettier": "^3.3.3",
     "taze": "^0.13.9",
-    "turbo": "^2.0.6"
+    "turbo": "^2.0.10"
   },
   "packageManager": "pnpm@9.5.0",
   "engines": {
