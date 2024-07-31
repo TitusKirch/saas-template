@@ -26,15 +26,15 @@
     v-else
     :ui="{ rounded: 'rounded-full' }"
     :class="{
-      'h-4 w-4': size === '3xs',
-      'h-5 w-5': size === '2xs',
-      'h-6 w-6': size === 'xs',
-      'h-8 w-8': size === 'sm',
-      'h-10 w-10': size === 'md',
-      'h-12 w-12': size === 'lg',
-      'h-14 w-14': size === 'xl',
-      'h-16 w-16': size === '2xl',
-      'h-20 w-20': size === '3xl',
+      'size-4': size === '3xs',
+      'size-5': size === '2xs',
+      'size-6': size === 'xs',
+      'size-8': size === 'sm',
+      'size-10': size === 'md',
+      'size-12': size === 'lg',
+      'size-14': size === 'xl',
+      'size-16': size === '2xl',
+      'size-20': size === '3xl',
     }"
   />
 </template>

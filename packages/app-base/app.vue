@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { changeLocale } from '@formkit/vue';
   import { useAuthStore } from '@tituskirch/app-base/stores/auth';
-  import { useFeatureStore } from '@tituskirch/app-base/stores/feature';
   const { currentUser } = useCurrentUser();
 
   // head

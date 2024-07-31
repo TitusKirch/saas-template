@@ -34,6 +34,7 @@ export default function () {
     useApiFetch<AuthRegisterData, AuthRegisterResponse>('auth/register', {
       method: 'POST',
       body: data,
+      ...options,
     });
 
   // email verification
