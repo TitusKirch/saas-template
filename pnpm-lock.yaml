@@ -85,8 +85,8 @@ importers:
         specifier: ^1.6.5
         version: 1.6.5(esbuild@0.20.2)(magicast@0.3.4)(rollup@4.18.1)(tailwindcss@3.4.7(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.5.4)))(unocss@0.59.4(postcss@8.4.39)(rollup@4.18.1)(vite@5.3.5(@types/node@20.12.11)(terser@5.31.0)))(vite@5.3.5(@types/node@20.12.11)(terser@5.31.0))(vue@3.4.35(typescript@5.5.4))
       '@formkit/pro':
-        specifier: ^0.126.14
-        version: 0.126.14(@formkit/core@1.6.5)(@formkit/inputs@1.6.5)
+        specifier: ^0.126.15
+        version: 0.126.15(@formkit/core@1.6.5)(@formkit/inputs@1.6.5)
       '@formkit/themes':
         specifier: ^1.6.5
         version: 1.6.5(tailwindcss@3.4.7(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.5.4)))(unocss@0.59.4(postcss@8.4.39)(rollup@4.18.1)(vite@5.3.5(@types/node@20.12.11)(terser@5.31.0)))
@@ -1299,8 +1299,8 @@ packages:
   '@formkit/observer@1.6.5':
     resolution: {integrity: sha512-3Vh2Pj6tHX3wosbNm5VvwVVlTI5Zq0FT3dl/+DAuaCG84abpTLoc3O0C2pmbQcDaJ4aCuxu3+tBmhY9J7qFXMQ==}
 
-  '@formkit/pro@0.126.14':
-    resolution: {integrity: sha512-KQ6M4d6OmMtNuLABCg/c90OMw3oB4DXIYyEDZ/6ZCRmjukG592AhISIK6Y/xRofokDtAl+Zkh7y1SRSLfcnFiQ==}
+  '@formkit/pro@0.126.15':
+    resolution: {integrity: sha512-8r9HaxJxfI+MnVp6qR1+/b4uttp0+d04NA9xusVRwmobRfdqqTtX4Ev+5vL9krFgtR1vZaZ+0XBlrYsBbCTb0A==}
     peerDependencies:
       '@formkit/core': ^1.6.5
       '@formkit/inputs': ^1.6.5
@@ -11030,7 +11030,7 @@ snapshots:
       '@formkit/core': 1.6.5
       '@formkit/utils': 1.6.5
 
-  '@formkit/pro@0.126.14(@formkit/core@1.6.5)(@formkit/inputs@1.6.5)':
+  '@formkit/pro@0.126.15(@formkit/core@1.6.5)(@formkit/inputs@1.6.5)':
     dependencies:
       '@formkit/core': 1.6.5
       '@formkit/drag-and-drop': 0.0.38
@@ -14466,7 +14466,7 @@ snapshots:
 
   acorn-globals@7.0.1:
     dependencies:
-      acorn: 8.12.0
+      acorn: 8.12.1
       acorn-walk: 8.3.2
 
   acorn-import-attributes@1.9.5(acorn@8.12.1):
@@ -17774,7 +17774,7 @@ snapshots:
   jsdom@20.0.3:
     dependencies:
       abab: 2.0.6
-      acorn: 8.12.0
+      acorn: 8.12.1
       acorn-globals: 7.0.1
       cssom: 0.5.0
       cssstyle: 2.3.0
