@@ -115,6 +115,19 @@
         "title": "Security"
       },
       "title": "Settings"
+    },
+    "team": {
+      "create": {
+        "description": "Here you can create a new team.",
+        "section": {
+          "form": {
+            "submit": {
+              "label": "Create team"
+            }
+          }
+        },
+        "title": "Create a new team"
+      }
     }
   }
 }

@@ -5,8 +5,48 @@ export default function () {
     useApiFetch<TeamsShowRequestData, TeamsShowResponse>(`teams/${id}`, {
       ...options,
     });
+  const createTeam = ({
+    data,
+    options,
+  }: {
+    data: Ref<TeamsCreateRequestData | undefined>;
+    options?: FetchOptions<TeamsCreateResponse>;
+  }) =>
+    useApiFetch<TeamsCreateRequestData, TeamsCreateResponse>('teams', {
+      method: 'POST',
+      body: data,
+      ...options,
+    });
+  const updateTeam = ({
+    id,
+    data,
+    options,
+  }: {
+    id: string;
+    data: Ref<TeamsUpdateRequestData | undefined>;
+    options?: FetchOptions<TeamsUpdateResponse>;
+  }) =>
+    useApiFetch<TeamsUpdateRequestData, TeamsUpdateResponse>(`teams/${id}`, {
+      method: 'PUT',
+      body: data,
+      ...options,
+    });
+  const deleteTeam = ({
+    id,
+    options,
+  }: {
+    id: string;
+    options?: FetchOptions<TeamsDeleteResponse>;
+  }) =>
+    useApiFetch<undefined, TeamsDeleteResponse>(`teams/${id}`, {
+      method: 'DELETE',
+      ...options,
+    });
 
   return {
     getTeam,
+    createTeam,
+    updateTeam,
+    deleteTeam,
   };
 }

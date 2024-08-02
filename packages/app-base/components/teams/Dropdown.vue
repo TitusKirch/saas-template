@@ -50,6 +50,11 @@
     {
       label: 'Create team',
       icon: 'i-fa6-solid-circle-plus',
+      click: () => {
+        navigateToLocale({
+          name: 'team-create',
+        });
+      },
     },
     {
       label: 'Manage teams',

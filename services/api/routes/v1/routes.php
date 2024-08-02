@@ -4,6 +4,7 @@ use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\AuthProviderController;
 use App\Http\Controllers\V1\FeatureController;
 use App\Http\Controllers\V1\HealthController;
+use App\Http\Controllers\V1\TeamController;
 use App\Http\Controllers\V1\UpController;
 use App\Http\Controllers\V1\UserController;
 use App\Http\Controllers\V1\UserMeController;
@@ -80,4 +81,15 @@ Route::group([
     });
 
     Route::get('/{user}', [UserController::class, 'show'])->name('show');
+});
+
+Route::group([
+    'prefix' => 'teams',
+    'as' => 'teams.',
+    'middleware' => ['api', 'auth:sanctum'],
+], function () {
+    Route::get('/{team}', [TeamController::class, 'show'])->name('show');
+    Route::post('/', [TeamController::class, 'store'])->name('store');
+    // Route::put('/{team}', [TeamController::class, 'update'])->name('update');
+    // Route::delete('/{team}', [TeamController::class, 'destroy'])->name('destroy');
 });

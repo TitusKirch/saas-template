@@ -347,6 +347,12 @@
       }
     }
   },
+  "team": {
+    "name": {
+      "label": "Team name",
+      "placeholder": "Your Team"
+    }
+  },
   "user": {
     "dropdown": {
       "signedInAs": "Signed in as"

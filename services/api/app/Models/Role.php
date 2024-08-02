@@ -11,6 +11,8 @@ class Role extends SpatieRole implements Auditable
 {
     use HasFactory, HasSnowflakePrimary, \OwenIt\Auditing\Auditable;
 
+    protected $guard_name = 'web';
+
     /**
      * Get the team that the role belongs to.
      *

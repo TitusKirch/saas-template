@@ -21,6 +21,7 @@ export default function () {
   watch(
     () => fetchUserData.value,
     (newData) => {
+      console.info('watch fetchUserData', newData);
       if (!newData?.data) {
         return;
       }
