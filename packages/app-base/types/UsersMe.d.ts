@@ -3,7 +3,7 @@ type UserMe = User & {
   email_verified_at: string | null;
   has_password: boolean;
   two_factor_confirmed_at: Date | null;
-  teams: string[];
+  teams?: Team[];
   created_at: Date;
   updated_at: Date;
 };

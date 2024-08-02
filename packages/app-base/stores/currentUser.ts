@@ -30,8 +30,8 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
 
   return {
     currentUser,
-    currentUserAvatarUrl,
     currentUserAvatarPresignedUploadUrlData,
+    currentUserAvatarUrl,
     emailIsVerified,
     hasPassword,
     isAuthenticated,

@@ -12,6 +12,7 @@
   } = useDashboard();
   const { t } = useI18n();
   const localePath = useLocalePath();
+  const { currentUser } = useCurrentUser();
 
   onMounted(() => {
     // sidebar links
@@ -96,7 +97,7 @@
     <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
-          <TeamsDropdown />
+          <TeamsDropdown :teams="currentUser?.teams" />
         </template>
       </UDashboardNavbar>
 
