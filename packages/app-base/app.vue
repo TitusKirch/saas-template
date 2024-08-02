@@ -127,6 +127,7 @@
       </template>
     </Head>
     <Body>
+      <LoadingIndicator />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
