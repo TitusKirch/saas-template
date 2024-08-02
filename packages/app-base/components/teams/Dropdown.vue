@@ -46,6 +46,22 @@
     });
   });
 
+  watch(
+    () => currentTeam.value,
+    (team) => {
+      if (!team) {
+        return;
+      }
+
+      navigateToLocale({
+        name: 'team-id',
+        params: {
+          id: team.id,
+        },
+      });
+    }
+  );
+
   const actions = [
     {
       label: 'Create team',

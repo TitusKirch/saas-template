@@ -121,6 +121,11 @@
         "description": "Here you can create a new team.",
         "section": {
           "form": {
+            "notification": {
+              "success": {
+                "description": "The team has been created successfully."
+              }
+            },
             "submit": {
               "label": "Create team"
             }

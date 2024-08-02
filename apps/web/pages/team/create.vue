@@ -10,28 +10,34 @@
     name: '',
   });
   const { createTeam } = useApiTeams();
-  const {
-    // data,
-    error,
-    status,
-    execute,
-  } = await createTeam({
+  const { data, error, status, execute } = await createTeam({
     data: form,
     options: {
       immediate: false,
       watch: false,
     },
   });
+  const { t } = useI18n();
   const { submit, errorMessages } = useFormKitForm<TeamsCreateRequestData>({
     form,
     error,
     status,
     executeCallback: execute,
     successCallback: async () => {
-      // return navigateToLocale({
-      //   name: 'index',
-      // });
+      useNotification({
+        type: 'success',
+        title: t('global.notification.success.title'),
+        description: t('page.team.create.section.form.notification.success.description'),
+      });
+
       await fetchCurrentUser();
+
+      return navigateToLocale({
+        name: 'team-id',
+        params: {
+          id: data.value?.data.id,
+        },
+      });
     },
     errorCallback: async () => {},
   });
