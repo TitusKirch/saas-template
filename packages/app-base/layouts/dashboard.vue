@@ -90,6 +90,28 @@
       },
     });
   });
+
+  // teams dropdown
+  const route = useRoute();
+  const { team, setTeam } = useTeam();
+  if (!team.value && currentUser.value?.teams && currentUser.value.teams.length > 0) {
+    setTeam({ team: currentUser.value.teams[0] });
+  }
+  const teamsDropdownChangeHandler = ({ team }: { team: Team }) => {
+    setTeam({ team });
+  };
+  watch(team, () => {
+    if (!team.value) {
+      return;
+    }
+    navigateTo({
+      name: route.name,
+      params: {
+        ...route.params,
+        id: team.value?.id.toString(),
+      },
+    });
+  });
 </script>
 
 <template>
@@ -97,7 +119,12 @@
     <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
-          <TeamsDropdown :teams="currentUser?.teams" />
+          <TeamsDropdown
+            v-if="currentUser?.teams"
+            :teams="currentUser.teams"
+            :team="team"
+            @change="teamsDropdownChangeHandler"
+          />
         </template>
       </UDashboardNavbar>
 

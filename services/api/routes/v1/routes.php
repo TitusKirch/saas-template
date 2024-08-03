@@ -90,6 +90,6 @@ Route::group([
 ], function () {
     Route::get('/{team}', [TeamController::class, 'show'])->name('show');
     Route::post('/', [TeamController::class, 'store'])->name('store');
-    // Route::put('/{team}', [TeamController::class, 'update'])->name('update');
+    Route::put('/{team}', [TeamController::class, 'update'])->name('update');
     // Route::delete('/{team}', [TeamController::class, 'destroy'])->name('destroy');
 });

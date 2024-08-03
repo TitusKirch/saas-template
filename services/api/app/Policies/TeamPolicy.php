@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\PermissionsEnum;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -21,6 +22,8 @@ class TeamPolicy
      */
     public function view(User $user, Team $team): Response
     {
+        setPermissionsTeamId($team->id);
+
         return $team->users->contains($user) ? Response::allow() : Response::deny();
     }
 
@@ -37,7 +40,9 @@ class TeamPolicy
      */
     public function update(User $user, Team $team): Response
     {
-        return Response::deny();
+        setPermissionsTeamId($team->id);
+
+        return $user->hasPermissionTo(PermissionsEnum::UPDATE_TEAM) ? Response::allow() : Response::deny();
     }
 
     /**

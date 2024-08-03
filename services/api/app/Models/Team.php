@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PermissionsEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
@@ -19,6 +20,26 @@ class Team extends Model implements Auditable
     ];
 
     /**
+     * Default permissions of owner role.
+     *
+     * @var array
+     */
+    protected static $defaultOwnerRolePermissions = [
+        PermissionsEnum::UPDATE_TEAM,
+        PermissionsEnum::DELETE_TEAM,
+        PermissionsEnum::RESTORE_TEAM,
+        PermissionsEnum::FORCE_DELETE_TEAM,
+    ];
+
+    /**
+     * Default permissions of member role.
+     *
+     * @var array
+     */
+    protected $defaultMemberRolePermissions = [
+    ];
+
+    /**
      * {@inheritdoc}
      */
     protected static function boot()
@@ -26,17 +47,25 @@ class Team extends Model implements Auditable
         parent::boot();
 
         self::created(function ($team) {
-            Role::create([
+            $ownerRole = Role::create([
                 'team_id' => $team->id,
                 'name' => 'Owner',
                 'is_owner' => true,
             ]);
 
-            Role::create([
+            $ownerRole->syncPermissions(
+                self::$defaultOwnerRolePermissions
+            );
+
+            $memberRole = Role::create([
                 'team_id' => $team->id,
                 'name' => 'Member',
                 'is_default' => true,
             ]);
+
+            // $memberRole->syncPermissions(
+            //     self::$defaultMemberRolePermissions;
+            // );
 
             setPermissionsTeamId($team->id);
         });

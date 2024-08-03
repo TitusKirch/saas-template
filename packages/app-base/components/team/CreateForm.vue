@@ -19,13 +19,34 @@
     name: '',
     description: '',
   });
-  const { data, error, status, execute } = await createTeam({
-    data: form,
-    options: {
-      immediate: false,
-      watch: false,
-    },
-  });
+  if (props.mode === 'update' && props.team) {
+    form.value = {
+      ...form.value,
+      name: props.team.name,
+      description: props.team.description,
+    };
+  }
+  const formFunction = () => {
+    if (props.mode === 'update' && props.team) {
+      return updateTeam({
+        id: props.team.id,
+        data: form,
+        options: {
+          immediate: false,
+          watch: false,
+        },
+      });
+    } else {
+      return createTeam({
+        data: form,
+        options: {
+          immediate: false,
+          watch: false,
+        },
+      });
+    }
+  };
+  const { data, error, status, execute } = formFunction();
   const { submit, errorMessages } = useFormKitForm<TeamsCreateRequestData>({
     form,
     error,
@@ -43,7 +64,7 @@
       return navigateToLocale({
         name: 'team-id',
         params: {
-          id: data.value?.data.id,
+          id: data.value?.data.id.toString(),
         },
       });
     },

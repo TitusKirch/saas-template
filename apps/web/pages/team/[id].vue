@@ -53,6 +53,6 @@
 </script>
 
 <template>
-  <NuxtPage v-if="team?.id" />
+  <NuxtPage v-if="team?.id && status === 'success'" />
   <DashboardPage v-else :title="$t('page.team.id.index.meta.title')" />
 </template>

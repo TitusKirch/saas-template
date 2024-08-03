@@ -22,7 +22,7 @@ export default function () {
     data,
     options,
   }: {
-    id: string;
+    id: BigInt;
     data: Ref<TeamsUpdateRequestData | undefined>;
     options?: FetchOptions<TeamsUpdateResponse>;
   }) =>
@@ -35,7 +35,7 @@ export default function () {
     id,
     options,
   }: {
-    id: string;
+    id: BigInt;
     options?: FetchOptions<TeamsDeleteResponse>;
   }) =>
     useApiFetch<undefined, TeamsDeleteResponse>(`teams/${id}`, {

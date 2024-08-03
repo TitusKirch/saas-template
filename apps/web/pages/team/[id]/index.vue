@@ -4,6 +4,15 @@
   useHead({
     title: team.value?.name,
   });
+
+  const clickHandler = () => {
+    navigateToLocale({
+      name: 'team-id-edit',
+      params: {
+        id: team.value?.id.toString(),
+      },
+    });
+  };
 </script>
 
 <template>
@@ -14,5 +23,6 @@
       })
     "
   >
+    <UButton @click="clickHandler">Click me</UButton>
   </DashboardPage>
 </template>

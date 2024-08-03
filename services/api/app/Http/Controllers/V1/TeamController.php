@@ -43,7 +43,7 @@ class TeamController extends Controller
      */
     public function show(Request $request, Team $team)
     {
-        // Gate::authorize('view', $team);
+        Gate::authorize('view', $team);
 
         return new TeamResource($team);
     }
@@ -53,12 +53,14 @@ class TeamController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // $this->validateRequest($request);
+        Gate::authorize('create', Team::class);
 
-        // $team = Team::findOrFail($id);
-        // $team->update($request->all());
+        $this->validateRequest($request);
 
-        // return new TeamResource($team);
+        $team = Team::findOrFail($id);
+        $team->update($request->all());
+
+        return new TeamResource($team);
     }
 
     /**

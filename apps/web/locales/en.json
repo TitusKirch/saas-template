@@ -122,12 +122,19 @@
         "title": "Create a new team"
       },
       "id": {
+        "edit": {
+          "meta": {
+            "description": "Here you can edit the team.",
+            "title": "Edit team"
+          },
+          "title": "Edit team: {teamName}"
+        },
         "index": {
           "meta": {
             "description": "Main page of the team.",
             "title": "Team overview"
           },
-          "title": "Team: {teamName}"
+          "title": "Team overview: {teamName}"
         }
       }
     }
