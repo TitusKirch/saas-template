@@ -1,4 +1,18 @@
+<script setup lang="ts">
+  const { team } = useTeam();
+
+  useHead({
+    title: team.value?.name,
+  });
+</script>
+
 <template>
-  AAA
-  <!-- <DashboardPage :title="$t('page.team.create.title')"> </DashboardPage> -->
+  <DashboardPage
+    :title="
+      $t('page.team.id.index.title', {
+        teamName: team?.name,
+      })
+    "
+  >
+  </DashboardPage>
 </template>

@@ -3,7 +3,7 @@
 
   withDefaults(
     defineProps<{
-      title: string;
+      title?: string;
       toolbarIsNavigation?: boolean;
     }>(),
     {
@@ -68,9 +68,9 @@
             'max-w-7xl': getLayout() === 'compress',
             'max-w-full': getLayout() === 'fullscreen',
           }"
-          class="mx-auto flex w-full shrink-0 flex-col gap-8 transition-all duration-700 ease-in-out"
+          class="mx-auto flex w-full shrink-0 flex-col transition-all duration-700 ease-in-out"
         >
-          <BaseAlertContainer>
+          <BaseAlertContainer id="alert-container">
             <UserNoPasswordAlert />
             <UserEmailIsNotVerifiedAlert />
 
@@ -81,9 +81,17 @@
             />
           </BaseAlertContainer>
 
-          <slot />
+          <div class="flex w-full flex-col gap-8">
+            <slot />
+          </div>
         </div>
       </UDashboardPanelContent>
     </UDashboardPanel>
   </UDashboardPage>
 </template>
+
+<style scoped>
+  #alert-container > div:last-child {
+    @apply mb-8;
+  }
+</style>

@@ -150,6 +150,14 @@
         "label": "Save"
       }
     },
+    "alert": {
+      "error": {
+        "title": "An error occurred"
+      },
+      "loading": {
+        "title": "Loading..."
+      }
+    },
     "auth": {
       "rememberMe": {
         "label": "Remember me"
@@ -351,6 +359,34 @@
     "name": {
       "label": "Team name",
       "placeholder": "Your Team"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "A short description of your team"
+    },
+    "createForm": {
+      "mode": {
+        "create": {
+          "notification": {
+            "success": {
+              "description": "The team has been created successfully."
+            }
+          },
+          "submit": {
+            "label": "Create team"
+          }
+        },
+        "update": {
+          "notification": {
+            "success": {
+              "description": "The team has been updated successfully."
+            }
+          },
+          "submit": {
+            "label": "Update team"
+          }
+        }
+      }
     }
   },
   "user": {

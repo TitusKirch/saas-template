@@ -1,6 +1,7 @@
 type Team = {
-  id: number;
+  id: BigInt;
   name: string;
+  description?: string;
   created_at: string;
   updated_at: string;
 };
@@ -12,10 +13,10 @@ type TeamsShowResponse = ApiResourceResponse<Team>;
 type TeamsShowRequestData = undefined;
 
 type TeamsCreateResponse = ApiResourceResponse<Team>;
-type TeamsCreateRequestData = Pick<Team, 'name'>;
+type TeamsCreateRequestData = Pick<Team, 'name', 'description'>;
 
 type TeamsUpdateResponse = ApiResourceResponse<Team>;
-type TeamsUpdateRequestData = Pick<Team, 'name'>;
+type TeamsUpdateRequestData = Pick<Team, 'name', 'description'>;
 
 type TeamsDeleteResponse = ApiResourceResponse<undefined>;
 type TeamsDeleteRequestData = undefined;

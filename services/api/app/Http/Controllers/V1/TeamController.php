@@ -43,7 +43,7 @@ class TeamController extends Controller
      */
     public function show(Request $request, Team $team)
     {
-        Gate::authorize('view', $team);
+        // Gate::authorize('view', $team);
 
         return new TeamResource($team);
     }

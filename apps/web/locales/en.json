@@ -119,19 +119,16 @@
     "team": {
       "create": {
         "description": "Here you can create a new team.",
-        "section": {
-          "form": {
-            "notification": {
-              "success": {
-                "description": "The team has been created successfully."
-              }
-            },
-            "submit": {
-              "label": "Create team"
-            }
-          }
-        },
         "title": "Create a new team"
+      },
+      "id": {
+        "index": {
+          "meta": {
+            "description": "Main page of the team.",
+            "title": "Team overview"
+          },
+          "title": "Team: {teamName}"
+        }
       }
     }
   }

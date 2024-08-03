@@ -56,7 +56,7 @@
       navigateToLocale({
         name: 'team-id',
         params: {
-          id: team.id,
+          id: team.id.toString(),
         },
       });
     }
