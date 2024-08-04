@@ -11,13 +11,15 @@ class Role extends SpatieRole implements Auditable
 {
     use HasFactory, HasSnowflakePrimary, \OwenIt\Auditing\Auditable;
 
+    protected $guard_name = 'web';
+
     /**
-     * Get the organization that the role belongs to.
+     * Get the team that the role belongs to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function organization()
+    public function team()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Team::class);
     }
 }

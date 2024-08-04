@@ -36,7 +36,7 @@
       </template>
     </UDashboardSection>
 
-    <UDivider class="mb-4" />
+    <UDivider v-if="currentUser?.two_factor_confirmed_at" class="mb-4" />
 
     <UDashboardSection
       v-show="currentUser?.two_factor_confirmed_at"

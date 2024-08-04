@@ -15,7 +15,7 @@
   }>();
 
   const authStore = useAuthStore();
-  const { getColorByType } = useAlertStyle();
+  const { getColorByType } = useAlert();
 
   const modalIsOpen = ref(false);
 </script>

@@ -41,6 +41,20 @@
       clearTimeout(redirectTimeout.value);
     }
   });
+
+  const clickHander = async () => {
+    if (status.value === 'success') {
+      return await fetchCurrentUser().finally(() => {
+        return navigateToLocale({
+          name: 'index',
+        });
+      });
+    } else {
+      return navigateToLocale({
+        name: 'index',
+      });
+    }
+  };
 </script>
 
 <template>
@@ -54,13 +68,9 @@
               tag="p"
               class="mt-1 text-gray-500 dark:text-gray-400"
             >
-              <NuxtLinkLocale
-                :to="{
-                  name: 'index',
-                }"
-                class="text-primary-500 font-medium"
-                >{{ $t('global.action.page.home.label') }}</NuxtLinkLocale
-              >
+              <BaseLink @click="clickHander" class="text-primary-500 font-medium">
+                {{ $t('global.action.page.home.label') }}
+              </BaseLink>
             </i18n-t>
           </template>
         </AuthCard>

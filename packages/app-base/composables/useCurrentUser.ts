@@ -18,12 +18,16 @@ export default function () {
       watch: false,
     },
   });
-  watch(fetchUserData, (newData) => {
-    if (!newData?.data) {
-      return;
+  watch(
+    () => fetchUserData.value,
+    (newData) => {
+      console.info('watch fetchUserData', newData);
+      if (!newData?.data) {
+        return;
+      }
+      currentUserStore.setCurrentUser({ user: newData.data });
     }
-    currentUserStore.setCurrentUser({ user: newData.data });
-  });
+  );
 
   // current user avatar url
   const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiCurrentUsers();

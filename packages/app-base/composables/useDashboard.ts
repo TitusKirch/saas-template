@@ -4,13 +4,11 @@ import type { DashboardSidebarLink } from '@tituskirch/app-base/types/Dashboard'
 
 export default function () {
   const dashboardStore = useDashboardStore();
+  const dashboardStoreRefs = storeToRefs(dashboardStore);
 
   // layout
-  const getLayout = () => {
-    return dashboardStore.layout;
-  };
   const { t } = useI18n();
-  const getLayoutOptions = () => {
+  const layoutOptions = () => {
     return [
       {
         value: 'fullscreen',
@@ -25,61 +23,7 @@ export default function () {
     ];
   };
 
-  // sidebar links
-  const getSidebarLinks = () => {
-    return dashboardStore.sidebarLinks;
-  };
-  const addSidebarLink = (link: DashboardSidebarLink) => {
-    dashboardStore.addSidebarLink(link);
-  };
-  const addSidebarLinks = (links: DashboardSidebarLink[]) => {
-    for (const link of links) {
-      addSidebarLink(link);
-    }
-  };
-  const removeSidebarLink = ({ id }: { id: string }) => {
-    dashboardStore.removeSidebarLink({
-      id,
-    });
-  };
-  const resetSidebarLinks = () => {
-    dashboardStore.resetSidebarLinks();
-  };
-
-  // search groups
-  const getSearchGroups = () => {
-    return dashboardStore.searchGroups;
-  };
-  const getSearchGroupsWithLinks = () => {
-    return dashboardStore.getSearchGroupsWithLinks;
-  };
-  const addSearchGroup = (group: Group) => {
-    dashboardStore.addSearchGroup(group);
-  };
-  const removeSearchGroup = ({ key }: { key: string }) => {
-    dashboardStore.removeSearchGroup({
-      key,
-    });
-  };
-  const resetSearchGroups = () => {
-    dashboardStore.resetSearchGroups();
-  };
-
   // shortcuts
-  const getShortcuts = () => {
-    return dashboardStore.shortcuts;
-  };
-  const addShortcut = ({ key, callback }: { key: string; callback: () => void }) => {
-    dashboardStore.addShortcut({
-      key,
-      callback,
-    });
-  };
-  const removeShortcut = ({ key }: { key: string }) => {
-    dashboardStore.removeShortcut({
-      key,
-    });
-  };
   const setShortcuts = () => {
     const shortcuts: Record<string, () => void> = {
       ...dashboardStore.shortcuts,
@@ -92,9 +36,6 @@ export default function () {
     }
 
     defineShortcuts(shortcuts);
-  };
-  const resetShortcuts = () => {
-    dashboardStore.resetShortcuts();
   };
   setShortcuts();
   watch(
@@ -129,23 +70,10 @@ export default function () {
   // );
 
   return {
+    ...dashboardStore,
+    ...dashboardStoreRefs,
+    layoutOptions,
     // isHelpSlideoverOpen,
     // isNotificationsSlideoverOpen,
-    getLayout,
-    getLayoutOptions,
-    getSidebarLinks,
-    addSidebarLink,
-    addSidebarLinks,
-    removeSidebarLink,
-    resetSidebarLinks,
-    getSearchGroups,
-    getSearchGroupsWithLinks,
-    addSearchGroup,
-    removeSearchGroup,
-    resetSearchGroups,
-    getShortcuts,
-    addShortcut,
-    removeShortcut,
-    resetShortcuts,
   };
 }

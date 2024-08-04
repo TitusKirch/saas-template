@@ -19,6 +19,12 @@
     return t('base.app.fallbackTitle');
   });
   useHead({
+    // NOTE: for dynamic title we use useHead besides definePageMeta (e.g. if the title is set by a result of an API call)
+    titleTemplate: (titleChunk) => {
+      return titleChunk && titleChunk != title.value
+        ? t('base.app.title', { title: titleChunk })
+        : title.value;
+    },
     meta: [
       {
         property: 'og:title',
@@ -127,6 +133,7 @@
       </template>
     </Head>
     <Body>
+      <LoadingIndicator />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

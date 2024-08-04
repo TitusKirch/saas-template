@@ -8,7 +8,7 @@
     middleware: ['auth'],
   });
 
-  if (hasPassword) {
+  if (hasPassword.value) {
     throw createError({
       statusCode: 404,
     });

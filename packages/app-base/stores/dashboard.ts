@@ -10,11 +10,16 @@ export const useDashboardStore = defineStore(
     // sidebar links
     const localePath = useLocalePath();
     const sidebarLinks = ref<DashboardSidebarLink[]>([]);
-    const addSidebarLink = (link: DashboardSidebarLink) => {
+    const addSidebarLink = ({ link }: { link: DashboardSidebarLink }) => {
       sidebarLinks.value.push({
         ...link,
         to: link.to ? localePath(link.to) : undefined,
       });
+    };
+    const addSidebarLinks = ({ links }: { links: DashboardSidebarLink[] }) => {
+      for (const link of links) {
+        addSidebarLink({ link });
+      }
     };
     const removeSidebarLink = ({ id }: { id: string }) => {
       sidebarLinks.value = sidebarLinks.value.filter((link) => link.id !== id);
@@ -26,7 +31,7 @@ export const useDashboardStore = defineStore(
     // search groups
     const { t } = useI18n();
     const searchGroups = ref<Group[]>([]);
-    const addSearchGroup = (group: Group) => {
+    const addSearchGroup = ({ group }: { group: Group }) => {
       searchGroups.value.push(group);
     };
     const removeSearchGroup = ({ key }: { key: string }) => {
@@ -67,6 +72,7 @@ export const useDashboardStore = defineStore(
       layout,
       sidebarLinks,
       addSidebarLink,
+      addSidebarLinks,
       removeSidebarLink,
       resetSidebarLinks,
       searchGroups,

@@ -16,13 +16,13 @@
       <template #right>
         <UColorModeButton />
 
-        <NuxtLinkLocale
+        <BaseLink
           :to="{
             name: 'auth-logout',
           }"
         >
           <UButton color="gray" variant="ghost" icon="i-fa6-solid-right-to-bracket" />
-        </NuxtLinkLocale>
+        </BaseLink>
       </template>
     </UHeader>
 
