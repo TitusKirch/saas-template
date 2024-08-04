@@ -5,12 +5,12 @@
   const {
     resetSidebarLinks,
     addSidebarLinks,
-    getSidebarLinks,
     resetSearchGroups,
     addSearchGroup,
-    getSearchGroupsWithLinks,
     resetShortcuts,
     addShortcut,
+    getSearchGroupsWithLinks,
+    sidebarLinks,
   } = useDashboard();
 
   const dashboardStore = useDashboardStore();
@@ -22,80 +22,83 @@
   onMounted(() => {
     // sidebar links
     resetSidebarLinks();
-    addSidebarLinks([
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        icon: 'i-fa6-solid-house',
-        to: localePath({
-          name: 'index',
-        }),
-        tooltip: {
-          text: 'Dashboard',
-          shortcuts: ['G', 'D'],
+    addSidebarLinks({
+      links: [
+        {
+          id: 'dashboard',
+          label: 'Dashboard',
+          icon: 'i-fa6-solid-house',
+          to: localePath({
+            name: 'index',
+          }),
+          tooltip: {
+            text: 'Dashboard',
+            shortcuts: ['G', 'D'],
+          },
         },
-      },
-      {
-        id: 'placeholder',
-        label: 'Placeholder',
-        icon: 'i-fa6-solid-flask',
-        to: localePath({
-          name: 'placeholder',
-        }),
-        tooltip: {
-          text: 'Placeholder',
-          shortcuts: ['G', 'P'],
+        {
+          id: 'placeholder',
+          label: 'Placeholder',
+          icon: 'i-fa6-solid-flask',
+          to: localePath({
+            name: 'placeholder',
+          }),
+          tooltip: {
+            text: 'Placeholder',
+            shortcuts: ['G', 'P'],
+          },
         },
-      },
-      {
-        id: 'team-id',
-        label: computed(() => team.value?.name),
-        icon: 'i-fa6-solid-users',
-        to: computed(() => {
-          console.log('team.value?.id', team.value?.id);
-          return localePath({
-            name: 'team-id',
-            params: {
-              id: team.value?.id.toString(),
-            },
-          });
-        }),
-      },
-    ]);
+        {
+          id: 'team-id',
+          label: team.value?.name,
+          icon: 'i-fa6-solid-users',
+          click: () => {
+            navigateToLocale({
+              name: 'team-id',
+              params: {
+                id: team.value?.id.toString(),
+              },
+            });
+          },
+        },
+      ],
+    });
 
     // search groups
     resetSearchGroups();
     addSearchGroup({
-      key: 'settings',
-      label: t('page.settings.title'),
-      commands: [
-        {
-          id: 'settings-index',
-          label: t('page.settings.index.title'),
-          icon: 'i-fa6-solid-gears',
-          to: localePath({ name: 'settings' }),
-          shortcuts: ['G', 'S'],
-          exact: true,
-        },
-        {
-          id: 'settings-account',
-          label: t('page.settings.account.title'),
-          icon: 'i-fa6-solid-circle-user',
-          to: localePath({ name: 'settings-account' }),
-        },
-        {
-          id: 'settings-security',
-          label: t('page.settings.security.title'),
-          icon: 'i-fa6-solid-lock',
-          to: localePath({ name: 'settings-security' }),
-        },
-        {
-          id: 'settings-notifications',
-          label: t('page.settings.notifications.title'),
-          icon: 'i-fa6-solid-bell',
-          to: localePath({ name: 'settings-notifications' }),
-        },
-      ],
+      group: {
+        key: 'settings',
+        label: t('page.settings.title'),
+        commands: [
+          {
+            id: 'settings-index',
+            label: t('page.settings.index.title'),
+            icon: 'i-fa6-solid-gears',
+            to: localePath({ name: 'settings' }),
+            shortcuts: ['G', 'S'],
+            exact: true,
+          },
+          {
+            id: 'settings-account',
+            label: t('page.settings.account.title'),
+            icon: 'i-fa6-solid-circle-user',
+            to: localePath({ name: 'settings-account' }),
+          },
+          {
+            id: 'settings-security',
+            label: t('page.settings.security.title'),
+            icon: 'i-fa6-solid-lock',
+            to: localePath({ name: 'settings-security' }),
+          },
+          {
+            id: 'settings-notifications',
+            label: t('page.settings.notifications.title'),
+            icon: 'i-fa6-solid-bell',
+            to: localePath({ name: 'settings-notifications' }),
+          },
+        ],
+      },
     });
 
     // shortcuts
@@ -140,6 +143,22 @@
       });
     }
   });
+
+  // const test = computed(() => {
+  //   return [
+  //     {
+  //       id: 'team-id',
+  //       label: team.value?.name,
+  //       icon: 'i-fa6-solid-users',
+  //       to: localePath({
+  //         name: 'team-id',
+  //         params: {
+  //           id: team.value?.id.toString(),
+  //         },
+  //       }),
+  //     },
+  //   ];
+  // });
 </script>
 
 <template>
@@ -161,7 +180,7 @@
           <UDashboardSearchButton />
         </template>
 
-        <UDashboardSidebarLinks :links="getSidebarLinks()" />
+        <UDashboardSidebarLinks :links="sidebarLinks" />
 
         <!-- <UDivider /> -->
 
@@ -184,10 +203,7 @@
     <slot />
 
     <ClientOnly>
-      <LazyUDashboardSearch
-        v-if="getSearchGroupsWithLinks()"
-        :groups="getSearchGroupsWithLinks()"
-      />
+      <LazyUDashboardSearch v-if="getSearchGroupsWithLinks" :groups="getSearchGroupsWithLinks" />
     </ClientOnly>
   </UDashboardLayout>
 </template>
