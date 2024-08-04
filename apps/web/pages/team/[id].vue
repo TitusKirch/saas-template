@@ -17,16 +17,20 @@
   const showAlert = () => {
     if (fetchTeamByRouteStatus.value === 'pending') {
       addAlert({
-        id: 'getTeamStatus',
-        type: 'info',
-        title: t('global.alert.loading.title'),
+        alert: {
+          id: 'getTeamStatus',
+          type: 'info',
+          title: t('global.alert.loading.title'),
+        },
       });
     } else if (fetchTeamByRouteStatus.value === 'error') {
       addAlert({
-        id: 'getTeamStatus',
-        type: 'error',
-        title: t('global.alert.error.title'),
-        description: fetchTeamByRouteError.value?.data?.message,
+        alert: {
+          id: 'getTeamStatus',
+          type: 'error',
+          title: t('global.alert.error.title'),
+          description: fetchTeamByRouteError.value?.data?.message,
+        },
       });
     } else {
       removeAlert({

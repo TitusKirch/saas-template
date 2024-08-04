@@ -7,7 +7,7 @@ export default function ({
   title: string;
   type: AlertType;
 }) {
-  const { getColorByType, getIconByType } = useAlertStyle();
+  const { getColorByType, getIconByType } = useAlert();
   const toast = useToast();
   toast.add({
     title: title,

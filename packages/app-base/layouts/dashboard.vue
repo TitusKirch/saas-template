@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { useDashboardStore } from '@tituskirch/app-base/stores/dashboard';
+
   // init dashboard
   const {
     resetSidebarLinks,
@@ -10,9 +12,12 @@
     resetShortcuts,
     addShortcut,
   } = useDashboard();
+
+  const dashboardStore = useDashboardStore();
   const { t } = useI18n();
   const localePath = useLocalePath();
   const { currentUser } = useCurrentUser();
+  const { team, setTeam } = useTeam();
 
   onMounted(() => {
     // sidebar links
@@ -41,6 +46,20 @@
           text: 'Placeholder',
           shortcuts: ['G', 'P'],
         },
+      },
+      {
+        id: 'team-id',
+        label: computed(() => team.value?.name),
+        icon: 'i-fa6-solid-users',
+        to: computed(() => {
+          console.log('team.value?.id', team.value?.id);
+          return localePath({
+            name: 'team-id',
+            params: {
+              id: team.value?.id.toString(),
+            },
+          });
+        }),
       },
     ]);
 
@@ -93,7 +112,6 @@
 
   // teams dropdown
   const route = useRoute();
-  const { team, setTeam } = useTeam();
   if (!team.value && currentUser.value?.teams && currentUser.value.teams.length > 0) {
     setTeam({ team: currentUser.value.teams[0] });
   }

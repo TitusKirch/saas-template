@@ -20,7 +20,7 @@
     footer?: HTMLElement;
   }>();
 
-  const { getColorByType, getIconByType } = useAlertStyle();
+  const { getColorByType, getIconByType } = useAlert();
   const color = computed(() => {
     return getColorByType({ type: props.type });
   });
