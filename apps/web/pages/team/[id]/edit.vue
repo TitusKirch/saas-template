@@ -28,6 +28,15 @@
       })
     "
   >
-    <TeamCreateForm mode="update" :team="team" @success="successCallback" />
+    <UCard>
+      <template #header>
+        <CardHeader
+          :title="$t('page.team.id.edit.section.form.header.title')"
+          :description="$t('page.team.id.edit.section.form.header.description')"
+        />
+      </template>
+
+      <TeamCreateForm mode="update" :team="team" @success="successCallback" />
+    </UCard>
   </DashboardPage>
 </template>

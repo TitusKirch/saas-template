@@ -119,6 +119,14 @@
     "team": {
       "create": {
         "description": "Here you can create a new team.",
+        "section": {
+          "form": {
+            "header": {
+              "description": "Here you can create a new team.",
+              "title": "Create a new team"
+            }
+          }
+        },
         "title": "Create a new team"
       },
       "id": {
@@ -126,6 +134,14 @@
           "meta": {
             "description": "Here you can edit the team.",
             "title": "Edit team"
+          },
+          "section": {
+            "form": {
+              "header": {
+                "description": "Here you can edit the general information of the team like the name and description.",
+                "title": "Edit general information"
+              }
+            }
           },
           "title": "Edit team: {teamName}"
         },

@@ -13,7 +13,7 @@ export default function () {
     execute: fetchTeamByRoute,
     error: fetchTeamByRouteError,
   } = getTeam({
-    id: BigInt(route.params.id as string),
+    id: BigInt((route.params?.id as string) ?? 0),
     options: {
       immediate: false,
       watch: false,

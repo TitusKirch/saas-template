@@ -85,7 +85,7 @@
     @submit="submit"
   >
     <FormErrorsAlert :error-messages="errorMessages" />
-    {{ form }}
+
     <FormKit
       type="text"
       name="name"
@@ -103,6 +103,7 @@
       :placeholder="$t('team.description.placeholder')"
       prefix-icon="textarea"
       auto-height
+      validation="length:0,1024"
     />
 
     <UDashboardSection
