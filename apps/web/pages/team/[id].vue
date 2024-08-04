@@ -1,24 +1,11 @@
 <script setup lang="ts">
-  // team
   const route = useRoute();
-  const { getTeam } = useApiTeams();
-  const { data, error, status, execute } = getTeam({
-    id: route.params.id as string,
-    options: {
-      immediate: false,
-    },
-  });
-  const { setTeam, reset, team } = useTeam();
-  watch(data, (value) => {
-    console.log('value', value);
-    if (value) {
-      setTeam({
-        team: value.data,
-      });
-    }
-  });
+
+  // team
+  const { fetchTeamByRoute, fetchTeamByRouteStatus, fetchTeamByRouteError, reset, team } =
+    useTeam();
   onBeforeMount(async () => {
-    await execute();
+    await fetchTeamByRoute();
   });
   onUnmounted(() => {
     reset();
@@ -28,18 +15,18 @@
   const { addAlert, removeAlert } = useAlert();
   const { t } = useI18n();
   const showAlert = () => {
-    if (status.value === 'pending') {
+    if (fetchTeamByRouteStatus.value === 'pending') {
       addAlert({
         id: 'getTeamStatus',
         type: 'info',
         title: t('global.alert.loading.title'),
       });
-    } else if (status.value === 'error') {
+    } else if (fetchTeamByRouteStatus.value === 'error') {
       addAlert({
         id: 'getTeamStatus',
         type: 'error',
         title: t('global.alert.error.title'),
-        description: error.value?.data?.message,
+        description: fetchTeamByRouteError.value?.data?.message,
       });
     } else {
       removeAlert({
@@ -47,12 +34,14 @@
       });
     }
   };
-  watch(status, () => {
+  watch(fetchTeamByRouteStatus, () => {
     showAlert();
   });
 </script>
 
 <template>
-  <NuxtPage v-if="team?.id && status === 'success'" />
+  <NuxtPage
+    v-if="team?.id == BigInt(route.params.id as string) && fetchTeamByRouteStatus === 'success'"
+  />
   <DashboardPage v-else :title="$t('page.team.id.index.meta.title')" />
 </template>

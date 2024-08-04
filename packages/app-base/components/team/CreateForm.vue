@@ -9,9 +9,15 @@
       team: undefined,
     }
   );
+  const emit = defineEmits<{
+    success: [
+      {
+        data: Ref<TeamsUpdateResponse | null>;
+      },
+    ];
+  }>();
 
   const { t } = useI18n();
-  const { fetchCurrentUser } = useCurrentUser();
   const { createTeam, updateTeam } = useApiTeams();
 
   // form setup
@@ -51,7 +57,10 @@
     form,
     error,
     status,
-    executeCallback: execute,
+    executeCallback: async () => {
+      console.info('executeCallback', form.value);
+      await execute();
+    },
     successCallback: async () => {
       useNotification({
         type: 'success',
@@ -59,16 +68,10 @@
         description: t(`team.createForm.mode.${props.mode}.notification.success.description`),
       });
 
-      await fetchCurrentUser();
-
-      return navigateToLocale({
-        name: 'team-id',
-        params: {
-          id: data.value?.data.id.toString(),
-        },
+      emit('success', {
+        data: data,
       });
     },
-    errorCallback: async () => {},
   });
 </script>
 
@@ -82,7 +85,7 @@
     @submit="submit"
   >
     <FormErrorsAlert :error-messages="errorMessages" />
-
+    {{ form }}
     <FormKit
       type="text"
       name="name"
@@ -98,7 +101,8 @@
       name="description"
       :label="$t('team.description.label')"
       :placeholder="$t('team.description.placeholder')"
-      prefix-icon="description"
+      prefix-icon="textarea"
+      auto-height
     />
 
     <UDashboardSection

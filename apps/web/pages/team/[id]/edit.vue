@@ -1,10 +1,23 @@
 <script setup lang="ts">
-  const { team } = useTeam();
-
   definePageMeta({
     title: 'page.team.id.edit.meta.title',
     description: 'page.team.id.edit.meta.description',
   });
+
+  const { fetchTeamByRoute, team } = useTeam();
+  const { fetchCurrentUser } = useCurrentUser();
+  const successCallback = async ({ data }: { data: Ref<TeamsUpdateResponse | null> }) => {
+    await fetchCurrentUser();
+
+    await fetchTeamByRoute();
+
+    return navigateToLocale({
+      name: 'team-id',
+      params: {
+        id: data.value?.data.id.toString(),
+      },
+    });
+  };
 </script>
 
 <template>
@@ -15,6 +28,6 @@
       })
     "
   >
-    <TeamCreateForm mode="update" :team="team" />
+    <TeamCreateForm mode="update" :team="team" @success="successCallback" />
   </DashboardPage>
 </template>

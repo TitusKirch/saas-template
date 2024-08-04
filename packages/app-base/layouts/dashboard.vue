@@ -104,13 +104,23 @@
     if (!team.value) {
       return;
     }
-    navigateTo({
-      name: route.name,
-      params: {
-        ...route.params,
-        id: team.value?.id.toString(),
-      },
-    });
+
+    if (typeof route.name == 'string' && route.name?.startsWith('team-id')) {
+      return navigateTo({
+        name: route.name,
+        params: {
+          ...route.params,
+          id: team.value.id.toString(),
+        },
+      });
+    } else {
+      return navigateToLocale({
+        name: 'team-id',
+        params: {
+          id: team.value.id.toString(),
+        },
+      });
+    }
   });
 </script>
 

@@ -18,6 +18,7 @@ class TeamController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
+            'description' => 'nullable|string',
         ]);
     }
 
@@ -51,13 +52,12 @@ class TeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Team $team)
     {
-        Gate::authorize('create', Team::class);
+        Gate::authorize('update', $team);
 
         $this->validateRequest($request);
 
-        $team = Team::findOrFail($id);
         $team->update($request->all());
 
         return new TeamResource($team);

@@ -17,6 +17,7 @@ class Team extends Model implements Auditable
      */
     protected $fillable = [
         'name',
+        'description',
     ];
 
     /**
@@ -108,8 +109,8 @@ class Team extends Model implements Auditable
      */
     public function users()
     {
-        return $this->roles()->with('users')->get()->flatMap(function ($role) {
+        return $this->roles->map(function ($role) {
             return $role->users;
-        })->unique('id');
+        })->flatten()->unique('id');
     }
 }

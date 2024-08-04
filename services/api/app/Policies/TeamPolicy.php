@@ -24,7 +24,7 @@ class TeamPolicy
     {
         setPermissionsTeamId($team->id);
 
-        return $team->users->contains($user) ? Response::allow() : Response::deny();
+        return $team->users()->contains('id', '=', $user->id) ? Response::allow() : Response::deny();
     }
 
     /**
@@ -42,7 +42,7 @@ class TeamPolicy
     {
         setPermissionsTeamId($team->id);
 
-        return $user->hasPermissionTo(PermissionsEnum::UPDATE_TEAM) ? Response::allow() : Response::deny();
+        return $user->hasPermissionTo(PermissionsEnum::UPDATE_TEAM->value) ? Response::allow() : Response::deny();
     }
 
     /**
