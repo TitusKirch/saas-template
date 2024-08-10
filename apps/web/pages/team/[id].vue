@@ -5,11 +5,14 @@
   const { fetchTeamByRoute, fetchTeamByRouteStatus, fetchTeamByRouteError, reset, team } =
     useTeam();
   onBeforeMount(async () => {
-    await fetchTeamByRoute();
+    if (BigInt(route.params?.id as string) != team.value?.id) {
+      console.info('fetchTeamByRoute');
+      await fetchTeamByRoute();
+    }
   });
-  onUnmounted(() => {
-    reset();
-  });
+  // onUnmounted(() => {
+  //   reset();
+  // });
 
   // alert
   const { addAlert, removeAlert } = useAlert();
@@ -44,8 +47,6 @@
 </script>
 
 <template>
-  <NuxtPage
-    v-if="team?.id == BigInt(route.params.id as string) && fetchTeamByRouteStatus === 'success'"
-  />
+  <NuxtPage v-if="team?.id == BigInt(route.params.id as string)" />
   <DashboardPage v-else :title="$t('page.team.id.index.meta.title')" />
 </template>

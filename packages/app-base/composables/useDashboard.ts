@@ -1,6 +1,4 @@
 import { useDashboardStore } from '@tituskirch/app-base/stores/dashboard';
-import type { Group } from '#ui/types';
-import type { DashboardSidebarLink } from '@tituskirch/app-base/types/Dashboard';
 
 export default function () {
   const dashboardStore = useDashboardStore();
@@ -29,23 +27,26 @@ export default function () {
       ...dashboardStore.shortcuts,
     };
 
-    for (const link of dashboardStore.sidebarLinks) {
-      if (link.tooltip?.shortcuts) {
-        shortcuts[link.tooltip?.shortcuts.join('-').toLowerCase()] = () => navigateTo(link.to);
+    if (dashboardStoreRefs.sidebarLinkGroups.value.length > 0) {
+      const links = dashboardStoreRefs.sidebarLinkGroups.value.flatMap(
+        (group) => group.links || []
+      );
+
+      if (links.length > 0) {
+        for (const link of links) {
+          if (link.tooltip?.shortcuts) {
+            shortcuts[link.tooltip?.shortcuts.join('-').toLowerCase()] = () => navigateTo(link.to);
+          }
+        }
       }
     }
 
     defineShortcuts(shortcuts);
   };
   setShortcuts();
-  watch(
-    () => dashboardStore.shortcuts,
-    () => setShortcuts()
-  );
-  watch(
-    () => dashboardStore.sidebarLinks,
-    () => setShortcuts()
-  );
+  watch(dashboardStoreRefs.sidebarLinkGroups, () => {
+    setShortcuts();
+  });
 
   // const route = useRoute();
   // const router = useRouter();
@@ -53,10 +54,6 @@ export default function () {
   // const isNotificationsSlideoverOpen = ref(false);
 
   // defineShortcuts({
-  //   'g-h': () => router.push('/'),
-  //   'g-i': () => router.push('/inbox'),
-  //   'g-u': () => router.push('/users'),
-  //   'g-s': () => router.push('/settings'),
   //   '?': () => (isHelpSlideoverOpen.value = true),
   //   n: () => (isNotificationsSlideoverOpen.value = true),
   // });

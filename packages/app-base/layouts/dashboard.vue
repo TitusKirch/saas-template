@@ -1,16 +1,19 @@
 <script setup lang="ts">
   import { useDashboardStore } from '@tituskirch/app-base/stores/dashboard';
+  import type { DashboardSidebarLink } from '@tituskirch/app-base/types/Dashboard';
 
   // init dashboard
   const {
-    resetSidebarLinks,
-    addSidebarLinks,
-    resetSearchGroups,
     addSearchGroup,
-    resetShortcuts,
     addShortcut,
-    getSearchGroupsWithLinks,
-    sidebarLinks,
+    addSidebarLinkGroups,
+    removeSidebarLinkGroup,
+    replaceOrAddSidebarLinkGroup,
+    resetSearchGroups,
+    resetShortcuts,
+    searchGroupsWithLinks,
+    sidebarFooterLinkGroups,
+    sidebarMainLinkGroups,
   } = useDashboard();
 
   const dashboardStore = useDashboardStore();
@@ -19,51 +22,92 @@
   const { currentUser } = useCurrentUser();
   const { team, setTeam } = useTeam();
 
-  onMounted(() => {
-    // sidebar links
-    resetSidebarLinks();
-    addSidebarLinks({
-      links: [
-        {
-          id: 'dashboard',
-          label: 'Dashboard',
-          icon: 'i-fa6-solid-house',
-          to: localePath({
-            name: 'index',
-          }),
-          tooltip: {
-            text: 'Dashboard',
-            shortcuts: ['G', 'D'],
-          },
-        },
-        {
-          id: 'placeholder',
-          label: 'Placeholder',
-          icon: 'i-fa6-solid-flask',
-          to: localePath({
-            name: 'placeholder',
-          }),
-          tooltip: {
-            text: 'Placeholder',
-            shortcuts: ['G', 'P'],
-          },
-        },
-        {
-          id: 'team-id',
-          label: team.value?.name,
-          icon: 'i-fa6-solid-users',
-          click: () => {
-            navigateToLocale({
+  const setTeamSidebarLinkGroup = () => {
+    if (!team.value) {
+      console.log('remove team sidebar link group');
+      removeSidebarLinkGroup({
+        id: 'team',
+      });
+      return;
+    }
+
+    replaceOrAddSidebarLinkGroup({
+      group: {
+        id: 'team',
+        position: 'main',
+        links: [
+          {
+            id: 'team-id',
+            label: team.value.name,
+            icon: 'i-fa6-solid-users',
+            to: localePath({
               name: 'team-id',
               params: {
                 id: team.value?.id.toString(),
               },
-            });
+            }),
+            tooltip: {
+              text: t('page.team.id.index.title'),
+              shortcuts: ['G', 'T'],
+            },
+            sort: 1,
           },
+          {
+            id: 'team-id',
+            label: '2',
+            icon: 'i-fa6-solid-users',
+            to: localePath({
+              name: 'team-id',
+              params: {
+                id: team.value?.id.toString(),
+              },
+            }),
+            sort: 3,
+          },
+        ],
+      },
+    });
+  };
+
+  onMounted(() => {
+    addSidebarLinkGroups({
+      groups: [
+        {
+          id: 'general',
+          position: 'main',
+          links: [
+            {
+              id: 'dashboard',
+              label: 'Dashboard',
+              icon: 'i-fa6-solid-house',
+              to: localePath({
+                name: 'index',
+              }),
+              tooltip: {
+                text: 'Dashboard',
+                shortcuts: ['G', 'D'],
+              },
+            },
+            {
+              id: 'placeholder',
+              label: 'Placeholder',
+              icon: 'i-fa6-solid-flask',
+              to: localePath({
+                name: 'placeholder',
+              }),
+              tooltip: {
+                text: 'Placeholder',
+                shortcuts: ['G', 'P'],
+              },
+            },
+          ],
         },
       ],
     });
+    setTeamSidebarLinkGroup();
+  });
 
+  onMounted(() => {
     // search groups
     resetSearchGroups();
     addSearchGroup({
@@ -126,6 +170,8 @@
       return;
     }
 
+    setTeamSidebarLinkGroup();
+
     if (typeof route.name == 'string' && route.name?.startsWith('team-id')) {
       return navigateTo({
         name: route.name,
@@ -143,22 +189,6 @@
       });
     }
   });
-
-  // const test = computed(() => {
-  //   return [
-  //     {
-  //       id: 'team-id',
-  //       label: team.value?.name,
-  //       icon: 'i-fa6-solid-users',
-  //       to: localePath({
-  //         name: 'team-id',
-  //         params: {
-  //           id: team.value?.id.toString(),
-  //         },
-  //       }),
-  //     },
-  //   ];
-  // });
 </script>
 
 <template>
@@ -180,18 +210,29 @@
           <UDashboardSearchButton />
         </template>
 
-        <UDashboardSidebarLinks :links="sidebarLinks" />
-
-        <!-- <UDivider /> -->
-
-        <!-- <UDashboardSidebarLinks
-          :links="[{ label: 'Colors', draggable: true, children: colors }]"
-          @update:links="colors => defaultColors = colors"
-        /> -->
+        <template v-if="sidebarMainLinkGroups.length > 0">
+          <template v-for="(group, index) in sidebarMainLinkGroups" :key="group.id">
+            <template v-if="group?.links?.length && group.links.length > 0">
+              <UDashboardSidebarLinks
+                :links="group.links.sort((a, b) => (a.sort || 0) - (b.sort || 0))"
+              />
+              <UDivider v-if="index < sidebarMainLinkGroups.length - 1" />
+            </template>
+          </template>
+        </template>
 
         <div class="flex-1" />
 
-        <!-- <UDashboardSidebarLinks :links="footerLinks" /> -->
+        <template v-if="sidebarFooterLinkGroups.length > 0">
+          <template v-for="(group, index) in sidebarFooterLinkGroups" :key="group.id">
+            <template v-if="group?.links?.length && group.links.length > 0">
+              <UDashboardSidebarLinks
+                :links="group.links.sort((a, b) => (a.sort || 0) - (b.sort || 0))"
+              />
+              <UDivider v-if="index < sidebarFooterLinkGroups.length - 1" />
+            </template>
+          </template>
+        </template>
 
         <UDivider class="sticky bottom-0" />
 
@@ -203,7 +244,7 @@
     <slot />
 
     <ClientOnly>
-      <LazyUDashboardSearch v-if="getSearchGroupsWithLinks" :groups="getSearchGroupsWithLinks" />
+      <LazyUDashboardSearch v-if="searchGroupsWithLinks" :groups="searchGroupsWithLinks" />
     </ClientOnly>
   </UDashboardLayout>
 </template>

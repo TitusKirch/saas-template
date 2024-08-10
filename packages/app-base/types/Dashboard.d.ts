@@ -2,4 +2,12 @@ import type { DashboardSidebarLink as NuxtUiProDashboardSidebarLink } from '@nux
 
 type DashboardSidebarLink = NuxtUiProDashboardSidebarLink & {
   id: string;
+  sort?: number;
+};
+
+type DashboardSidebarLinkGroup = {
+  id: string;
+  sort?: number;
+  position?: 'main' | 'footer';
+  links?: DashboardSidebarLink[];
 };
