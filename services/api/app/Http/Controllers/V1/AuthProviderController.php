@@ -54,7 +54,7 @@ class AuthProviderController extends Controller
                 $provider.'_refresh_token' => $providerUser->refreshToken,
             ]);
 
-            Auth::login($user);
+            Auth::login($user, true);
 
             return response()->json([
                 'success' => true,
@@ -70,7 +70,7 @@ class AuthProviderController extends Controller
                 $provider.'_refresh_token' => $providerUser->refreshToken,
             ]);
 
-            Auth::login($user);
+            Auth::login($user, true);
 
             return response()->json([
                 'success' => true,
