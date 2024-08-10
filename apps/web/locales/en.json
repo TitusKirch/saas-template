@@ -32,16 +32,6 @@
       }
     }
   },
-  "copy": {
-    "button": {
-      "notification": {
-        "success": {
-          "description": "You successfully copied the text to your clipboard and can now paste it anywhere you like.",
-          "title": "Successfully copied to clipboard."
-        }
-      }
-    }
-  },
   "page": {
     "index": {
       "description": "Welcome to the home page.",

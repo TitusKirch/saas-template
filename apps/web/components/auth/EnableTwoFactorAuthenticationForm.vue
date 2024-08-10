@@ -65,7 +65,7 @@
       executeCallback: confirmedTwoFactorAuthenticationExecute,
       successCallback: async () => {
         emit('success');
-        await fetchCurrentUser;
+        await fetchCurrentUser();
       },
     });
 </script>
@@ -112,8 +112,8 @@
         <CopyButton
           v-if="twoFactorQrCodeSecret"
           :value="twoFactorQrCodeSecret"
+          variante="icon"
           color="gray"
-          class="p-0"
         />
       </div>
     </div>

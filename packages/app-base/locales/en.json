@@ -28,6 +28,10 @@
         }
       },
       "alert": {
+        "forceToDownloadAndNotDownloaded": {
+          "description": "You have not downloaded your recovery codes yet. Please download them now and store them in a safe place to continue. For safety reasons, you can only proceed after you have downloaded your recovery codes.",
+          "title": "Recovery codes not downloaded"
+        },
         "loading": {
           "title": "Enabling two-factor authentication"
         }
@@ -70,6 +74,17 @@
   },
   "commandMenu": {
     "title": "Command menu"
+  },
+  "copy": {
+    "button": {
+      "label": "Copy to clipboard",
+      "notification": {
+        "success": {
+          "description": "You successfully copied the text to your clipboard and can now paste it anywhere you like.",
+          "title": "Successfully copied to clipboard."
+        }
+      }
+    }
   },
   "dashboard": {
     "layout": {
