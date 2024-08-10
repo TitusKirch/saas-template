@@ -48,7 +48,7 @@
     [
       {
         label: t('global.action.auth.logout.label'),
-        icon: 'i-heroicons-arrow-left-on-rectangle',
+        icon: 'i-fa6-solid-right-from-bracket',
         click: () => {
           navigateToLocale({
             name: 'auth-logout',
