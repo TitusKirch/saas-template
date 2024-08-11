@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.settings.title',
-    description: 'page.settings.description',
+    title: 'page.settings.meta.title',
+    description: 'page.settings.meta.description',
     layout: 'dashboard',
     middleware: ['auth'],
   });

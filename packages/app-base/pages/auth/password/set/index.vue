@@ -3,8 +3,8 @@
   const { hasPassword } = useCurrentUser();
 
   definePageMeta({
-    title: 'page.auth.password.set.index.title',
-    description: 'page.auth.password.set.index.description',
+    title: 'page.auth.password.set.index.meta.title',
+    description: 'page.auth.password.set.index.meta.description',
     middleware: ['auth'],
   });
 

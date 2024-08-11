@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.provider.provider.callback.title',
-    description: 'page.auth.provider.provider.callback.description',
+    title: 'page.auth.provider.provider.callback.meta.title',
+    description: 'page.auth.provider.provider.callback.meta.description',
     middleware: ['guest'],
   });
 

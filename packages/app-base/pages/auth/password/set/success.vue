@@ -2,8 +2,8 @@
   import type { RouteLocationNamedRaw } from 'vue-router';
 
   definePageMeta({
-    title: 'page.auth.password.set.success.title',
-    description: 'page.auth.password.set.success.description',
+    title: 'page.auth.password.set.success.meta.title',
+    description: 'page.auth.password.set.success.meta.description',
     middleware: ['auth'],
   });
 

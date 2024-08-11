@@ -260,6 +260,10 @@
               "title": "Email verified"
             }
           },
+          "meta": {
+            "description": "Please verify your email address.",
+            "title": "Verify your email"
+          },
           "title": "Verify your email"
         }
       },
@@ -269,6 +273,10 @@
           "description": "Don't have an account? {0}.",
           "title": "Log in"
         },
+        "meta": {
+          "description": "Here you can login to your account.",
+          "title": "Log in"
+        },
         "title": "Log in"
       },
       "logout": {
@@ -276,6 +284,10 @@
         "authCard": {
           "description": "You have been successfully logged out and will be redirected to the login page in a few seconds. {0}.",
           "title": "Successfully logged out"
+        },
+        "meta": {
+          "description": "You have been logged out.",
+          "title": "Log out"
         },
         "title": "Log out"
       },
@@ -287,12 +299,20 @@
               "description": "Enter your email address and we will send you a link to reset your password. Remembered your password? {0}.",
               "title": "Forgot password"
             },
+            "meta": {
+              "description": "Enter your email address and we will send you a link to reset your password.",
+              "title": "Forgot password"
+            },
             "title": "Forgot password"
           },
           "success": {
             "description": "An email has been sent to you with a link to reset your password.",
             "authCard": {
               "description": "An email has been sent to you with a link to reset your password. Remembered your password? {0}.",
+              "title": "Password reset email sent"
+            },
+            "meta": {
+              "description": "An email has been sent to you with a link to reset your password.",
               "title": "Password reset email sent"
             },
             "title": "Password reset email sent"
@@ -305,12 +325,20 @@
               "description": "Enter your new password. Remembered your password? {0}.",
               "title": "Reset password"
             },
+            "meta": {
+              "description": "Enter your new password.",
+              "title": "Reset password"
+            },
             "title": "Reset password"
           },
           "success": {
             "description": "Your password has been successfully reset. You will be redirected in a few seconds.",
             "authCard": {
               "description": "Your password has been successfully reset. You will be redirected in a few seconds. {0}.",
+              "title": "Password reset"
+            },
+            "meta": {
+              "description": "Your password has been successfully reset.",
               "title": "Password reset"
             },
             "title": "Password reset"
@@ -323,12 +351,20 @@
               "description": "Please set a strong password for your account. {0}.",
               "title": "Set password"
             },
+            "meta": {
+              "description": "Please set a strong password for your account.",
+              "title": "Set password"
+            },
             "title": "Set password"
           },
           "success": {
             "description": "Your password has been successfully set. You will be redirected in a few seconds.",
             "authCard": {
               "description": "Your password has been successfully set. You will be redirected in a few seconds. {0}.",
+              "title": "Password set"
+            },
+            "meta": {
+              "description": "Your password has been successfully set.",
               "title": "Password set"
             },
             "title": "Password set"
@@ -343,6 +379,10 @@
               "description": "Please wait while we sign you in. We will redirect you in a few seconds.",
               "title": "Signing in"
             },
+            "error": {
+              "description": "An error occurred while signing in with {0}. Please try again.",
+              "title": "Error signing in"
+            },
             "title": "Signing in"
           }
         }
@@ -352,6 +392,10 @@
         "authCard": {
           "description": "Already have an account? {0}.",
           "title": "Create an account"
+        },
+        "meta": {
+          "description": "Here you can register a new account.",
+          "title": "Register"
         },
         "title": "Register"
       },
@@ -364,6 +408,10 @@
           "recoveryCode": {
             "description": "Please enter one of your recovery codes. Found your device? {0}."
           },
+          "title": "Two-factor authentication"
+        },
+        "meta": {
+          "description": "Please enter the code from your authenticator app.",
           "title": "Two-factor authentication"
         },
         "title": "Two-factor authentication"

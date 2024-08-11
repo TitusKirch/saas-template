@@ -10,9 +10,6 @@
       await fetchTeamByRoute();
     }
   });
-  // onUnmounted(() => {
-  //   reset();
-  // });
 
   // alert
   const { addAlert, removeAlert } = useAlert();
@@ -44,9 +41,18 @@
   watch(fetchTeamByRouteStatus, () => {
     showAlert();
   });
+
+  const showPage = ref<boolean>(!!team.value);
+  watch(
+    () => team.value,
+    () => {
+      if (team.value) {
+        showPage.value = true;
+      }
+    }
+  );
 </script>
 
 <template>
-  <NuxtPage v-if="team?.id == BigInt(route.params.id as string)" />
-  <DashboardPage v-else :title="$t('page.team.id.index.meta.title')" />
+  <NuxtPage v-if="showPage" />
 </template>

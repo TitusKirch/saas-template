@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.email.verify.title',
-    description: 'page.auth.email.verify.description',
+    title: 'page.auth.email.verify.meta.title',
+    description: 'page.auth.email.verify.meta.description',
     middleware: ['auth'],
   });
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.password.forgot.success.title',
-    description: 'page.auth.password.forgot.success.description',
+    title: 'page.auth.password.forgot.success.meta.title',
+    description: 'page.auth.password.forgot.success.meta.description',
     middleware: ['guest'],
   });
 </script>

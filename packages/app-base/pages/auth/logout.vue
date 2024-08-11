@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.logout.title',
-    description: 'page.auth.logout.description',
+    title: 'page.auth.logout.meta.title',
+    description: 'page.auth.logout.meta.description',
     middleware: ['auth'],
   });
 

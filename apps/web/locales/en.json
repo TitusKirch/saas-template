@@ -35,6 +35,10 @@
   "page": {
     "index": {
       "description": "Welcome to the home page.",
+      "meta": {
+        "description": "Welcome to the home page.",
+        "title": "Home"
+      },
       "title": "Home"
     },
     "settings": {
@@ -80,6 +84,10 @@
         },
         "title": "General"
       },
+      "meta": {
+        "description": "Here you can change your settings.",
+        "title": "Settings"
+      },
       "notifications": {
         "title": "Notifications"
       },
@@ -109,6 +117,10 @@
     "team": {
       "create": {
         "description": "Here you can create a new team.",
+        "meta": {
+          "description": "Here you can create a new team.",
+          "title": "Create a new team"
+        },
         "section": {
           "form": {
             "header": {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.team.create.title',
-    description: 'page.team.create.description',
+    title: 'page.team.create.meta.title',
+    description: 'page.team.create.meta.description',
   });
 
   const { fetchCurrentUser } = useCurrentUser();
