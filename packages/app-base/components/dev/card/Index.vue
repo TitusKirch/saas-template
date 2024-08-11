@@ -22,12 +22,12 @@
     >
       <template #header>
         <CardHeader
-          :title="$t('base.dev.card.header.title')"
-          :description="$t('base.dev.card.header.description')"
+          :title="$t('dev.card.header.title')"
+          :description="$t('dev.card.header.description')"
         >
           <template #beforeActions>
             <UBadge color="red">
-              {{ $t('base.dev.card.header.badge.title') }}
+              {{ $t('dev.card.header.badge.title') }}
             </UBadge>
           </template>
         </CardHeader>

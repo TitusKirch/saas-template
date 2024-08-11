@@ -68,7 +68,7 @@
         v-if="type === 'code'"
         type="otp"
         name="code"
-        :label="$t('global.twoFactorChallenge.code.label')"
+        :label="$t('twoFactorChallenge.code.label')"
         validation="required"
       />
 
@@ -76,7 +76,7 @@
         v-else-if="type === 'recoveryCode'"
         type="password"
         name="recovery_code"
-        :label="$t('global.twoFactorChallenge.recoveryCode.label')"
+        :label="$t('twoFactorChallenge.recoveryCode.label')"
         validation="required"
         prefix-icon="password"
         suffix-icon="eyeClosed"
@@ -92,7 +92,7 @@
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.login.label') }}</UButton
+        >{{ $t('action.auth.login.label') }}</UButton
       >
     </FormKit>
   </div>

@@ -67,7 +67,7 @@
       <FormKit
         type="password"
         name="password"
-        :label="$t('global.password.label')"
+        :label="$t('password.label')"
         validation="required"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
@@ -77,7 +77,7 @@
       <FormKit
         type="password"
         name="password_confirmation"
-        :label="$t('global.password_confirmation.label')"
+        :label="$t('password_confirmation.label')"
         validation="required|confirm:password"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
@@ -106,7 +106,7 @@
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.resetPassword.label') }}</UButton
+        >{{ $t('action.auth.resetPassword.label') }}</UButton
       >
     </FormKit>
   </div>

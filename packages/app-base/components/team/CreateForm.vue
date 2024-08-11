@@ -64,7 +64,7 @@
     successCallback: async () => {
       useNotification({
         type: 'success',
-        title: t('global.notification.success.title'),
+        title: t('notification.success.title'),
         description: t(`team.createForm.mode.${props.mode}.notification.success.description`),
       });
 

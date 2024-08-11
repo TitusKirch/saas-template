@@ -22,7 +22,7 @@
                   name: 'auth-register',
                 }"
               >
-                {{ $t('global.action.auth.register.label') }}
+                {{ $t('action.auth.register.label') }}
               </BaseLink>
             </i18n-t>
           </template>

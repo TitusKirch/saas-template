@@ -38,7 +38,7 @@
               class="mt-1 text-gray-500 dark:text-gray-400"
             >
               <BaseLink :to="goBackRoute">
-                {{ $t('global.action.goBack.label') }}
+                {{ $t('action.goBack.label') }}
               </BaseLink>
             </i18n-t>
           </template>

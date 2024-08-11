@@ -69,7 +69,7 @@
               class="mt-1 text-gray-500 dark:text-gray-400"
             >
               <BaseLink @click="clickHander" class="text-primary-500 font-medium">
-                {{ $t('global.action.page.home.label') }}
+                {{ $t('action.page.home.label') }}
               </BaseLink>
             </i18n-t>
           </template>

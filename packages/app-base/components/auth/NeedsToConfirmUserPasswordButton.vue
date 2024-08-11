@@ -52,7 +52,7 @@
         {{
           confirmPasswordButtonTitle
             ? confirmPasswordButtonTitle
-            : $t('global.action.auth.confirmPassword.label')
+            : $t('action.auth.confirmPassword.label')
         }}
       </UButton>
     </slot>

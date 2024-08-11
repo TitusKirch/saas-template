@@ -13,16 +13,16 @@
   });
   const title = computed(() => {
     if (route?.meta?.title) {
-      return t('base.app.title', { title: t((route?.meta?.title as string) ?? 'Unknown') });
+      return t('app.meta.title', { title: t((route?.meta?.title as string) ?? 'Unknown') });
     }
 
-    return t('base.app.fallbackTitle');
+    return t('app.meta.fallbackTitle');
   });
   useHead({
     // NOTE: for dynamic title we use useHead besides definePageMeta (e.g. if the title is set by a result of an API call)
     titleTemplate: (titleChunk) => {
       return titleChunk && titleChunk != title.value
-        ? t('base.app.title', { title: titleChunk })
+        ? t('app.meta.title', { title: titleChunk })
         : title.value;
     },
     meta: [
@@ -32,7 +32,7 @@
       },
       {
         property: 'og:description',
-        content: t((route?.meta?.description as string) ?? 'base.app.fallbackDescription'),
+        content: t((route?.meta?.description as string) ?? 'app.meta.fallbackDescription'),
       },
     ],
   });

@@ -106,7 +106,7 @@
       <CopyButton v-if="data" :value="data.join('\n')" color="white" />
       <UButton
         color="white"
-        :label="$t('global.action.close.label')"
+        :label="$t('action.close.label')"
         :disabled="forceToDownload && !hasDownloaded"
         @click="model = false"
       />

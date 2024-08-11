@@ -73,7 +73,7 @@
       <FormKit
         type="password"
         name="password"
-        :label="$t('global.password.label')"
+        :label="$t('password.label')"
         validation="required"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
@@ -88,9 +88,9 @@
           :loading="status === 'pending' || (status !== 'idle' && !error)"
           icon="i-fa6-solid-check"
           @click="submit"
-          >{{ $t('global.action.confirm.label') }}
+          >{{ $t('action.confirm.label') }}
         </UButton>
-        <UButton color="white" :label="$t('global.action.cancel.label')" @click="model = false" />
+        <UButton color="white" :label="$t('action.cancel.label')" @click="model = false" />
       </BaseButtonContainer>
     </FormKit>
   </BaseModal>

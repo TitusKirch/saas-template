@@ -1,4 +1,81 @@
 {
+  "action": {
+    "auth": {
+      "confirmPassword": {
+        "label": "Confirm password"
+      },
+      "forgotPassword": {
+        "label": "Forgot password?"
+      },
+      "login": {
+        "label": "Log in"
+      },
+      "logout": {
+        "label": "Log out"
+      },
+      "passwordResetLinkRequest": {
+        "label": "Send password reset link"
+      },
+      "register": {
+        "label": "Register"
+      },
+      "resetPassword": {
+        "label": "Reset password"
+      },
+      "setPassword": {
+        "label": "Set password"
+      },
+      "twoFactorChallenge": {
+        "switch": {
+          "code": {
+            "label": "Use code"
+          },
+          "recoveryCode": {
+            "label": "Use recovery code"
+          }
+        }
+      }
+    },
+    "cancel": {
+      "label": "Cancel"
+    },
+    "close": {
+      "label": "Close"
+    },
+    "confirm": {
+      "label": "Confirm"
+    },
+    "confirmPasswordAndSave": {
+      "label": "Confirm password and save"
+    },
+    "goBack": {
+      "label": "Go back"
+    },
+    "page": {
+      "home": {
+        "label": "Home"
+      }
+    },
+    "save": {
+      "label": "Save"
+    },
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds."
+  },
+  "alert": {
+    "error": {
+      "title": "An error occurred"
+    },
+    "loading": {
+      "title": "Loading..."
+    }
+  },
+  "app": {
+    "meta": {
+      "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
+      "fallbackTitle": "saas-template",
+      "title": "{title} - saas-template"
+    }
+  },
   "auth": {
     "needsToConfirmUserPasswordButton": {
       "noPassword": {
@@ -15,6 +92,9 @@
         "label": "Google",
         "signInWith": "Sign in with Google"
       }
+    },
+    "rememberMe": {
+      "label": "Remember me"
     },
     "userPasswordConfirmModal": {
       "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
@@ -37,39 +117,6 @@
         }
       },
       "title": "Recovery codes"
-    }
-  },
-  "base": {
-    "app": {
-      "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
-      "fallbackTitle": "saas-template",
-      "title": "{title} - saas-template"
-    },
-    "dev": {
-      "card": {
-        "header": {
-          "description": "Here you will find tools that help you to develop and debug your application. Use them to improve your development workflow.",
-          "badge": {
-            "title": "Only for developers"
-          },
-          "title": "Developer tools"
-        }
-      },
-      "code": {
-        "action": {
-          "copy": {
-            "copiedToClipboard": {
-              "title": "Copied!"
-            },
-            "title": "Copy"
-          }
-        }
-      }
-    },
-    "form": {
-      "errorsAlert": {
-        "title": "Following errors occurred:"
-      }
     }
   },
   "commandMenu": {
@@ -103,131 +150,58 @@
       }
     }
   },
-  "global": {
-    "action": {
-      "auth": {
-        "confirmPassword": {
-          "label": "Confirm password"
+  "dev": {
+    "card": {
+      "header": {
+        "description": "Here you will find tools that help you to develop and debug your application. Use them to improve your development workflow.",
+        "badge": {
+          "title": "Only for developers"
         },
-        "forgotPassword": {
-          "label": "Forgot password?"
-        },
-        "login": {
-          "label": "Log in"
-        },
-        "logout": {
-          "label": "Log out"
-        },
-        "passwordResetLinkRequest": {
-          "label": "Send password reset link"
-        },
-        "register": {
-          "label": "Register"
-        },
-        "resetPassword": {
-          "label": "Reset password"
-        },
-        "setPassword": {
-          "label": "Set password"
-        },
-        "twoFactorChallenge": {
-          "switch": {
-            "code": {
-              "label": "Use code"
-            },
-            "recoveryCode": {
-              "label": "Use recovery code"
-            }
-          }
+        "title": "Developer tools"
+      }
+    },
+    "code": {
+      "action": {
+        "copy": {
+          "copiedToClipboard": {
+            "title": "Copied!"
+          },
+          "title": "Copy"
         }
-      },
-      "cancel": {
-        "label": "Cancel"
-      },
-      "close": {
-        "label": "Close"
-      },
-      "confirm": {
-        "label": "Confirm"
-      },
-      "confirmPasswordAndSave": {
-        "label": "Confirm password and save"
-      },
-      "goBack": {
-        "label": "Go back"
-      },
-      "page": {
-        "home": {
-          "label": "Home"
-        }
-      },
-      "save": {
-        "label": "Save"
       }
-    },
-    "alert": {
-      "error": {
-        "title": "An error occurred"
-      },
-      "loading": {
-        "title": "Loading..."
-      }
-    },
-    "auth": {
-      "rememberMe": {
-        "label": "Remember me"
-      }
-    },
-    "email": {
-      "label": "Email address",
-      "placeholder": {
-        "female": "jane.doe{'@'}example.com",
-        "male": "john.doe{'@'}example.com"
-      }
-    },
-    "email_confirmation": {
-      "label": "Confirm email address"
-    },
-    "first_name": {
-      "label": "First name",
-      "placeholder": {
-        "female": "Jane",
-        "male": "John"
-      }
-    },
-    "last_name": {
-      "label": "Last name",
-      "placeholder": {
-        "female": "Doe",
-        "male": "Doe"
-      }
-    },
-    "notification": {
-      "success": {
-        "title": "Success"
-      }
-    },
-    "or": {
-      "label": "or"
-    },
-    "password": {
-      "label": "Password"
-    },
-    "password_confirmation": {
-      "label": "Confirm password"
-    },
-    "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
-    "twoFactorChallenge": {
-      "code": {
-        "label": "2FA code"
-      },
-      "recoveryCode": {
-        "label": "Recovery code"
-      }
+    }
+  },
+  "email": {
+    "label": "Email address",
+    "placeholder": {
+      "female": "jane.doe{'@'}example.com",
+      "male": "john.doe{'@'}example.com"
+    }
+  },
+  "email_confirmation": {
+    "label": "Confirm email address"
+  },
+  "first_name": {
+    "label": "First name",
+    "placeholder": {
+      "female": "Jane",
+      "male": "John"
+    }
+  },
+  "form": {
+    "errorsAlert": {
+      "title": "Following errors occurred:"
     }
   },
   "helpSlideover": {
     "title": "Help"
+  },
+  "last_name": {
+    "label": "Last name",
+    "placeholder": {
+      "female": "Doe",
+      "male": "Doe"
+    }
   },
   "locale": {
     "de-DE": {
@@ -236,6 +210,14 @@
     "en-GB": {
       "label": "English (UK)"
     }
+  },
+  "notification": {
+    "success": {
+      "title": "Success"
+    }
+  },
+  "or": {
+    "label": "or"
   },
   "page": {
     "auth": {
@@ -418,6 +400,12 @@
       }
     }
   },
+  "password": {
+    "label": "Password"
+  },
+  "password_confirmation": {
+    "label": "Confirm password"
+  },
   "team": {
     "name": {
       "label": "Team name",
@@ -450,6 +438,14 @@
           }
         }
       }
+    }
+  },
+  "twoFactorChallenge": {
+    "code": {
+      "label": "2FA code"
+    },
+    "recoveryCode": {
+      "label": "Recovery code"
     }
   },
   "user": {

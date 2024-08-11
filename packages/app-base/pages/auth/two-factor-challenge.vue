@@ -22,7 +22,7 @@
               <BaseLink @click="formType = formType == 'code' ? 'recoveryCode' : 'code'">
                 {{
                   $t(
-                    `global.action.auth.twoFactorChallenge.switch.${formType == 'code' ? 'recoveryCode' : 'code'}.label`
+                    `action.auth.twoFactorChallenge.switch.${formType == 'code' ? 'recoveryCode' : 'code'}.label`
                   )
                 }}
               </BaseLink>

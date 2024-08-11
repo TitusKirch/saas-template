@@ -20,7 +20,7 @@
         alert: {
           id: 'getTeamStatus',
           type: 'info',
-          title: t('global.alert.loading.title'),
+          title: t('alert.loading.title'),
         },
       });
     } else if (fetchTeamByRouteStatus.value === 'error') {
@@ -28,7 +28,7 @@
         alert: {
           id: 'getTeamStatus',
           type: 'error',
-          title: t('global.alert.error.title'),
+          title: t('alert.error.title'),
           description: fetchTeamByRouteError.value?.data?.message,
         },
       });

@@ -100,7 +100,7 @@
 
       useNotification({
         type: 'success',
-        title: t('global.notification.success.title'),
+        title: t('notification.success.title'),
         description: t('page.settings.account.notification.success.description'),
       });
     },
@@ -167,18 +167,18 @@
           <FormKit
             type="text"
             name="first_name"
-            :label="$t('global.first_name.label')"
+            :label="$t('first_name.label')"
             validation="required"
-            :placeholder="$t('global.first_name.label')"
+            :placeholder="$t('first_name.label')"
             prefix-icon="people"
             :classes="formkitFieldClasses"
           />
           <FormKit
             type="text"
             name="last_name"
-            :label="$t('global.last_name.label')"
+            :label="$t('last_name.label')"
             validation="required"
-            :placeholder="$t('global.last_name.label')"
+            :placeholder="$t('last_name.label')"
             prefix-icon="people"
             :classes="formkitFieldClasses"
           />
@@ -188,14 +188,14 @@
       <UDivider class="mb-4" />
 
       <UDashboardSection
-        :title="$t('global.email.label')"
+        :title="$t('email.label')"
         :description="$t('page.settings.account.section.email.description')"
       >
         <template #links>
           <FormKit
             type="text"
             name="email"
-            :label="$t('global.email.label')"
+            :label="$t('email.label')"
             validation="required|email"
             :placeholder="usePlaceholder({ type: 'email' })"
             prefix-icon="email"
@@ -208,15 +208,15 @@
       <UDivider class="mb-4" />
 
       <UDashboardSection
-        :title="$t('global.password.label')"
+        :title="$t('password.label')"
         :description="$t('page.settings.account.section.password.description')"
       >
         <template #links>
           <FormKit
             type="password"
             name="password"
-            :label="$t('global.password.label')"
-            :placeholder="$t('global.password.label')"
+            :label="$t('password.label')"
+            :placeholder="$t('password.label')"
             prefix-icon="password"
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"
@@ -226,9 +226,9 @@
           <FormKit
             type="password"
             name="password_confirmation"
-            :label="$t('global.password_confirmation.label')"
+            :label="$t('password_confirmation.label')"
             validation="confirm:password"
-            :placeholder="$t('global.password_confirmation.label')"
+            :placeholder="$t('password_confirmation.label')"
             prefix-icon="password"
             suffix-icon="eyeClosed"
             :classes="formkitFieldClasses"
@@ -243,7 +243,7 @@
           <AuthNeedsToConfirmUserPasswordButton
             :confirm-password-button-props="{ block: true, disabled: !formValuesHasChanged }"
             :confirm-password-button-callback="() => formRef?.node.submit()"
-            :confirm-password-button-title="$t('global.action.confirmPasswordAndSave.label')"
+            :confirm-password-button-title="$t('action.confirmPasswordAndSave.label')"
           >
             <UButton
               type="submit"
@@ -251,7 +251,7 @@
               :disabled="!valid || !!Object.keys(errorMessages).length || !formValuesHasChanged"
               :loading="status === 'pending'"
               icon="i-fa6-solid-floppy-disk"
-              >{{ $t('global.action.save.label') }}</UButton
+              >{{ $t('action.save.label') }}</UButton
             >
           </AuthNeedsToConfirmUserPasswordButton>
         </template>

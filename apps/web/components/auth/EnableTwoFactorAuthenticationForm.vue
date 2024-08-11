@@ -145,7 +145,7 @@
         :loading="confirmedTwoFactorAuthenticationStatus === 'pending'"
         icon="i-fa6-solid-floppy-disk"
       >
-        {{ $t('global.action.save.label') }}
+        {{ $t('action.save.label') }}
       </UButton>
     </FormKit>
   </div>

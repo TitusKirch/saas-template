@@ -62,7 +62,7 @@
         <FormKit
           type="text"
           name="first_name"
-          :label="$t('global.first_name.label')"
+          :label="$t('first_name.label')"
           validation="required"
           :placeholder="usePlaceholder({ type: 'first_name' })"
           prefix-icon="people"
@@ -71,7 +71,7 @@
         <FormKit
           type="text"
           name="last_name"
-          :label="$t('global.last_name.label')"
+          :label="$t('last_name.label')"
           validation="required"
           :placeholder="usePlaceholder({ type: 'last_name' })"
           prefix-icon="people"
@@ -81,7 +81,7 @@
       <FormKit
         type="email"
         name="email"
-        :label="$t('global.email.label')"
+        :label="$t('email.label')"
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
@@ -90,7 +90,7 @@
       <FormKit
         type="email"
         name="email_confirmation"
-        :label="$t('global.email_confirmation.label')"
+        :label="$t('email_confirmation.label')"
         validation="required|email|confirm:email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
@@ -99,7 +99,7 @@
       <FormKit
         type="password"
         name="password"
-        :label="$t('global.password.label')"
+        :label="$t('password.label')"
         validation="required"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
@@ -110,7 +110,7 @@
       <FormKit
         type="password"
         name="password_confirmation"
-        :label="$t('global.password_confirmation.label')"
+        :label="$t('password_confirmation.label')"
         validation="required|confirm:password"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
@@ -138,11 +138,11 @@
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.register.label') }}</UButton
+        >{{ $t('action.auth.register.label') }}</UButton
       >
     </FormKit>
 
-    <UDivider :label="$t('global.or.label')" />
+    <UDivider :label="$t('or.label')" />
 
     <div v-if="authProviders()?.length" class="space-y-3">
       <UButton
