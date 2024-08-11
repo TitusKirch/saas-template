@@ -25,7 +25,7 @@ class TeamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): TeamResource
     {
         Gate::authorize('create', Team::class);
 
@@ -42,7 +42,7 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Team $team)
+    public function show(Request $request, Team $team): TeamResource
     {
         Gate::authorize('view', $team);
 
@@ -52,7 +52,7 @@ class TeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Team $team)
+    public function update(Request $request, Team $team): TeamResource
     {
         Gate::authorize('update', $team);
 

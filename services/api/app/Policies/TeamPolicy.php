@@ -22,7 +22,7 @@ class TeamPolicy
      */
     public function view(User $user, Team $team): Response
     {
-        setPermissionsTeamId($team->id);
+        // setPermissionsTeamId($team->id);
 
         return $team->users()->contains('id', '=', $user->id) ? Response::allow() : Response::deny();
     }
@@ -40,7 +40,7 @@ class TeamPolicy
      */
     public function update(User $user, Team $team): Response
     {
-        setPermissionsTeamId($team->id);
+        // setPermissionsTeamId($team->id);
 
         return $user->hasPermissionTo(PermissionsEnum::UPDATE_TEAM->value) ? Response::allow() : Response::deny();
     }

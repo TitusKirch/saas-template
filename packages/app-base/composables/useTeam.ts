@@ -27,6 +27,18 @@ export default function () {
     }
   });
 
+  // permissions
+  enum PermissionsEnum {
+    UPDATE_TEAM = 'update team',
+    DELETE_TEAM = 'delete team',
+    RESTORE_TEAM = 'restore team',
+    FORCE_DELETE_TEAM = 'force delete team',
+  }
+  type Permissions = keyof typeof PermissionsEnum;
+  const permissions = (): Permissions[] => {
+    return Object.keys(PermissionsEnum) as Permissions[];
+  };
+
   return {
     ...teamStore,
     ...teamStoreRefs,
@@ -34,5 +46,7 @@ export default function () {
     fetchTeamByRouteData,
     fetchTeamByRouteError,
     fetchTeamByRouteStatus,
+    permissions,
+    PermissionsEnum,
   };
 }

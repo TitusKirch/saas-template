@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AcceptLanguage;
+use App\Http\Middleware\CurrentTeamByRoute;
 use App\Http\Middleware\TeamsPermission;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -12,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'current-team-by-route' => CurrentTeamByRoute::class,
+        ]);
         $middleware->append([
             AcceptLanguage::class,
         ]);

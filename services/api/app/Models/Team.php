@@ -68,7 +68,7 @@ class Team extends Model implements Auditable
             //     self::$defaultMemberRolePermissions;
             // );
 
-            setPermissionsTeamId($team->id);
+            // setPermissionsTeamId($team->id);
         });
     }
 

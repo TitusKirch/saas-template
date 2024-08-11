@@ -5,6 +5,9 @@ use App\Http\Controllers\V1\AuthProviderController;
 use App\Http\Controllers\V1\FeatureController;
 use App\Http\Controllers\V1\HealthController;
 use App\Http\Controllers\V1\TeamController;
+use App\Http\Controllers\V1\TeamPermissionMeController;
+use App\Http\Controllers\V1\TeamRoleController;
+use App\Http\Controllers\V1\TeamRoleMeController;
 use App\Http\Controllers\V1\UpController;
 use App\Http\Controllers\V1\UserController;
 use App\Http\Controllers\V1\UserMeController;
@@ -86,10 +89,33 @@ Route::group([
 Route::group([
     'prefix' => 'teams',
     'as' => 'teams.',
-    'middleware' => ['api', 'auth:sanctum'],
+    'middleware' => ['api', 'auth:sanctum', 'current-team-by-route'],
 ], function () {
-    Route::get('/{team}', [TeamController::class, 'show'])->name('show');
     Route::post('/', [TeamController::class, 'store'])->name('store');
-    Route::put('/{team}', [TeamController::class, 'update'])->name('update');
-    // Route::delete('/{team}', [TeamController::class, 'destroy'])->name('destroy');
+
+    Route::group([
+        'prefix' => '{team}',
+        'as' => 'team.',
+    ], function () {
+
+        Route::get('/', [TeamController::class, 'show'])->name('show');
+        Route::put('/', [TeamController::class, 'update'])->name('update');
+        // Route::delete('/', [TeamController::class, 'destroy'])->name('destroy');
+
+        Route::group([
+            'prefix' => 'roles',
+            'as' => 'roles.',
+        ], function () {
+            Route::get('/', [TeamRoleController::class, 'index'])->name('index');
+            Route::get('/me', [TeamRoleMeController::class, 'show'])->name('show');
+        });
+
+        Route::group([
+            'prefix' => 'permissions',
+            'as' => 'permissions.',
+        ], function () {
+            Route::get('/me', [TeamPermissionMeController::class, 'show'])->name('show');
+        });
+
+    });
 });
