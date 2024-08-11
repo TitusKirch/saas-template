@@ -4,19 +4,10 @@
   useHead({
     title: team.value?.name,
   });
-
-  const clickHandler = () => {
-    navigateToLocale({
-      name: 'team-id-edit',
-      params: {
-        id: team.value?.id.toString(),
-      },
-    });
-  };
 </script>
 
 <template>
-  <DashboardPage v-if="team" :title="$t('page.team.id.index.title')">
+  <DashboardPage v-if="team" :title="$t('page.team.id.roles.title')">
     <UCard>
       <template #header>
         <CardHeader
@@ -35,7 +26,5 @@
         </CardHeader>
       </template>
     </UCard>
-
-    <UButton @click="clickHandler" class="mt-64">Click me</UButton>
   </DashboardPage>
 </template>

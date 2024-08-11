@@ -152,7 +152,21 @@
             "description": "Main page of the team.",
             "title": "Team overview"
           },
-          "title": "Team overview: {teamName}"
+          "title": "Team overview"
+        },
+        "roles": {
+          "meta": {
+            "description": "Here you can manage the roles of the team.",
+            "title": "Roles"
+          },
+          "title": "Roles"
+        },
+        "users": {
+          "meta": {
+            "description": "Here you can manage the users of the team.",
+            "title": "Users"
+          },
+          "title": "Users"
         }
       }
     }

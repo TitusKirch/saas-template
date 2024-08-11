@@ -38,8 +38,8 @@
         links: [
           {
             id: 'team-id',
-            label: team.value.name,
-            icon: 'i-fa6-solid-users',
+            label: t('page.team.id.index.title'),
+            icon: 'i-fa6-solid-sitemap',
             to: localePath({
               name: 'team-id',
               params: {
@@ -51,18 +51,39 @@
               shortcuts: ['G', 'T'],
             },
             sort: 1,
+            exact: true,
           },
           {
-            id: 'team-id',
-            label: '2',
-            icon: 'i-fa6-solid-users',
+            id: 'team-id-roles',
+            label: t('page.team.id.roles.title'),
+            icon: 'i-fa6-solid-user-tag',
             to: localePath({
-              name: 'team-id',
+              name: 'team-id-roles',
               params: {
                 id: team.value?.id.toString(),
               },
             }),
-            sort: 3,
+            tooltip: {
+              text: t('page.team.id.roles.title'),
+              shortcuts: ['G', 'R'],
+            },
+            sort: 2,
+          },
+          {
+            id: 'team-id-users',
+            label: t('page.team.id.users.title'),
+            icon: 'i-fa6-solid-users',
+            to: localePath({
+              name: 'team-id-users',
+              params: {
+                id: team.value?.id.toString(),
+              },
+            }),
+            tooltip: {
+              text: t('page.team.id.users.title'),
+              shortcuts: ['G', 'U'],
+            },
+            sort: 2,
           },
         ],
       },
