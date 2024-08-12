@@ -26,5 +26,8 @@
         </CardHeader>
       </template>
     </UCard>
+    <UCard>
+      <TestTable />
+    </UCard>
   </DashboardPage>
 </template>
