@@ -107,4 +107,12 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
     {
         return $this->rolesAll()->with('team')->get()->pluck('team')->unique('id');
     }
+
+    /**
+     * Get the user's configurations.
+     */
+    public function configurations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserConfiguration::class);
+    }
 }

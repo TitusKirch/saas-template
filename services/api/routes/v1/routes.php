@@ -10,6 +10,7 @@ use App\Http\Controllers\V1\TeamRoleController;
 use App\Http\Controllers\V1\TeamRoleMeController;
 use App\Http\Controllers\V1\UpController;
 use App\Http\Controllers\V1\UserController;
+use App\Http\Controllers\V1\UserMeConfigurationController;
 use App\Http\Controllers\V1\UserMeController;
 use App\Http\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Route;
@@ -80,6 +81,17 @@ Route::group([
             Route::put('/', [UserMeController::class, 'updateAvatar'])
                 ->middleware(ValidateSignature::class)
                 ->name('update');
+        });
+
+        Route::group([
+            'prefix' => 'configuration',
+            'as' => 'configuration.',
+        ], function () {
+            Route::get('/', [UserMeConfigurationController::class, 'index'])->name('index');
+            Route::put('/', [UserMeConfigurationController::class, 'set'])->name('set');
+            Route::get('/{userConfiguration}', [UserMeConfigurationController::class, 'show'])->name('show');
+            Route::put('/{userConfiguration}', [UserMeConfigurationController::class, 'update'])->name('update');
+            Route::delete('/{userConfiguration}', [UserMeConfigurationController::class, 'destroy'])->name('destroy');
         });
     });
 
