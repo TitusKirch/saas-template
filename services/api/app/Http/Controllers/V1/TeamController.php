@@ -14,9 +14,9 @@ class TeamController extends Controller
     /**
      * Validate the incoming request.
      */
-    protected function validateRequest(Request $request): void
+    protected function validateRequest(Request $request): array
     {
-        $request->validate([
+        return $request->validate([
             'name' => 'required|string',
             'description' => 'nullable|string|max:1024',
         ]);
@@ -29,9 +29,8 @@ class TeamController extends Controller
     {
         Gate::authorize('create', Team::class);
 
-        $this->validateRequest($request);
-
-        $team = Team::create($request->all());
+        $data = $this->validateRequest($request);
+        $team = Team::create($data);
 
         $user = User::find(auth()->user()->id);
         $user->assignRole($team->ownerRole());
@@ -56,9 +55,8 @@ class TeamController extends Controller
     {
         Gate::authorize('update', $team);
 
-        $this->validateRequest($request);
-
-        $team->update($request->all());
+        $data = $this->validateRequest($request);
+        $team->update($data);
 
         return new TeamResource($team);
     }

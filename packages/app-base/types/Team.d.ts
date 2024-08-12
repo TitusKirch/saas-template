@@ -2,8 +2,8 @@ type Team = {
   id: BigInt;
   name: string;
   description?: string;
-  created_at: string;
-  updated_at: string;
+  created_at: Date;
+  updated_at: Date;
 };
 
 type TeamsResponse = ApiResourceResponse<Team[]>;
