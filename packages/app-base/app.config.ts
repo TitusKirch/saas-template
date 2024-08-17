@@ -40,7 +40,8 @@ export default defineAppConfig({
       //   },
       // },
       section: {
-        container: 'items-start md:flex-nowrap',
+        wrapper: 'last:mb-0',
+        container: 'items-start md:flex-nowrap last:',
         links: 'w-full md:w-80 flex-nowrap flex-col flex-shrink-0',
       },
     },

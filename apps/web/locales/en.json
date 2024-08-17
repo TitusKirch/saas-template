@@ -42,7 +42,7 @@
       "title": "Home"
     },
     "settings": {
-      "description": "Here you can change your settings.",
+      "description": "Manage your app settings and preferences.",
       "account": {
         "notification": {
           "success": {
@@ -50,36 +50,55 @@
           }
         },
         "section": {
-          "name": {
-            "description": "Will appear on your profile, actions you take, communications and more.",
-            "title": "Name"
+          "authentication": {
+            "description": "Manage your sign-in credentials and security settings.",
+            "email": {
+              "description": "Used for signing in, receiving notifications, and product updates."
+            },
+            "password": {
+              "description": "Leave these fields empty if you do not wish to change your password."
+            },
+            "title": "Authentication"
           },
-          "avatar": {
-            "description": "Will appear on your profile, actions you take, communications and more.",
-            "title": "Avatar"
-          },
-          "email": {
-            "description": "User to sign in, notifications and product updates."
-          },
-          "password": {
-            "description": "If you don't want to change your password, leave these fields empty."
+          "profile": {
+            "name": {
+              "description": "Displayed on your profile, in actions you take, communications, and more.",
+              "title": "Name"
+            },
+            "description": "Update your personal information and profile details.",
+            "avatar": {
+              "description": "Displayed on your profile, in actions you take, communications, and more.",
+              "title": "Avatar"
+            },
+            "title": "Profile"
           }
         },
         "title": "Account"
       },
+      "configurations": {
+        "title": "Configurations"
+      },
       "index": {
         "section": {
-          "layout": {
-            "description": "Change the layout of the app.",
-            "title": "Layout"
+          "apperance": {
+            "description": "Adjust the visual style and overall look of the app to match your preferences.",
+            "layout": {
+              "description": "Switch between compressed (centered) and full-width layouts.",
+              "title": "Layout"
+            },
+            "theme": {
+              "description": "Choose between dark, light, or system-based theme.",
+              "title": "Theme"
+            },
+            "title": "Apperance"
           },
-          "locale": {
-            "description": "Change the language of the app.",
-            "title": "Locale"
-          },
-          "theme": {
-            "description": "Customize the look and feel of the app.",
-            "title": "Theme"
+          "localization": {
+            "description": "Set the app's language and regional settings according to your location and preferences.",
+            "locale": {
+              "description": "Change the local off the app (this affect also the date and time format).",
+              "title": "Locale"
+            },
+            "title": "Localization"
           }
         },
         "title": "General"
@@ -94,20 +113,24 @@
       "security": {
         "section": {
           "twoFactorAuthentication": {
-            "description": "Two-factor authentication adds an extra layer of security to your account.",
-            "title": "Two-factor authentication"
-          },
-          "twoFactorRecoveryCodes": {
-            "description": "Recovery codes are used to access your account in case you lose access to your two-factor authentication app.",
-            "action": {
-              "confirmPasswordAndShow": {
-                "label": "Confirm password and show codes"
-              },
-              "show": {
-                "label": "Show codes"
-              }
+            "description": "Enhance your account security with two-factor authentication, providing an extra layer of protection beyond your password.",
+            "manageTwoFactorAuthentication": {
+              "description": "Configure and manage your two-factor authentication settings to ensure your account remains secure.",
+              "title": "Manage two-factor authentication"
             },
-            "title": "Recovery codes"
+            "title": "Two-factor authentication",
+            "twoFactorRecoveryCodes": {
+              "description": "Use recovery codes to regain access to your account if you lose access to your two-factor authentication app.",
+              "action": {
+                "confirmPasswordAndShow": {
+                  "label": "Confirm password and show codes"
+                },
+                "show": {
+                  "label": "Show codes"
+                }
+              },
+              "title": "Recovery codes"
+            }
           }
         },
         "title": "Security"

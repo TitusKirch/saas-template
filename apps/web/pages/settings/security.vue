@@ -17,10 +17,25 @@
 </script>
 
 <template>
-  <div>
+  <UCard>
+    <template #header>
+      <CardHeader
+        :title="$t('page.settings.security.section.twoFactorAuthentication.title')"
+        :description="$t('page.settings.security.section.twoFactorAuthentication.description')"
+      />
+    </template>
+
     <UDashboardSection
-      :title="$t('page.settings.security.section.twoFactorAuthentication.title')"
-      :description="$t('page.settings.security.section.twoFactorAuthentication.description')"
+      :title="
+        $t(
+          'page.settings.security.section.twoFactorAuthentication.manageTwoFactorAuthentication.title'
+        )
+      "
+      :description="
+        $t(
+          'page.settings.security.section.twoFactorAuthentication.manageTwoFactorAuthentication.description'
+        )
+      "
     >
       <template #links>
         <AuthDisableTwoFactorAuthenticationButton v-if="currentUser?.two_factor_confirmed_at" />
@@ -40,21 +55,31 @@
 
     <UDashboardSection
       v-show="currentUser?.two_factor_confirmed_at"
-      :title="$t('page.settings.security.section.twoFactorRecoveryCodes.title')"
-      :description="$t('page.settings.security.section.twoFactorRecoveryCodes.description')"
+      :title="
+        $t('page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.title')
+      "
+      :description="
+        $t(
+          'page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.description'
+        )
+      "
     >
       <template #links>
         <AuthNeedsToConfirmUserPasswordButton
           :confirm-password-button-title="
             $t(
-              'page.settings.security.section.twoFactorRecoveryCodes.action.confirmPasswordAndShow.label'
+              'page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.action.confirmPasswordAndShow.label'
             )
           "
           :confirm-password-button-props="{ block: true }"
           :confirm-password-button-callback="openAuthUserTwoFactorRecoveryCodesModal"
         >
           <UButton block icon="i-fa6-solid-eye" @click="openAuthUserTwoFactorRecoveryCodesModal">
-            {{ $t('page.settings.security.section.twoFactorRecoveryCodes.action.show.label') }}
+            {{
+              $t(
+                'page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.action.show.label'
+              )
+            }}
           </UButton>
         </AuthNeedsToConfirmUserPasswordButton>
 
@@ -64,5 +89,5 @@
         />
       </template>
     </UDashboardSection>
-  </div>
+  </UCard>
 </template>
