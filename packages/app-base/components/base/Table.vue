@@ -24,8 +24,5 @@
 </script>
 
 <template>
-  <div>
-    {{ new Date(timestamp).toLocaleString() }}
-  </div>
   <UTable />
 </template>
