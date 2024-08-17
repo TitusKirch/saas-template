@@ -23,6 +23,7 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     currentUserAvatarUrl.value = avatarUrl;
   };
 
+  // general
   const reset = () => {
     currentUser.value = undefined;
     currentUserAvatarUrl.value = undefined;

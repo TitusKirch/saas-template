@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { updateCurrentUser } = useApiCurrentUsers();
+  const { updateCurrentUser } = useApiUsers();
   const {
     fetchCurrentUserAvatar,
     fetchCurrentUser,
