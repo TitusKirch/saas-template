@@ -81,9 +81,9 @@
             />
           </BaseAlertContainer>
 
-          <div class="flex w-full flex-col gap-8">
+          <DashboardPageGrid>
             <slot />
-          </div>
+          </DashboardPageGrid>
         </div>
       </UDashboardPanelContent>
     </UDashboardPanel>
