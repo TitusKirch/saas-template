@@ -5,7 +5,7 @@
     defaultState?: TableState;
   }>();
 
-  const { timestamp, tableStates, setTableState, updateTableState } = useTable();
+  const { tableStates, setTableState, updateTableState } = useTable();
 
   const initTable = () => {
     console.log('initTable', props);

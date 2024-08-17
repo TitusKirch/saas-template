@@ -3,12 +3,14 @@ import type { FetchOptions } from '@tituskirch/app-base/types/Fetch';
 export default function () {
   const { updateUserProfileInformation } = useApiAuth();
 
+  // users/me
   const getCurrentUser = ({ options }: { options?: FetchOptions<UserMeResponse> } = {}) =>
     useApiFetch<UserMeData, UserMeResponse>('users/me', {
       ...options,
     });
   const updateCurrentUser = updateUserProfileInformation;
 
+  // users/me/avatar
   const getCurrentUserAvatar = ({
     options,
   }: { options?: FetchOptions<UserMeAvatarResponse> } = {}) =>
@@ -32,10 +34,19 @@ export default function () {
       }
     );
 
+  // users/me/configurations
+  const getCurrentUserConfigurations = ({
+    options,
+  }: { options?: FetchOptions<UserMeConfigurationResponse> } = {}) =>
+    useApiFetch<UserMeConfigurationData, UserMeConfigurationResponse>('users/me/configurations', {
+      ...options,
+    });
+
   return {
     getCurrentUser,
     getCurrentUserAvatar,
     getCurrentUserAvatarPresignedUploadUrl,
     updateCurrentUser,
+    getCurrentUserConfigurations,
   };
 }

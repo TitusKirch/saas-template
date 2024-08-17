@@ -40,6 +40,13 @@
           name: 'settings-notifications',
         }),
       },
+      {
+        label: t('page.settings.configurations.title'),
+        icon: 'i-fa6-solid-table-columns',
+        to: localePath({
+          name: 'settings-configurations',
+        }),
+      },
     ],
   ]);
 </script>

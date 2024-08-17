@@ -84,8 +84,8 @@ Route::group([
         });
 
         Route::group([
-            'prefix' => 'configuration',
-            'as' => 'configuration.',
+            'prefix' => 'configurations',
+            'as' => 'configurations.',
         ], function () {
             Route::get('/', [UserMeConfigurationController::class, 'index'])->name('index');
             Route::put('/', [UserMeConfigurationController::class, 'set'])->name('set');

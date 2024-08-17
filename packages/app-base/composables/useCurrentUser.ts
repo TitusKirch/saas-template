@@ -6,7 +6,7 @@ export default function () {
   const currentUserStoreRefs = storeToRefs(currentUserStore);
 
   // current user
-  const { getCurrentUser } = useApiUsers();
+  const { getCurrentUser } = useApiUsersMe();
   const {
     data: fetchUserData,
     status: fetchUserStatus,
@@ -30,7 +30,7 @@ export default function () {
   );
 
   // current user avatar url
-  const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiUsers();
+  const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiUsersMe();
   const {
     data: fetchUserAvatarData,
     status: fetchUserAvatarStatus,

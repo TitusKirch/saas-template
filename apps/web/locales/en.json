@@ -76,6 +76,12 @@
         "title": "Account"
       },
       "configurations": {
+        "section": {
+          "tables": {
+            "description": "Here you can manage the tables of the app.",
+            "title": "Tables"
+          }
+        },
         "title": "Configurations"
       },
       "index": {
