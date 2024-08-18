@@ -365,6 +365,10 @@
               "description": "An error occurred while signing in with {0}. Please try again.",
               "title": "Error signing in"
             },
+            "meta": {
+              "description": "Please wait while we sign you in.",
+              "title": "Signing in"
+            },
             "title": "Signing in"
           }
         }
