@@ -25,7 +25,7 @@ export default defineAppConfig({
       },
     },
     button: {
-      rounded: 'rounded-full',
+      // rounded: 'rounded-full',
       default: {
         loadingIcon: 'i-fa6-solid-arrows-rotate',
       },
