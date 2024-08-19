@@ -145,6 +145,7 @@
         <template #description="{ description }">
           <!-- eslint-disable vue/no-v-html -->
           <span
+            v-if="description"
             v-html="
               styleNotification({
                 text: description,
