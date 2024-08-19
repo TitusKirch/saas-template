@@ -1,5 +1,14 @@
 type UserConfigurationContext = 'table';
 
+type UserConfigurationValueTable = {
+  columns?: string[];
+  rowsPerPage?: number;
+  sort?: {
+    column: string;
+    direction?: 'asc' | 'desc';
+  };
+};
+
 type UserConfigurationValue =
   | string
   | number
@@ -14,11 +23,19 @@ type UserConfigurationValueObject = {
 
 type UserConfigurationValueArray = UserConfigurationValue[];
 
-type UserConfiguration = {
+type UserConfiguration = (
+  | {
+      context: 'table';
+      value: UserConfigurationValueTable;
+    }
+  | {
+      context: undefined;
+      value: UserConfigurationValueObject | UserConfigurationValueArray;
+    }
+) & {
   id: BigInt;
-  context: UserConfigurationContext;
+  context: string;
   key: string;
-  value: UserConfigurationValueObject | UserConfigurationValueArray;
   created_at: Date;
   updated_at: Date;
 };

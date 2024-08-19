@@ -1,8 +1,8 @@
 type TableColumnSortDirection = 'asc' | 'desc';
 
 type TableColumn = {
-  id: string;
-  label?: string;
+  key: string;
+  label: string;
   sortable?: boolean;
   sort?: (a: any, b: any, direction: TableColumnSortDirection) => number;
   direction?: TableColumnSortDirection;
@@ -10,8 +10,6 @@ type TableColumn = {
 
 type TableColumns = TableColumn[];
 
-type TableState = {
-  selectedColumns?: string[];
-  sortColumn?: string;
-  sortDirection?: TableColumnSortDirection;
-};
+type TableRow = { [key: string]: any };
+
+type TableRows = TableRow[];

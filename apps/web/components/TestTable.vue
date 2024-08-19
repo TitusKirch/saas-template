@@ -1,6 +1,11 @@
 <script setup lang="ts">
   const columns: TableColumns = [
     {
+      key: 'id',
+      label: '#',
+      sortable: true,
+    },
+    {
       key: 'name',
       label: 'Name',
       sortable: true,
@@ -21,6 +26,7 @@
       sortable: true,
     },
     {
+      label: 'Actions',
       key: 'actions',
     },
   ];
@@ -104,20 +110,21 @@
 </script>
 
 <template>
-  <BaseTable id="test-table" :rows="people" :columns="columns">
+  <BaseTable configuration-key="test" :rows="people" :columns="columns">
     <template #name-data="{ row }">
       <span
         :class="[
           selected.find((person) => person.id === row.id) &&
             'text-primary-500 dark:text-primary-400',
         ]"
-        >{{ row.name }}</span
       >
+        {{ row.name }}
+      </span>
     </template>
 
     <template #actions-data="{ row }">
       <UDropdown :items="items(row)">
-        <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+        <UButton color="gray" variant="ghost" icon="i-fa-solid-ellipsis-h" />
       </UDropdown>
     </template>
   </BaseTable>

@@ -1,6 +1,6 @@
 export const useCurrentUserConfigurationStore = defineStore('currentUserConfiguration', () => {
   // user configurations
-  const userConfigurations = ref<UserConfigurationVariant[]>([]);
+  const userConfigurations = ref<UserConfigurationVariant[] | undefined>();
   const setUserConfigurations = ({
     configurations,
   }: {
@@ -8,11 +8,14 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   }) => {
     userConfigurations.value = configurations;
   };
+
   const addUserConfiguration = ({ configuration }: { configuration: UserConfigurationVariant }) => {
-    userConfigurations.value.push(configuration);
+    (userConfigurations.value ??= []).push(configuration);
+
+    // userConfigurations.value = [...userConfigurations.value, configuration];
   };
   const removeUserConfigurationById = ({ id }: { id: BigInt }) => {
-    userConfigurations.value = userConfigurations.value.filter(
+    userConfigurations.value = userConfigurations.value?.filter(
       (configuration): configuration is UserConfiguration =>
         'id' in configuration ? configuration.id !== id : true
     );
@@ -24,7 +27,7 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     context: UserConfigurationContext;
     key: string;
   }) => {
-    userConfigurations.value = userConfigurations.value.filter(
+    userConfigurations.value = userConfigurations.value?.filter(
       (configuration) => configuration.context !== context || configuration.key !== key
     );
   };
@@ -49,6 +52,11 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   }: {
     configuration: UserConfigurationVariant;
   }) => {
+    if (!userConfigurations.value) {
+      console.warn('userConfigurations.value is not defined');
+      return;
+    }
+
     const index = userConfigurations.value.findIndex(
       (config) => config.context === configuration.context && config.key === configuration.key
     );
@@ -65,7 +73,7 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   }: {
     configuration: UserConfigurationVariant;
   }) => {
-    const index = userConfigurations.value.findIndex(
+    const index = (userConfigurations.value ??= []).findIndex(
       (config) => config.context === configuration.context && config.key === configuration.key
     );
     if (index === -1) {
@@ -76,6 +84,10 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   };
   const userConfigurationMappedByContextAndKey = computed(() => {
     const result: Record<string, Record<string, UserConfigurationVariant>> = {};
+
+    if (!userConfigurations.value) {
+      return {};
+    }
 
     userConfigurations.value.forEach((configuration) => {
       if (!result[configuration.context]) {
@@ -91,17 +103,31 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();
   const syncUserConfigurations = async () => {
     console.info('syncUserConfigurations');
+
+    useNotification({
+      type: 'info',
+      title: 'Syncing user configurations...',
+    });
   };
-  watch(userConfigurations, async () => {
-    console.info('watch(userConfigurations)');
-    if (syncUserConfigurationsTimeout.value) {
-      console.info('clearTimeout(syncUserConfigurationsTimeout.value);');
-      clearTimeout(syncUserConfigurationsTimeout.value);
-    }
-    syncUserConfigurationsTimeout.value = setTimeout(async () => {
-      await syncUserConfigurations();
-    }, 3000);
-  });
+  watch(
+    userConfigurations,
+    async (oldValue, newValue) => {
+      console.info('userConfigurations changed', userConfigurations.value);
+      if (syncUserConfigurationsTimeout.value) {
+        console.info('clearTimeout(syncUserConfigurationsTimeout.value);');
+        clearTimeout(syncUserConfigurationsTimeout.value);
+        syncUserConfigurationsTimeout.value = undefined;
+      }
+      if (!userConfigurations.value?.length) {
+        console.info('userConfigurations.value is not defined');
+        return;
+      }
+      syncUserConfigurationsTimeout.value = setTimeout(async () => {
+        await syncUserConfigurations();
+      }, 3000);
+    },
+    { deep: true }
+  );
 
   // general
   const reset = () => {

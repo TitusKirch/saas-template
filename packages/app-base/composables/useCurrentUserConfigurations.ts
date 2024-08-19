@@ -15,6 +15,7 @@ export default function () {
     options: {
       immediate: false,
       watch: false,
+      lazy: true,
     },
   });
   watch(
@@ -38,6 +39,9 @@ export default function () {
       await fetchCurrentUserConfigurations();
     }
   );
+  if (currentUser.value && !currentUserConfigurationStoreRefs.userConfigurations.value) {
+    fetchCurrentUserConfigurations();
+  }
 
   return {
     ...currentUserConfigurationStore,

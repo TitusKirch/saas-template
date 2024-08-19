@@ -1,30 +1,6 @@
 <script setup lang="ts">
-  const {
-    fetchCurrentUserConfigurations,
-    setUserConfigurations,
-    userConfigurationMappedByContextAndKey,
-  } = useCurrentUserConfigurations();
-
-  await fetchCurrentUserConfigurations();
-
-  const test = ref(1);
-  const clickHandler = () => {
-    test.value += 1;
-    setUserConfigurations({
-      configurations: [
-        {
-          context: 'table',
-          key: 'test',
-          value: {
-            columns: [
-              { key: 'name', label: 'Name' },
-              { key: 'age', label: `Age ${test.value}` },
-            ],
-          },
-        },
-      ],
-    });
-  };
+  const { userConfigurationMappedByContextAndKey, userConfigurations } =
+    useCurrentUserConfigurations();
 </script>
 
 <template>
@@ -37,11 +13,10 @@
         />
       </template>
 
-      <UButton @click="clickHandler">Click me</UButton>
-
       <TestTable />
     </UCard>
     <DevCard>
+      <DevCode :code="userConfigurations" title="userConfigurations" />
       <DevCode
         :code="userConfigurationMappedByContextAndKey?.table?.test"
         title="userConfigurationMappedByContextAndKey?.table?.test"
