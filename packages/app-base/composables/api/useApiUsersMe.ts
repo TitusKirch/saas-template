@@ -41,12 +41,29 @@ export default function () {
     useApiFetch<UserMeConfigurationData, UserMeConfigurationResponse>('users/me/configurations', {
       ...options,
     });
+  // users/me/configurations/set
+  const setCurrentUserConfigurations = ({
+    data,
+    options,
+  }: {
+    data: Ref<UsersMeConfigurationSetRequestData | undefined>;
+    options?: FetchOptions<UsersMeConfigurationSetResponse>;
+  }) =>
+    useApiFetch<UsersMeConfigurationSetRequestData, UsersMeConfigurationSetResponse>(
+      'users/me/configurations',
+      {
+        method: 'PUT',
+        body: data,
+        ...options,
+      }
+    );
 
   return {
     getCurrentUser,
     getCurrentUserAvatar,
     getCurrentUserAvatarPresignedUploadUrl,
-    updateCurrentUser,
     getCurrentUserConfigurations,
+    setCurrentUserConfigurations,
+    updateCurrentUser,
   };
 }

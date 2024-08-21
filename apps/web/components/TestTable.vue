@@ -110,22 +110,24 @@
 </script>
 
 <template>
-  <BaseTable configuration-key="test" :rows="people" :columns="columns">
-    <template #name-data="{ row }">
-      <span
-        :class="[
-          selected.find((person) => person.id === row.id) &&
-            'text-primary-500 dark:text-primary-400',
-        ]"
-      >
-        {{ row.name }}
-      </span>
-    </template>
+  <UserMeConfigurationsRequired>
+    <BaseTable configuration-key="test" :rows="people" :columns="columns">
+      <template #name-data="{ row }">
+        <span
+          :class="[
+            selected.find((person) => person.id === row.id) &&
+              'text-primary-500 dark:text-primary-400',
+          ]"
+        >
+          {{ row.name }}
+        </span>
+      </template>
 
-    <template #actions-data="{ row }">
-      <UDropdown :items="items(row)">
-        <UButton color="gray" variant="ghost" icon="i-fa-solid-ellipsis-h" />
-      </UDropdown>
-    </template>
-  </BaseTable>
+      <template #actions-data="{ row }">
+        <UDropdown :items="items(row)">
+          <UButton color="gray" variant="ghost" icon="i-fa-solid-ellipsis-h" />
+        </UDropdown>
+      </template>
+    </BaseTable>
+  </UserMeConfigurationsRequired>
 </template>

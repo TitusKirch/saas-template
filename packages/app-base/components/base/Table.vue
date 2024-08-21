@@ -16,6 +16,7 @@
     addUserConfiguration,
     replaceOrAddUserConfiguration,
     userConfigurationMappedByContextAndKey,
+    userConfigurations,
   } = useCurrentUserConfigurations();
 
   // table states
@@ -59,14 +60,13 @@
 
   watch(
     tableConfiguration,
-    (value) => {
+    () => {
       replaceOrAddUserConfiguration({
-        configuration: value,
+        configuration: tableConfiguration.value,
       });
     },
     { deep: true }
   );
-
   // initailize table
   const initailizeTable = () => {
     if (!props.configurationKey) {
@@ -74,6 +74,13 @@
     }
 
     // check if configuration exists
+    console.info('============================================');
+    console.info('============================================');
+    console.info('============================================');
+    console.info(
+      'userConfigurationMappedByContextAndKey',
+      userConfigurationMappedByContextAndKey.value
+    );
     if (!userConfigurationMappedByContextAndKey?.value['table']?.[props.configurationKey]) {
       console.info('addUserConfiguration', initialTableConfiguration);
       addUserConfiguration({
@@ -97,9 +104,16 @@
     sort.value =
       userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.sort;
   };
-  onMounted(() => {
-    initailizeTable();
-  });
+  // onMounted(() => {
+  //   initailizeTable();
+  // });
+  watch(
+    userConfigurations,
+    () => {
+      initailizeTable();
+    },
+    { immediate: true }
+  );
 </script>
 
 <template>

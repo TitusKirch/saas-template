@@ -100,19 +100,40 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   });
 
   // sync
+  const { setCurrentUserConfigurations } = useApiUsersMe();
+  const { execute: setCurrentUserConfigurationsExecute } = setCurrentUserConfigurations({
+    data: userConfigurations,
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
   const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();
   const syncUserConfigurations = async () => {
     console.info('syncUserConfigurations');
 
+    await setCurrentUserConfigurationsExecute();
     useNotification({
       type: 'info',
       title: 'Syncing user configurations...',
     });
   };
   watch(
-    userConfigurations,
-    async (oldValue, newValue) => {
-      console.info('userConfigurations changed', userConfigurations.value);
+    () => userConfigurations.value,
+    async (newValue, oldValue) => {
+      if (!import.meta.client) {
+        console.info('import.meta.client is false');
+        return;
+      }
+      console.info('userConfigurations changed', oldValue, newValue);
+      if (typeof oldValue === 'undefined') {
+        console.info('oldValue is undefined');
+        return;
+      }
+      if (JSON.stringify(oldValue) === JSON.stringify(newValue)) {
+        console.info('oldValue is equal to newValue');
+        return;
+      }
       if (syncUserConfigurationsTimeout.value) {
         console.info('clearTimeout(syncUserConfigurationsTimeout.value);');
         clearTimeout(syncUserConfigurationsTimeout.value);
@@ -122,6 +143,7 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
         console.info('userConfigurations.value is not defined');
         return;
       }
+      console.info('setTimeout(syncUserConfigurations, 3000);');
       syncUserConfigurationsTimeout.value = setTimeout(async () => {
         await syncUserConfigurations();
       }, 3000);

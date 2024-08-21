@@ -15,3 +15,6 @@ type UserMeConfigurationResponse = ApiResourceResponse<UserConfiguration[]>;
 
 // type UserMeUpdateAvatarData = undefined;
 // type UserMeUpdateAvatarResponse = ApiResourceResponse<UserMeUpdateAvatarData>;
+
+type UsersMeConfigurationSetResponse = ApiResourceResponse<UserConfiguration[]>;
+type UsersMeConfigurationSetRequestData = UserConfigurationVariant[];

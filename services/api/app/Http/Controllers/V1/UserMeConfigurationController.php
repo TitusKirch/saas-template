@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\UserConfigurationResource;
 use App\Models\UserConfiguration;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserMeConfigurationController extends Controller
 {
@@ -91,7 +92,10 @@ class UserMeConfigurationController extends Controller
     public function set(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $data = $request->validate([
-            '*.context' => 'required|enum:'.UserConfigurationContext::class,
+            '*.context' => [
+                'required',
+                Rule::enum(UserConfigurationContext::class),
+            ],
             '*.key' => 'required|string',
             '*.value' => 'required|array',
         ]);
