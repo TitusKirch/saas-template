@@ -8,9 +8,9 @@ export default function () {
   const { getCurrentUserConfigurations } = useApiUsersMe();
   const {
     data: fetchCurrentUserConfigurationsData,
-    status: fetchCurrentUserConfigurationsStatus,
+    error: fetchCurrentUserConfigurationsError,
     execute: fetchCurrentUserConfigurations,
-    error: fetchCurrentUserError,
+    status: fetchCurrentUserConfigurationsStatus,
   } = getCurrentUserConfigurations({
     options: {
       immediate: false,
@@ -47,8 +47,8 @@ export default function () {
     ...currentUserConfigurationStore,
     ...currentUserConfigurationStoreRefs,
     fetchCurrentUserConfigurations,
-    fetchCurrentUserConfigurationsStatus,
-    fetchCurrentUserError,
     fetchCurrentUserConfigurationsData,
+    fetchCurrentUserConfigurationsError,
+    fetchCurrentUserConfigurationsStatus,
   };
 }

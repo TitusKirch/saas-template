@@ -12,122 +12,164 @@
     }
   );
 
-  const {
-    addUserConfiguration,
-    replaceOrAddUserConfiguration,
-    userConfigurationMappedByContextAndKey,
-    userConfigurations,
-  } = useCurrentUserConfigurations();
+  const { setUserConfiguration, userConfigurationMappedByContextAndKey, userConfigurations } =
+    useCurrentUserConfigurations();
 
   // table states
-  const selectedColumns = ref<string[]>([]);
-  const columnsTable = computed(() => {
-    return props.columns.filter((column) => selectedColumns.value.includes(column.key));
-  });
-  const rowsPerPage = ref(10);
+  // const selectedColumns = ref<string[]>([]);
+  // const rowsPerPage = ref(10);
   const rowsPerPageOptions = ref([5, 10, 25, 50, 100]);
-  const sort = ref<UserConfigurationValueTable['sort'] | undefined>();
+  // const sort = ref<UserConfigurationValueTable['sort']>({
+  //   column: props.columns[0].key,
+  //   direction: 'asc',
+  // });
 
-  // initial table configuration
-  const initialTableConfiguration: UserConfigurationPartial = {
-    context: 'table',
-    key: props.configurationKey,
-    value: Object.keys(props.defaultConfiguration).length
-      ? props.defaultConfiguration
-      : {
-          columns: props.columns.map((column) => column.key),
-          rowsPerPage: 10,
-          sort: {
-            column: props.columns[0].key,
-            direction: 'asc',
-          },
-        },
-  };
+  const tableConfiguration = ref<UserConfigurationValueTable | undefined>();
 
-  // table configuration
-  const tableConfiguration = ref<UserConfigurationPartial>({
-    ...initialTableConfiguration,
-  });
-  watch(selectedColumns, (value) => {
-    tableConfiguration.value['value']['columns'] = value;
-  });
-  watch(rowsPerPage, (value) => {
-    tableConfiguration.value['value']['rowsPerPage'] = value;
-  });
-  watch(sort, (value) => {
-    tableConfiguration.value['value']['sort'] = value;
-  });
-
+  if (userConfigurations.value) {
+    tableConfiguration.value = {
+      ...userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value,
+    };
+  } else {
+    tableConfiguration.value = {
+      columns: props.columns.map((column) => column.key),
+      rowsPerPage: 10,
+      sort: {
+        column: props.columns[0].key,
+        direction: 'asc',
+      },
+    };
+  }
   watch(
     tableConfiguration,
     () => {
-      replaceOrAddUserConfiguration({
-        configuration: tableConfiguration.value,
-      });
+      if (tableConfiguration.value) {
+        setUserConfiguration({
+          configuration: {
+            context: 'table',
+            key: props.configurationKey,
+            value: tableConfiguration.value,
+          },
+        });
+      }
     },
     { deep: true }
   );
+
+  const columnsTable = computed(() => {
+    return props.columns.filter((column) =>
+      tableConfiguration.value?.columns
+        ? tableConfiguration.value.columns.includes(column.key)
+        : true
+    );
+  });
+
+  // initial table configuration
+  // const initialTableConfiguration: UserConfigurationPartial = {
+  //   context: 'table',
+  //   key: props.configurationKey,
+  //   value: Object.keys(props.defaultConfiguration).length
+  //     ? props.defaultConfiguration
+  //     : {
+  //         columns: props.columns.map((column) => column.key),
+  //         rowsPerPage: 10,
+  //         sort: {
+  //           column: props.columns[0].key,
+  //           direction: 'asc',
+  //         },
+  //       },
+  // };
+
+  // table configuration
+  // const tableConfiguration = ref<UserConfigurationPartial>(
+  //   userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]
+  //     ? {
+  //         ...userConfigurationMappedByContextAndKey.value.table[props.configurationKey],
+  //       }
+  //     : {
+  //         ...initialTableConfiguration,
+  //       }
+  // );
+  // watch(selectedColumns, (value) => {
+  //   tableConfiguration.value['value']['columns'] = value;
+  // });
+  // watch(rowsPerPage, (value) => {
+  //   tableConfiguration.value['value']['rowsPerPage'] = value;
+  // });
+  // watch(sort, (value) => {
+  //   tableConfiguration.value['value']['sort'] = value;
+  // });
+
+  // watch(
+  //   tableConfiguration,
+  //   () => {
+  //     setUserConfiguration({
+  //       configuration: tableConfiguration.value,
+  //     });
+  //   },
+  //   { deep: true }
+  // );
   // initailize table
   const initailizeTable = () => {
-    if (!props.configurationKey) {
-      throw new Error('Table require configurationKey prop');
-    }
-
-    // check if configuration exists
-    console.info('============================================');
-    console.info('============================================');
-    console.info('============================================');
-    console.info(
-      'userConfigurationMappedByContextAndKey',
-      userConfigurationMappedByContextAndKey.value
-    );
-    if (!userConfigurationMappedByContextAndKey?.value['table']?.[props.configurationKey]) {
-      console.info('addUserConfiguration', initialTableConfiguration);
-      addUserConfiguration({
-        configuration: initialTableConfiguration,
-      });
-    }
-    if (
-      !userConfigurationMappedByContextAndKey?.value?.['table']?.[props.configurationKey]?.value
-    ) {
-      throw new Error('Failed to initialize table configuration');
-    }
-
-    selectedColumns.value =
-      userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.columns ||
-      props.columns.map((column) => column.key);
-
-    rowsPerPage.value =
-      userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value
-        .rowsPerPage || 10;
-
-    sort.value =
-      userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.sort;
+    // if (!props.configurationKey) {
+    //   throw new Error('Table require configurationKey prop');
+    // }
+    // // check if configuration exists
+    // // console.info('============================================');
+    // // console.info('============================================');
+    // // console.info('============================================');
+    // // console.info(
+    // //   'userConfigurationMappedByContextAndKey',
+    // //   userConfigurationMappedByContextAndKey.value
+    // // );
+    // if (!userConfigurationMappedByContextAndKey?.value?.table?.[props.configurationKey]) {
+    //   console.info('addUserConfiguration', initialTableConfiguration);
+    //   setUserConfiguration({
+    //     configuration: initialTableConfiguration,
+    //   });
+    // }
+    // if (!userConfigurationMappedByContextAndKey?.value?.table?.[props.configurationKey]?.value) {
+    //   throw new Error('Failed to initialize table configuration');
+    // }
+    // selectedColumns.value =
+    //   userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.columns ||
+    //   props.columns.map((column) => column.key);
+    // rowsPerPage.value =
+    //   userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value
+    //     .rowsPerPage || 10;
+    // sort.value =
+    //   userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.sort;
   };
   // onMounted(() => {
   //   initailizeTable();
   // });
-  watch(
-    userConfigurations,
-    () => {
-      initailizeTable();
-    },
-    { immediate: true }
-  );
+  // watch(
+  //   userConfigurations,
+  //   () => {
+  //     initailizeTable();
+  //   },
+  //   { immediate: true }
+  // );
 </script>
 
 <template>
-  <div>
+  <br />
+  tableConfiguration: {{ tableConfiguration }} <br />
+  <div v-if="tableConfiguration">
     <div class="flex justify-between items-center w-full px-4 py-3">
       <div class="flex items-center gap-1.5">
         <span class="text-sm leading-5">Rows per page:</span>
 
-        <USelectMenu v-model="rowsPerPage" :options="rowsPerPageOptions" class="w-20" />
+        <USelectMenu
+          v-model="tableConfiguration.rowsPerPage"
+          :options="rowsPerPageOptions"
+          class="w-20"
+        />
       </div>
 
       <div class="flex gap-1.5 items-center">
         <USelectMenu
-          v-model="selectedColumns"
+          v-model="tableConfiguration.columns"
           :options="props.columns"
           value-attribute="key"
           multiple
@@ -137,7 +179,7 @@
       </div>
     </div>
 
-    <UTable v-if="sort" :columns="columnsTable" :rows="props.rows" v-model:sort="sort">
+    <UTable :columns="columnsTable" :rows="props.rows" v-model:sort="tableConfiguration.sort">
       <template
         v-for="column in columnsTable"
         :key="column.key"

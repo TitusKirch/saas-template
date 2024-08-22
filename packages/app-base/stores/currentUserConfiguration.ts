@@ -1,20 +1,74 @@
+// import { watchArray } from '@vueuse/core';
+
 export const useCurrentUserConfigurationStore = defineStore('currentUserConfiguration', () => {
+  // general
+  const userConfigurationsAreSyncedWithRemote = ref(false);
+  const setUserConfigurationsAreSyncedWithRemoteByUserConfigurations = () => {
+    if (!userConfigurations.value) {
+      userConfigurationsAreSyncedWithRemote.value = true;
+    } else {
+      userConfigurationsAreSyncedWithRemote.value = false;
+    }
+
+    console.info('setUserConfigurationsAreSyncedWithRemoteByUserConfigurations');
+    console.info(
+      'userConfigurationsAreSyncedWithRemote.value',
+      userConfigurationsAreSyncedWithRemote.value
+    );
+  };
+
   // user configurations
   const userConfigurations = ref<UserConfigurationVariant[] | undefined>();
+  const userConfigurationMappedByContextAndKey = computed<
+    Record<string, Record<string, UserConfigurationVariant>> | undefined
+  >(() => {
+    if (!userConfigurations.value) {
+      return undefined;
+    }
+
+    const result: Record<string, Record<string, UserConfigurationVariant>> = {};
+
+    userConfigurations.value.forEach((configuration) => {
+      if (!result[configuration.context]) {
+        result[configuration.context] = {};
+      }
+      result[configuration.context][configuration.key] = configuration;
+    });
+
+    return result;
+  });
   const setUserConfigurations = ({
     configurations,
   }: {
     configurations: UserConfigurationVariant[];
   }) => {
+    console.info('setUserConfigurations');
+    setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+    console.info(
+      'userConfigurationsAreSyncedWithRemote.value',
+      userConfigurationsAreSyncedWithRemote.value
+    );
+
     userConfigurations.value = configurations;
   };
+  const setUserConfiguration = ({ configuration }: { configuration: UserConfigurationVariant }) => {
+    console.info('setUserConfiguration');
+    setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
 
-  const addUserConfiguration = ({ configuration }: { configuration: UserConfigurationVariant }) => {
-    (userConfigurations.value ??= []).push(configuration);
+    const index = userConfigurations.value?.findIndex(
+      (config) => config.context == configuration.context && config.key == configuration.key
+    );
 
-    // userConfigurations.value = [...userConfigurations.value, configuration];
+    if (typeof index === 'number' && index !== -1 && userConfigurations.value) {
+      userConfigurations.value[index] = configuration;
+    } else {
+      (userConfigurations.value ??= []).push(configuration);
+    }
   };
   const removeUserConfigurationById = ({ id }: { id: BigInt }) => {
+    console.info('removeUserConfigurationById');
+    setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+
     userConfigurations.value = userConfigurations.value?.filter(
       (configuration): configuration is UserConfiguration =>
         'id' in configuration ? configuration.id !== id : true
@@ -27,79 +81,30 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     context: UserConfigurationContext;
     key: string;
   }) => {
+    console.info('removeUserConfigurationByContextAndKey');
+    setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+
     userConfigurations.value = userConfigurations.value?.filter(
       (configuration) => configuration.context !== context || configuration.key !== key
     );
   };
-  const removeUserConfiguration = (
-    params:
-      | {
-          id: BigInt;
-        }
-      | {
-          context: UserConfigurationContext;
-          key: string;
-        }
-  ) => {
-    if ('id' in params) {
-      removeUserConfigurationById(params);
-    } else {
-      removeUserConfigurationByContextAndKey(params);
-    }
-  };
-  const replaceUserConfiguration = ({
+  const removeUserConfiguration = ({
     configuration,
   }: {
     configuration: UserConfigurationVariant;
   }) => {
-    if (!userConfigurations.value) {
-      console.warn('userConfigurations.value is not defined');
-      return;
-    }
-
-    const index = userConfigurations.value.findIndex(
-      (config) => config.context === configuration.context && config.key === configuration.key
-    );
-    if (index === -1) {
-      console.warn(
-        `Could not find configuration with context "${configuration.context}" and key "${configuration.key}"`
-      );
-      return;
-    }
-    userConfigurations.value[index] = configuration;
-  };
-  const replaceOrAddUserConfiguration = ({
-    configuration,
-  }: {
-    configuration: UserConfigurationVariant;
-  }) => {
-    const index = (userConfigurations.value ??= []).findIndex(
-      (config) => config.context === configuration.context && config.key === configuration.key
-    );
-    if (index === -1) {
-      userConfigurations.value.push(configuration);
+    console.info('removeUserConfiguration');
+    if ('id' in configuration) {
+      removeUserConfigurationById({ id: configuration.id });
     } else {
-      userConfigurations.value[index] = configuration;
+      removeUserConfigurationByContextAndKey({
+        context: configuration.context,
+        key: configuration.key,
+      });
     }
   };
-  const userConfigurationMappedByContextAndKey = computed(() => {
-    const result: Record<string, Record<string, UserConfigurationVariant>> = {};
 
-    if (!userConfigurations.value) {
-      return {};
-    }
-
-    userConfigurations.value.forEach((configuration) => {
-      if (!result[configuration.context]) {
-        result[configuration.context] = {};
-      }
-      result[configuration.context][configuration.key] = configuration;
-    });
-
-    return result;
-  });
-
-  // sync
+  // sync user configurations
   const { setCurrentUserConfigurations } = useApiUsersMe();
   const { execute: setCurrentUserConfigurationsExecute } = setCurrentUserConfigurations({
     data: userConfigurations,
@@ -108,64 +113,52 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
       watch: false,
     },
   });
-  const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();
   const syncUserConfigurations = async () => {
-    console.info('syncUserConfigurations');
-
     await setCurrentUserConfigurationsExecute();
+    userConfigurationsAreSyncedWithRemote.value = true;
     useNotification({
       type: 'info',
       title: 'Syncing user configurations...',
     });
   };
+  const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();
   watch(
-    () => userConfigurations.value,
-    async (newValue, oldValue) => {
-      if (!import.meta.client) {
-        console.info('import.meta.client is false');
+    userConfigurations,
+    async () => {
+      console.info('============================================');
+      console.info(
+        'userConfigurationsAreSyncedWithRemote.value',
+        userConfigurationsAreSyncedWithRemote.value
+      );
+
+      if (userConfigurationsAreSyncedWithRemote.value) {
+        console.info('userConfigurationsAreSyncedWithRemote.value is true');
         return;
       }
-      console.info('userConfigurations changed', oldValue, newValue);
-      if (typeof oldValue === 'undefined') {
-        console.info('oldValue is undefined');
-        return;
-      }
-      if (JSON.stringify(oldValue) === JSON.stringify(newValue)) {
-        console.info('oldValue is equal to newValue');
-        return;
-      }
+
       if (syncUserConfigurationsTimeout.value) {
         console.info('clearTimeout(syncUserConfigurationsTimeout.value);');
         clearTimeout(syncUserConfigurationsTimeout.value);
         syncUserConfigurationsTimeout.value = undefined;
       }
-      if (!userConfigurations.value?.length) {
-        console.info('userConfigurations.value is not defined');
-        return;
-      }
+
       console.info('setTimeout(syncUserConfigurations, 3000);');
       syncUserConfigurationsTimeout.value = setTimeout(async () => {
         await syncUserConfigurations();
       }, 3000);
     },
-    { deep: true }
+    {
+      deep: true,
+    }
   );
 
-  // general
-  const reset = () => {
-    userConfigurations.value = [];
-  };
-
   return {
-    addUserConfiguration,
+    userConfigurations,
+    setUserConfigurations,
+    setUserConfiguration,
     removeUserConfiguration,
     removeUserConfigurationById,
     removeUserConfigurationByContextAndKey,
-    replaceUserConfiguration,
-    replaceOrAddUserConfiguration,
-    reset,
-    setUserConfigurations,
     userConfigurationMappedByContextAndKey,
-    userConfigurations,
   };
 });

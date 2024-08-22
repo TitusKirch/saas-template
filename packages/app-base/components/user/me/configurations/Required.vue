@@ -7,6 +7,7 @@
 </script>
 
 <template>
+  userConfigurations: {{ userConfigurations }} <br />
   <template v-if="userConfigurations">
     <slot />
   </template>
