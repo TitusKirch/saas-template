@@ -16,12 +16,10 @@
     }
   );
 
+  // table configuration
   const { setUserConfiguration, userConfigurationMappedByContextAndKey, userConfigurations } =
     useCurrentUserConfigurations();
-
-  // table states
   const tableConfiguration = ref<UserConfigurationValueTable | undefined>();
-
   if (userConfigurations.value) {
     tableConfiguration.value = {
       ...userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value,
@@ -52,13 +50,12 @@
     { deep: true }
   );
 
+  // columns
   const selectedColumns = ref<string[]>(tableConfiguration.value?.columns || []);
-
   const columnsTable = computed(() => {
     return props.columns.filter((column) => selectedColumns.value.includes(column.key));
   });
   const blockNextTableConfigurationUpdate = ref(false);
-
   watchArray(selectedColumns, (newList, oldList, added, removed) => {
     if (newList.length === 0) {
       blockNextTableConfigurationUpdate.value = true;
