@@ -20,7 +20,24 @@
   const { setUserConfiguration, userConfigurationMappedByContextAndKey, userConfigurations } =
     useCurrentUserConfigurations();
   const tableConfiguration = ref<UserConfigurationValueTable | undefined>();
-  if (userConfigurations.value) {
+
+  const setTableConfigurationToUserConfiguration = () => {
+    if (!tableConfiguration.value) {
+      return;
+    }
+    setUserConfiguration({
+      configuration: {
+        context: 'table',
+        key: props.configurationKey,
+        value: tableConfiguration.value,
+      },
+    });
+  };
+
+  if (
+    userConfigurations.value &&
+    userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value
+  ) {
     tableConfiguration.value = {
       ...userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value,
     };
@@ -33,19 +50,12 @@
         direction: 'asc',
       },
     };
+    setTableConfigurationToUserConfiguration();
   }
   watch(
     tableConfiguration,
     () => {
-      if (tableConfiguration.value) {
-        setUserConfiguration({
-          configuration: {
-            context: 'table',
-            key: props.configurationKey,
-            value: tableConfiguration.value,
-          },
-        });
-      }
+      setTableConfigurationToUserConfiguration();
     },
     { deep: true }
   );
