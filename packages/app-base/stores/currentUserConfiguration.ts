@@ -46,7 +46,10 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     );
 
     if (typeof index === 'number' && index !== -1 && userConfigurations.value) {
-      userConfigurations.value[index] = configuration;
+      userConfigurations.value[index] = {
+        ...userConfigurations.value[index],
+        ...configuration,
+      };
     } else {
       (userConfigurations.value ??= []).push(configuration);
     }
@@ -89,19 +92,23 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
 
   // sync user configurations
   const { setCurrentUserConfigurations } = useApiUsersMe();
-  const { execute: setCurrentUserConfigurationsExecute } = setCurrentUserConfigurations({
-    data: userConfigurations,
-    options: {
-      immediate: false,
-      watch: false,
-    },
-  });
+  const { execute: setCurrentUserConfigurationsExecute, data: setCurrentUserConfigurationsData } =
+    setCurrentUserConfigurations({
+      data: userConfigurations,
+      options: {
+        immediate: false,
+        watch: false,
+      },
+    });
   const syncUserConfigurations = async () => {
     await setCurrentUserConfigurationsExecute();
     userConfigurationsAreSyncedWithRemote.value = true;
+    userConfigurations.value = setCurrentUserConfigurationsData.value?.data;
+
     useNotification({
-      type: 'info',
-      description: 'Syncing user configurations...',
+      type: 'success',
+      description:
+        'currentUserConfiguration.notification.syncUserConfigurations.success.description',
     });
   };
   const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();

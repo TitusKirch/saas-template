@@ -59,7 +59,19 @@
     "save": {
       "label": "Save"
     },
-    "tryAgainIn": "Try again in a second. | Try again in {count} seconds."
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
+    "view": {
+      "label": "View"
+    },
+    "delete": {
+      "label": "Delete"
+    },
+    "export": {
+      "label": "Export"
+    },
+    "copyToClipboard": {
+      "label": "Copy to clipboard"
+    }
   },
   "alert": {
     "error": {
@@ -148,6 +160,15 @@
         "success": {
           "description": "You successfully copied the text to your clipboard and can now paste it anywhere you like.",
           "title": "Successfully copied to clipboard."
+        }
+      }
+    }
+  },
+  "currentUserConfiguration": {
+    "notification": {
+      "syncUserConfigurations": {
+        "success": {
+          "description": "Your user configuration has been successfully synchronized."
         }
       }
     }
