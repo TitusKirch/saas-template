@@ -126,7 +126,7 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
 
       syncUserConfigurationsTimeout.value = setTimeout(async () => {
         await syncUserConfigurations();
-      }, 3000);
+      }, 5000);
     },
     {
       deep: true,

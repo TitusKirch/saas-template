@@ -15,16 +15,16 @@
     },
     {
       key: 'updated_at',
-      label: 'Updated At',
+      label: 'updated_at',
       sortable: true,
     },
     {
       key: 'created_at',
-      label: 'Created At',
+      label: 'created_at',
       sortable: true,
     },
     {
-      label: 'Actions',
+      label: 'actions',
       key: 'actions',
     },
   ];
