@@ -28,11 +28,24 @@ export default function () {
         return 'i-fa6-solid-circle-exclamation';
     }
   };
+  const getDefaultTitleByType = ({ type }: { type: AlertType }) => {
+    switch (type) {
+      case 'info':
+        return 'alert.info.title';
+      case 'success':
+        return 'alert.success.title';
+      case 'warning':
+        return 'alert.warning.title';
+      case 'error':
+        return 'alert.error.title';
+    }
+  };
 
   return {
     ...alertStore,
     ...alertStoreRefs,
     getColorByType,
     getIconByType,
+    getDefaultTitleByType,
   };
 }

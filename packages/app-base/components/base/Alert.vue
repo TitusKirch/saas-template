@@ -40,7 +40,6 @@
       show.value = false;
     }
     watch(alertStore.alerts, (alerts) => {
-      console.info('alerts changed');
       const alert = alerts.find((alert) => alert.id === props.id);
       if (alert) {
         show.value = !alert.isHidden;

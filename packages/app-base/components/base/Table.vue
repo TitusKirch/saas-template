@@ -1,14 +1,18 @@
 <script setup lang="ts">
+  import { watchArray } from '@vueuse/core';
+
   const props = withDefaults(
     defineProps<{
       columns: TableColumns;
-      rows?: TableRows;
       configurationKey: string;
       defaultConfiguration?: UserConfigurationValueTable;
+      rows?: TableRows;
+      rowsPerPageOptions?: number[];
     }>(),
     {
-      rows: () => [] as TableRows,
       defaultConfiguration: () => ({}) as UserConfigurationValueTable,
+      rows: () => [] as TableRows,
+      rowsPerPageOptions: () => [5, 10, 25, 50, 100],
     }
   );
 
@@ -16,14 +20,6 @@
     useCurrentUserConfigurations();
 
   // table states
-  // const selectedColumns = ref<string[]>([]);
-  // const rowsPerPage = ref(10);
-  const rowsPerPageOptions = ref([5, 10, 25, 50, 100]);
-  // const sort = ref<UserConfigurationValueTable['sort']>({
-  //   column: props.columns[0].key,
-  //   direction: 'asc',
-  // });
-
   const tableConfiguration = ref<UserConfigurationValueTable | undefined>();
 
   if (userConfigurations.value) {
@@ -56,105 +52,34 @@
     { deep: true }
   );
 
+  const selectedColumns = ref<string[]>(tableConfiguration.value?.columns || []);
+
   const columnsTable = computed(() => {
-    return props.columns.filter((column) =>
-      tableConfiguration.value?.columns
-        ? tableConfiguration.value.columns.includes(column.key)
-        : true
-    );
+    return props.columns.filter((column) => selectedColumns.value.includes(column.key));
   });
+  const blockNextTableConfigurationUpdate = ref(false);
 
-  // initial table configuration
-  // const initialTableConfiguration: UserConfigurationPartial = {
-  //   context: 'table',
-  //   key: props.configurationKey,
-  //   value: Object.keys(props.defaultConfiguration).length
-  //     ? props.defaultConfiguration
-  //     : {
-  //         columns: props.columns.map((column) => column.key),
-  //         rowsPerPage: 10,
-  //         sort: {
-  //           column: props.columns[0].key,
-  //           direction: 'asc',
-  //         },
-  //       },
-  // };
+  watchArray(selectedColumns, (newList, oldList, added, removed) => {
+    if (newList.length === 0) {
+      blockNextTableConfigurationUpdate.value = true;
+      selectedColumns.value = oldList;
+      useNotification({
+        type: 'error',
+        title: 'base.table.notification.atLeastOneSelectedColumnRequired.title',
+        description: 'base.table.notification.atLeastOneSelectedColumnRequired.description',
+      });
+    }
 
-  // table configuration
-  // const tableConfiguration = ref<UserConfigurationPartial>(
-  //   userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]
-  //     ? {
-  //         ...userConfigurationMappedByContextAndKey.value.table[props.configurationKey],
-  //       }
-  //     : {
-  //         ...initialTableConfiguration,
-  //       }
-  // );
-  // watch(selectedColumns, (value) => {
-  //   tableConfiguration.value['value']['columns'] = value;
-  // });
-  // watch(rowsPerPage, (value) => {
-  //   tableConfiguration.value['value']['rowsPerPage'] = value;
-  // });
-  // watch(sort, (value) => {
-  //   tableConfiguration.value['value']['sort'] = value;
-  // });
+    if (blockNextTableConfigurationUpdate.value) {
+      blockNextTableConfigurationUpdate.value = false;
+      return;
+    }
 
-  // watch(
-  //   tableConfiguration,
-  //   () => {
-  //     setUserConfiguration({
-  //       configuration: tableConfiguration.value,
-  //     });
-  //   },
-  //   { deep: true }
-  // );
-  // initailize table
-  const initailizeTable = () => {
-    // if (!props.configurationKey) {
-    //   throw new Error('Table require configurationKey prop');
-    // }
-    // // check if configuration exists
-    // // console.info('============================================');
-    // // console.info('============================================');
-    // // console.info('============================================');
-    // // console.info(
-    // //   'userConfigurationMappedByContextAndKey',
-    // //   userConfigurationMappedByContextAndKey.value
-    // // );
-    // if (!userConfigurationMappedByContextAndKey?.value?.table?.[props.configurationKey]) {
-    //   console.info('addUserConfiguration', initialTableConfiguration);
-    //   setUserConfiguration({
-    //     configuration: initialTableConfiguration,
-    //   });
-    // }
-    // if (!userConfigurationMappedByContextAndKey?.value?.table?.[props.configurationKey]?.value) {
-    //   throw new Error('Failed to initialize table configuration');
-    // }
-    // selectedColumns.value =
-    //   userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.columns ||
-    //   props.columns.map((column) => column.key);
-    // rowsPerPage.value =
-    //   userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value
-    //     .rowsPerPage || 10;
-    // sort.value =
-    //   userConfigurationMappedByContextAndKey.value.table[props.configurationKey].value.sort;
-  };
-  // onMounted(() => {
-  //   initailizeTable();
-  // });
-  // watch(
-  //   userConfigurations,
-  //   () => {
-  //     initailizeTable();
-  //   },
-  //   { immediate: true }
-  // );
+    tableConfiguration.value!.columns = newList;
+  });
 </script>
 
 <template>
-  <br />
-  tableConfiguration: {{ tableConfiguration }} <br />
   <div v-if="tableConfiguration">
     <div class="flex justify-between items-center w-full px-4 py-3">
       <div class="flex items-center gap-1.5">
@@ -169,7 +94,7 @@
 
       <div class="flex gap-1.5 items-center">
         <USelectMenu
-          v-model="tableConfiguration.columns"
+          v-model="selectedColumns"
           :options="props.columns"
           value-attribute="key"
           multiple

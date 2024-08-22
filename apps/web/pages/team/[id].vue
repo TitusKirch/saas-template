@@ -6,7 +6,6 @@
     useTeam();
   onBeforeMount(async () => {
     if (BigInt(route.params?.id as string) != team.value?.id) {
-      console.info('fetchTeamByRoute');
       await fetchTeamByRoute();
     }
   });
@@ -28,7 +27,6 @@
         alert: {
           id: 'getTeamStatus',
           type: 'error',
-          title: t('alert.error.title'),
           description: fetchTeamByRouteError.value?.data?.message,
         },
       });

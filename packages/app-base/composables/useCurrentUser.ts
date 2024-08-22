@@ -21,7 +21,6 @@ export default function () {
   watch(
     () => fetchUserData.value,
     (newData) => {
-      console.info('watch fetchUserData', newData);
       if (!newData?.data) {
         return;
       }
@@ -74,10 +73,9 @@ export default function () {
     });
     await execute();
 
-    const { t } = useNuxtApp().$i18n;
     useNotification({
-      title: t('user.resendVerificationEmail.notification.success.title'),
-      description: t('user.resendVerificationEmail.notification.success.description'),
+      title: 'user.resendVerificationEmail.notification.success.title',
+      description: 'user.resendVerificationEmail.notification.success.description',
       type: 'success',
     });
   };

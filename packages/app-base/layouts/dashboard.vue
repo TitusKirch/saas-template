@@ -24,7 +24,6 @@
 
   const setTeamSidebarLinkGroup = () => {
     if (!team.value) {
-      console.log('remove team sidebar link group');
       removeSidebarLinkGroup({
         id: 'team',
       });

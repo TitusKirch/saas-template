@@ -65,8 +65,17 @@
     "error": {
       "title": "An error occurred"
     },
+    "info": {
+      "title": "Info"
+    },
     "loading": {
       "title": "Loading..."
+    },
+    "success": {
+      "title": "Success"
+    },
+    "warning": {
+      "title": "Warning"
     }
   },
   "app": {
@@ -117,6 +126,16 @@
         }
       },
       "title": "Recovery codes"
+    }
+  },
+  "base": {
+    "table": {
+      "notification": {
+        "atLeastOneSelectedColumnRequired": {
+          "description": "At least one column must be selected to perform this action.",
+          "title": "No column selected"
+        }
+      }
     }
   },
   "commandMenu": {

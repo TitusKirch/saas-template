@@ -34,7 +34,6 @@
 
       try {
         await fetchCurrentUserAvatarPresignedUploadUrl();
-        console.info('Avatar updated');
       } catch (error) {
         console.error('Error updating avatar:', error);
         return;
@@ -80,7 +79,6 @@
         formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
     );
   });
-  const { t } = useI18n();
   const { error, status, execute } = await updateCurrentUser({
     data: form,
     options: {
@@ -100,8 +98,8 @@
 
       useNotification({
         type: 'success',
-        title: t('notification.success.title'),
-        description: t('page.settings.account.notification.success.description'),
+        title: 'notification.success.title',
+        description: 'page.settings.account.notification.success.description',
       });
     },
   });

@@ -1,5 +1,3 @@
-// import { watchArray } from '@vueuse/core';
-
 export const useCurrentUserConfigurationStore = defineStore('currentUserConfiguration', () => {
   // general
   const userConfigurationsAreSyncedWithRemote = ref(false);
@@ -9,12 +7,6 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     } else {
       userConfigurationsAreSyncedWithRemote.value = false;
     }
-
-    console.info('setUserConfigurationsAreSyncedWithRemoteByUserConfigurations');
-    console.info(
-      'userConfigurationsAreSyncedWithRemote.value',
-      userConfigurationsAreSyncedWithRemote.value
-    );
   };
 
   // user configurations
@@ -42,17 +34,11 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   }: {
     configurations: UserConfigurationVariant[];
   }) => {
-    console.info('setUserConfigurations');
     setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
-    console.info(
-      'userConfigurationsAreSyncedWithRemote.value',
-      userConfigurationsAreSyncedWithRemote.value
-    );
 
     userConfigurations.value = configurations;
   };
   const setUserConfiguration = ({ configuration }: { configuration: UserConfigurationVariant }) => {
-    console.info('setUserConfiguration');
     setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
 
     const index = userConfigurations.value?.findIndex(
@@ -66,7 +52,6 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     }
   };
   const removeUserConfigurationById = ({ id }: { id: BigInt }) => {
-    console.info('removeUserConfigurationById');
     setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
 
     userConfigurations.value = userConfigurations.value?.filter(
@@ -81,7 +66,6 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     context: UserConfigurationContext;
     key: string;
   }) => {
-    console.info('removeUserConfigurationByContextAndKey');
     setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
 
     userConfigurations.value = userConfigurations.value?.filter(
@@ -93,7 +77,6 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   }: {
     configuration: UserConfigurationVariant;
   }) => {
-    console.info('removeUserConfiguration');
     if ('id' in configuration) {
       removeUserConfigurationById({ id: configuration.id });
     } else {
@@ -118,31 +101,22 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
     userConfigurationsAreSyncedWithRemote.value = true;
     useNotification({
       type: 'info',
-      title: 'Syncing user configurations...',
+      description: 'Syncing user configurations...',
     });
   };
   const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();
   watch(
     userConfigurations,
     async () => {
-      console.info('============================================');
-      console.info(
-        'userConfigurationsAreSyncedWithRemote.value',
-        userConfigurationsAreSyncedWithRemote.value
-      );
-
       if (userConfigurationsAreSyncedWithRemote.value) {
-        console.info('userConfigurationsAreSyncedWithRemote.value is true');
         return;
       }
 
       if (syncUserConfigurationsTimeout.value) {
-        console.info('clearTimeout(syncUserConfigurationsTimeout.value);');
         clearTimeout(syncUserConfigurationsTimeout.value);
         syncUserConfigurationsTimeout.value = undefined;
       }
 
-      console.info('setTimeout(syncUserConfigurations, 3000);');
       syncUserConfigurationsTimeout.value = setTimeout(async () => {
         await syncUserConfigurations();
       }, 3000);
