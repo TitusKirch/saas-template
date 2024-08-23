@@ -104,6 +104,10 @@
             </UDropdown>
           </template>
         </BaseTable>
+
+        <template #pending>
+          <BaseTableSkeleton :columns="columns" />
+        </template>
       </UserMeConfigurationsRequired>
     </UCard>
     <DevCard>

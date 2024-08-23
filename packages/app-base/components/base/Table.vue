@@ -6,13 +6,17 @@
       columns: TableColumns;
       configurationKey: string;
       defaultConfiguration?: UserConfigurationValueTable;
+      disableOptions?: boolean;
       rows?: TableRows;
       rowsPerPageOptions?: number[];
+      skipUserConfiguration?: boolean;
     }>(),
     {
       defaultConfiguration: () => ({}) as UserConfigurationValueTable,
+      disableOptions: false,
       rows: () => [] as TableRows,
       rowsPerPageOptions: () => [5, 10, 25, 50, 100],
+      skipUserConfiguration: false,
     }
   );
 
@@ -22,7 +26,7 @@
   const tableConfiguration = ref<UserConfigurationValueTable | undefined>();
 
   const setTableConfigurationToUserConfiguration = () => {
-    if (!tableConfiguration.value) {
+    if (!tableConfiguration.value || props.skipUserConfiguration) {
       return;
     }
     setUserConfiguration({
@@ -90,12 +94,15 @@
   <div v-if="tableConfiguration">
     <div class="flex justify-between items-center w-full px-4 py-3">
       <div class="flex items-center gap-1.5">
-        <span class="text-sm leading-5">Rows per page:</span>
+        <span class="text-sm leading-5">
+          {{ $t('base.table.rowsPerPage.label') }}
+        </span>
 
         <USelectMenu
           v-model="tableConfiguration.rowsPerPage"
           :options="rowsPerPageOptions"
           class="w-20"
+          :disabled="disableOptions"
         />
       </div>
 
@@ -105,8 +112,17 @@
           :options="props.columns"
           value-attribute="key"
           multiple
+          searchable
         >
-          <UButton icon="i-fa-solid-columns" color="gray" size="xs"> Columns </UButton>
+          <UButton icon="i-fa-solid-columns" color="gray" size="xs" :disabled="disableOptions">
+            {{ $t('base.table.selectedColumns.button.label') }}
+          </UButton>
+
+          <template #option-empty="{ query }">
+            <i18n-t keypath="selectMenu.optionEmpty.label" tag="p">
+              <q>{{ query }}</q>
+            </i18n-t>
+          </template>
         </USelectMenu>
       </div>
     </div>

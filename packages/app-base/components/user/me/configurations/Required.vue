@@ -1,4 +1,9 @@
 <script setup lang="ts">
+  defineSlots<{
+    default: HTMLElement;
+    pending?: HTMLElement;
+  }>();
+
   const { fetchCurrentUserConfigurations, userConfigurations } = useCurrentUserConfigurations();
 
   if (!userConfigurations.value) {
@@ -10,4 +15,5 @@
   <template v-if="userConfigurations">
     <slot />
   </template>
+  <slot v-else name="pending" />
 </template>

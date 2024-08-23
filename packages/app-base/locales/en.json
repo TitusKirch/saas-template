@@ -48,6 +48,15 @@
     "confirmPasswordAndSave": {
       "label": "Confirm password and save"
     },
+    "copyToClipboard": {
+      "label": "Copy to clipboard"
+    },
+    "delete": {
+      "label": "Delete"
+    },
+    "export": {
+      "label": "Export"
+    },
     "goBack": {
       "label": "Go back"
     },
@@ -62,15 +71,6 @@
     "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
     "view": {
       "label": "View"
-    },
-    "delete": {
-      "label": "Delete"
-    },
-    "export": {
-      "label": "Export"
-    },
-    "copyToClipboard": {
-      "label": "Copy to clipboard"
     }
   },
   "alert": {
@@ -146,6 +146,14 @@
         "atLeastOneSelectedColumnRequired": {
           "description": "At least one column must be selected to perform this action.",
           "title": "No column selected"
+        }
+      },
+      "rowsPerPage": {
+        "label": "Rows per page:"
+      },
+      "selectedColumns": {
+        "button": {
+          "label": "Columns"
         }
       }
     }
@@ -449,6 +457,11 @@
   },
   "password_confirmation": {
     "label": "Confirm password"
+  },
+  "selectMenu": {
+    "optionEmpty": {
+      "label": "No results for {0}."
+    }
   },
   "team": {
     "name": {
