@@ -8,6 +8,7 @@
       defaultConfiguration?: UserConfigurationValueTable;
       disableOptions?: boolean;
       rows?: TableRows;
+      rowsPerPage?: number;
       rowsPerPageOptions?: number[];
       skipUserConfiguration?: boolean;
     }>(),
@@ -15,10 +16,18 @@
       defaultConfiguration: () => ({}) as UserConfigurationValueTable,
       disableOptions: false,
       rows: () => [] as TableRows,
+      rowsPerPage: 10,
       rowsPerPageOptions: () => [5, 10, 25, 50, 100],
       skipUserConfiguration: false,
     }
   );
+  const emits = defineEmits<{
+    'update:rowsPerPage': [
+      {
+        rowsPerPage: number;
+      },
+    ];
+  }>();
 
   // table configuration
   const { setUserConfiguration, userConfigurationMappedByContextAndKey, userConfigurations } =
@@ -45,10 +54,16 @@
     tableConfiguration.value = {
       ...userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value,
     };
+
+    if (tableConfiguration.value.rowsPerPage) {
+      emits('update:rowsPerPage', {
+        rowsPerPage: tableConfiguration.value.rowsPerPage,
+      });
+    }
   } else {
     tableConfiguration.value = {
       columns: props.columns.map((column) => column.key),
-      rowsPerPage: 10,
+      rowsPerPage: props.rowsPerPage,
       sort: {
         column: props.columns[0].key,
         direction: 'asc',
@@ -88,23 +103,35 @@
 
     tableConfiguration.value!.columns = newList;
   });
+
+  // rows per page
+  watch(
+    () => tableConfiguration.value?.rowsPerPage,
+    (newValue) => {
+      if (!newValue) {
+        return;
+      }
+      emits('update:rowsPerPage', {
+        rowsPerPage: newValue,
+      });
+    }
+  );
 </script>
 
 <template>
-  <div v-if="tableConfiguration">
-    <div class="flex justify-between items-center w-full px-4 py-3">
-      <div class="flex items-center gap-1.5">
-        <span class="text-sm leading-5">
-          {{ $t('base.table.rowsPerPage.label') }}
-        </span>
-
-        <USelectMenu
-          v-model="tableConfiguration.rowsPerPage"
-          :options="rowsPerPageOptions"
-          class="w-20"
-          :disabled="disableOptions"
-        />
-      </div>
+  <UCard
+    v-if="tableConfiguration"
+    class="w-full"
+    :ui="{
+      base: '',
+      ring: '',
+      divide: 'divide-y divide-gray-200 dark:divide-gray-700',
+      body: { padding: '', base: 'divide-y divide-gray-200 dark:divide-gray-700' },
+      footer: { padding: 'px-4 pt-4 pb-0' },
+    }"
+  >
+    <div class="flex justify-between items-center w-full px-4 pb-3">
+      <UInput icon="i-heroicons-magnifying-glass-20-solid" placeholder="Search..." />
 
       <div class="flex gap-1.5 items-center">
         <USelectMenu
@@ -136,5 +163,20 @@
         <slot v-if="$slots[`${column.key}-data`]" :name="`${column.key}-data`" v-bind="slotProps" />
       </template>
     </UTable>
-  </div>
+
+    <template #footer>
+      <div class="flex items-center gap-1.5 justify-end">
+        <span class="text-sm leading-5">
+          {{ $t('base.table.rowsPerPage.label') }}
+        </span>
+
+        <USelectMenu
+          v-model="tableConfiguration.rowsPerPage"
+          :options="rowsPerPageOptions.map((option) => option.toString())"
+          class="w-20"
+          :disabled="disableOptions"
+        />
+      </div>
+    </template>
+  </UCard>
 </template>

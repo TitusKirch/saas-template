@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <BaseTable
+  <BaseTableMain
     :columns="props.columns"
     :rows="rows"
     configuration-key="table-skeleton"
@@ -26,7 +26,7 @@
     :disable-options="true"
   >
     <template v-for="column in columns" :key="column.key" v-slot:[`${column.key}-data`]="{ row }">
-      <USkeleton class="w-full h-8" />
+      <USkeleton class="w-full h-5" />
     </template>
-  </BaseTable>
+  </BaseTableMain>
 </template>

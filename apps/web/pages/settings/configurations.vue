@@ -51,8 +51,29 @@
       });
     }
 
+    // add 100 dummy rows
+    for (let i = 0; i < 100; i++) {
+      result.push({
+        id: i + 3,
+        key: `key-${i + 3}`,
+        updated_at: new Date().toLocaleString(),
+        created_at: new Date().toLocaleString(),
+      });
+    }
+
     return result;
   });
+
+  const rowsPerPage = ref(10);
+  const page = ref(1);
+  const computedRows = computed(() => {
+    const start = (page.value - 1) * rowsPerPage.value;
+    const end = start + rowsPerPage.value;
+    return rows.value.slice(start, end);
+  });
+  const updateRowsPerPage = ({ rowsPerPage: newRowsPerPage }: { rowsPerPage: number }) => {
+    rowsPerPage.value = newRowsPerPage;
+  };
 
   const { t } = useI18n();
   const items = (row: TableRow) => [
@@ -92,23 +113,20 @@
         />
       </template>
 
-      <UserMeConfigurationsRequired>
-        <BaseTable
-          configuration-key="page-settings-configurations-section-tables"
-          :rows="rows"
-          :columns="columns"
-        >
-          <template #actions-data="{ row }">
-            <UDropdown :items="items(row)">
-              <UButton color="gray" variant="ghost" icon="i-fa-solid-ellipsis-h" />
-            </UDropdown>
-          </template>
-        </BaseTable>
-
-        <template #pending>
-          <BaseTableSkeleton :columns="columns" />
+      <BaseTable
+        configuration-key="page-settings-configurations-section-tables"
+        :rows="computedRows"
+        :columns="columns"
+        :rows-per-page="rowsPerPage"
+        :page="page"
+        @update:rows-per-page="updateRowsPerPage"
+      >
+        <template #actions-data="{ row }">
+          <UDropdown :items="items(row)">
+            <UButton color="gray" variant="ghost" icon="i-fa-solid-ellipsis-h" />
+          </UDropdown>
         </template>
-      </UserMeConfigurationsRequired>
+      </BaseTable>
     </UCard>
     <DevCard>
       <DevCode :code="userConfigurations" title="userConfigurations" />
