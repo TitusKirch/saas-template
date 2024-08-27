@@ -17,8 +17,8 @@
   "type": "module",
   "dependencies": {
     "@tituskirch/app-base": "workspace:*",
-    "nuxt": "^3.12.4",
-    "vue": "^3.4.35",
-    "vue-router": "^4.4.1"
+    "nuxt": "^3.13.0",
+    "vue": "^3.4.38",
+    "vue-router": "^4.4.3"
   }
 }
