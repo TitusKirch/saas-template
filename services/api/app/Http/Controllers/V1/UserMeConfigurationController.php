@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1;
 
 use App\Enums\UserConfigurationContext;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Http\Resources\V1\UserConfigurationResource;
 use App\Models\UserConfiguration;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UserMeConfigurationController extends Controller
+class UserMeConfigurationController extends ApiController
 {
     /**
      * Validate the incoming request.
@@ -28,7 +28,9 @@ class UserMeConfigurationController extends Controller
      */
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return UserConfigurationResource::collection(auth()->user()->configurations);
+        return UserConfigurationResource::collection(
+            UserConfiguration::where('user_id', auth()->user()->id)->simplePaginate($this->paginationLimit)
+        );
     }
 
     /**
