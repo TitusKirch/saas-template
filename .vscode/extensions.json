@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "amiralizadeh9480.laravel-extra-intellisense",
     "antfu.iconify",
     "esbenp.prettier-vscode",
     "jacano.vscode-pnpm",
