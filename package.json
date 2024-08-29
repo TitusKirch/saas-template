@@ -23,7 +23,7 @@
     "@tituskirch/eslint-config": "workspace:*",
     "@tituskirch/typescript-config": "workspace:*",
     "prettier": "^3.3.3",
-    "taze": "^0.13.9",
+    "taze": "^0.16.7",
     "turbo": "^2.1.0"
   },
   "packageManager": "pnpm@9.9.0",
@@ -36,7 +36,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/linkify-it": "<5.0.0"
+      "@types/linkify-it": "<5.0.0",
+      "cheerio": "1.0.0-rc.12"
     }
   }
 }
