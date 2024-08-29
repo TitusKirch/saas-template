@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Pagination\SimpleLengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
 use Illuminate\Filesystem\AwsS3V3Adapter;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->alias(SimpleLengthAwarePaginator::class, LengthAwarePaginator::class);
+        $this->app->alias(SimpleLengthAwarePaginator::class, LengthAwarePaginatorContract::class);
     }
 
     /**
