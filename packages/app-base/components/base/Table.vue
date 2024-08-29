@@ -36,6 +36,14 @@
 <template>
   <UserMeConfigurationsRequired>
     <BaseTableMain v-bind="props" @update:rowsPerPage="updateRowsPerPage">
+      <template v-if="$slots.beforeActions" #beforeActions>
+        <slot name="beforeActions" />
+      </template>
+
+      <template v-if="$slots.actions" #actions>
+        <slot name="actions" />
+      </template>
+
       <template
         v-for="column in columns"
         :key="column.key"

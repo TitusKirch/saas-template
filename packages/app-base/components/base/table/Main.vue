@@ -130,10 +130,18 @@
       footer: { padding: 'px-4 pt-4 pb-0' },
     }"
   >
-    <div class="flex justify-between items-center w-full px-4 pb-3">
-      <UInput icon="i-heroicons-magnifying-glass-20-solid" placeholder="Search..." />
+    <div
+      :class="{
+        'justify-between': $slots.beforeActions,
+        'justify-end': !$slots.beforeActions,
+      }"
+      class="flex items-center w-full px-4 pb-3"
+    >
+      <slot name="beforeActions" />
 
       <div class="flex gap-1.5 items-center">
+        <slot name="actions" />
+
         <USelectMenu
           v-model="selectedColumns"
           :options="props.columns"

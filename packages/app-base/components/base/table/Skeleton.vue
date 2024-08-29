@@ -25,6 +25,14 @@
     :skip-user-configuration="true"
     :disable-options="true"
   >
+    <template v-if="$slots.beforeActions" #beforeActions>
+      <slot name="beforeActions" />
+    </template>
+
+    <template v-if="$slots.actions" #actions>
+      <slot name="actions" />
+    </template>
+
     <template v-for="column in columns" :key="column.key" v-slot:[`${column.key}-data`]="{ row }">
       <USkeleton class="w-full h-5" />
     </template>

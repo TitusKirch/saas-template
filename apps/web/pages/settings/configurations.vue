@@ -121,6 +121,9 @@
         :page="page"
         @update:rows-per-page="updateRowsPerPage"
       >
+        <template #beforeActions>
+          <UInput icon="i-heroicons-magnifying-glass-20-solid" placeholder="Search..." />
+        </template>
         <template #actions-data="{ row }">
           <UDropdown :items="items(row)">
             <UButton color="gray" variant="ghost" icon="i-fa-solid-ellipsis-h" />
