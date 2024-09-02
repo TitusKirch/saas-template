@@ -32,6 +32,8 @@ class TeamController extends Controller
         $data = $this->validateRequest($request);
         $team = Team::create($data);
 
+        setPermissionsTeamId($team->id);
+
         $user = User::find(auth()->user()->id);
         $user->assignRole($team->ownerRole());
 

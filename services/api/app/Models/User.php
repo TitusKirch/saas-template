@@ -70,6 +70,8 @@ class User extends Authenticatable implements Auditable, MustVerifyEmail
                 'name' => $user->first_name.'\'s Team',
             ]);
 
+            setPermissionsTeamId($team->id);
+
             $user->assignRole($team->ownerRole());
         });
     }
