@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class ApiController extends AppController
+abstract class ApiController extends AppController
 {
     /**
      * The maximum number of items that should be returned.
@@ -40,5 +40,17 @@ class ApiController extends AppController
         $this->paginationLimit = max(1, min($this->paginationMax,
             (int) request()->query('limit', $this->paginationDefault)
         ));
+    }
+
+    /**
+     * Create a searchable query builder for the given model.
+     *
+     * @param  string  $model  The model class name.
+     */
+    protected static function createSearchableQueryBuilder(string $model): \Laravel\Scout\Builder|\Illuminate\Database\Eloquent\Builder
+    {
+        return request()->query('query')
+            ? $model::search(request()->query('query'))
+            : $model::query();
     }
 }

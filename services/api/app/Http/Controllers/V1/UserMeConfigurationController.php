@@ -29,7 +29,9 @@ class UserMeConfigurationController extends ApiController
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return UserConfigurationResource::collection(
-            UserConfiguration::where('user_id', auth()->user()->id)->paginate($this->paginationLimit)
+            self::createSearchableQueryBuilder(UserConfiguration::class)
+                ->where('user_id', auth()->user()->id)
+                ->paginate($this->paginationLimit)
         );
     }
 
