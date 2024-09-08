@@ -141,8 +141,9 @@ Below is a list of services you can access via browser.
 | --- | --- | --- |
 | adminer | [http://localhost:8080](http://localhost:8080) | Database management tool. |
 | redis-commander | [http://localhost:8081](http://localhost:8081) | Redis management tool. |
-| mailpit | [http://localhost:8085](http://localhost:8085) | A simple SMTP server for development. |
+| mailpit | [http://localhost:8025](http://localhost:8025) | A simple SMTP server for development. |
 | minio | [http://localhost:9000](http://localhost:9000) | S3 compatible storage. |
+| typesense-dashboard | [http://localhost:8082](http://localhost:8082) | Typesense dashboard. |
 
 ## Linting and formatting
 
