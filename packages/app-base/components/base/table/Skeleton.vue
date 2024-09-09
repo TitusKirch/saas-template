@@ -1,7 +1,14 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    columns: TableColumns;
-  }>();
+  const props = withDefaults(
+    defineProps<{
+      configurationKey: string;
+      columns: TableColumns;
+    }>(),
+    {
+      configurationKey: 'table-skeleton',
+      columns: () => [] as TableColumns,
+    }
+  );
 
   // add 10 empty rows with columns N empty cells
   const rows = computed<TableRows>(() => {
@@ -19,9 +26,9 @@
 
 <template>
   <BaseTableMain
-    :columns="props.columns"
+    :columns="columns"
     :rows="rows"
-    configuration-key="table-skeleton"
+    :configuration-key="configurationKey"
     :skip-user-configuration="true"
     :disable-options="true"
   >

@@ -2,6 +2,7 @@
   const { userConfigurationMappedByContextAndKey, userConfigurations } =
     useCurrentUserConfigurations();
 
+  // table configuration
   const columns: TableColumns = [
     {
       key: 'id',
@@ -28,53 +29,17 @@
       key: 'actions',
     },
   ];
-
-  const rows = computed<TableRows>(() => {
-    const result: TableRows = [];
-
-    for (const key in userConfigurationMappedByContextAndKey.value?.table || {}) {
-      const configuration = userConfigurationMappedByContextAndKey.value?.table?.[key];
-
-      if (!configuration) {
-        continue;
-      }
-
-      result.push({
-        id: (configuration as UserConfiguration).id || '',
-        key: configuration.key,
-        updated_at: (configuration as UserConfiguration).updated_at
-          ? new Date((configuration as UserConfiguration).updated_at).toLocaleString()
-          : '',
-        created_at: (configuration as UserConfiguration).created_at
-          ? new Date((configuration as UserConfiguration).created_at).toLocaleString()
-          : '',
-      });
-    }
-
-    // add 100 dummy rows
-    for (let i = 0; i < 100; i++) {
-      result.push({
-        id: i + 3,
-        key: `key-${i + 3}`,
-        updated_at: new Date().toLocaleString(),
-        created_at: new Date().toLocaleString(),
-      });
-    }
-
-    return result;
-  });
-
+  const query = ref('');
   const rowsPerPage = ref(10);
   const page = ref(1);
-  const computedRows = computed(() => {
-    const start = (page.value - 1) * rowsPerPage.value;
-    const end = start + rowsPerPage.value;
-    return rows.value.slice(start, end);
-  });
   const updateRowsPerPage = ({ rowsPerPage: newRowsPerPage }: { rowsPerPage: number }) => {
     rowsPerPage.value = newRowsPerPage;
   };
+  const updateCurrentPage = ({ currentPage }: { currentPage: number }) => {
+    page.value = currentPage;
+  };
 
+  // actions
   const { t } = useI18n();
   const items = (row: TableRow) => [
     [
@@ -101,6 +66,69 @@
       },
     ],
   ];
+
+  // data
+  const { getCurrentUserConfigurations } = useApiUsersMe();
+  const {
+    data: fetchCurrentUserConfigurationsData,
+    error: fetchCurrentUserConfigurationsError,
+    execute: fetchCurrentUserConfigurations,
+    status: fetchCurrentUserConfigurationsStatus,
+  } = getCurrentUserConfigurations({
+    options: {
+      query: {
+        limit: rowsPerPage,
+        page,
+        query,
+      },
+      immediate: false,
+      lazy: true,
+    },
+  });
+
+  onMounted(async () => {
+    await fetchCurrentUserConfigurations();
+  });
+
+  // const rows = computed<TableRows>(() => {
+  //   const result: TableRows = [];
+
+  //   for (const key in userConfigurationMappedByContextAndKey.value?.table || {}) {
+  //     const configuration = userConfigurationMappedByContextAndKey.value?.table?.[key];
+
+  //     if (!configuration) {
+  //       continue;
+  //     }
+
+  //     result.push({
+  //       id: (configuration as UserConfiguration).id || '',
+  //       key: configuration.key,
+  //       updated_at: (configuration as UserConfiguration).updated_at
+  //         ? new Date((configuration as UserConfiguration).updated_at).toLocaleString()
+  //         : '',
+  //       created_at: (configuration as UserConfiguration).created_at
+  //         ? new Date((configuration as UserConfiguration).created_at).toLocaleString()
+  //         : '',
+  //     });
+  //   }
+
+  //   return result;
+  // });
+
+  const rows = computed<TableRows>(() => {
+    const result: TableRows = [];
+
+    for (const userConfiguration of fetchCurrentUserConfigurationsData.value?.data || []) {
+      result.push({
+        id: userConfiguration.id,
+        key: userConfiguration.key,
+        updated_at: new Date(userConfiguration.updated_at).toLocaleString(),
+        created_at: new Date(userConfiguration.created_at).toLocaleString(),
+      });
+    }
+
+    return result;
+  });
 </script>
 
 <template>
@@ -115,14 +143,20 @@
 
       <BaseTable
         configuration-key="page-settings-configurations-section-tables"
-        :rows="computedRows"
+        :rows="rows"
         :columns="columns"
         :rows-per-page="rowsPerPage"
-        :page="page"
-        @update:rows-per-page="updateRowsPerPage"
+        :pagination-meta="fetchCurrentUserConfigurationsData?.meta"
+        :loading="fetchCurrentUserConfigurationsStatus === 'pending'"
+        @update:rowsPerPage="updateRowsPerPage"
+        @update:currentPage="updateCurrentPage"
       >
         <template #beforeActions>
-          <UInput icon="i-heroicons-magnifying-glass-20-solid" placeholder="Search..." />
+          <UInput
+            v-model="query"
+            icon="i-heroicons-magnifying-glass-20-solid"
+            placeholder="Search..."
+          />
         </template>
         <template #actions-data="{ row }">
           <UDropdown :items="items(row)">

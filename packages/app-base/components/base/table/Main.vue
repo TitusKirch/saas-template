@@ -7,14 +7,17 @@
       configurationKey: string;
       defaultConfiguration?: UserConfigurationValueTable;
       disableOptions?: boolean;
+      loading?: boolean;
       rows?: TableRows;
       rowsPerPage?: number;
       rowsPerPageOptions?: number[];
       skipUserConfiguration?: boolean;
+      paginationMeta?: ApiResourceResponseMeta;
     }>(),
     {
       defaultConfiguration: () => ({}) as UserConfigurationValueTable,
       disableOptions: false,
+      loading: false,
       rows: () => [] as TableRows,
       rowsPerPage: 10,
       rowsPerPageOptions: () => [5, 10, 25, 50, 100],
@@ -25,6 +28,11 @@
     'update:rowsPerPage': [
       {
         rowsPerPage: number;
+      },
+    ];
+    'update:currentPage': [
+      {
+        currentPage: number;
       },
     ];
   }>();
@@ -116,6 +124,17 @@
       });
     }
   );
+
+  // pagination
+  const currentPage = ref(props?.paginationMeta?.current_page || 1);
+  watch(
+    () => currentPage.value,
+    (newValue) => {
+      emits('update:currentPage', {
+        currentPage: newValue,
+      });
+    }
+  );
 </script>
 
 <template>
@@ -144,7 +163,7 @@
 
         <USelectMenu
           v-model="selectedColumns"
-          :options="props.columns"
+          :options="columns"
           value-attribute="key"
           multiple
           searchable
@@ -162,7 +181,15 @@
       </div>
     </div>
 
-    <UTable :columns="columnsTable" :rows="props.rows" v-model:sort="tableConfiguration.sort">
+    <UTable
+      v-model:sort="tableConfiguration.sort"
+      :columns="columnsTable"
+      :rows="rows"
+      :loading="loading"
+      :sortButton="{
+        disabled: disableOptions,
+      }"
+    >
       <template
         v-for="column in columnsTable"
         :key="column.key"
@@ -170,19 +197,33 @@
       >
         <slot v-if="$slots[`${column.key}-data`]" :name="`${column.key}-data`" v-bind="slotProps" />
       </template>
+
+      <template #loading-state></template>
     </UTable>
 
     <template #footer>
-      <div class="flex items-center gap-1.5 justify-end">
-        <span class="text-sm leading-5">
-          {{ $t('base.table.rowsPerPage.label') }}
-        </span>
+      <div class="flex items-center gap-1.5 justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="text-sm leading-5">
+            {{ $t('base.table.rowsPerPage.label') }}
+          </span>
 
-        <USelectMenu
-          v-model="tableConfiguration.rowsPerPage"
-          :options="rowsPerPageOptions.map((option) => option.toString())"
-          class="w-20"
-          :disabled="disableOptions"
+          <USelectMenu
+            v-model="tableConfiguration.rowsPerPage"
+            :options="rowsPerPageOptions.map((option) => option.toString())"
+            class="w-20"
+            :disabled="disableOptions"
+          />
+        </div>
+
+        <UPagination
+          v-if="paginationMeta"
+          v-model="currentPage"
+          :total="paginationMeta.total"
+          :pageCount="paginationMeta.per_page"
+          :max="5"
+          show-last
+          show-first
         />
       </div>
     </template>

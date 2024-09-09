@@ -5,14 +5,17 @@
       configurationKey: string;
       defaultConfiguration?: UserConfigurationValueTable;
       disableOptions?: boolean;
+      loading?: boolean;
       rows?: TableRows;
       rowsPerPage?: number;
       rowsPerPageOptions?: number[];
       skipUserConfiguration?: boolean;
+      paginationMeta?: ApiResourceResponseMeta;
     }>(),
     {
       defaultConfiguration: () => ({}) as UserConfigurationValueTable,
       disableOptions: false,
+      loading: false,
       rows: () => [] as TableRows,
       rowsPerPage: 10,
       rowsPerPageOptions: () => [5, 10, 25, 50, 100],
@@ -25,17 +28,41 @@
         rowsPerPage: number;
       },
     ];
+    'update:currentPage': [
+      {
+        currentPage: number;
+      },
+    ];
   }>();
 
   // pass emits
   const updateRowsPerPage = ({ rowsPerPage }: { rowsPerPage: number }) => {
     emits('update:rowsPerPage', { rowsPerPage });
   };
+  const updateCurrentPage = ({ currentPage }: { currentPage: number }) => {
+    emits('update:currentPage', { currentPage });
+  };
+
+  // first load
+  const tableLoadOnce = ref(false);
+  watch(
+    () => props.loading,
+    (newValue, oldValue) => {
+      if (newValue === false && oldValue === true && !tableLoadOnce.value) {
+        tableLoadOnce.value = true;
+      }
+    }
+  );
 </script>
 
 <template>
   <UserMeConfigurationsRequired>
-    <BaseTableMain v-bind="props" @update:rowsPerPage="updateRowsPerPage">
+    <BaseTableMain
+      v-if="tableLoadOnce"
+      v-bind="props"
+      @update:rowsPerPage="updateRowsPerPage"
+      @update:currentPage="updateCurrentPage"
+    >
       <template v-if="$slots.beforeActions" #beforeActions>
         <slot name="beforeActions" />
       </template>
@@ -52,6 +79,7 @@
         <slot v-if="$slots[`${column.key}-data`]" :name="`${column.key}-data`" v-bind="slotProps" />
       </template>
     </BaseTableMain>
+    <BaseTableSkeleton v-else :columns="columns" :configuration-key="configurationKey" />
 
     <template #pending>
       <BaseTableSkeleton :columns="columns" />

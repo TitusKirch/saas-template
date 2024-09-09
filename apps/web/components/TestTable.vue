@@ -1,4 +1,8 @@
 <script setup lang="ts">
+  defineProps<{
+    id?: number;
+  }>();
+
   const columns: TableColumns = [
     {
       key: 'id',
@@ -111,7 +115,11 @@
 
 <template>
   <UserMeConfigurationsRequired>
-    <BaseTable configuration-key="test" :rows="people" :columns="columns">
+    <BaseTable
+      :configuration-key="`test${id ? '-' + id.toString() : ''}`"
+      :rows="people"
+      :columns="columns"
+    >
       <template #name-data="{ row }">
         <span
           :class="[
