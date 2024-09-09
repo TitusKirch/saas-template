@@ -203,33 +203,7 @@ return [
                     'default_sorting_field' => 'created_at',
                     'token_separators' => ['-'],
                 ],
-                'search-parameters' => [
-                    'query_by' => 'key',
-                    'infix' => 'always',
-                ],
             ],
-            // User::class => [
-            //     'collection-schema' => [
-            //         'fields' => [
-            //             [
-            //                 'name' => 'id',
-            //                 'type' => 'string',
-            //             ],
-            //             [
-            //                 'name' => 'name',
-            //                 'type' => 'string',
-            //             ],
-            //             [
-            //                 'name' => 'created_at',
-            //                 'type' => 'int64',
-            //             ],
-            //         ],
-            //         'default_sorting_field' => 'created_at',
-            //     ],
-            //     'search-parameters' => [
-            //         'query_by' => 'name'
-            //     ],
-            // ],
         ],
     ],
 

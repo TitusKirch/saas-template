@@ -29,9 +29,7 @@ class UserConfiguration extends Model
     ];
 
     /**
-     * Get the indexable data array for the model.
-     *
-     * @return array<string, mixed>
+     * {@inheritdoc}
      */
     public function toSearchableArray()
     {
@@ -40,6 +38,17 @@ class UserConfiguration extends Model
             'user_id' => (string) $this->user_id,
             'created_at' => $this->created_at->timestamp,
         ]);
+    }
+
+    /**
+     * Return the Typesense search parameters for the model.
+     */
+    public function typesenseSearchParameters(): array
+    {
+        return [
+            'query_by' => 'key',
+            'infix' => 'always',
+        ];
     }
 
     /**
