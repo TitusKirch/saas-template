@@ -183,10 +183,6 @@ return [
                 'collection-schema' => [
                     'fields' => [
                         [
-                            'name' => 'id',
-                            'type' => 'string',
-                        ],
-                        [
                             'name' => 'user_id',
                             'type' => 'string',
                         ],
@@ -194,10 +190,17 @@ return [
                             'name' => 'key',
                             'type' => 'string',
                             'infix' => true,
+                            'sortable' => true,
                         ],
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
+                            'sortable' => true,
+                        ],
+                        [
+                            'name' => 'updated_at',
+                            'type' => 'int64',
+                            'sortable' => true,
                         ],
                     ],
                     'default_sorting_field' => 'created_at',

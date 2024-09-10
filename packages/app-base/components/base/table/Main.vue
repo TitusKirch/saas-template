@@ -25,14 +25,14 @@
     }
   );
   const emits = defineEmits<{
-    'update:rowsPerPage': [
-      {
-        rowsPerPage: number;
-      },
-    ];
     'update:currentPage': [
       {
         currentPage: number;
+      },
+    ];
+    'update:rowsPerPage': [
+      {
+        rowsPerPage: number;
       },
     ];
   }>();
@@ -113,6 +113,19 @@
   });
 
   // rows per page
+  const rowsPerPage = ref<number | string>(tableConfiguration.value?.rowsPerPage || 10);
+  watch(
+    () => rowsPerPage.value,
+    (newValue) => {
+      if (!tableConfiguration.value) {
+        return;
+      }
+
+      tableConfiguration.value.rowsPerPage = (
+        typeof newValue === 'string' ? parseInt(newValue) : newValue
+      ) as number;
+    }
+  );
   watch(
     () => tableConfiguration.value?.rowsPerPage,
     (newValue) => {
@@ -189,6 +202,7 @@
       :sortButton="{
         disabled: disableOptions,
       }"
+      sortMode="manual"
     >
       <template
         v-for="column in columnsTable"
@@ -209,7 +223,7 @@
           </span>
 
           <USelectMenu
-            v-model="tableConfiguration.rowsPerPage"
+            v-model="rowsPerPage"
             :options="rowsPerPageOptions.map((option) => option.toString())"
             class="w-20"
             :disabled="disableOptions"

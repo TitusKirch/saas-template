@@ -9,6 +9,7 @@
       rows?: TableRows;
       rowsPerPage?: number;
       rowsPerPageOptions?: number[];
+      skipLoadingAnimation?: boolean;
       skipUserConfiguration?: boolean;
       paginationMeta?: ApiResourceResponseMeta;
     }>(),
@@ -20,31 +21,32 @@
       rowsPerPage: 10,
       rowsPerPageOptions: () => [5, 10, 25, 50, 100],
       skipUserConfiguration: false,
+      skipLoadingAnimation: false,
     }
   );
   const emits = defineEmits<{
-    'update:rowsPerPage': [
-      {
-        rowsPerPage: number;
-      },
-    ];
     'update:currentPage': [
       {
         currentPage: number;
       },
     ];
+    'update:rowsPerPage': [
+      {
+        rowsPerPage: number;
+      },
+    ];
   }>();
 
   // pass emits
-  const updateRowsPerPage = ({ rowsPerPage }: { rowsPerPage: number }) => {
-    emits('update:rowsPerPage', { rowsPerPage });
-  };
   const updateCurrentPage = ({ currentPage }: { currentPage: number }) => {
     emits('update:currentPage', { currentPage });
   };
+  const updateRowsPerPage = ({ rowsPerPage }: { rowsPerPage: number }) => {
+    emits('update:rowsPerPage', { rowsPerPage });
+  };
 
   // first load
-  const tableLoadOnce = ref(false);
+  const tableLoadOnce = ref(props.skipLoadingAnimation ? true : false);
   watch(
     () => props.loading,
     (newValue, oldValue) => {
@@ -60,8 +62,8 @@
     <BaseTableMain
       v-if="tableLoadOnce"
       v-bind="props"
-      @update:rowsPerPage="updateRowsPerPage"
       @update:currentPage="updateCurrentPage"
+      @update:rowsPerPage="updateRowsPerPage"
     >
       <template v-if="$slots.beforeActions" #beforeActions>
         <slot name="beforeActions" />

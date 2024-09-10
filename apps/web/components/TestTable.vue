@@ -119,6 +119,7 @@
       :configuration-key="`test${id ? '-' + id.toString() : ''}`"
       :rows="people"
       :columns="columns"
+      :skip-loading-animation="true"
     >
       <template #name-data="{ row }">
         <span

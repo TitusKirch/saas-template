@@ -27,7 +27,7 @@
       </template>
     </UCard>
     <UCard>
-      <TestTable v-for="i in 2" :key="i" :id="i" />
+      <TestTable v-for="i in 2" :key="i" :id="i + 200" />
     </UCard>
   </DashboardPage>
 </template>

@@ -5,11 +5,6 @@
   // table configuration
   const columns: TableColumns = [
     {
-      key: 'id',
-      label: '#',
-      sortable: true,
-    },
-    {
       key: 'key',
       label: 'key',
       sortable: true,
@@ -32,12 +27,40 @@
   const query = ref('');
   const rowsPerPage = ref(10);
   const page = ref(1);
-  const updateRowsPerPage = ({ rowsPerPage: newRowsPerPage }: { rowsPerPage: number }) => {
-    rowsPerPage.value = newRowsPerPage;
-  };
+  const sort = ref<string | undefined>();
+  const order = ref<TableColumnSortDirection>('asc');
   const updateCurrentPage = ({ currentPage }: { currentPage: number }) => {
     page.value = currentPage;
   };
+  const updateRowsPerPage = ({ rowsPerPage: newRowsPerPage }: { rowsPerPage: number }) => {
+    rowsPerPage.value = newRowsPerPage;
+  };
+  watch(
+    () =>
+      userConfigurationMappedByContextAndKey.value?.table?.[
+        'page-settings-configurations-section-tables'
+      ]?.value?.sort,
+    (value) => {
+      if (value) {
+        sort.value = value.column;
+        order.value = value.direction ?? 'asc';
+      }
+    },
+    { deep: true }
+  );
+  // const updateSort = ({
+  //   column,
+  //   direction,
+  // }: {
+  //   column: string;
+  //   direction: TableColumnSortDirection;
+  // }) => {
+  //   sort.value = {
+  //     column: userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value
+  //       .sort.column,
+  //     direction,
+  //   };
+  // };
 
   // actions
   const { t } = useI18n();
@@ -80,6 +103,8 @@
         limit: rowsPerPage,
         page,
         query,
+        sort,
+        order,
       },
       immediate: false,
       lazy: true,
@@ -141,6 +166,9 @@
         />
       </template>
 
+      sort {{ sort }} <br />
+      order {{ order }} <br />
+
       <BaseTable
         configuration-key="page-settings-configurations-section-tables"
         :rows="rows"
@@ -148,8 +176,8 @@
         :rows-per-page="rowsPerPage"
         :pagination-meta="fetchCurrentUserConfigurationsData?.meta"
         :loading="fetchCurrentUserConfigurationsStatus === 'pending'"
-        @update:rowsPerPage="updateRowsPerPage"
         @update:currentPage="updateCurrentPage"
+        @update:rowsPerPage="updateRowsPerPage"
       >
         <template #beforeActions>
           <UInput

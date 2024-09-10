@@ -46,11 +46,42 @@ abstract class ApiController extends AppController
      * Create a searchable query builder for the given model.
      *
      * @param  string  $model  The model class name.
+     * @param  array  $sortableFields  The fields that can be sorted.
      */
-    protected static function createSearchableQueryBuilder(string $model): \Laravel\Scout\Builder|\Illuminate\Database\Eloquent\Builder
+    protected static function createSearchableQueryBuilder(string $model, array $sortableFields = []): \Laravel\Scout\Builder|\Illuminate\Database\Eloquent\Builder
     {
-        return request()->query('query')
-            ? $model::search(request()->query('query'))
-            : $model::query();
+        // if sortableFields is not provided, check if the model uses the Sortable trait and has sortable fields
+        if (in_array('App\Traits\Sortable', class_uses($model)) && $model::hasSortableAttributes()) {
+            $sortableFields = $model::sortableAttributes();
+        }
+
+        $sort = null;
+        if ($sort = request()->query('sort')) {
+            if (! in_array(request()->query('sort'), $sortableFields)) {
+                abort(400, 'Invalid sort field');
+            }
+        }
+
+        if (request()->query('query')) {
+            $queryBuilder = $model::search(request()->query('query'));
+
+            if ($sort) {
+                $queryBuilder->options([
+                    'sort_by' => $sort.':'.
+                        (request()->query('order') === 'desc' ? 'desc' : 'asc'),
+                ]);
+            }
+
+            return $queryBuilder;
+        }
+
+        $queryBuilder = $model::query();
+
+        if ($sort) {
+            $queryBuilder->orderBy($sort,
+                request()->query('order') === 'desc' ? 'desc' : 'asc');
+        }
+
+        return $queryBuilder;
     }
 }
