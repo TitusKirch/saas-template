@@ -19,4 +19,12 @@ trait Sortable
     {
         return [];
     }
+
+    /**
+     * Get fields which use natural sorting.
+     */
+    public static function naturalSortFields(): array
+    {
+        return [];
+    }
 }

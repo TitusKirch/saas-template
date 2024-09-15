@@ -55,6 +55,7 @@ abstract class ApiController extends AppController
             $sortableFields = $model::sortableAttributes();
         }
 
+        // initialize sort
         $sort = null;
         if ($sort = request()->query('sort')) {
             if (! in_array(request()->query('sort'), $sortableFields)) {
@@ -62,24 +63,27 @@ abstract class ApiController extends AppController
             }
         }
 
+        // initialize queryBuilder
+        $queryBuilder = null;
         if (request()->query('query')) {
             $queryBuilder = $model::search(request()->query('query'));
 
-            if ($sort) {
-                $queryBuilder->options([
-                    'sort_by' => $sort.':'.
-                        (request()->query('order') === 'desc' ? 'desc' : 'asc'),
-                ]);
-            }
-
             return $queryBuilder;
+        } else {
+            $queryBuilder = $model::query();
         }
 
-        $queryBuilder = $model::query();
-
+        // apply sort
         if ($sort) {
-            $queryBuilder->orderBy($sort,
-                request()->query('order') === 'desc' ? 'desc' : 'asc');
+
+            // check if the field uses natural sorting
+            if (in_array('App\Traits\Sortable', class_uses($model)) && $model::hasSortableAttributes() && in_array($sort, $model::naturalSortFields())) {
+
+                $queryBuilder->orderByRaw('LENGTH('.$sort.') '.(request()->query('order') === 'desc' ? 'desc' : 'asc'));
+                $queryBuilder->orderByRaw($sort.' '.(request()->query('order') === 'desc' ? 'desc' : 'asc'));
+            } else {
+                $queryBuilder->orderBy($sort, request()->query('order', 'asc'));
+            }
         }
 
         return $queryBuilder;

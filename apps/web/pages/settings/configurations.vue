@@ -48,19 +48,6 @@
     },
     { deep: true }
   );
-  // const updateSort = ({
-  //   column,
-  //   direction,
-  // }: {
-  //   column: string;
-  //   direction: TableColumnSortDirection;
-  // }) => {
-  //   sort.value = {
-  //     column: userConfigurationMappedByContextAndKey.value?.table?.[props.configurationKey]?.value
-  //       .sort.column,
-  //     direction,
-  //   };
-  // };
 
   // actions
   const { t } = useI18n();
@@ -115,31 +102,6 @@
     await fetchCurrentUserConfigurations();
   });
 
-  // const rows = computed<TableRows>(() => {
-  //   const result: TableRows = [];
-
-  //   for (const key in userConfigurationMappedByContextAndKey.value?.table || {}) {
-  //     const configuration = userConfigurationMappedByContextAndKey.value?.table?.[key];
-
-  //     if (!configuration) {
-  //       continue;
-  //     }
-
-  //     result.push({
-  //       id: (configuration as UserConfiguration).id || '',
-  //       key: configuration.key,
-  //       updated_at: (configuration as UserConfiguration).updated_at
-  //         ? new Date((configuration as UserConfiguration).updated_at).toLocaleString()
-  //         : '',
-  //       created_at: (configuration as UserConfiguration).created_at
-  //         ? new Date((configuration as UserConfiguration).created_at).toLocaleString()
-  //         : '',
-  //     });
-  //   }
-
-  //   return result;
-  // });
-
   const rows = computed<TableRows>(() => {
     const result: TableRows = [];
 
@@ -165,9 +127,6 @@
           :description="$t('page.settings.configurations.section.tables.description')"
         />
       </template>
-
-      sort {{ sort }} <br />
-      order {{ order }} <br />
 
       <BaseTable
         configuration-key="page-settings-configurations-section-tables"

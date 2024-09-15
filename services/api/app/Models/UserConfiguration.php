@@ -70,6 +70,16 @@ class UserConfiguration extends Model
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public static function naturalSortFields(): array
+    {
+        return [
+            'key',
+        ];
+    }
+
+    /**
      * Get the user that the configuration belongs to.
      */
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
