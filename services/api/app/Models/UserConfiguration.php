@@ -34,6 +34,14 @@ class UserConfiguration extends Model
     /**
      * {@inheritdoc}
      */
+    public function __toString(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function toSearchableArray()
     {
         return array_merge($this->toArray(), [

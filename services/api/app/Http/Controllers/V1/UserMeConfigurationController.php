@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\V1;
 
 use App\Enums\UserConfigurationContext;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ApiResourceController;
 use App\Http\Resources\V1\UserConfigurationResource;
 use App\Models\UserConfiguration;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UserMeConfigurationController extends ApiController
+class UserMeConfigurationController extends ApiResourceController
 {
     /**
      * Validate the incoming request.

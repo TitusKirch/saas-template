@@ -4,6 +4,7 @@ use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\AuthProviderController;
 use App\Http\Controllers\V1\FeatureController;
 use App\Http\Controllers\V1\HealthController;
+use App\Http\Controllers\V1\SearchController;
 use App\Http\Controllers\V1\TeamController;
 use App\Http\Controllers\V1\TeamPermissionMeController;
 use App\Http\Controllers\V1\TeamRoleController;
@@ -57,6 +58,14 @@ Route::group([
     'as' => 'up.',
 ], function () {
     Route::get('/', [UpController::class, 'index'])->name('index');
+});
+
+Route::group([
+    'prefix' => 'search',
+    'as' => 'search.',
+    'middleware' => ['auth:sanctum'],
+], function () {
+    Route::get('/', [SearchController::class, 'index'])->name('index');
 });
 
 Route::group([

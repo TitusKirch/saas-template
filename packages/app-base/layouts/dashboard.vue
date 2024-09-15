@@ -16,11 +16,23 @@
     sidebarMainLinkGroups,
   } = useDashboard();
 
-  const dashboardStore = useDashboardStore();
   const { t } = useI18n();
   const localePath = useLocalePath();
   const { currentUser } = useCurrentUser();
   const { team, setTeam } = useTeam();
+  const { getSearch } = useApiSearch();
+  const searchParams = ref<{
+    query: string;
+  }>({
+    query: '',
+  });
+  const { data: fetchSearchData, execute: fetchSearch } = getSearch({
+    params: searchParams,
+    options: {
+      immediate: false,
+      watch: false,
+    },
+  });
 
   const setTeamSidebarLinkGroup = () => {
     if (!team.value) {
@@ -162,6 +174,42 @@
             to: localePath({ name: 'settings-notifications' }),
           },
         ],
+      },
+    });
+
+    // add search search group
+    addSearchGroup({
+      group: {
+        key: 'search',
+        label: 'SEARCH',
+        search: async (query: string) => {
+          // check length of query
+          if (query.length < 3) {
+            return [];
+          }
+
+          // set search params
+          searchParams.value.query = query;
+
+          // fetch search
+          await fetchSearch();
+
+          return (
+            fetchSearchData.value?.data?.map((item: any) => {
+              return {
+                id: item.id,
+                label: item.name,
+                icon: 'i-fa6-solid-magnifying-glass',
+                // to: localePath({
+                //   name: 'search',
+                //   params: {
+                //     id: item.id.toString(),
+                //   },
+                // }),
+              };
+            }) || []
+          );
+        },
       },
     });
 
