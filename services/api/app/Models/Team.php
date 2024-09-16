@@ -6,11 +6,12 @@ use App\Enums\PermissionsEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kra8\Snowflake\HasSnowflakePrimary;
+use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Team extends Model implements Auditable
 {
-    use HasFactory, HasSnowflakePrimary, \OwenIt\Auditing\Auditable;
+    use HasFactory, HasSnowflakePrimary, \OwenIt\Auditing\Auditable, Searchable;
 
     /**
      * {@inheritDoc}
@@ -39,6 +40,64 @@ class Team extends Model implements Auditable
      */
     protected $defaultMemberRolePermissions = [
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toSearchableArray()
+    {
+        return array_merge($this->toArray(), [
+            'id' => (string) $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'created_at' => $this->created_at->timestamp,
+            'updated_at' => $this->updated_at->timestamp,
+        ]);
+    }
+
+    /**
+     * Return the nr  search parameters for the model.
+     */
+    public function typesenseSearchParameters(): array
+    {
+        return [
+            'query_by' => 'name',
+            'infix' => 'always',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function sortableAttributes(): array
+    {
+        return [
+            'id',
+            'name',
+            'description',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function naturalSortFields(): array
+    {
+        return [
+            'name',
+            'description',
+        ];
+    }
 
     /**
      * {@inheritdoc}

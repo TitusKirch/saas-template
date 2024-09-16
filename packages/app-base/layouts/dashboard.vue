@@ -14,6 +14,7 @@
     searchGroupsWithLinks,
     sidebarFooterLinkGroups,
     sidebarMainLinkGroups,
+    replaceOrAddSearchGroup,
   } = useDashboard();
 
   const { t } = useI18n();
@@ -178,13 +179,16 @@
     });
 
     // add search search group
+    // watch(fetchSearchData, () => {
+    //   // map search data to group
+    // })
     addSearchGroup({
       group: {
         key: 'search',
         label: 'SEARCH',
         search: async (query: string) => {
           // check length of query
-          if (query.length < 3) {
+          if (query.length < 1) {
             return [];
           }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Resources\V1\SearchResource;
+use App\Models\Team;
 use App\Models\UserConfiguration;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class SearchController extends ApiController
      *
      * @var int
      */
-    protected $minSearchLength = 3;
+    protected $minSearchLength = 1;
 
     /**
      * Item limit per search.
@@ -37,6 +38,7 @@ class SearchController extends ApiController
      */
     protected $searchableModels = [
         UserConfiguration::class,
+        // Team::class,
     ];
 
     /**
@@ -60,6 +62,8 @@ class SearchController extends ApiController
             // check for user access
             if ($model === UserConfiguration::class) {
                 $queryBuilder->where('user_id', auth()->user()->id);
+                // } elseif ($model === Team::class) {
+                //     $queryBuilder->whereIn('id', auth()->user()->teams()->pluck('id')->toArray());
             } else {
                 // skip to prevent unauthorized access
                 continue;

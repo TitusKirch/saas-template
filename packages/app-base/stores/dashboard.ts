@@ -1,8 +1,9 @@
-import type { Group } from '#ui/types';
 import type {
   DashboardSidebarLink,
   DashboardSidebarLinkGroup,
 } from '@tituskirch/app-base/types/Dashboard';
+
+import type { Group } from '#ui/types';
 
 export const useDashboardStore = defineStore(
   'dashboard',
@@ -199,6 +200,14 @@ export const useDashboardStore = defineStore(
     const removeSearchGroup = ({ key }: { key: string }) => {
       searchGroups.value = searchGroups.value.filter((group) => group.key !== key);
     };
+    const replaceOrAddSearchGroup = ({ group }: { group: Group }) => {
+      const index = searchGroups.value.findIndex((g) => g.key === group.key);
+      if (index === -1) {
+        searchGroups.value.push(group);
+      } else {
+        searchGroups.value[index] = group;
+      }
+    };
     const searchGroupsWithLinks = computed(() => {
       const result = [...searchGroups.value];
 
@@ -249,6 +258,7 @@ export const useDashboardStore = defineStore(
       removeShortcut,
       removeSidebarLinkFromGroup,
       removeSidebarLinkGroup,
+      replaceOrAddSearchGroup,
       replaceOrAddSidebarLinkGroup,
       replaceOrAddSidebarLinkInGroup,
       replaceSidebarLinkGroup,

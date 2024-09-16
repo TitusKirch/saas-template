@@ -29,6 +29,7 @@ class SearchResource extends JsonResource
     {
         return [
             'id' => (string) $this->id,
+            'group' => (string) lcfirst(class_basename($this->resource->getMorphClass())),
             'name' => (string) $this->resource,
             'link' => $this->getLink($this->resource->getMorphClass(), $this->id),
         ];

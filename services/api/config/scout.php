@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use App\Models\UserConfiguration;
 
 return [
@@ -205,6 +206,36 @@ return [
                     ],
                     'default_sorting_field' => 'created_at',
                     'token_separators' => ['-'],
+                ],
+            ],
+            Team::class => [
+                'collection-schema' => [
+                    'fields' => [
+                        [
+                            'name' => 'name',
+                            'type' => 'string',
+                            'infix' => true,
+                            'sortable' => true,
+                        ],
+                        [
+                            'name' => 'description',
+                            'type' => 'string',
+                            'infix' => true,
+                            'sortable' => true,
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                            'sortable' => true,
+                        ],
+                        [
+                            'name' => 'updated_at',
+                            'type' => 'int64',
+                            'sortable' => true,
+                        ],
+                    ],
+                    'default_sorting_field' => 'created_at',
                 ],
             ],
         ],
