@@ -1,23 +1,40 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    value: string;
-  }>();
+  const props = withDefaults(
+    defineProps<{
+      value: string;
+      variante?: 'icon' | 'button';
+    }>(),
+    {
+      variante: 'button',
+    }
+  );
 
-  const { t } = useI18n();
-  const copy = () => {
-    navigator.clipboard.writeText(props.value);
-    useNotification({
-      type: 'success',
-      title: t('copy.button.notification.success.title'),
-      description: t('copy.button.notification.success.description'),
+  const { copyToClipboard } = useUtils();
+  const clickHandler = () => {
+    copyToClipboard({
+      value: props.value,
     });
   };
+
+  const { t } = useI18n();
+  const buttonProps = computed(() => {
+    if (props.variante === 'button') {
+      return {
+        label: t('copy.button.label'),
+        icon: 'i-fa6-solid-copy',
+      };
+    } else if (props.variante === 'icon') {
+      return {
+        icon: 'i-fa6-solid-copy',
+        variant: 'link',
+        class: 'p-0',
+      };
+    } else {
+      return {};
+    }
+  });
 </script>
 
 <template>
-  <UButton color="primary" variant="link" @click="copy">
-    <slot>
-      <UIcon name="i-fa6-solid-copy" />
-    </slot>
-  </UButton>
+  <UButton v-bind="buttonProps" @click="clickHandler" />
 </template>

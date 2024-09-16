@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useDashboardStore } from '@tituskirch/app-base/stores/dashboard';
   const dashboardStore = useDashboardStore();
-  const { getLayoutOptions } = useDashboard();
+  const { layoutOptions } = useDashboard();
 </script>
 
 <template>
@@ -11,7 +11,7 @@
       type="dropdown"
       name="preference"
       popover
-      :options="getLayoutOptions"
+      :options="layoutOptions"
     >
       <template #option="{ option, classes }">
         <FormDropdownOption :option="option" :classes="classes" />
@@ -24,7 +24,7 @@
         type="dropdown"
         name="preference"
         popover
-        :options="getLayoutOptions"
+        :options="layoutOptions"
         disabled
       >
         <template #option="{ option, classes }">

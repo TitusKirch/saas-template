@@ -3,12 +3,12 @@
   const { hasPassword } = useCurrentUser();
 
   definePageMeta({
-    title: 'page.auth.password.set.index.title',
-    description: 'page.auth.password.set.index.description',
+    title: 'page.auth.password.set.index.meta.title',
+    description: 'page.auth.password.set.index.meta.description',
     middleware: ['auth'],
   });
 
-  if (hasPassword) {
+  if (hasPassword.value) {
     throw createError({
       statusCode: 404,
     });
@@ -38,7 +38,7 @@
               class="mt-1 text-gray-500 dark:text-gray-400"
             >
               <BaseLink :to="goBackRoute">
-                {{ $t('global.action.goBack.label') }}
+                {{ $t('action.goBack.label') }}
               </BaseLink>
             </i18n-t>
           </template>

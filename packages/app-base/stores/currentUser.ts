@@ -23,6 +23,7 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
     currentUserAvatarUrl.value = avatarUrl;
   };
 
+  // general
   const reset = () => {
     currentUser.value = undefined;
     currentUserAvatarUrl.value = undefined;
@@ -30,8 +31,8 @@ export const useCurrentUserStore = defineStore('currentUser', () => {
 
   return {
     currentUser,
-    currentUserAvatarUrl,
     currentUserAvatarPresignedUploadUrlData,
+    currentUserAvatarUrl,
     emailIsVerified,
     hasPassword,
     isAuthenticated,

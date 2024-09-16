@@ -88,7 +88,7 @@
       <FormKit
         type="email"
         name="email"
-        :label="$t('global.email.label')"
+        :label="$t('email.label')"
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
@@ -97,7 +97,7 @@
       <FormKit
         type="password"
         name="password"
-        :label="$t('global.password.label')"
+        :label="$t('password.label')"
         validation="required"
         :placeholder="usePlaceholder({ type: 'password' })"
         prefix-icon="password"
@@ -113,18 +113,13 @@
                 name: 'auth-password-forgot',
               }"
             >
-              {{ $t('global.action.auth.forgotPassword.label') }}
+              {{ $t('action.auth.forgotPassword.label') }}
             </BaseLink>
           </div>
         </template>
       </FormKit>
 
-      <FormKit
-        type="toggle"
-        name="remember"
-        :label="$t('global.auth.rememberMe.label')"
-        :default="true"
-      />
+      <FormKit type="toggle" name="remember" :label="$t('auth.rememberMe.label')" :default="true" />
 
       <FormTurnstileContainer :first-show-on="valid">
         <NuxtTurnstile
@@ -146,11 +141,11 @@
           base: 'mt-8',
         }"
       >
-        {{ $t('global.action.auth.login.label') }}
+        {{ $t('action.auth.login.label') }}
       </UButton>
     </FormKit>
 
-    <UDivider :label="$t('global.or.label')" />
+    <UDivider :label="$t('or.label')" />
 
     <div v-if="authProviders()?.length" class="space-y-3">
       <UButton

@@ -15,4 +15,8 @@ export const classes = {
     selectedIcon: 'hidden',
     listitem: 'group/listitem hover:cursor-pointer',
   },
+  textarea: {
+    inner: '!items-start',
+    prefixIcon: 'mt-3',
+  },
 };

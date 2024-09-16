@@ -17,23 +17,10 @@ volumes:
     driver: local
   service-api-minio-volume:
     driver: local
+  service-api-typesense-volume:
+    driver: local
 
 services:
-  # meilisearch:
-  #   image: 'getmeili/meilisearch:latest'
-  #   ports:
-  #       - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
-  #   environment:
-  #       MEILI_NO_ANALYTICS: '${MEILISEARCH_NO_ANALYTICS:-false}'
-  #   volumes:
-  #       - 'sail-meilisearch:/meili_data'
-  #   networks:
-  #       - sail
-  #   healthcheck:
-  #       test: ["CMD", "wget", "--no-verbose", "--spider",  "http://localhost:7700/health"]
-  #       retries: 3
-  #       timeout: 5s
-
   service-api-postgres:
     image: 'postgres:16.3'
     restart: unless-stopped
@@ -175,6 +162,20 @@ services:
       exit 0;
       "
 
+  service-api-typesense:
+    image: typesense/typesense:27.0
+    ports:
+      - '8108:8108'
+    environment:
+      TYPESENSE_API_KEY: 'typesense'
+      TYPESENSE_DATA_DIR: '/data'
+    volumes:
+      - 'service-api-typesense-volume:/data'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8108/health']
+      retries: 3
+      timeout: 5s
+
   adminer:
     image: adminer
     restart: unless-stopped
@@ -194,3 +195,12 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+
+  typesense-dashboard:
+    image: ghcr.io/bfritscher/typesense-dashboard:main
+    restart: unless-stopped
+    ports:
+      - '8082:80'
+    volumes:
+      - './docker/typesense-dashboard/config.json:/srv/config.json'
+    

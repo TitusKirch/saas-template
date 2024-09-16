@@ -6,8 +6,21 @@ export const useAlertStore = defineStore(
       alerts.value.filter((alert) => !alert.isComponent)
     );
 
-    const addAlert = (alert: Alert) => {
-      alerts.value.push(alert);
+    const addAlert = ({ alert }: { alert: Alert }) => {
+      alerts.value.push({
+        isNonPersistent: true,
+        isComponent: false,
+        ...alert,
+      });
+    };
+    const addGlobalAlert = ({ alert }: { alert: Alert }) => {
+      addAlert({ alert: { ...alert, isGlobal: true } });
+    };
+    const addGlobalFlashAlert = ({ alert }: { alert: Alert }) => {
+      addGlobalAlert({ alert: { ...alert, isFlashAlert: true, isHidden: true } });
+    };
+    const addFlashAlert = ({ alert }: { alert: Alert }) => {
+      addAlert({ alert: { ...alert, isFlashAlert: true, isHidden: true } });
     };
     const removeAlert = ({ id }: { id: string }) => {
       alerts.value = alerts.value.filter((alert) => alert.id !== id);
@@ -34,13 +47,16 @@ export const useAlertStore = defineStore(
     };
 
     return {
+      addAlert,
+      addFlashAlert,
+      addGlobalAlert,
+      addGlobalFlashAlert,
       alerts,
       getNonComponentAlerts,
-      addAlert,
-      triggerPageChange,
-      removeAlert,
       hiddenAlerts,
       hideAlert,
+      removeAlert,
+      triggerPageChange,
     };
   },
   {

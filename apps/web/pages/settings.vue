@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.settings.title',
-    description: 'page.settings.description',
+    title: 'page.settings.meta.title',
+    description: 'page.settings.meta.description',
     layout: 'dashboard',
     middleware: ['auth'],
   });
@@ -38,6 +38,13 @@
         icon: 'i-fa6-solid-bell',
         to: localePath({
           name: 'settings-notifications',
+        }),
+      },
+      {
+        label: t('page.settings.configurations.title'),
+        icon: 'i-fa6-solid-table-columns',
+        to: localePath({
+          name: 'settings-configurations',
         }),
       },
     ],

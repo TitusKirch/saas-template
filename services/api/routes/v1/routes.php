@@ -4,8 +4,14 @@ use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\AuthProviderController;
 use App\Http\Controllers\V1\FeatureController;
 use App\Http\Controllers\V1\HealthController;
+use App\Http\Controllers\V1\SearchController;
+use App\Http\Controllers\V1\TeamController;
+use App\Http\Controllers\V1\TeamPermissionMeController;
+use App\Http\Controllers\V1\TeamRoleController;
+use App\Http\Controllers\V1\TeamRoleMeController;
 use App\Http\Controllers\V1\UpController;
 use App\Http\Controllers\V1\UserController;
+use App\Http\Controllers\V1\UserMeConfigurationController;
 use App\Http\Controllers\V1\UserMeController;
 use App\Http\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +61,14 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'search',
+    'as' => 'search.',
+    'middleware' => ['auth:sanctum'],
+], function () {
+    Route::get('/', [SearchController::class, 'index'])->name('index');
+});
+
+Route::group([
     'prefix' => 'users',
     'as' => 'users.',
     'middleware' => ['auth:sanctum'],
@@ -77,7 +91,52 @@ Route::group([
                 ->middleware(ValidateSignature::class)
                 ->name('update');
         });
+
+        Route::group([
+            'prefix' => 'configurations',
+            'as' => 'configurations.',
+        ], function () {
+            Route::get('/', [UserMeConfigurationController::class, 'index'])->name('index');
+            Route::put('/', [UserMeConfigurationController::class, 'set'])->name('set');
+            Route::get('/{userConfiguration}', [UserMeConfigurationController::class, 'show'])->name('show');
+            Route::put('/{userConfiguration}', [UserMeConfigurationController::class, 'update'])->name('update');
+            Route::delete('/{userConfiguration}', [UserMeConfigurationController::class, 'destroy'])->name('destroy');
+        });
     });
 
     Route::get('/{user}', [UserController::class, 'show'])->name('show');
+});
+
+Route::group([
+    'prefix' => 'teams',
+    'as' => 'teams.',
+    'middleware' => ['api', 'auth:sanctum', 'current-team-by-route'],
+], function () {
+    Route::post('/', [TeamController::class, 'store'])->name('store');
+
+    Route::group([
+        'prefix' => '{team}',
+        'as' => 'team.',
+    ], function () {
+
+        Route::get('/', [TeamController::class, 'show'])->name('show');
+        Route::put('/', [TeamController::class, 'update'])->name('update');
+        // Route::delete('/', [TeamController::class, 'destroy'])->name('destroy');
+
+        Route::group([
+            'prefix' => 'roles',
+            'as' => 'roles.',
+        ], function () {
+            Route::get('/', [TeamRoleController::class, 'index'])->name('index');
+            Route::get('/me', [TeamRoleMeController::class, 'show'])->name('show');
+        });
+
+        Route::group([
+            'prefix' => 'permissions',
+            'as' => 'permissions.',
+        ], function () {
+            Route::get('/me', [TeamPermissionMeController::class, 'show'])->name('show');
+        });
+
+    });
 });

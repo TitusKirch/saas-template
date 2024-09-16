@@ -1,4 +1,102 @@
 {
+  "action": {
+    "auth": {
+      "confirmPassword": {
+        "label": "Confirm password"
+      },
+      "forgotPassword": {
+        "label": "Forgot password?"
+      },
+      "login": {
+        "label": "Log in"
+      },
+      "logout": {
+        "label": "Log out"
+      },
+      "passwordResetLinkRequest": {
+        "label": "Send password reset link"
+      },
+      "register": {
+        "label": "Register"
+      },
+      "resetPassword": {
+        "label": "Reset password"
+      },
+      "setPassword": {
+        "label": "Set password"
+      },
+      "twoFactorChallenge": {
+        "switch": {
+          "code": {
+            "label": "Use code"
+          },
+          "recoveryCode": {
+            "label": "Use recovery code"
+          }
+        }
+      }
+    },
+    "cancel": {
+      "label": "Cancel"
+    },
+    "close": {
+      "label": "Close"
+    },
+    "confirm": {
+      "label": "Confirm"
+    },
+    "confirmPasswordAndSave": {
+      "label": "Confirm password and save"
+    },
+    "copyToClipboard": {
+      "label": "Copy to clipboard"
+    },
+    "delete": {
+      "label": "Delete"
+    },
+    "export": {
+      "label": "Export"
+    },
+    "goBack": {
+      "label": "Go back"
+    },
+    "page": {
+      "home": {
+        "label": "Home"
+      }
+    },
+    "save": {
+      "label": "Save"
+    },
+    "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
+    "view": {
+      "label": "View"
+    }
+  },
+  "alert": {
+    "error": {
+      "title": "An error occurred"
+    },
+    "info": {
+      "title": "Info"
+    },
+    "loading": {
+      "title": "Loading..."
+    },
+    "success": {
+      "title": "Success"
+    },
+    "warning": {
+      "title": "Warning"
+    }
+  },
+  "app": {
+    "meta": {
+      "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
+      "fallbackTitle": "saas-template",
+      "title": "{title} - saas-template"
+    }
+  },
   "auth": {
     "needsToConfirmUserPasswordButton": {
       "noPassword": {
@@ -16,6 +114,9 @@
         "signInWith": "Sign in with Google"
       }
     },
+    "rememberMe": {
+      "label": "Remember me"
+    },
     "userPasswordConfirmModal": {
       "description": "You enter the danger zone. Please confirm your password to continue with this action. This is a security measure to prevent unauthorized access to your account.",
       "title": "Confirm password"
@@ -28,6 +129,10 @@
         }
       },
       "alert": {
+        "forceToDownloadAndNotDownloaded": {
+          "description": "You have not downloaded your recovery codes yet. Please download them now and store them in a safe place to continue. For safety reasons, you can only proceed after you have downloaded your recovery codes.",
+          "title": "Recovery codes not downloaded"
+        },
         "loading": {
           "title": "Enabling two-factor authentication"
         }
@@ -36,40 +141,45 @@
     }
   },
   "base": {
-    "app": {
-      "fallbackDescription": "The saas-template is a template for building SaaS applications. It combines the capabilities of Laravel and Nuxt in a unified repository and accelerates the development of web applications. Seamlessly integrates the back-end reliability of Laravel with the front-end agility of Nuxt. Ideal for rapid prototyping and deployment.",
-      "fallbackTitle": "saas-template",
-      "title": "{title} - saas-template"
-    },
-    "dev": {
-      "card": {
-        "header": {
-          "description": "Here you will find tools that help you to develop and debug your application. Use them to improve your development workflow.",
-          "badge": {
-            "title": "Only for developers"
-          },
-          "title": "Developer tools"
+    "table": {
+      "notification": {
+        "atLeastOneSelectedColumnRequired": {
+          "description": "At least one column must be selected to perform this action.",
+          "title": "No column selected"
         }
       },
-      "code": {
-        "action": {
-          "copy": {
-            "copiedToClipboard": {
-              "title": "Copied!"
-            },
-            "title": "Copy"
-          }
+      "rowsPerPage": {
+        "label": "Rows per page:"
+      },
+      "selectedColumns": {
+        "button": {
+          "label": "Columns"
         }
-      }
-    },
-    "form": {
-      "errorsAlert": {
-        "title": "Following errors occurred:"
       }
     }
   },
   "commandMenu": {
     "title": "Command menu"
+  },
+  "copy": {
+    "button": {
+      "label": "Copy to clipboard",
+      "notification": {
+        "success": {
+          "description": "You successfully copied the text to your clipboard and can now paste it anywhere you like.",
+          "title": "Successfully copied to clipboard."
+        }
+      }
+    }
+  },
+  "currentUserConfiguration": {
+    "notification": {
+      "syncUserConfigurations": {
+        "success": {
+          "description": "Your user configuration has been successfully synchronized."
+        }
+      }
+    }
   },
   "dashboard": {
     "layout": {
@@ -88,123 +198,58 @@
       }
     }
   },
-  "global": {
-    "action": {
-      "auth": {
-        "confirmPassword": {
-          "label": "Confirm password"
+  "dev": {
+    "card": {
+      "header": {
+        "description": "Here you will find tools that help you to develop and debug your application. Use them to improve your development workflow.",
+        "badge": {
+          "title": "Only for developers"
         },
-        "forgotPassword": {
-          "label": "Forgot password?"
-        },
-        "login": {
-          "label": "Log in"
-        },
-        "logout": {
-          "label": "Log out"
-        },
-        "passwordResetLinkRequest": {
-          "label": "Send password reset link"
-        },
-        "register": {
-          "label": "Register"
-        },
-        "resetPassword": {
-          "label": "Reset password"
-        },
-        "setPassword": {
-          "label": "Set password"
-        },
-        "twoFactorChallenge": {
-          "switch": {
-            "code": {
-              "label": "Use code"
-            },
-            "recoveryCode": {
-              "label": "Use recovery code"
-            }
-          }
+        "title": "Developer tools"
+      }
+    },
+    "code": {
+      "action": {
+        "copy": {
+          "copiedToClipboard": {
+            "title": "Copied!"
+          },
+          "title": "Copy"
         }
-      },
-      "cancel": {
-        "label": "Cancel"
-      },
-      "close": {
-        "label": "Close"
-      },
-      "confirm": {
-        "label": "Confirm"
-      },
-      "confirmPasswordAndSave": {
-        "label": "Confirm password and save"
-      },
-      "goBack": {
-        "label": "Go back"
-      },
-      "page": {
-        "home": {
-          "label": "Home"
-        }
-      },
-      "save": {
-        "label": "Save"
       }
-    },
-    "auth": {
-      "rememberMe": {
-        "label": "Remember me"
-      }
-    },
-    "email": {
-      "label": "Email address",
-      "placeholder": {
-        "female": "jane.doe{'@'}example.com",
-        "male": "john.doe{'@'}example.com"
-      }
-    },
-    "email_confirmation": {
-      "label": "Confirm email address"
-    },
-    "first_name": {
-      "label": "First name",
-      "placeholder": {
-        "female": "Jane",
-        "male": "John"
-      }
-    },
-    "last_name": {
-      "label": "Last name",
-      "placeholder": {
-        "female": "Doe",
-        "male": "Doe"
-      }
-    },
-    "notification": {
-      "success": {
-        "title": "Success"
-      }
-    },
-    "or": {
-      "label": "or"
-    },
-    "password": {
-      "label": "Password"
-    },
-    "password_confirmation": {
-      "label": "Confirm password"
-    },
-    "tryAgainIn": "Try again in a second. | Try again in {count} seconds.",
-    "twoFactorChallenge": {
-      "code": {
-        "label": "2FA code"
-      },
-      "recoveryCode": {
-        "label": "Recovery code"
-      }
+    }
+  },
+  "email": {
+    "label": "Email address",
+    "placeholder": {
+      "female": "jane.doe{'@'}example.com",
+      "male": "john.doe{'@'}example.com"
+    }
+  },
+  "email_confirmation": {
+    "label": "Confirm email address"
+  },
+  "first_name": {
+    "label": "First name",
+    "placeholder": {
+      "female": "Jane",
+      "male": "John"
+    }
+  },
+  "form": {
+    "errorsAlert": {
+      "title": "Following errors occurred:"
     }
   },
   "helpSlideover": {
     "title": "Help"
+  },
+  "last_name": {
+    "label": "Last name",
+    "placeholder": {
+      "female": "Doe",
+      "male": "Doe"
+    }
   },
   "locale": {
     "de-DE": {
@@ -213,6 +258,14 @@
     "en-GB": {
       "label": "English (UK)"
     }
+  },
+  "notification": {
+    "success": {
+      "title": "Success"
+    }
+  },
+  "or": {
+    "label": "or"
   },
   "page": {
     "auth": {
@@ -237,6 +290,10 @@
               "title": "Email verified"
             }
           },
+          "meta": {
+            "description": "Please verify your email address.",
+            "title": "Verify your email"
+          },
           "title": "Verify your email"
         }
       },
@@ -246,6 +303,10 @@
           "description": "Don't have an account? {0}.",
           "title": "Log in"
         },
+        "meta": {
+          "description": "Here you can login to your account.",
+          "title": "Log in"
+        },
         "title": "Log in"
       },
       "logout": {
@@ -253,6 +314,10 @@
         "authCard": {
           "description": "You have been successfully logged out and will be redirected to the login page in a few seconds. {0}.",
           "title": "Successfully logged out"
+        },
+        "meta": {
+          "description": "You have been logged out.",
+          "title": "Log out"
         },
         "title": "Log out"
       },
@@ -264,12 +329,20 @@
               "description": "Enter your email address and we will send you a link to reset your password. Remembered your password? {0}.",
               "title": "Forgot password"
             },
+            "meta": {
+              "description": "Enter your email address and we will send you a link to reset your password.",
+              "title": "Forgot password"
+            },
             "title": "Forgot password"
           },
           "success": {
             "description": "An email has been sent to you with a link to reset your password.",
             "authCard": {
               "description": "An email has been sent to you with a link to reset your password. Remembered your password? {0}.",
+              "title": "Password reset email sent"
+            },
+            "meta": {
+              "description": "An email has been sent to you with a link to reset your password.",
               "title": "Password reset email sent"
             },
             "title": "Password reset email sent"
@@ -282,12 +355,20 @@
               "description": "Enter your new password. Remembered your password? {0}.",
               "title": "Reset password"
             },
+            "meta": {
+              "description": "Enter your new password.",
+              "title": "Reset password"
+            },
             "title": "Reset password"
           },
           "success": {
             "description": "Your password has been successfully reset. You will be redirected in a few seconds.",
             "authCard": {
               "description": "Your password has been successfully reset. You will be redirected in a few seconds. {0}.",
+              "title": "Password reset"
+            },
+            "meta": {
+              "description": "Your password has been successfully reset.",
               "title": "Password reset"
             },
             "title": "Password reset"
@@ -300,12 +381,20 @@
               "description": "Please set a strong password for your account. {0}.",
               "title": "Set password"
             },
+            "meta": {
+              "description": "Please set a strong password for your account.",
+              "title": "Set password"
+            },
             "title": "Set password"
           },
           "success": {
             "description": "Your password has been successfully set. You will be redirected in a few seconds.",
             "authCard": {
               "description": "Your password has been successfully set. You will be redirected in a few seconds. {0}.",
+              "title": "Password set"
+            },
+            "meta": {
+              "description": "Your password has been successfully set.",
               "title": "Password set"
             },
             "title": "Password set"
@@ -320,6 +409,14 @@
               "description": "Please wait while we sign you in. We will redirect you in a few seconds.",
               "title": "Signing in"
             },
+            "error": {
+              "description": "An error occurred while signing in with {0}. Please try again.",
+              "title": "Error signing in"
+            },
+            "meta": {
+              "description": "Please wait while we sign you in.",
+              "title": "Signing in"
+            },
             "title": "Signing in"
           }
         }
@@ -329,6 +426,10 @@
         "authCard": {
           "description": "Already have an account? {0}.",
           "title": "Create an account"
+        },
+        "meta": {
+          "description": "Here you can register a new account.",
+          "title": "Register"
         },
         "title": "Register"
       },
@@ -343,8 +444,65 @@
           },
           "title": "Two-factor authentication"
         },
+        "meta": {
+          "description": "Please enter the code from your authenticator app.",
+          "title": "Two-factor authentication"
+        },
         "title": "Two-factor authentication"
       }
+    }
+  },
+  "password": {
+    "label": "Password"
+  },
+  "password_confirmation": {
+    "label": "Confirm password"
+  },
+  "selectMenu": {
+    "optionEmpty": {
+      "label": "No results for {0}."
+    }
+  },
+  "team": {
+    "name": {
+      "label": "Team name",
+      "placeholder": "Your Team"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "A short description of your team"
+    },
+    "createForm": {
+      "mode": {
+        "create": {
+          "notification": {
+            "success": {
+              "description": "The team has been created successfully."
+            }
+          },
+          "submit": {
+            "label": "Create team"
+          }
+        },
+        "update": {
+          "notification": {
+            "success": {
+              "description": "The team has been updated successfully."
+            }
+          },
+          "submit": {
+            "label": "Update team"
+          }
+        }
+      }
+    }
+  },
+  "twoFactorChallenge": {
+    "code": {
+      "label": "2FA code"
+    },
+    "recoveryCode": {
+      "label": "Recovery code"
     }
   },
   "user": {
@@ -358,6 +516,14 @@
         }
       },
       "title": "Please verify your email address. If you can't find the verification email, take a look at your spam folder or request a new one."
+    },
+    "me": {
+      "configuration": {
+        "deleteModal": {
+          "description": "Are you sure you want to delete the user configuration with the key {0}?",
+          "title": "Delete user configuration"
+        }
+      }
     },
     "noPasswordAlert": {
       "action": {

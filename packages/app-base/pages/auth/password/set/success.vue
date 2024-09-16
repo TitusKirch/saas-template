@@ -2,8 +2,8 @@
   import type { RouteLocationNamedRaw } from 'vue-router';
 
   definePageMeta({
-    title: 'page.auth.password.set.success.title',
-    description: 'page.auth.password.set.success.description',
+    title: 'page.auth.password.set.success.meta.title',
+    description: 'page.auth.password.set.success.meta.description',
     middleware: ['auth'],
   });
 
@@ -43,7 +43,7 @@
               class="mt-1 text-gray-500 dark:text-gray-400"
             >
               <BaseLink :to="goBackRoute">
-                {{ $t('global.action.goBack.label') }}
+                {{ $t('action.goBack.label') }}
               </BaseLink>
             </i18n-t>
           </template>

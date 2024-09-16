@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { alert as uiAlert } from '#ui/ui.config';
   import { useAlertStore } from '@tituskirch/app-base/stores/alert';
 
   const props = withDefaults(
@@ -39,7 +40,6 @@
       show.value = false;
     }
     watch(alertStore.alerts, (alerts) => {
-      console.info('alerts changed');
       const alert = alerts.find((alert) => alert.id === props.id);
       if (alert) {
         show.value = !alert.isHidden;
@@ -63,7 +63,7 @@
     }
   };
 
-  const { getColorByType, getIconByType } = useAlertStyle();
+  const { getColorByType, getIconByType } = useAlert();
   const color = computed(() => {
     return getColorByType({ type: props.type });
   });
@@ -73,6 +73,18 @@
     }
 
     return getIconByType({ type: props.type });
+  });
+
+  const ui = computed<Partial<typeof uiAlert>>(() => {
+    const result: Partial<typeof uiAlert> = {};
+
+    if (props.description) {
+      result.icon = {
+        base: 'mt-1.5',
+      };
+    }
+
+    return result;
   });
 </script>
 
@@ -84,6 +96,7 @@
     :title="title"
     :description="description"
     :close-button="closeButton"
+    :ui="ui"
     @close="close"
   >
     <template v-if="$slots.title" #title>

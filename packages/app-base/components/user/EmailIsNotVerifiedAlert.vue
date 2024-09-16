@@ -48,7 +48,7 @@
       action: {
         loading: false,
         disabled: true,
-        label: t('global.tryAgainIn', { count: tryAgainIn.value }),
+        label: t('action.tryAgainIn', { count: tryAgainIn.value }),
       },
     });
     tryAgainInInterval.value = setInterval(() => {
@@ -68,7 +68,7 @@
         updateActionByKey({
           key: 'resendVerificationEmail',
           action: {
-            label: t('global.tryAgainIn', { count: tryAgainIn.value }),
+            label: t('action.tryAgainIn', { count: tryAgainIn.value }),
           },
         });
       }

@@ -15,7 +15,7 @@
   }>();
 
   const authStore = useAuthStore();
-  const { getColorByType } = useAlertStyle();
+  const { getColorByType } = useAlert();
 
   const modalIsOpen = ref(false);
 </script>
@@ -52,7 +52,7 @@
         {{
           confirmPasswordButtonTitle
             ? confirmPasswordButtonTitle
-            : $t('global.action.auth.confirmPassword.label')
+            : $t('action.auth.confirmPassword.label')
         }}
       </UButton>
     </slot>

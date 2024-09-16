@@ -17,52 +17,79 @@
 </script>
 
 <template>
-  <div>
-    <UDashboardSection
-      :title="$t('page.settings.security.section.twoFactorAuthentication.title')"
-      :description="$t('page.settings.security.section.twoFactorAuthentication.description')"
-    >
-      <template #links>
-        <AuthDisableTwoFactorAuthenticationButton v-if="currentUser?.two_factor_confirmed_at" />
-        <AuthEnableTwoFactorAuthenticationForm
-          v-else
-          @success="
-            () => {
-              authUserTwoFactorRecoveryCodesModalForceToDownload = true;
-              openAuthUserTwoFactorRecoveryCodesModal();
-            }
-          "
+  <DashboardPageGrid>
+    <UCard>
+      <template #header>
+        <CardHeader
+          :title="$t('page.settings.security.section.twoFactorAuthentication.title')"
+          :description="$t('page.settings.security.section.twoFactorAuthentication.description')"
         />
       </template>
-    </UDashboardSection>
 
-    <UDivider class="mb-4" />
+      <UDashboardSection
+        :title="
+          $t(
+            'page.settings.security.section.twoFactorAuthentication.manageTwoFactorAuthentication.title'
+          )
+        "
+        :description="
+          $t(
+            'page.settings.security.section.twoFactorAuthentication.manageTwoFactorAuthentication.description'
+          )
+        "
+      >
+        <template #links>
+          <AuthDisableTwoFactorAuthenticationButton v-if="currentUser?.two_factor_confirmed_at" />
+          <AuthEnableTwoFactorAuthenticationForm
+            v-else
+            @success="
+              () => {
+                authUserTwoFactorRecoveryCodesModalForceToDownload = true;
+                openAuthUserTwoFactorRecoveryCodesModal();
+              }
+            "
+          />
+        </template>
+      </UDashboardSection>
 
-    <UDashboardSection
-      v-show="currentUser?.two_factor_confirmed_at"
-      :title="$t('page.settings.security.section.twoFactorRecoveryCodes.title')"
-      :description="$t('page.settings.security.section.twoFactorRecoveryCodes.description')"
-    >
-      <template #links>
-        <AuthNeedsToConfirmUserPasswordButton
-          :confirm-password-button-title="
-            $t(
-              'page.settings.security.section.twoFactorRecoveryCodes.action.confirmPasswordAndShow.label'
-            )
-          "
-          :confirm-password-button-props="{ block: true }"
-          :confirm-password-button-callback="openAuthUserTwoFactorRecoveryCodesModal"
-        >
-          <UButton block icon="i-fa6-solid-eye" @click="openAuthUserTwoFactorRecoveryCodesModal">
-            {{ $t('page.settings.security.section.twoFactorRecoveryCodes.action.show.label') }}
-          </UButton>
-        </AuthNeedsToConfirmUserPasswordButton>
+      <UDivider v-if="currentUser?.two_factor_confirmed_at" class="mb-4" />
 
-        <AuthUserTwoFactorRecoveryCodesModal
-          v-model="showAuthUserTwoFactorRecoveryCodesModal"
-          :force-to-download="authUserTwoFactorRecoveryCodesModalForceToDownload"
-        />
-      </template>
-    </UDashboardSection>
-  </div>
+      <UDashboardSection
+        v-show="currentUser?.two_factor_confirmed_at"
+        :title="
+          $t('page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.title')
+        "
+        :description="
+          $t(
+            'page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.description'
+          )
+        "
+      >
+        <template #links>
+          <AuthNeedsToConfirmUserPasswordButton
+            :confirm-password-button-title="
+              $t(
+                'page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.action.confirmPasswordAndShow.label'
+              )
+            "
+            :confirm-password-button-props="{ block: true }"
+            :confirm-password-button-callback="openAuthUserTwoFactorRecoveryCodesModal"
+          >
+            <UButton block icon="i-fa6-solid-eye" @click="openAuthUserTwoFactorRecoveryCodesModal">
+              {{
+                $t(
+                  'page.settings.security.section.twoFactorAuthentication.twoFactorRecoveryCodes.action.show.label'
+                )
+              }}
+            </UButton>
+          </AuthNeedsToConfirmUserPasswordButton>
+
+          <AuthUserTwoFactorRecoveryCodesModal
+            v-model="showAuthUserTwoFactorRecoveryCodesModal"
+            :force-to-download="authUserTwoFactorRecoveryCodesModalForceToDownload"
+          />
+        </template>
+      </UDashboardSection>
+    </UCard>
+  </DashboardPageGrid>
 </template>

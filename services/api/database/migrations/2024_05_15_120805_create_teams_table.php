@@ -39,7 +39,7 @@ return new class extends Migration
             throw new \Exception('Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
 
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -48,20 +48,20 @@ return new class extends Migration
         Schema::table($tableNames['roles'], function (Blueprint $table) use ($columnNames) {
             $table->foreign($columnNames['team_foreign_key'])
                 ->references('id')
-                ->on('organizations')
+                ->on('teams')
                 ->onDelete('cascade');
 
         });
         Schema::table($tableNames['model_has_roles'], function (Blueprint $table) use ($columnNames) {
             $table->foreign($columnNames['team_foreign_key'])
                 ->references('id')
-                ->on('organizations')
+                ->on('teams')
                 ->onDelete('cascade');
         });
         Schema::table($tableNames['model_has_permissions'], function (Blueprint $table) use ($columnNames) {
             $table->foreign($columnNames['team_foreign_key'])
                 ->references('id')
-                ->on('organizations')
+                ->on('teams')
                 ->onDelete('cascade');
         });
     }
@@ -95,6 +95,6 @@ return new class extends Migration
             $table->dropForeign([$columnNames['team_foreign_key']]);
         });
 
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('teams');
     }
 };

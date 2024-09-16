@@ -107,8 +107,8 @@
               icon="i-fa6-solid-copy"
               :title="
                 copiedInLast5Seconds
-                  ? $t('base.dev.code.action.copy.copiedToClipboard.title')
-                  : $t('base.dev.code.action.copy.title')
+                  ? $t('dev.code.action.copy.copiedToClipboard.title')
+                  : $t('dev.code.action.copy.title')
               "
               :disabled="code == undefined || copiedInLast5Seconds"
               @on-click="clickCopyToClipboardHandler"

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class OrganizationsPermission
+class TeamsPermission
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,7 @@ class OrganizationsPermission
         // TODO: Check this
         if (! empty(auth()->user())) {
             // session value set on login
-            setPermissionsTeamId(session('organization_id'));
+            setPermissionsTeamId(session('team_id'));
         }
         // other custom ways to get team_id
         /*if(!empty(auth('api')->user())){

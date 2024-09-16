@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.logout.title',
-    description: 'page.auth.logout.description',
+    title: 'page.auth.logout.meta.title',
+    description: 'page.auth.logout.meta.description',
     middleware: ['auth'],
   });
 
@@ -39,7 +39,7 @@
                   name: 'auth-login',
                 }"
               >
-                {{ $t('global.action.auth.login.label') }}
+                {{ $t('action.auth.login.label') }}
               </BaseLink>
             </i18n-t>
           </template>

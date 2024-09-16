@@ -4,13 +4,13 @@ export default function ({
   type = 'info',
 }: {
   description?: string;
-  title: string;
+  title?: string;
   type: AlertType;
 }) {
-  const { getColorByType, getIconByType } = useAlertStyle();
+  const { getColorByType, getIconByType, getDefaultTitleByType } = useAlert();
   const toast = useToast();
   toast.add({
-    title: title,
+    title: title ?? getDefaultTitleByType({ type }),
     description,
     icon: getIconByType({ type }),
     color: getColorByType({ type }),

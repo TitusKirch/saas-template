@@ -47,7 +47,7 @@
       <FormKit
         type="email"
         name="email"
-        :label="$t('global.email.label')"
+        :label="$t('email.label')"
         validation="required|email"
         :placeholder="usePlaceholder({ type: 'email' })"
         prefix-icon="email"
@@ -75,7 +75,7 @@
         :ui="{
           base: 'mt-8',
         }"
-        >{{ $t('global.action.auth.passwordResetLinkRequest.label') }}</UButton
+        >{{ $t('action.auth.passwordResetLinkRequest.label') }}</UButton
       >
     </FormKit>
   </div>

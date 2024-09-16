@@ -8,7 +8,7 @@
   <BaseAlert
     v-if="Object.keys(errorMessages).length > 0"
     type="error"
-    :title="$t('base.form.errorsAlert.title')"
+    :title="$t('form.errorsAlert.title')"
     class="mb-8"
   >
     <template #description>

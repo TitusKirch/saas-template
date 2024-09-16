@@ -65,7 +65,7 @@
       executeCallback: confirmedTwoFactorAuthenticationExecute,
       successCallback: async () => {
         emit('success');
-        await fetchCurrentUser;
+        await fetchCurrentUser();
       },
     });
 </script>
@@ -112,8 +112,8 @@
         <CopyButton
           v-if="twoFactorQrCodeSecret"
           :value="twoFactorQrCodeSecret"
+          variante="icon"
           color="gray"
-          class="p-0"
         />
       </div>
     </div>
@@ -145,7 +145,7 @@
         :loading="confirmedTwoFactorAuthenticationStatus === 'pending'"
         icon="i-fa6-solid-floppy-disk"
       >
-        {{ $t('global.action.save.label') }}
+        {{ $t('action.save.label') }}
       </UButton>
     </FormKit>
   </div>

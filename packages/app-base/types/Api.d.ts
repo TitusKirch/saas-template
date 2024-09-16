@@ -1,7 +1,26 @@
 type ApiRequestData<DataT = unknown> = DataT;
 
+type ApiResourceResponseLinks = {
+  first: string;
+  last: string;
+  prev: string;
+  next: string;
+};
+
+type ApiResourceResponseMeta = {
+  current_page: number;
+  from: number;
+  last_page: number;
+  path: string;
+  per_page: number;
+  to: number;
+  total: number;
+};
+
 type ApiResourceResponse<DataT = unknown> = {
   data: DataT;
+  links: ApiResourceResponseLinks;
+  meta: ApiResourceResponseMeta;
 };
 type ApiResponse<DataT = unknown> = DataT;
 

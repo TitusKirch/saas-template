@@ -138,4 +138,20 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | API Settings
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options determine the settings for the API. Some
+    | settings may be overridden in a specific API controller.
+    |
+    */
+
+    'api' => [
+        'pagination' => [
+            'default' => env('APP_PAGINATION_DEFAULT', 10),
+            'max' => env('APP_PAGINATION_MAX', 100),
+        ],
+    ],
 ];

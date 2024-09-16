@@ -2,10 +2,7 @@
   "app": {
     "name": "blog saas-template"
   },
-  "page": {
-    "index": {
-      "description": "Welcome to the home page",
-      "title": "Home"
-    }
+  "foo": {
+    "bar": "Foo bar - en"
   }
 }

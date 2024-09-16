@@ -1,0 +1,10 @@
+{
+  "apiKey": "typesense",
+  "node": {
+    "host": "localhost",
+    "path": "",
+    "port": "8108",
+    "protocol": "http",
+    "tsl": true
+  }
+}

@@ -2,6 +2,10 @@
   "page": {
     "index": {
       "description": "Willkommen auf der Startseite",
+      "meta": {
+        "description": "Willkommen auf der Startseite",
+        "title": "Startseite"
+      },
       "title": "Startseite"
     }
   }

@@ -25,7 +25,7 @@ export default defineAppConfig({
       },
     },
     button: {
-      rounded: 'rounded-full',
+      // rounded: 'rounded-full',
       default: {
         loadingIcon: 'i-fa6-solid-arrows-rotate',
       },
@@ -40,7 +40,8 @@ export default defineAppConfig({
       //   },
       // },
       section: {
-        container: 'items-start md:flex-nowrap',
+        wrapper: 'last:mb-0',
+        container: 'items-start md:flex-nowrap last:',
         links: 'w-full md:w-80 flex-nowrap flex-col flex-shrink-0',
       },
     },
@@ -52,9 +53,26 @@ export default defineAppConfig({
         },
       },
     },
+    commandPalette: {
+      default: {
+        icon: 'i-fa6-solid-magnifying-glass',
+        loadingIcon: 'i-fa6-solid-arrows-rotate',
+        emptyState: {
+          icon: 'i-fa6-solid-magnifying-glass',
+        },
+      },
+    },
     icons: {
+      check: 'i-fa6-solid-check',
+      chevron: 'i-fa6-solid-chevron-down',
+      close: 'i-fa6-solid-xmark',
       dark: 'i-fa6-solid-moon',
+      external: 'i-fa6-solid-arrow-up-right-from-square',
+      hash: 'i-fa6-solid-hashtag',
       light: 'i-fa6-solid-sun',
+      menu: 'i-fa6-solid-bars',
+      search: 'i-fa6-solid-magnifying-glass',
+      system: 'i-fa6-solid-desktop',
     },
     notification: {
       default: {

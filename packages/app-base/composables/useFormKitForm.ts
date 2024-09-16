@@ -29,7 +29,6 @@ export default function <FormT extends Record<string, any>>({
     }
 
     if (executeCallback) {
-      console.log('executeCallback');
       await executeCallback();
     }
 

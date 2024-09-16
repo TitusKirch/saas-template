@@ -13,7 +13,6 @@
     options.value.find((option) => option.value === locale.value)?.value || options.value[0].value
   );
   watch(preference, (value) => {
-    console.log(value);
     setLocale(value);
   });
 </script>

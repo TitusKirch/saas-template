@@ -1,7 +1,7 @@
 <script setup lang="ts">
   definePageMeta({
-    title: 'page.auth.twoFactorChallenge.title',
-    description: 'page.auth.twoFactorChallenge.description',
+    title: 'page.auth.twoFactorChallenge.meta.title',
+    description: 'page.auth.twoFactorChallenge.meta.description',
     middleware: ['guest'],
   });
 
@@ -22,7 +22,7 @@
               <BaseLink @click="formType = formType == 'code' ? 'recoveryCode' : 'code'">
                 {{
                   $t(
-                    `global.action.auth.twoFactorChallenge.switch.${formType == 'code' ? 'recoveryCode' : 'code'}.label`
+                    `action.auth.twoFactorChallenge.switch.${formType == 'code' ? 'recoveryCode' : 'code'}.label`
                   )
                 }}
               </BaseLink>

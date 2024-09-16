@@ -1,7 +1,7 @@
 {
   "recommendations": [
+    "amiralizadeh9480.laravel-extra-intellisense",
     "antfu.iconify",
-    "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "jacano.vscode-pnpm",
     "ms-azuretools.vscode-docker",

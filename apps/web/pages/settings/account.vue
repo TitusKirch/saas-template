@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const { updateCurrentUser } = useApiCurrentUsers();
+  const { updateCurrentUser } = useApiUsersMe();
   const {
     fetchCurrentUserAvatar,
     fetchCurrentUser,
@@ -34,7 +34,6 @@
 
       try {
         await fetchCurrentUserAvatarPresignedUploadUrl();
-        console.info('Avatar updated');
       } catch (error) {
         console.error('Error updating avatar:', error);
         return;
@@ -80,7 +79,6 @@
         formValuesBeforeSubmit.value[key as keyof UpdateUserMeData]
     );
   });
-  const { t } = useI18n();
   const { error, status, execute } = await updateCurrentUser({
     data: form,
     options: {
@@ -100,8 +98,8 @@
 
       useNotification({
         type: 'success',
-        title: t('global.notification.success.title'),
-        description: t('page.settings.account.notification.success.description'),
+        title: 'notification.success.title',
+        description: 'page.settings.account.notification.success.description',
       });
     },
   });
@@ -118,132 +116,148 @@
 </script>
 
 <template>
-  <div>
-    <UDashboardSection
-      :title="$t('page.settings.account.section.avatar.title')"
-      :description="$t('page.settings.account.section.avatar.description')"
-    >
-      <template #links>
-        <div class="group relative h-20">
-          <UserAvatar
-            size="3xl"
-            :src="currentUserAvatarUrl"
-            :user="currentUser"
-            :loading="!currentUserAvatarUrl && fetchUserAvatarStatus !== 'success'"
-          />
-          <input
-            type="file"
-            name="avatar"
-            accept=".jpeg,.jpg,.png,.bmp,.gif,.svg,.webp"
-            class="hidden"
-            @change="changeAvatarInputChanged"
-          />
-
-          <div
-            class="absolute bottom-0 right-0 flex size-full items-center justify-center rounded-full bg-black/0 text-transparent transition-all duration-300 group-hover:cursor-pointer group-hover:bg-black/50 group-hover:text-white"
-            @click="clickAvatarChange"
-          >
-            <UIcon name="i-fa6-solid-camera" class="text-3xl" />
-          </div>
-        </div>
-      </template>
-    </UDashboardSection>
-
-    <UDivider class="mb-4" />
-    <FormKit
-      ref="formRef"
-      v-slot="{ state: { valid } }"
-      v-model="form"
-      type="form"
-      :actions="false"
-      :disabled="status === 'success'"
-      @submit="submit"
-    >
-      <UDashboardSection
-        :title="$t('page.settings.account.section.name.title')"
-        :description="$t('page.settings.account.section.name.description')"
-      >
-        <template #links>
-          <FormKit
-            type="text"
-            name="first_name"
-            :label="$t('global.first_name.label')"
-            validation="required"
-            :placeholder="$t('global.first_name.label')"
-            prefix-icon="people"
-            :classes="formkitFieldClasses"
-          />
-          <FormKit
-            type="text"
-            name="last_name"
-            :label="$t('global.last_name.label')"
-            validation="required"
-            :placeholder="$t('global.last_name.label')"
-            prefix-icon="people"
-            :classes="formkitFieldClasses"
+  <FormKit
+    ref="formRef"
+    v-slot="{ state: { valid } }"
+    v-model="form"
+    type="form"
+    :actions="false"
+    :disabled="status === 'success'"
+    @submit="submit"
+  >
+    <DashboardPageGrid>
+      <UCard>
+        <template #header>
+          <CardHeader
+            :title="$t('page.settings.account.section.profile.title')"
+            :description="$t('page.settings.account.section.profile.description')"
           />
         </template>
-      </UDashboardSection>
 
-      <UDivider class="mb-4" />
+        <UDashboardSection
+          :title="$t('page.settings.account.section.profile.avatar.title')"
+          :description="$t('page.settings.account.section.profile.avatar.description')"
+        >
+          <template #links>
+            <div class="group relative h-20">
+              <UserAvatar
+                size="3xl"
+                :src="currentUserAvatarUrl"
+                :user="currentUser"
+                :loading="!currentUserAvatarUrl && fetchUserAvatarStatus !== 'success'"
+              />
+              <input
+                type="file"
+                name="avatar"
+                accept=".jpeg,.jpg,.png,.bmp,.gif,.svg,.webp"
+                class="hidden"
+                @change="changeAvatarInputChanged"
+              />
 
-      <UDashboardSection
-        :title="$t('global.email.label')"
-        :description="$t('page.settings.account.section.email.description')"
-      >
-        <template #links>
-          <FormKit
-            type="text"
-            name="email"
-            :label="$t('global.email.label')"
-            validation="required|email"
-            :placeholder="usePlaceholder({ type: 'email' })"
-            prefix-icon="email"
-            :classes="formkitFieldClasses"
-            autocomplete="username"
+              <div
+                class="absolute bottom-0 right-0 flex size-full items-center justify-center rounded-full bg-black/0 text-transparent transition-all duration-300 group-hover:cursor-pointer group-hover:bg-black/50 group-hover:text-white"
+                @click="clickAvatarChange"
+              >
+                <UIcon name="i-fa6-solid-camera" class="text-3xl" />
+              </div>
+            </div>
+          </template>
+        </UDashboardSection>
+
+        <UDivider class="mb-4" />
+
+        <UDashboardSection
+          :title="$t('page.settings.account.section.profile.name.title')"
+          :description="$t('page.settings.account.section.profile.name.description')"
+        >
+          <template #links>
+            <FormKit
+              type="text"
+              name="first_name"
+              :label="$t('first_name.label')"
+              validation="required"
+              :placeholder="$t('first_name.label')"
+              prefix-icon="people"
+              :classes="formkitFieldClasses"
+            />
+            <FormKit
+              type="text"
+              name="last_name"
+              :label="$t('last_name.label')"
+              validation="required"
+              :placeholder="$t('last_name.label')"
+              prefix-icon="people"
+              :classes="formkitFieldClasses"
+            />
+          </template>
+        </UDashboardSection>
+      </UCard>
+      <UCard>
+        <template #header>
+          <CardHeader
+            :title="$t('page.settings.account.section.authentication.title')"
+            :description="$t('page.settings.account.section.authentication.description')"
           />
         </template>
-      </UDashboardSection>
 
-      <UDivider class="mb-4" />
+        <UDashboardSection
+          :title="$t('email.label')"
+          :description="$t('page.settings.account.section.authentication.email.description')"
+        >
+          <template #links>
+            <FormKit
+              type="text"
+              name="email"
+              :label="$t('email.label')"
+              validation="required|email"
+              :placeholder="usePlaceholder({ type: 'email' })"
+              prefix-icon="email"
+              :classes="formkitFieldClasses"
+              autocomplete="username"
+            />
+          </template>
+        </UDashboardSection>
 
-      <UDashboardSection
-        :title="$t('global.password.label')"
-        :description="$t('page.settings.account.section.password.description')"
-      >
-        <template #links>
-          <FormKit
-            type="password"
-            name="password"
-            :label="$t('global.password.label')"
-            :placeholder="$t('global.password.label')"
-            prefix-icon="password"
-            suffix-icon="eyeClosed"
-            :classes="formkitFieldClasses"
-            autocomplete="new-password"
-            @suffix-icon-click="passwordToggle"
-          />
-          <FormKit
-            type="password"
-            name="password_confirmation"
-            :label="$t('global.password_confirmation.label')"
-            validation="confirm:password"
-            :placeholder="$t('global.password_confirmation.label')"
-            prefix-icon="password"
-            suffix-icon="eyeClosed"
-            :classes="formkitFieldClasses"
-            autocomplete="new-password"
-            @suffix-icon-click="passwordToggle"
-          />
-        </template>
-      </UDashboardSection>
+        <UDivider class="mb-4" />
+
+        <UDashboardSection
+          :title="$t('password.label')"
+          :description="$t('page.settings.account.section.authentication.password.description')"
+        >
+          <template #links>
+            <FormKit
+              type="password"
+              name="password"
+              :label="$t('password.label')"
+              :placeholder="$t('password.label')"
+              prefix-icon="password"
+              suffix-icon="eyeClosed"
+              :classes="formkitFieldClasses"
+              autocomplete="new-password"
+              @suffix-icon-click="passwordToggle"
+            />
+            <FormKit
+              type="password"
+              name="password_confirmation"
+              :label="$t('password_confirmation.label')"
+              validation="confirm:password"
+              :placeholder="$t('password_confirmation.label')"
+              prefix-icon="password"
+              suffix-icon="eyeClosed"
+              :classes="formkitFieldClasses"
+              autocomplete="new-password"
+              @suffix-icon-click="passwordToggle"
+            />
+          </template>
+        </UDashboardSection>
+      </UCard>
 
       <UDashboardSection>
         <template #links>
           <AuthNeedsToConfirmUserPasswordButton
             :confirm-password-button-props="{ block: true, disabled: !formValuesHasChanged }"
             :confirm-password-button-callback="() => formRef?.node.submit()"
-            :confirm-password-button-title="$t('global.action.confirmPasswordAndSave.label')"
+            :confirm-password-button-title="$t('action.confirmPasswordAndSave.label')"
           >
             <UButton
               type="submit"
@@ -251,11 +265,11 @@
               :disabled="!valid || !!Object.keys(errorMessages).length || !formValuesHasChanged"
               :loading="status === 'pending'"
               icon="i-fa6-solid-floppy-disk"
-              >{{ $t('global.action.save.label') }}</UButton
+              >{{ $t('action.save.label') }}</UButton
             >
           </AuthNeedsToConfirmUserPasswordButton>
         </template>
       </UDashboardSection>
-    </FormKit>
-  </div>
+    </DashboardPageGrid>
+  </FormKit>
 </template>

@@ -69,15 +69,30 @@
       type="info"
       :title="$t('auth.userTwoFactorRecoveryCodesModal.alert.loading.title')"
     />
-    <ul v-else class="grid grid-cols-2 gap-2">
-      <li
-        v-for="code in data"
-        :key="code"
-        class="rounded-lg bg-gray-100 px-2 py-1 text-center dark:bg-gray-950"
-      >
-        <code>{{ code }}</code>
-      </li>
-    </ul>
+    <template v-else>
+      <BaseAlert
+        v-if="forceToDownload && !hasDownloaded"
+        type="info"
+        :title="
+          $t('auth.userTwoFactorRecoveryCodesModal.alert.forceToDownloadAndNotDownloaded.title')
+        "
+        :description="
+          $t(
+            'auth.userTwoFactorRecoveryCodesModal.alert.forceToDownloadAndNotDownloaded.description'
+          )
+        "
+        class="mb-2"
+      />
+      <ul class="grid grid-cols-2 gap-2">
+        <li
+          v-for="code in data"
+          :key="code"
+          class="rounded-lg bg-gray-100 px-2 py-1 text-center dark:bg-gray-950"
+        >
+          <code>{{ code }}</code>
+        </li>
+      </ul>
+    </template>
 
     <BaseButtonContainer class="mt-8">
       <UButton
@@ -88,9 +103,10 @@
         :disabled="!data"
         @click="downloadRecoveryCodes"
       />
+      <CopyButton v-if="data" :value="data.join('\n')" color="white" />
       <UButton
         color="white"
-        :label="$t('global.action.close.label')"
+        :label="$t('action.close.label')"
         :disabled="forceToDownload && !hasDownloaded"
         @click="model = false"
       />

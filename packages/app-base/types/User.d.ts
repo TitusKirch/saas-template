@@ -1,5 +1,5 @@
 type User = {
-  id: number;
+  id: BigInt;
   first_name: string;
   last_name: string;
   avatar?: string;

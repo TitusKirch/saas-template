@@ -141,8 +141,9 @@ Below is a list of services you can access via browser.
 | --- | --- | --- |
 | adminer | [http://localhost:8080](http://localhost:8080) | Database management tool. |
 | redis-commander | [http://localhost:8081](http://localhost:8081) | Redis management tool. |
-| mailpit | [http://localhost:8085](http://localhost:8085) | A simple SMTP server for development. |
+| mailpit | [http://localhost:8025](http://localhost:8025) | A simple SMTP server for development. |
 | minio | [http://localhost:9000](http://localhost:9000) | S3 compatible storage. |
+| typesense-dashboard | [http://localhost:8082](http://localhost:8082) | Typesense dashboard. |
 
 ## Linting and formatting
 
@@ -258,6 +259,6 @@ php artisan lang:update
 cd ../..
 ```
 
-### Organization
+### Teams
 
-To disable the organization feature, you can set `teams` to `false` inside of the `services/api/config/permission.php` file. You also want to remove the migrations with organization in the name and the migration `services/api/database/migrations/2024_05_15_115605_add_is_default_and_is_owner_to_roles_table.php`. After that you should be able to user this template with the remaining Organization features. If you want to remove the organization feature completely, you can search the code for `Organization` and remove the code/files or adjust the code to your needs.
+To disable the team feature, you can set `teams` to `false` inside of the `services/api/config/permission.php` file. You also want to remove the migrations with team in the name and the migration `services/api/database/migrations/2024_05_15_115605_add_is_default_and_is_owner_to_roles_table.php`. After that you should be able to user this template with the remaining team features. If you want to remove the team feature completely, you can search the code for `team` and remove the code/files or adjust the code to your needs.

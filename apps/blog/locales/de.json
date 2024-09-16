@@ -1,8 +1,5 @@
 {
-  "page": {
-    "index": {
-      "description": "Willkommen auf der Startseite",
-      "title": "Startseite"
-    }
+  "foo": {
+    "bar": "Foo bar - de"
   }
 }

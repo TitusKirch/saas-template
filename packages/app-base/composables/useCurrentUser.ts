@@ -6,7 +6,7 @@ export default function () {
   const currentUserStoreRefs = storeToRefs(currentUserStore);
 
   // current user
-  const { getCurrentUser } = useApiCurrentUsers();
+  const { getCurrentUser } = useApiUsersMe();
   const {
     data: fetchUserData,
     status: fetchUserStatus,
@@ -18,15 +18,18 @@ export default function () {
       watch: false,
     },
   });
-  watch(fetchUserData, (newData) => {
-    if (!newData?.data) {
-      return;
+  watch(
+    () => fetchUserData.value,
+    (newData) => {
+      if (!newData?.data) {
+        return;
+      }
+      currentUserStore.setCurrentUser({ user: newData.data });
     }
-    currentUserStore.setCurrentUser({ user: newData.data });
-  });
+  );
 
   // current user avatar url
-  const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiCurrentUsers();
+  const { getCurrentUserAvatar, getCurrentUserAvatarPresignedUploadUrl } = useApiUsersMe();
   const {
     data: fetchUserAvatarData,
     status: fetchUserAvatarStatus,
@@ -70,10 +73,9 @@ export default function () {
     });
     await execute();
 
-    const { t } = useNuxtApp().$i18n;
     useNotification({
-      title: t('user.resendVerificationEmail.notification.success.title'),
-      description: t('user.resendVerificationEmail.notification.success.description'),
+      title: 'user.resendVerificationEmail.notification.success.title',
+      description: 'user.resendVerificationEmail.notification.success.description',
       type: 'success',
     });
   };

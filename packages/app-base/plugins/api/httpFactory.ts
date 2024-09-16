@@ -193,7 +193,7 @@ export function createHttpClient(): $Fetch {
         for (const [key, value] of Object.entries(obj)) {
           if (typeof value === 'object' && value !== null) {
             convertAttributesToDate(value as Record<string, unknown>);
-          } else if (typeof key === 'string' && key.endsWith('_at')) {
+          } else if (typeof key === 'string' && key.endsWith('_at') && typeof value === 'string') {
             obj[key] = new Date(value as string);
           }
         }
