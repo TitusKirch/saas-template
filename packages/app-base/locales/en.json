@@ -517,6 +517,14 @@
       },
       "title": "Please verify your email address. If you can't find the verification email, take a look at your spam folder or request a new one."
     },
+    "me": {
+      "configuration": {
+        "deleteModal": {
+          "description": "Are you sure you want to delete the user configuration with the key {0}?",
+          "title": "Delete user configuration"
+        }
+      }
+    },
     "noPasswordAlert": {
       "action": {
         "navigateToAuthPasswordSet": {

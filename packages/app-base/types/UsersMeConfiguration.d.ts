@@ -18,3 +18,6 @@ type UserMeConfigurationResponse = ApiResourceResponse<UserConfiguration[]>;
 
 type UsersMeConfigurationSetResponse = ApiResourceResponse<UserConfiguration[]>;
 type UsersMeConfigurationSetRequestData = UserConfigurationVariant[];
+
+type UsersMeConfigurationDeleteResponse = ApiResourceResponse<undefined>;
+type UsersMeConfigurationDeleteRequestData = undefined;

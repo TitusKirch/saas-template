@@ -57,6 +57,23 @@ export default function () {
         ...options,
       }
     );
+  const deleteCurrentUserConfiguration = ({
+    id,
+    data,
+    options,
+  }: {
+    id: number;
+    data: Ref<UsersMeConfigurationDeleteRequestData | undefined>;
+    options?: FetchOptions<UsersMeConfigurationDeleteResponse>;
+  }) =>
+    useApiFetch<UsersMeConfigurationDeleteRequestData, UsersMeConfigurationDeleteResponse>(
+      `users/me/configurations/${id}`,
+      {
+        method: 'DELETE',
+        body: data,
+        ...options,
+      }
+    );
 
   return {
     getCurrentUser,
@@ -65,5 +82,6 @@ export default function () {
     getCurrentUserConfigurations,
     setCurrentUserConfigurations,
     updateCurrentUser,
+    deleteCurrentUserConfiguration,
   };
 }

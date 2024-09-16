@@ -51,6 +51,20 @@
 
   // actions
   const { t } = useI18n();
+  const deleteModal = ref(false);
+  const deleteModalUserConfiguration = ref<UserConfiguration | undefined>();
+  const openDeleteModal = ({ userConfiguration }: { userConfiguration: UserConfiguration }) => {
+    deleteModalUserConfiguration.value = userConfiguration;
+    deleteModal.value = true;
+  };
+  const closeDeleteModal = () => {
+    deleteModal.value = false;
+    deleteModalUserConfiguration.value = undefined;
+  };
+  const onDelete = async () => {
+    console.info('onDelete');
+    await fetchCurrentUserConfigurations();
+  };
   const items = (row: TableRow) => [
     [
       {
@@ -73,6 +87,14 @@
       {
         label: t('action.delete.label'),
         icon: 'i-fa-solid-trash',
+        click: () => {
+          console.info('delete 1', row);
+
+          console.info('delete 2', userConfigurationMappedByContextAndKey.value?.table?.[row.key]);
+          openDeleteModal({
+            userConfiguration: userConfigurationMappedByContextAndKey.value?.table?.[row.key],
+          });
+        },
       },
     ],
   ];
@@ -151,6 +173,13 @@
           </UDropdown>
         </template>
       </BaseTable>
+
+      <UserMeConfigurationDeleteModal
+        v-model="deleteModal"
+        :userConfiguration="deleteModalUserConfiguration"
+        @close="closeDeleteModal"
+        @delete="onDelete"
+      />
     </UCard>
     <DevCard>
       <DevCode :code="userConfigurations" title="userConfigurations" />

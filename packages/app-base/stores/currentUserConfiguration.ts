@@ -54,8 +54,16 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
       (userConfigurations.value ??= []).push(configuration);
     }
   };
-  const removeUserConfigurationById = ({ id }: { id: BigInt }) => {
-    setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+  const removeUserConfigurationById = ({
+    id,
+    forceIsSyncedWithRemote = false,
+  }: {
+    id: BigInt;
+    forceIsSyncedWithRemote?: boolean;
+  }) => {
+    if (!forceIsSyncedWithRemote) {
+      setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+    }
 
     userConfigurations.value = userConfigurations.value?.filter(
       (configuration): configuration is UserConfiguration =>
@@ -65,11 +73,15 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   const removeUserConfigurationByContextAndKey = ({
     context,
     key,
+    forceIsSyncedWithRemote = false,
   }: {
     context: UserConfigurationContext;
     key: string;
+    forceIsSyncedWithRemote?: boolean;
   }) => {
-    setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+    if (!forceIsSyncedWithRemote) {
+      setUserConfigurationsAreSyncedWithRemoteByUserConfigurations();
+    }
 
     userConfigurations.value = userConfigurations.value?.filter(
       (configuration) => configuration.context !== context || configuration.key !== key
@@ -77,15 +89,18 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   };
   const removeUserConfiguration = ({
     configuration,
+    forceIsSyncedWithRemote = false,
   }: {
     configuration: UserConfigurationVariant;
+    forceIsSyncedWithRemote?: boolean;
   }) => {
     if ('id' in configuration) {
-      removeUserConfigurationById({ id: configuration.id });
+      removeUserConfigurationById({ id: configuration.id, forceIsSyncedWithRemote });
     } else {
       removeUserConfigurationByContextAndKey({
         context: configuration.context,
         key: configuration.key,
+        forceIsSyncedWithRemote,
       });
     }
   };
@@ -100,16 +115,19 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
         watch: false,
       },
     });
-  const syncUserConfigurations = async () => {
-    await setCurrentUserConfigurationsExecute();
-    userConfigurationsAreSyncedWithRemote.value = true;
-    userConfigurations.value = setCurrentUserConfigurationsData.value?.data;
-
+  const syncUserConfigurationsNotification = () => {
     useNotification({
       type: 'success',
       description:
         'currentUserConfiguration.notification.syncUserConfigurations.success.description',
     });
+  };
+  const syncUserConfigurations = async () => {
+    await setCurrentUserConfigurationsExecute();
+    userConfigurationsAreSyncedWithRemote.value = true;
+    userConfigurations.value = setCurrentUserConfigurationsData.value?.data;
+
+    syncUserConfigurationsNotification();
   };
   const syncUserConfigurationsTimeout = ref<NodeJS.Timeout | undefined>();
   watch(
@@ -134,12 +152,15 @@ export const useCurrentUserConfigurationStore = defineStore('currentUserConfigur
   );
 
   return {
-    userConfigurations,
-    setUserConfigurations,
-    setUserConfiguration,
     removeUserConfiguration,
-    removeUserConfigurationById,
     removeUserConfigurationByContextAndKey,
+    removeUserConfigurationById,
+    setUserConfiguration,
+    setUserConfigurations,
+    syncUserConfigurations,
+    syncUserConfigurationsNotification,
     userConfigurationMappedByContextAndKey,
+    userConfigurations,
+    userConfigurationsAreSyncedWithRemote,
   };
 });
