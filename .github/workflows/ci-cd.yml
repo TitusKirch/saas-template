@@ -32,7 +32,7 @@ jobs:
     timeout-minutes: 3
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
   files-changed:
     name: Detect which files have changed
@@ -47,7 +47,7 @@ jobs:
       turbo_filter_args: ${{ steps.turbo_filter.outputs.args }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Get latest release
         uses: cardinalby/git-get-release-action@v1
@@ -113,7 +113,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Enable corepack
         run: corepack enable
@@ -135,7 +135,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Restore composer dependencies cache
         uses: actions/cache@v4
@@ -166,7 +166,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -207,7 +207,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -248,7 +248,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -319,7 +319,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -407,7 +407,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -455,7 +455,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -503,7 +503,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Restore composer dependencies cache for service "api"
         uses: actions/cache@v4
@@ -551,7 +551,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
@@ -592,7 +592,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
   
       - name: Enable corepack
         run: corepack enable
