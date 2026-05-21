@@ -138,7 +138,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Restore composer dependencies cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
@@ -151,7 +151,7 @@ jobs:
           php_extensions: bcmath pcntl
 
       - name: Cache composer dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
@@ -187,7 +187,7 @@ jobs:
         run: pnpm install
 
       - name: Restore composer dependencies cache for service "api"
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
@@ -271,7 +271,7 @@ jobs:
 
       - name: Restore composer dependencies cache for service "api"
         if: needs.files-changed.outputs.service_api == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
@@ -340,7 +340,7 @@ jobs:
           extensions: bcmath, pcntl
 
       - name: Restore composer dependencies cache for service "api"
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
@@ -506,7 +506,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Restore composer dependencies cache for service "api"
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: services/api/vendor
           key: ${{ runner.os }}-service-api-${{ hashFiles('**/composer.lock') }}
