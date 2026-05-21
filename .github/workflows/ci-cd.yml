@@ -79,7 +79,7 @@ jobs:
           echo "base=$base" >> $GITHUB_OUTPUT
 
       - name: Check for changed files
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         id: changes
         with:
           base: ${{ steps.get-base.outputs.base }}
